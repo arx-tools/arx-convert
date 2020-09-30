@@ -4,8 +4,8 @@
   "description": "Converts Arx Fatalis level data to JSON and back",
   "main": "index.js",
   "scripts": {
-    "test": "node --experimental-modules --no-warnings test/index.mjs",
-    "test:watch": "nodemon --experimental-modules --no-warnings test/index.mjs --ext .mjs"
+    "test": "node --experimental-modules test/index.mjs",
+    "test:watch": "nodemon --experimental-modules test/index.mjs --ext .mjs"
   },
   "repository": {
     "type": "git",
