@@ -34,8 +34,8 @@ export default class DanaeLsHeader {
 
   readFrom(binary) {
     this.version = binary.readFloat32()
-    this.identifier = binary.readString(16, TRUNCATE_ZERO_BYTES)
-    this.lastUser = binary.readString(256, TRUNCATE_ZERO_BYTES)
+    this.identifier = binary.readString(16)
+    this.lastUser = binary.readString(256)
     this.time = binary.readInt32()
     this.posEdit = binary.readVector3()
     this.angleEdit = binary.readAnglef()
@@ -55,7 +55,7 @@ export default class DanaeLsHeader {
     this.pad = binary.readInt32Array(250)
     this.offset = binary.readVector3()
     this.fpad = binary.readFloat32Array(253)
-    this.cpad = binary.readString(4096, KEEP_ZERO_BYTES)
+    this.cpad = binary.readString(4096)
     this.bpad = binary.readInt32Array(256)
   }
 
