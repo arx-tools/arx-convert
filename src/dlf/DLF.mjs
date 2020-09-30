@@ -3,17 +3,24 @@ import BinaryIO from '../Binary/BinaryIO.mjs'
 import Header from './Header.mjs'
 import Scene from './Scene.mjs'
 import InteractiveObject from './InteactiveObject.mjs'
-import Light from './Light.mjs'
+import Light from '../common/Light.mjs'
 import Fog from './Fog.mjs'
 import PathHeader from './PathHeader.mjs'
 import Pathways from './Pathways.mjs'
+import LightingHeader from '../common/LightingHeader.mjs'
 
 export default class DLF {
   load(decompressedBuffer) {
     const body = new BinaryIO(decompressedBuffer.buffer)
 
-    this._readHeader(body)
-    this._readScene(body)
+    const header = new Header()
+    header.readFrom(body)
+    this.header = header
+
+    if (this.header.numberOfScenes !== 0) {
+      this.scene = new Scene()
+      this.scene.readFrom(body)
+    }
 
     this.interactiveObjects = times(() => {
       const inter = new InteractiveObject()
@@ -22,19 +29,32 @@ export default class DLF {
     }, this.header.numberOfInteractiveObjects)
 
     if (this.header.lighting > 0) {
-      // TODO: load lighting
+      const lightingHeader = new LightingHeader()
+      lightingHeader.readFrom(body)
+
+      this.lighting = {
+        header: lightingHeader,
+        colors: body.readUint32Array(lightingHeader.numberOfLights) // TODO is apparently BGRA if its in compact mode.
+      }
+    } else {
+      this.lighting = {}
     }
 
     const numberOfLights = this.header.version < 1.003 ? 0 : this.header.numberOfLights
 
-    const lightingFile = true // does a lighting file (llf) exist?
-    if (!lightingFile) {
-      // load lights from dlf
-      // loadLights(dat, pos, numberOf_lights);
-    } else {
+    const lightingFile = true // TODO check whether a lighting file (llf) exist
+    if (lightingFile) {
       // skip lights in dlf
       const sizeofLight = Light.sizeOf()
       body.readUint8Array(sizeofLight * numberOfLights)
+      this.lights = []
+    } else {
+      // load lights from dlf
+      this.lights = times(() => {
+        const light = new Light()
+        light.readFrom(body)
+        return light
+      }, numberOfLights)
     }
 
     this.fogs = times(() => {
@@ -63,18 +83,5 @@ export default class DLF {
         pathways
       }
     }, this.header.numberOfPaths)
-  }
-
-  _readHeader(file) {
-    const header = new Header()
-    header.readFrom(file)
-    this.header = header
-  }
-
-  _readScene(file) {
-    if (this.header.numberOfScenes !== 0) {
-      this.scene = new Scene()
-      this.scene.readFrom(file)
-    }
   }
 }
