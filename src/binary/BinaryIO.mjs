@@ -260,14 +260,14 @@ class BinaryIO extends DataView {
     }
   }
 
-  readString(length, truncateZeroBytes) {
+  readString(length, truncateZeroBytes = TRUNCATE_ZERO_BYTES) {
     const codes = []
     let c = 0
     if (length !== undefined) {
       for (let i = 0; i < length; i++) {
         c = this.readUint8()
-        if (!(c === 0 && truncateZeroBytes)) {
-          codes.push(c)
+        if (c !== 0 || truncateZeroBytes === KEEP_ZERO_BYTES) {
+          codes.push(c === 0 ? ' ' : c)
         }
       }
     } else {
