@@ -9,7 +9,5 @@ export default class Header {
     binary.readUint32Array(3) // pad
   }
 
-  writeTo(binary) {
-    // path should be padded to 256 bytes
-  }
+  writeTo(binary) {}
 }

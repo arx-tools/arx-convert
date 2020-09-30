@@ -6,7 +6,5 @@ export default class UniqueHeader {
     this.check = binary.readUint8Array(512)
   }
 
-  writeTo(binary) {
-    // path should be padded to 256 bytes
-  }
+  writeTo(binary) {}
 }
