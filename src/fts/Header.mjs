@@ -6,7 +6,7 @@ export default class Header {
     this.count = binary.readInt32()
     this.version = binary.readFloat32()
     this.uncompressedSize = binary.readInt32()
-    this.pad = binary.readUint32Array(3)
+    binary.readUint32Array(3) // pad
   }
 
   writeTo(binary) {

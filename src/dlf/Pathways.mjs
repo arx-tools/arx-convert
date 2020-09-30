@@ -6,8 +6,8 @@ export default class Pathways {
     this.flag = binary.readInt32()
     this.time = binary.readUint32()
     
-    this.fpadd = binary.readFloat32Array(2)
-    this.lpadd = binary.readInt32Array(2)
-    this.cpadd = binary.readUint8Array(32)
+    binary.readFloat32Array(2) // fpad
+    binary.readInt32Array(2) // lpad
+    binary.readUint8Array(32) // cpad
   }
 }

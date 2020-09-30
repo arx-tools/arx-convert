@@ -14,18 +14,18 @@ export default class Header {
     this.numberOfNodeLinks = binary.readInt32()
     this.numberOfZones = binary.readInt32()
     this.lighting = binary.readInt32()
-    this.Bpad = binary.readInt32Array(256)
+    binary.readInt32Array(256) // Bpad
     this.numberOfLights = binary.readInt32()
     this.numberOfFogs = binary.readInt32()
     this.numberOfBackgroundPolygons = binary.readInt32()
     this.numberOfIgnoredPolygons = binary.readInt32()
     this.numberOfChildPolygons = binary.readInt32()
     this.numberOfPaths = binary.readInt32()
-    this.pad = binary.readInt32Array(250)
+    binary.readInt32Array(250) // pad
     this.offset = binary.readVector3()
-    this.fpad = binary.readFloat32Array(253)
-    this.cpad = binary.readString(4096)
-    this.bpad = binary.readInt32Array(256)
+    binary.readFloat32Array(253) // fpad
+    binary.readString(4096) // cpad
+    binary.readInt32Array(256) // bpad
   }
 
   writeTo(binary) {}

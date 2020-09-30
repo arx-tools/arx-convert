@@ -14,9 +14,9 @@ export default class Fog {
     this.tolive = binary.readInt32()
     this.blend = binary.readInt32()
     this.frequency = binary.readFloat32()
-    this.fpadd = binary.readFloat32Array(32)
-    this.lpadd = binary.readInt32Array(32)
-    this.cpadd = binary.readString(256)
+    binary.readFloat32Array(32) // fpad
+    binary.readInt32Array(32) // lpad
+    binary.readString(256) // cpad
   }
 
   writeTo(binary) {}

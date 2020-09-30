@@ -3,8 +3,8 @@ export default class Scene {
 
   readFrom(binary) {
     this.name = binary.readString(512)
-    this.pad = binary.readInt32Array(16)
-    this.fpad = binary.readFloat32Array(16)
+    binary.readInt32Array(16) // pad
+    binary.readFloat32Array(16) // fpad
   }
 
   writeTo(binary) {}

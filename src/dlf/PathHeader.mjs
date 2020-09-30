@@ -12,11 +12,11 @@ export default class PathHeader {
     this.farclip = binary.readFloat32()
     this.reverb = binary.readFloat32()
     this.ambianceMaxVolume = binary.readFloat32()
-    this.fpadd = binary.readFloat32Array(26)
+    binary.readFloat32Array(26) // fpad
     this.height = binary.readInt32()
-    this.lpadd = binary.readInt32Array(31)
+    binary.readInt32Array(31) // lpad
     this.ambiance = binary.readString(128)
-    this.cpadd = binary.readString(128)
+    binary.readString(128) // cpad
   }
 
   writeTo(binary) {}

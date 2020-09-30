@@ -14,9 +14,9 @@ export default class Light {
     this.exSize = binary.readFloat32()
     this.exSpeed = binary.readFloat32()
     this.exFlareSize = binary.readFloat32()
-    this.fpadd = binary.readFloat32Array(24)
+    binary.readFloat32Array(24) // fpad
     this.extras = binary.readInt32()
-    this.lpadd = binary.readInt32Array(31)
+    binary.readInt32Array(31) // lpad
   }
 
   writeTo(binary) {}
