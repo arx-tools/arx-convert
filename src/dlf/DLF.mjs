@@ -83,5 +83,21 @@ export default class DLF {
         pathways
       }
     }, this.header.numberOfPaths)
+
+    delete this.header.numberOfScenes
+    delete this.header.numberOfInteractiveObjects
+    delete this.header.numberOfNodes
+    delete this.header.numberOfNodeLinks
+    delete this.header.numberOfZones
+    delete this.header.numberOfLights
+    delete this.header.numberOfFogs
+    delete this.header.numberOfBackgroundPolygons
+    delete this.header.numberOfIgnoredPolygons
+    delete this.header.numberOfChildPolygons
+    delete this.header.numberOfPaths
+
+    this.paths.forEach(path => {
+      delete path.header.numberOfPathways
+    })
   }
 }
