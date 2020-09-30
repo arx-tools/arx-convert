@@ -1,11 +1,12 @@
 import { times } from '../../node_modules/ramda/src/index.mjs'
 import BinaryIO from '../Binary/BinaryIO.mjs'
-import DanaeLsHeader from './DanaeLsHeader.mjs'
-import DanaeLsScene from './DanaeLsScene.mjs'
-import DanaeLsInteractiveObject from './DanaeLsInteactiveObject.mjs'
-import DanaeLsLight from './DanaeLsLight.mjs'
-import DanaeLsFog from './DanaeLsFog.mjs'
-import DanaeLsPath from './DanaeLsPath.mjs'
+import Header from './Header.mjs'
+import Scene from './Scene.mjs'
+import InteractiveObject from './InteactiveObject.mjs'
+import Light from './Light.mjs'
+import Fog from './Fog.mjs'
+import PathHeader from './PathHeader.mjs'
+import Pathways from './Pathways.mjs'
 
 export default class DLF {
   load(decompressedBuffer) {
@@ -15,7 +16,7 @@ export default class DLF {
     this._readScene(body)
 
     this.interactiveObjects = times(() => {
-      const inter = new DanaeLsInteractiveObject()
+      const inter = new InteractiveObject()
       inter.readFrom(body)
       return inter
     }, this.header.numberOfInteractiveObjects)
@@ -32,12 +33,12 @@ export default class DLF {
       // loadLights(dat, pos, numberOf_lights);
     } else {
       // skip lights in dlf
-      const sizeofDanaeLsLight = DanaeLsLight.sizeOf()
-      body.readInt8Array(sizeofDanaeLsLight * numberOfLights)
+      const sizeofLight = Light.sizeOf()
+      body.readUint8Array(sizeofLight * numberOfLights)
     }
 
     this.fogs = times(() => {
-      const fog = new DanaeLsFog()
+      const fog = new Fog()
       fog.readFrom(body)
       return fog
     }, this.header.numberOfFogs)
@@ -48,21 +49,31 @@ export default class DLF {
     }
 
     this.paths = times(() => {
-      const path = new DanaeLsPath()
-      path.readFrom(body)
-      return path
+      const header = new PathHeader()
+      header.readFrom(body)
+
+      const pathways = times(() => {
+        const pathways = new Pathways()
+        pathways.readFrom(body)
+        return pathways
+      }, header.numberOfPathways)
+
+      return {
+        header,
+        pathways
+      }
     }, this.header.numberOfPaths)
   }
 
   _readHeader(file) {
-    const header = new DanaeLsHeader()
+    const header = new Header()
     header.readFrom(file)
     this.header = header
   }
 
   _readScene(file) {
     if (this.header.numberOfScenes !== 0) {
-      this.scene = new DanaeLsScene()
+      this.scene = new Scene()
       this.scene.readFrom(file)
     }
   }

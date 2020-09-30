@@ -1,12 +1,9 @@
 export default class UniqueHeader {
-  constructor() {
-    this.path = ''
-    this.check = []
-  }
+  constructor() {}
 
   readFrom(binary) {
     this.path = binary.readString(256)
-    this.pad = binary.readInt8Array(512)
+    this.check = binary.readUint8Array(512)
   }
 
   writeTo(binary) {
