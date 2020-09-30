@@ -1,10 +1,11 @@
 import { promises } from 'fs'
-import DLF from '../src/dlf/DLF.mjs'
+// import DLF from '../src/dlf/DLF.mjs'
 import FTS from '../src/fts/FTS.mjs'
 
 const { readFile, writeFile } = promises
 
 ;(async () => {
+  /*
   const raw = await readFile('./test/files/level8.dlf.unpacked')
   const dlf = new DLF()
 
@@ -13,6 +14,7 @@ const { readFile, writeFile } = promises
   const output = JSON.stringify(dlf, 0, 4)
 
   await writeFile('E:/level8.dlf.json', output, 'utf-8')
+  */
 
   // ------------
 
