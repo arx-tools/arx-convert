@@ -1,6 +1,4 @@
 export default class SceneHeader {
-  constructor() {}
-
   readFrom(binary) {
     this.version = binary.readFloat32()
     this.sizeX = binary.readInt32()

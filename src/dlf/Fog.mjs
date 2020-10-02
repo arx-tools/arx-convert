@@ -1,6 +1,4 @@
 export default class Fog {
-  constructor() {}
-
   readFrom(binary) {
     this.pos = binary.readVector3()
     this.rgb = binary.readColor()

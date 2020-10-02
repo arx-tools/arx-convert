@@ -1,6 +1,4 @@
 export default class PathHeader {
-  constructor() {}
-
   readFrom(binary) {
     this.name = binary.readString(64)
     this.idx = binary.readInt16()

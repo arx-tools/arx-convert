@@ -1,6 +1,4 @@
 export default class Header {
-  constructor() {}
-
   readFrom(binary) {
     this.version = binary.readFloat32()
     this.identifier = binary.readString(16)

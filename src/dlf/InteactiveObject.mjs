@@ -1,6 +1,4 @@
 export default class DanaeLsInteractiveObject {
-  constructor() {}
-
   readFrom(binary) {
     this.name = binary.readString(512)
     this.pos = binary.readVector3()

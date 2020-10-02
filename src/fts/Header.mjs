@@ -1,6 +1,4 @@
 export default class Header {
-  constructor() {}
-
   readFrom(binary) {
     this.path = binary.readString(256)
     this.count = binary.readInt32()

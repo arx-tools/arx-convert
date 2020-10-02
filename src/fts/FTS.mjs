@@ -5,21 +5,21 @@ import UniqueHeader from './UniqueHeader.mjs'
 
 export default class FTS {
   load(decompressedBuffer) {
-    const body = new BinaryIO(decompressedBuffer.buffer)
+    const file = new BinaryIO(decompressedBuffer.buffer)
 
     const header = new Header()
-    header.readFrom(body)
+    header.readFrom(file)
     this.header = header
 
     this.uniqueHeaders = []
     for (let i = 0; i < header.count; i++) {
       const uniqueHeader = new UniqueHeader()
-      uniqueHeader.readFrom(body)
+      uniqueHeader.readFrom(file)
       this.uniqueHeaders.push(uniqueHeader)
     }
 
     const sceneHeader = new SceneHeader()
-    sceneHeader.readFrom(body)
+    sceneHeader.readFrom(file)
     this.sceneHeader = sceneHeader
   }
 }

@@ -1,5 +1,3 @@
-import nodemon from "nodemon"
-
 export default class Pathways {
   readFrom(binary) {
     this.rpos = binary.readVector3()

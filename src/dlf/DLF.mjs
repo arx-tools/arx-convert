@@ -11,30 +11,30 @@ import LightingHeader from '../common/LightingHeader.mjs'
 
 export default class DLF {
   load(decompressedBuffer) {
-    const body = new BinaryIO(decompressedBuffer.buffer)
+    const file = new BinaryIO(decompressedBuffer.buffer)
 
     const header = new Header()
-    header.readFrom(body)
+    header.readFrom(file)
     this.header = header
 
     if (this.header.numberOfScenes !== 0) {
       this.scene = new Scene()
-      this.scene.readFrom(body)
+      this.scene.readFrom(file)
     }
 
     this.interactiveObjects = times(() => {
       const inter = new InteractiveObject()
-      inter.readFrom(body)
+      inter.readFrom(file)
       return inter
     }, this.header.numberOfInteractiveObjects)
 
     if (this.header.lighting > 0) {
       const lightingHeader = new LightingHeader()
-      lightingHeader.readFrom(body)
+      lightingHeader.readFrom(file)
 
       this.lighting = {
         header: lightingHeader,
-        colors: body.readUint32Array(lightingHeader.numberOfLights) // TODO is apparently BGRA if its in compact mode.
+        colors: file.readUint32Array(lightingHeader.numberOfLights) // TODO is apparently BGRA if its in compact mode.
       }
     } else {
       this.lighting = {}
@@ -46,35 +46,35 @@ export default class DLF {
     if (lightingFile) {
       // skip lights in dlf
       const sizeofLight = Light.sizeOf()
-      body.readUint8Array(sizeofLight * numberOfLights)
+      file.readUint8Array(sizeofLight * numberOfLights)
       this.lights = []
     } else {
       // load lights from dlf
       this.lights = times(() => {
         const light = new Light()
-        light.readFrom(body)
+        light.readFrom(file)
         return light
       }, numberOfLights)
     }
 
     this.fogs = times(() => {
       const fog = new Fog()
-      fog.readFrom(body)
+      fog.readFrom(file)
       return fog
     }, this.header.numberOfFogs)
 
     // skip nodes for newer versions
     if (this.header.version >= 1.001) {
-      body.readInt8Array(this.header.numberOfNodes * (204 + this.header.numberOfNodeLinks * 64))
+      file.readInt8Array(this.header.numberOfNodes * (204 + this.header.numberOfNodeLinks * 64))
     }
 
     this.paths = times(() => {
       const header = new PathHeader()
-      header.readFrom(body)
+      header.readFrom(file)
 
       const pathways = times(() => {
         const pathways = new Pathways()
-        pathways.readFrom(body)
+        pathways.readFrom(file)
         return pathways
       }, header.numberOfPathways)
 
