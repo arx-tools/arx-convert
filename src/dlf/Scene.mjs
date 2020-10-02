@@ -1,8 +1,13 @@
 export default class Scene {
-  readFrom(binary) {
-    this.name = binary.readString(512)
+  static readFrom(binary) {
+    const data = {
+      name: binary.readString(512)
+    }
+
     binary.readInt32Array(16) // pad
     binary.readFloat32Array(16) // fpad
+
+    return data
   }
 
   writeTo(binary) {}

@@ -1,25 +1,23 @@
+import { times } from '../../node_modules/ramda/src/index.mjs'
 import BinaryIO from '../Binary/BinaryIO.mjs'
 import Header from './Header.mjs'
 import SceneHeader from './SceneHeader.mjs'
 import UniqueHeader from './UniqueHeader.mjs'
 
 export default class FTS {
-  load(decompressedBuffer) {
-    const file = new BinaryIO(decompressedBuffer.buffer)
+  static load(decompressedFile) {
+    const file = new BinaryIO(decompressedFile.buffer)
 
-    const header = new Header()
-    header.readFrom(file)
-    this.header = header
+    const header = Header.readFrom(file)
 
-    this.uniqueHeaders = []
-    for (let i = 0; i < header.count; i++) {
-      const uniqueHeader = new UniqueHeader()
-      uniqueHeader.readFrom(file)
-      this.uniqueHeaders.push(uniqueHeader)
+    const data = {
+      header: header,
+      uniqueHeaders: times(() => UniqueHeader.readFrom(file), header.count),
+      sceneHeader: SceneHeader.readFrom(file)
     }
 
-    const sceneHeader = new SceneHeader()
-    sceneHeader.readFrom(file)
-    this.sceneHeader = sceneHeader
+    delete data.header.count
+
+    return data
   }
 }

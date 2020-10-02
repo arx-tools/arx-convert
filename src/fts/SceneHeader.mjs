@@ -1,15 +1,17 @@
 export default class SceneHeader {
-  readFrom(binary) {
-    this.version = binary.readFloat32()
-    this.sizeX = binary.readInt32()
-    this.sizeZ = binary.readInt32()
-    this.numberOfTextures = binary.readInt32()
-    this.numberOfPolygons = binary.readInt32()
-    this.numberOfAnchors = binary.readInt32()
-    this.playerPosition = binary.readVector3()
-    this.mScenePosition = binary.readVector3()
-    this.numberOfPortals = binary.readInt32()
-    this.numberOfRooms = binary.readInt32()
+  static readFrom(binary) {
+    return {
+      version: binary.readFloat32(),
+      sizeX: binary.readInt32(),
+      sizeZ: binary.readInt32(),
+      numberOfTextures: binary.readInt32(),
+      numberOfPolygons: binary.readInt32(),
+      numberOfAnchors: binary.readInt32(),
+      playerPosition: binary.readVector3(),
+      mScenePosition: binary.readVector3(),
+      numberOfPortals: binary.readInt32(),
+      numberOfRooms: binary.readInt32(),
+    }
   }
 
   writeTo(binary) {}

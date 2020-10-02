@@ -10,94 +10,71 @@ import Pathways from './Pathways.mjs'
 import LightingHeader from '../common/LightingHeader.mjs'
 
 export default class DLF {
-  load(decompressedBuffer) {
+  static load(decompressedBuffer) {
     const file = new BinaryIO(decompressedBuffer.buffer)
 
-    const header = new Header()
-    header.readFrom(file)
-    this.header = header
+    const header = Header.readFrom(file)
 
-    if (this.header.numberOfScenes !== 0) {
-      this.scene = new Scene()
-      this.scene.readFrom(file)
+    const data = {
+      header: header,
+      scene: header.numberOfScenes > 0 ? Scene.readFrom(file) : null,
+      interactiveObjects: times(() => InteractiveObject.readFrom(file), header.numberOfInteractiveObjects),
     }
 
-    this.interactiveObjects = times(() => {
-      const inter = new InteractiveObject()
-      inter.readFrom(file)
-      return inter
-    }, this.header.numberOfInteractiveObjects)
+    if (header.lighting > 0) {
+      const lightingHeader = LightingHeader.readFrom(file)
 
-    if (this.header.lighting > 0) {
-      const lightingHeader = new LightingHeader()
-      lightingHeader.readFrom(file)
-
-      this.lighting = {
+      data.lighting = {
         header: lightingHeader,
-        colors: file.readUint32Array(lightingHeader.numberOfLights) // TODO is apparently BGRA if its in compact mode.
+        colors: file.readUint32Array(lightingHeader.numberOfLights) // TODO is apparently BGRA if it's in compact mode.
       }
     } else {
-      this.lighting = {}
+      data.lighting = null
     }
 
-    const numberOfLights = this.header.version < 1.003 ? 0 : this.header.numberOfLights
+    const numberOfLights = header.version < 1.003 ? 0 : header.numberOfLights
 
-    const lightingFile = true // TODO check whether a lighting file (llf) exist
-    if (lightingFile) {
-      // skip lights in dlf
-      const sizeofLight = Light.sizeOf()
-      file.readUint8Array(sizeofLight * numberOfLights)
-      this.lights = []
+    const lightingFileExists = true // TODO check whether a lighting file (llf) exist
+    if (lightingFileExists) {
+      file.readInt8Array(Light.sizeOf() * numberOfLights) // TODO make a method to indicate, that we are wasting these bytes on purpose
+      data.lights = [] // TODO: read llf file data
     } else {
-      // load lights from dlf
-      this.lights = times(() => {
-        const light = new Light()
-        light.readFrom(file)
-        return light
-      }, numberOfLights)
+      data.lights = times(() => Light.readFrom(file), numberOfLights)
     }
 
-    this.fogs = times(() => {
-      const fog = new Fog()
-      fog.readFrom(file)
-      return fog
-    }, this.header.numberOfFogs)
+    data.fogs = times(() => Fog.readFrom(file), header.numberOfFogs)
 
-    // skip nodes for newer versions
-    if (this.header.version >= 1.001) {
-      file.readInt8Array(this.header.numberOfNodes * (204 + this.header.numberOfNodeLinks * 64))
+    // waste bytes if format has newer version
+    if (header.version >= 1.001) {
+      file.readInt8Array(header.numberOfNodes * (204 + header.numberOfNodeLinks * 64))
     }
 
-    this.paths = times(() => {
-      const header = new PathHeader()
-      header.readFrom(file)
-
-      const pathways = times(() => {
-        const pathways = new Pathways()
-        pathways.readFrom(file)
-        return pathways
-      }, header.numberOfPathways)
+    data.paths = times(() => {
+      const header = PathHeader.readFrom(file)
+      const pathways = times(() => Pathways.readFrom(file), header.numberOfPathways)
 
       return {
         header,
         pathways
       }
-    }, this.header.numberOfPaths)
+    }, header.numberOfPaths)
 
-    delete this.header.numberOfScenes
-    delete this.header.numberOfInteractiveObjects
-    delete this.header.numberOfNodes
-    delete this.header.numberOfNodeLinks
-    delete this.header.numberOfZones
-    delete this.header.numberOfLights
-    delete this.header.numberOfFogs
-    delete this.header.numberOfBackgroundPolygons
-    delete this.header.numberOfIgnoredPolygons
-    delete this.header.numberOfChildPolygons
-    delete this.header.numberOfPaths
+    delete data.header.numberOfScenes
+    delete data.header.numberOfInteractiveObjects
+    delete data.header.numberOfNodes
+    delete data.header.numberOfNodeLinks
+    delete data.header.numberOfZones
+    delete data.header.numberOfLights
+    delete data.header.numberOfFogs
+    delete data.header.numberOfBackgroundPolygons
+    delete data.header.numberOfIgnoredPolygons
+    delete data.header.numberOfChildPolygons
+    delete data.header.numberOfPaths
 
-    this.paths.forEach(path => {
+    data.paths.forEach(path => {
       delete path.header.numberOfPathways
     })
+
+    return data
   }
 }
