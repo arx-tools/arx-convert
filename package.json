@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "node --experimental-modules test/index.mjs",
-    "test:watch": "nodemon --experimental-modules test/index.mjs --ext .mjs"
+    "test:watch": "nodemon --experimental-modules test/index.mjs --ext .mjs",
+    "dlf-to-json": "npm run test -- dlf-to-json",
+    "fts-to-json": "npm run test -- fts-to-json",
+    "json-to-dlf": "npm run test -- json-to-dlf"
   },
   "repository": {
     "type": "git",
