@@ -13,67 +13,62 @@ export default class DLF {
   static load(decompressedBuffer) {
     const file = new BinaryIO(decompressedBuffer.buffer)
 
-    const header = Header.readFrom(file)
+    const {
+      numberOfScenes,
+      numberOfInteractiveObjects,
+      numberOfNodes,
+      numberOfNodeLinks,
+      numberOfZones,
+      numberOfLights,
+      numberOfFogs,
+      numberOfBackgroundPolygons,
+      numberOfIgnoredPolygons,
+      numberOfChildPolygons,
+      numberOfPaths,
+      ...header
+    } = Header.readFrom(file)
 
     const data = {
       header: header,
-      scene: header.numberOfScenes > 0 ? Scene.readFrom(file) : null,
-      interactiveObjects: times(() => InteractiveObject.readFrom(file), header.numberOfInteractiveObjects),
+      scene: numberOfScenes > 0 ? Scene.readFrom(file) : null,
+      interactiveObjects: times(() => InteractiveObject.readFrom(file), numberOfInteractiveObjects),
     }
 
-    if (header.lighting > 0) {
-      const lightingHeader = LightingHeader.readFrom(file)
+    if (header.lighting > 0) { // TODO: is this a boolean?
+      const { numberOfLights, ...lightingHeader } = LightingHeader.readFrom(file)
 
       data.lighting = {
         header: lightingHeader,
-        colors: file.readUint32Array(lightingHeader.numberOfLights) // TODO is apparently BGRA if it's in compact mode.
+        colors: file.readUint32Array(numberOfLights) // TODO is apparently BGRA if it's in compact mode.
       }
     } else {
       data.lighting = null
     }
 
-    const numberOfLights = header.version < 1.003 ? 0 : header.numberOfLights
-
     const lightingFileExists = true // TODO check whether a lighting file (llf) exist
     if (lightingFileExists) {
-      file.readInt8Array(Light.sizeOf() * numberOfLights) // TODO make a method to indicate, that we are wasting these bytes on purpose
+      file.readInt8Array(Light.sizeOf() * (header.version < 1.003 ? 0 : numberOfLights)) // TODO make a method to indicate, that we are wasting these bytes on purpose
       data.lights = [] // TODO: read llf file data
     } else {
-      data.lights = times(() => Light.readFrom(file), numberOfLights)
+      data.lights = times(() => Light.readFrom(file), header.version < 1.003 ? 0 : numberOfLights)
     }
 
-    data.fogs = times(() => Fog.readFrom(file), header.numberOfFogs)
+    data.fogs = times(() => Fog.readFrom(file), numberOfFogs)
 
     // waste bytes if format has newer version
     if (header.version >= 1.001) {
-      file.readInt8Array(header.numberOfNodes * (204 + header.numberOfNodeLinks * 64))
+      file.readInt8Array(numberOfNodes * (204 + numberOfNodeLinks * 64)) // TODO: what are these magic numbers?
     }
 
     data.paths = times(() => {
-      const header = PathHeader.readFrom(file)
-      const pathways = times(() => Pathways.readFrom(file), header.numberOfPathways)
+      const { numberOfPathways, ...header } = PathHeader.readFrom(file)
+      const pathways = times(() => Pathways.readFrom(file), numberOfPathways)
 
       return {
         header,
         pathways
       }
-    }, header.numberOfPaths)
-
-    delete data.header.numberOfScenes
-    delete data.header.numberOfInteractiveObjects
-    delete data.header.numberOfNodes
-    delete data.header.numberOfNodeLinks
-    delete data.header.numberOfZones
-    delete data.header.numberOfLights
-    delete data.header.numberOfFogs
-    delete data.header.numberOfBackgroundPolygons
-    delete data.header.numberOfIgnoredPolygons
-    delete data.header.numberOfChildPolygons
-    delete data.header.numberOfPaths
-
-    data.paths.forEach(path => {
-      delete path.header.numberOfPathways
-    })
+    }, numberOfPaths)
 
     return data
   }
