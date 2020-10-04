@@ -1,3 +1,6 @@
+import BinaryIO from '../Binary/BinaryIO.mjs'
+import { repeat } from '../../node_modules/ramda/src/index.mjs'
+
 export default class PathHeader {
   static readFrom(binary) {
     const data = {
@@ -8,7 +11,7 @@ export default class PathHeader {
       pos: binary.readVector3(),
       numberOfPathways: binary.readInt32(),
       rgb: binary.readColor(),
-      farclip: binary.readFloat32(),
+      farClip: binary.readFloat32(),
       reverb: binary.readFloat32(),
       ambianceMaxVolume: binary.readFloat32()
     }
@@ -26,5 +29,35 @@ export default class PathHeader {
     return data
   }
 
-  writeTo(binary) {}
+  static allocateFrom(path) {
+    const buffer = Buffer.alloc(this.sizeOf(), 0)
+    const binary = new BinaryIO(buffer.buffer)
+
+    binary.writeString(path.header.name, 64)
+    binary.writeInt16(path.header.idx)
+    binary.writeInt16(path.header.flags)
+    binary.writeVector3(path.header.initPos)
+    binary.writeVector3(path.header.pos)
+    binary.writeInt32(path.pathways.length)
+    binary.writeColor(path.header.rgb)
+    binary.writeFloat32(path.header.farClip)
+    binary.writeFloat32(path.header.reverb)
+    binary.writeFloat32(path.header.ambianceMaxVolume)
+
+    binary.writeFloat32Array(repeat(0, 26))
+
+    binary.writeInt32(path.header.height)
+
+    binary.writeInt32Array(repeat(0, 31))
+
+    binary.writeString(path.header.ambiance, 128)
+
+    binary.writeString('', 128)
+
+    return buffer
+  }
+
+  static sizeOf() {
+    return 64 + 2 + 2 + 3 * 4 + 3 * 4 + 4 + 3 * 4 + 4 + 4 + 4 + 26 * 4 + 4 + 31 * 4 + 128 + 128
+  }
 }

@@ -1,3 +1,6 @@
+import BinaryIO from '../Binary/BinaryIO.mjs'
+import { repeat } from '../../node_modules/ramda/src/index.mjs'
+
 export default class Pathways {
   static readFrom(binary) {
     const data = {
@@ -11,5 +14,24 @@ export default class Pathways {
     binary.readUint8Array(32) // cpad
 
     return data
+  }
+
+  static allocateFrom(pathway) {
+    const buffer = Buffer.alloc(this.sizeOf(), 0)
+    const binary = new BinaryIO(buffer.buffer)
+
+    binary.writeVector3(pathway.rpos)
+    binary.writeInt32(pathway.flag)
+    binary.writeUint32(pathway.time)
+
+    binary.writeFloat32Array(repeat(0, 2))
+    binary.writeInt32Array(repeat(0, 2))
+    binary.writeUint8Array(repeat(0, 32))
+
+    return buffer
+  }
+
+  static sizeOf() {
+    return 3 * 4 + 4 + 4 + 2 * 4 + 2 * 4 + 32
   }
 }
