@@ -5,9 +5,11 @@ import DLF from '../src/dlf/DLF.mjs'
 const { readFile, writeFile } = fs.promises
 
   ; (async () => {
+    /*
     const rawDlf = await readFile('./test/files/level8.dlf.unpacked')
 
     await writeFile('E:/level8.dlf.json', JSON.stringify(DLF.load(rawDlf), 0, 4), 'utf-8')
+    */
 
     // ------------
 
