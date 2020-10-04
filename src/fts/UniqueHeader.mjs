@@ -6,5 +6,9 @@ export default class UniqueHeader {
     }
   }
 
-  writeTo(binary) {}
+  writeTo(binary) { }
+
+  static sizeOf() {
+    return 768
+  }
 }

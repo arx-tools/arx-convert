@@ -14,11 +14,11 @@ export default class FTS {
   static load(decompressedFile) {
     const file = new BinaryIO(decompressedFile.buffer)
 
-    const header = Header.readFrom(file)
+    const { numberOfUniqueHeaders, ...header } = Header.readFrom(file)
 
     const data = {
       header: header,
-      uniqueHeaders: times(() => UniqueHeader.readFrom(file), header.count)
+      uniqueHeaders: times(() => UniqueHeader.readFrom(file), numberOfUniqueHeaders)
     }
 
     const {
@@ -48,8 +48,6 @@ export default class FTS {
 
     // ignoring remaining bytes in FTS files
     // TODO: print out remaining bytes for stats
-
-    delete data.header.count
 
     return data
   }
