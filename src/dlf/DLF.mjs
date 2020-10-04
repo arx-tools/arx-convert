@@ -10,8 +10,8 @@ import Pathways from './Pathways.mjs'
 import LightingHeader from '../common/LightingHeader.mjs'
 
 export default class DLF {
-  static load(decompressedBuffer) {
-    const file = new BinaryIO(decompressedBuffer.buffer)
+  static load(decompressedFile) {
+    const file = new BinaryIO(decompressedFile.buffer)
 
     const {
       numberOfScenes,
@@ -69,6 +69,11 @@ export default class DLF {
         pathways
       }
     }, numberOfPaths)
+
+    const remainedBytes = decompressedFile.length - file.position
+    if (remainedBytes > 0) {
+      console.log(`DLF: ignoring remained ${remainedBytes} bytes`)
+    }
 
     return data
   }

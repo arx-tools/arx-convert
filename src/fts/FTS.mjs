@@ -46,8 +46,10 @@ export default class FTS {
     data.rooms = times(() => Room.readFrom(file), numberOfRooms + 1) // no idea why +1, but it's in the code
     data.roomDistances = times(() => RoomDistance.readFrom(file), (numberOfRooms + 1) ** 2)
 
-    // ignoring remaining bytes in FTS files
-    // TODO: print out remaining bytes for stats
+    const remainedBytes = decompressedFile.length - file.position
+    if (remainedBytes > 0) {
+      console.log(`FTS: ignoring remained ${remainedBytes} bytes`)
+    }
 
     return data
   }
