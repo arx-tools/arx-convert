@@ -1,3 +1,6 @@
+import BinaryIO from '../Binary/BinaryIO.mjs'
+import { repeat } from '../../node_modules/ramda/src/index.mjs'
+
 export default class Header {
   static readFrom(binary) {
     const data = {
@@ -35,9 +38,44 @@ export default class Header {
     return data
   }
 
-  writeTo(binary) {}
+  static accumulateFrom(json) {
+    const buffer = Buffer.alloc(this.sizeOf(), 0)
+    const binary = new BinaryIO(buffer.buffer)
+
+    binary.writeFloat32(json.header.version)
+    binary.writeString(json.header.identifier, 16)
+    binary.writeString(json.header.lastUser, 256)
+    binary.writeInt32(json.header.time)
+    binary.writeVector3(json.header.posEdit)
+    binary.writeAnglef(json.header.angleEdit)
+    binary.writeInt32(1)
+    binary.writeInt32(json.interactiveObjects.length)
+    binary.writeInt32(json.nodes.length)
+    binary.writeInt32(json.nodeLinks.length)
+    binary.writeInt32(json.zones.length)
+    binary.writeInt32(json.header.lighting)
+
+    binary.writeInt32Array(repeat(0, 256))
+
+    binary.writeInt32(json.lights.length)
+    binary.writeInt32(json.fogs.length)
+    binary.writeInt32(json.backgroundPolygons.length)
+    binary.writeInt32(json.ignoredPolygons.length)
+    binary.writeInt32(json.childPolygons.length)
+    binary.writeInt32(json.paths.length)
+
+    binary.writeInt32Array(repeat(0, 250))
+
+    binary.writeVector3(json.header.offset)
+
+    binary.writeFloat32Array(repeat(0, 253))
+    binary.writeString('', 4096)
+    binary.writeInt32Array(repeat(0, 256))
+
+    return buffer
+  }
 
   static sizeOf() {
-    return 8520 // calculated manually
+    return 8520
   }
 }

@@ -32,6 +32,13 @@ export default class DLF {
       header: header,
       scene: numberOfScenes > 0 ? Scene.readFrom(file) : null,
       interactiveObjects: times(() => InteractiveObject.readFrom(file), numberOfInteractiveObjects),
+      nodes: times(() => ({}), numberOfNodes),
+      nodeLinks: times(() => ({}), numberOfNodeLinks),
+      // TODO: don't know where to get data for the following lists
+      zones: times(() => ({}), numberOfZones),
+      backgroundPolygons: times(() => ({}), numberOfBackgroundPolygons),
+      ignoredPolygons: times(() => ({}), numberOfIgnoredPolygons),
+      childPolygons: times(() => ({}), numberOfChildPolygons)
     }
 
     if (header.lighting > 0) { // TODO: is this a boolean?
@@ -58,6 +65,8 @@ export default class DLF {
     // waste bytes if format has newer version
     if (header.version >= 1.001) {
       file.readInt8Array(numberOfNodes * (204 + numberOfNodeLinks * 64)) // TODO: what are these magic numbers?
+    } else {
+      // TODO: read data into data.nodes and data.numberOfNodeLinks
     }
 
     data.paths = times(() => {
@@ -79,6 +88,8 @@ export default class DLF {
   }
 
   static save(json) {
+    const header = Header.accumulateFrom(json)
+    // console.log(header)
     return Buffer.from([])
   }
 }
