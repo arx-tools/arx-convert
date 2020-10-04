@@ -51,4 +51,8 @@ export default class FTS {
 
     return data
   }
+
+  static save(json) {
+    return Buffer.from([])
+  }
 }

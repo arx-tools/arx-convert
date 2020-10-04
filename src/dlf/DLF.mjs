@@ -77,4 +77,8 @@ export default class DLF {
 
     return data
   }
+
+  static save(json) {
+    return Buffer.from([])
+  }
 }
