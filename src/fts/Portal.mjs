@@ -10,4 +10,18 @@ export default class Portal {
       paddy: binary.readInt16()
     }
   }
+
+  static accumulateFrom(portal) {
+    const polygon = PortalPolygon.accumulateFrom(portal.polygon)
+
+    const buffer = Buffer.alloc(12, 0)
+    const binary = new BinaryIO(buffer.buffer)
+
+    binary.writeInt32(portal.room1)
+    binary.writeInt32(portal.room2)
+    binary.writeInt16(portal.useportal)
+    binary.writeInt16(portal.paddy)
+
+    return Buffer.concat([polygon, buffer])
+  }
 }

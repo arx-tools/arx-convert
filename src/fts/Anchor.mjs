@@ -1,4 +1,5 @@
 import { times } from '../../node_modules/ramda/src/index.mjs'
+import BinaryIO from '../Binary/BinaryIO.mjs'
 import AnchorData from './AnchorData.mjs'
 
 export default class Anchor {
@@ -9,5 +10,15 @@ export default class Anchor {
       data: anchorData,
       linkedAnchors: times(() => binary.readInt32(), numberOfLinkedAnchors)
     }
+  }
+
+  static accumulateFrom(anchor) {
+    const anchorData = AnchorData.accumulateFrom(anchor)
+
+    const linkedAnchors = Buffer.alloc(anchor.linkedAnchors.length * 4, 0)
+    const binary = new BinaryIO(linkedAnchors.buffer)
+    binary.writeInt32Array(anchor.linkedAnchors)
+
+    return Buffer.concat([anchorData, linkedAnchors])
   }
 }

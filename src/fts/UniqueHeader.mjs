@@ -1,3 +1,5 @@
+import BinaryIO from '../Binary/BinaryIO.mjs'
+
 export default class UniqueHeader {
   static readFrom(binary) {
     return {
@@ -6,7 +8,15 @@ export default class UniqueHeader {
     }
   }
 
-  writeTo(binary) { }
+  static accumulateFrom(uniqueHeader) {
+    const buffer = Buffer.alloc(this.sizeOf(), 0)
+    const binary = new BinaryIO(buffer.buffer)
+
+    binary.writeString(uniqueHeader.path, 256)
+    binary.writeUint8Array(uniqueHeader.check)
+
+    return buffer
+  }
 
   static sizeOf() {
     return 768
