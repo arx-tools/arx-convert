@@ -29,7 +29,7 @@ export default class Polygon {
     binary.writeInt32(polygon.tex)
     binary.writeVector3(polygon.norm)
     binary.writeVector3(polygon.norm2)
-    binary.writeVector3Array(4, polygon.normals)
+    binary.writeVector3Array(polygon.normals)
     binary.writeFloat32(polygon.transval)
     binary.writeFloat32(polygon.area)
     binary.writeInt32(parseInt(polygon.type, 2))
