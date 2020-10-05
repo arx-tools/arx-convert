@@ -22,5 +22,10 @@ const cmd = process.argv.slice(2)[0]
       await writeFile('E:/level8.dlf.mod.unpacked', DLF.save(jsonDlf))
     }
 
+    if (cmd === 'json-to-fts') {
+      const jsonFts = JSON.parse(await readFile('E:/fast.fts.json', 'utf-8'))
+      await writeFile('E:/fast.fts.mod.unpacked', FTS.save(jsonFts))
+    }
+
     console.log('finished without any errors')
   })()
