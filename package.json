@@ -4,12 +4,12 @@
   "description": "Converts Arx Fatalis level data to JSON and back",
   "main": "index.js",
   "scripts": {
-    "test": "node --experimental-modules test/index.mjs",
-    "test:watch": "nodemon --experimental-modules test/index.mjs --ext .mjs",
-    "dlf-to-json": "npm run test -- dlf-to-json",
-    "fts-to-json": "npm run test -- fts-to-json",
-    "json-to-dlf": "npm run test -- json-to-dlf",
-    "json-to-fts": "npm run test -- json-to-fts"
+    "start": "node --experimental-modules src/index.mjs",
+    "start:watch": "nodemon --experimental-modules src/index.mjs --ext .mjs",
+    "dlf-to-json": "npm run start -- dlf-to-json",
+    "fts-to-json": "npm run start -- fts-to-json",
+    "json-to-dlf": "npm run start -- json-to-dlf",
+    "json-to-fts": "npm run start -- json-to-fts"
   },
   "repository": {
     "type": "git",
