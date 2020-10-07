@@ -12,7 +12,7 @@ export default class Polygon {
       normals: times(() => binary.readVector3(), 4),
       transval: binary.readFloat32(),
       area: binary.readFloat32(),
-      type: binary.readInt32().toString(2).padStart(28, '0'),
+      type: binary.readInt32(),
       room: binary.readInt16(),
       paddy: binary.readInt16(),
     }
@@ -32,7 +32,7 @@ export default class Polygon {
     binary.writeVector3Array(polygon.normals)
     binary.writeFloat32(polygon.transval)
     binary.writeFloat32(polygon.area)
-    binary.writeInt32(parseInt(polygon.type, 2))
+    binary.writeInt32(polygon.type)
     binary.writeInt16(polygon.room)
     binary.writeInt16(polygon.paddy)
 

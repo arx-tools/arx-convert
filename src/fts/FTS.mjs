@@ -26,8 +26,6 @@ export default class FTS {
 
     const {
       numberOfTextures,
-      sizeZ,
-      sizeX,
       numberOfAnchors,
       numberOfPortals,
       numberOfRooms,
@@ -37,12 +35,12 @@ export default class FTS {
     data.sceneHeader = sceneHeader
     data.textureContainers = times(() => TextureContainer.readFrom(file), numberOfTextures)
 
-    // TODO: need to flatten cells! check the original code, they are in sequential order
-    data.cells = times(() => {
-      return times(() => {
-        return Cell.readFrom(file)
-      }, sizeX)
-    }, sizeZ)
+    data.cells = []
+    for (let z = 0; z < sceneHeader.sizeZ; z++) {
+      for (let x = 0; x < sceneHeader.sizeX; x++) {
+        data.cells.push(Cell.readFrom(file))
+      }
+    }
 
     data.anchors = times(() => Anchor.readFrom(file), numberOfAnchors)
     data.portals = times(() => Portal.readFrom(file), numberOfPortals)
@@ -63,7 +61,7 @@ export default class FTS {
     const sceneHeader = SceneHeader.accumulateFrom(json)
     const textureContainers = Buffer.concat(map(TextureContainer.accumulateFrom.bind(TextureContainer), json.textureContainers))
 
-    const cells = Buffer.concat(map(compose(Buffer.concat, map(Cell.accumulateFrom.bind(Cell))), json.cells))
+    const cells = Buffer.concat(map(Cell.accumulateFrom.bind(Cell), json.cells))
 
     const anchors = Buffer.concat(map(Anchor.accumulateFrom.bind(Anchor), json.anchors))
     const portals = Buffer.concat(map(Portal.accumulateFrom.bind(Portal), json.portals))
