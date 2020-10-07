@@ -2,8 +2,7 @@
 
 import fs from 'fs'
 import minimist from 'minimist'
-import DLF from '../src/dlf/DLF.mjs'
-import FTS from '../src/fts/FTS.mjs'
+import { DLF, FTS } from '../src/index.mjs'
 import { fileExists, getPackageVersion, streamToBuffer } from './helpers.mjs'
 import { SUPPORTED_EXTENSIONS } from './constants.mjs'
 

@@ -7,14 +7,7 @@
     "to-json": "bin/to-json.mjs",
     "from-json": "bin/from-json.mjs"
   },
-  "scripts": {
-    "start": "node --experimental-modules src/index.mjs",
-    "start:watch": "nodemon --experimental-modules src/index.mjs --ext .mjs",
-    "dlf-to-json": "npm run start -- dlf-to-json",
-    "fts-to-json": "npm run start -- fts-to-json",
-    "json-to-dlf": "npm run start -- json-to-dlf",
-    "json-to-fts": "npm run start -- json-to-fts"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/meszaros-lajos-gyorgy/arx-level-json-converter.git"
@@ -25,9 +18,7 @@
     "url": "https://github.com/meszaros-lajos-gyorgy/arx-level-json-converter/issues"
   },
   "homepage": "https://github.com/meszaros-lajos-gyorgy/arx-level-json-converter#readme",
-  "devDependencies": {
-    "nodemon": "^2.0.4"
-  },
+  "devDependencies": {},
   "dependencies": {
     "minimist": "^1.2.5",
     "ramda": "^0.27.1"

@@ -29,6 +29,9 @@ export default class DLF {
     } = Header.readFrom(file)
 
     const data = {
+      meta: {
+        type: "dlf"
+      },
       header: header,
       scene: numberOfScenes > 0 ? Scene.readFrom(file) : null,
       interactiveObjects: times(() => InteractiveObject.readFrom(file), numberOfInteractiveObjects),

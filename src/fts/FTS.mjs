@@ -17,6 +17,9 @@ export default class FTS {
     const { numberOfUniqueHeaders, ...header } = Header.readFrom(file)
 
     const data = {
+      meta: {
+        type: 'fts'
+      },
       header: header,
       uniqueHeaders: times(() => UniqueHeader.readFrom(file), numberOfUniqueHeaders)
     }
