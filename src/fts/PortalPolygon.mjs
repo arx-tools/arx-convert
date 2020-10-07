@@ -5,7 +5,7 @@ import BinaryIO from '../Binary/BinaryIO.mjs'
 export default class PortalPolygon {
   static readFrom(binary) {
     return {
-      type: binary.readInt32().toString(2).padStart(28, '0'),
+      type: binary.readInt32(),
       min: binary.readVector3(),
       max: binary.readVector3(),
       norm: binary.readVector3(),
@@ -26,7 +26,7 @@ export default class PortalPolygon {
     const buffer1 = Buffer.alloc(this.sizeOf(), 0)
     const binary1 = new BinaryIO(buffer1.buffer)
 
-    binary1.writeInt32(parseInt(polygon.type, 2))
+    binary1.writeInt32(polygon.type)
     binary1.writeVector3(polygon.min)
     binary1.writeVector3(polygon.max)
     binary1.writeVector3(polygon.norm)
