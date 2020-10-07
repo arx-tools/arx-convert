@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "description": "Converts Arx Fatalis level data to JSON and back",
   "main": "src/index.mjs",
+  "bin": {
+    "to-json": "bin/to-json.mjs",
+    "from-json": "bin/from-json.mjs"
+  },
   "scripts": {
     "start": "node --experimental-modules src/index.mjs",
     "start:watch": "nodemon --experimental-modules src/index.mjs --ext .mjs",
@@ -25,6 +29,7 @@
     "nodemon": "^2.0.4"
   },
   "dependencies": {
+    "minimist": "^1.2.5",
     "ramda": "^0.27.1"
   }
 }
