@@ -16,14 +16,14 @@ export default class DLF {
     const {
       numberOfScenes,
       numberOfInteractiveObjects,
-      numberOfNodes,
-      numberOfNodeLinks,
-      numberOfZones,
+      // numberOfNodes,
+      // numberOfNodeLinks,
+      // numberOfZones,
       numberOfLights,
       numberOfFogs,
-      numberOfBackgroundPolygons,
-      numberOfIgnoredPolygons,
-      numberOfChildPolygons,
+      // numberOfBackgroundPolygons,
+      // numberOfIgnoredPolygons,
+      // numberOfChildPolygons,
       numberOfPaths,
       ...header
     } = Header.readFrom(file)
@@ -34,12 +34,7 @@ export default class DLF {
       },
       header: header,
       scene: numberOfScenes > 0 ? Scene.readFrom(file) : null,
-      interactiveObjects: times(() => InteractiveObject.readFrom(file), numberOfInteractiveObjects),
-      // TODO: don't know where to get data for the following lists
-      zones: times(() => ({}), numberOfZones),
-      backgroundPolygons: times(() => ({}), numberOfBackgroundPolygons),
-      ignoredPolygons: times(() => ({}), numberOfIgnoredPolygons),
-      childPolygons: times(() => ({}), numberOfChildPolygons)
+      interactiveObjects: times(() => InteractiveObject.readFrom(file), numberOfInteractiveObjects)
     }
 
     if (header.lighting > 0) { // TODO: is this a boolean?
@@ -57,11 +52,9 @@ export default class DLF {
 
     data.fogs = times(() => Fog.readFrom(file), numberOfFogs)
 
-    data.nodes = times(() => ({}), numberOfNodes)
-    data.nodeLinks = times(() => ({}), numberOfNodeLinks)
     // waste bytes if format has newer version
     if (header.version >= 1.001) {
-      file.readInt8Array(numberOfNodes * (204 + numberOfNodeLinks * 64)) // TODO: what are these magic numbers?
+      file.readInt8Array(header.numberOfNodes * (204 + header.numberOfNodeLinks * 64)) // TODO: what are these magic numbers?
     } else {
       // TODO: read data into data.nodes and data.numberOfNodeLinks
     }
@@ -77,7 +70,7 @@ export default class DLF {
 
     const remainedBytes = decompressedFile.length - file.position
     if (remainedBytes > 0) {
-      console.log(`DLF: ignoring remained ${remainedBytes} bytes`)
+      data.meta.numberOfLeftoverBytes = remainedBytes
     }
 
     return data
