@@ -1,6 +1,6 @@
 {
   "name": "arx-level-json-converter",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Converts Arx Fatalis level data to JSON and back",
   "main": "src/index.mjs",
   "bin": {
