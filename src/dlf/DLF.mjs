@@ -30,7 +30,8 @@ export default class DLF {
 
     const data = {
       meta: {
-        type: "dlf"
+        type: "dlf",
+        numberOfLeftoverBytes: 0
       },
       header: header,
       scene: numberOfScenes > 0 ? Scene.readFrom(file) : null,
