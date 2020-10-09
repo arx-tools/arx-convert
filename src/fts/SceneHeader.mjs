@@ -21,8 +21,8 @@ export default class SceneHeader {
     const binary = new BinaryIO(buffer.buffer)
 
     binary.writeFloat32(json.sceneHeader.version)
-    binary.writeInt32(json.cells[0].length)
-    binary.writeInt32(json.cells.length)
+    binary.writeInt32(json.sceneHeader.sizeX)
+    binary.writeInt32(json.sceneHeader.sizeZ)
     binary.writeInt32(json.textureContainers.length)
     binary.writeInt32(json.sceneHeader.numberOfPolygons)
     binary.writeInt32(json.anchors.length)
