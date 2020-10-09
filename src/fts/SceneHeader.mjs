@@ -1,13 +1,19 @@
 import BinaryIO from '../Binary/BinaryIO.mjs'
+import { sum } from '../../node_modules/ramda/src/index.mjs'
 
 export default class SceneHeader {
   static readFrom(binary) {
-    return {
+    const data = {
       version: binary.readFloat32(),
       sizeX: binary.readInt32(),
       sizeZ: binary.readInt32(),
-      numberOfTextures: binary.readInt32(),
-      numberOfPolygons: binary.readInt32(),
+      numberOfTextures: binary.readInt32()
+    }
+
+    binary.readInt32() // number of polygons
+
+    return {
+      ...data,
       numberOfAnchors: binary.readInt32(),
       playerPosition: binary.readVector3(),
       mScenePosition: binary.readVector3(),
@@ -24,7 +30,7 @@ export default class SceneHeader {
     binary.writeInt32(json.sceneHeader.sizeX)
     binary.writeInt32(json.sceneHeader.sizeZ)
     binary.writeInt32(json.textureContainers.length)
-    binary.writeInt32(json.sceneHeader.numberOfPolygons)
+    binary.writeInt32(sum(json.cells.map(cell => cell.polygons.length)))
     binary.writeInt32(json.anchors.length)
     binary.writeVector3(json.sceneHeader.playerPosition)
     binary.writeVector3(json.sceneHeader.mScenePosition)

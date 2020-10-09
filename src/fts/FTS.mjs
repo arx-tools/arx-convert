@@ -1,4 +1,4 @@
-import { times, map, compose } from '../../node_modules/ramda/src/index.mjs'
+import { times, map } from '../../node_modules/ramda/src/index.mjs'
 import BinaryIO from '../Binary/BinaryIO.mjs'
 import Header from './Header.mjs'
 import SceneHeader from './SceneHeader.mjs'
