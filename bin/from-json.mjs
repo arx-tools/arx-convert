@@ -9,50 +9,50 @@ import { SUPPORTED_EXTENSIONS } from './constants.mjs'
 const args = minimist(process.argv.slice(2), {
   string: ['output', 'ext'],
   boolean: ['version']
-})
+});
 
-if (args.version) {
-  console.log(getPackageVersion())
-  process.exit(0)
-}
+(async () => {
+  if (args.version) {
+    console.log(await getPackageVersion())
+    process.exit(0)
+  }
 
-let filename = args._[0]
-let extension = args.ext ? args.ext.toLowerCase() : ''
-let output = args.output
+  let filename = args._[0]
+  let extension = args.ext ? args.ext.toLowerCase() : ''
+  let output = args.output
 
-let hasErrors = false
+  let hasErrors = false
 
-let input
-if (filename) {
-  if (fileExists(filename)) {
-    input = fs.createReadStream(filename)
-    if (!extension) {
-      extension = filename.match(/\.([a-zA-Z]+)$/)[1].toLowerCase()
+  let input
+  if (filename) {
+    if (await fileExists(filename)) {
+      input = fs.createReadStream(filename)
+      if (!extension) {
+        extension = filename.match(/\.([a-zA-Z]+)$/)[1].toLowerCase()
+      }
+    } else {
+      console.error('error: input file does not exist')
+      hasErrors = true
     }
   } else {
-    console.error('error: input file does not exist')
+    input = process.openStdin()
+  }
+
+  if (!SUPPORTED_EXTENSIONS.includes(extension)) {
+    console.error('error: unsupported extension')
     hasErrors = true
   }
-} else {
-  input = process.openStdin()
-}
 
-if (!SUPPORTED_EXTENSIONS.includes(extension)) {
-  console.error('error: unsupported extension')
-  hasErrors = true
-}
+  if (output) {
+    output = fs.createWriteStream(output)
+  } else {
+    output = process.stdout
+  }
 
-if (output) {
-  output = fs.createWriteStream(output)
-} else {
-  output = process.stdout
-}
+  if (hasErrors) {
+    process.exit(1)
+  }
 
-if (hasErrors) {
-  process.exit(1)
-}
-
-; (async () => {
   const json = JSON.parse(await streamToBuffer(input))
 
   let binary

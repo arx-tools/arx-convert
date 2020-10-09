@@ -1,19 +1,23 @@
 import fs from 'fs'
 import path from 'path'
 
-export const fileExists = (filename, flags = fs.constants.R_OK) => {
+export const fileExists = async filename => {
   try {
-    fs.accessSync(filename, flags)
+    await fs.promises.access(filename, fs.constants.R_OK)
     return true
-  } catch (err) {
+  } catch (error) {
     return false
   }
 }
 
-export const getPackageVersion = () => {
+export const getPackageVersion = async () => {
   const packageRootDir = path.dirname(path.dirname(import.meta.url.replace('file:///', '')))
-  const { version } = JSON.parse(fs.readFileSync(path.resolve(packageRootDir, './package.json')))
-  return version
+  try {
+    const { version } = JSON.parse(await fs.promises.readFile(path.resolve(packageRootDir, './package.json')))
+    return version
+  } catch (error) {
+    return 'unknown'
+  }
 }
 
 export const streamToBuffer = input => new Promise((resolve, reject) => {
