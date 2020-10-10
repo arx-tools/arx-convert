@@ -30,7 +30,7 @@ export default class Header {
     binary.writeString(json.header.identifier, 16)
     binary.writeString(json.header.lastUser, 256)
     binary.writeInt32(json.header.time)
-    binary.writeInt32(json.header.numberOfLights)
+    binary.writeInt32(json.lights.length)
     binary.writeInt32(json.header.numberOfShadowPolygons)
     binary.writeInt32(json.header.numberOfIgnoredPolygons)
     binary.writeInt32(json.header.numberOfBackgroundPolygons)
