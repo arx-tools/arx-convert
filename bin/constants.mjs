@@ -1,1 +1,1 @@
-export const SUPPORTED_EXTENSIONS = ['dlf', 'fts']
+export const SUPPORTED_EXTENSIONS = ['dlf', 'fts', 'llf']

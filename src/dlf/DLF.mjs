@@ -86,7 +86,7 @@ export default class DLF {
     if (json.header.lighting > 0) {
       const lightingHeader = LightingHeader.accumulateFrom(json)
 
-      const colors = Buffer.alloc(json.lighting.colors * 4, 0)
+      const colors = Buffer.alloc(json.lighting.colors.length * 4, 0)
       const binary = new BinaryIO(colors.buffer)
       binary.writeUint32Array(json.lighting.colors)
 
