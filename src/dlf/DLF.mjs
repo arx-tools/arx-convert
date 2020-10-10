@@ -100,7 +100,7 @@ export default class DLF {
 
     let nodes
     if (json.header.version >= 1.001) {
-      nodes = Buffer.alloc(json.nodes.length * (204 + json.nodeLinks.length * 64), 0)
+      nodes = Buffer.alloc(json.header.numberOfNodes * (204 + json.header.numberOfNodeLinks * 64), 0)
     } else {
       nodes = Buffer.from([])
     }
