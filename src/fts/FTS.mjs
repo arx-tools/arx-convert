@@ -85,7 +85,7 @@ export default class FTS {
 
     // rooms are lookup tables for vertices, so we don't really need it,
     // we can just generate it from the cells > polygons > vertices
-    // delete data.rooms
+    delete data.rooms
 
     return data
   }
