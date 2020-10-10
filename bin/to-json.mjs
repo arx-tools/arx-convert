@@ -2,7 +2,7 @@
 
 import fs from 'fs'
 import minimist from 'minimist'
-import { DLF, FTS } from '../src/index.mjs'
+import { DLF, FTS, LLF } from '../src/index.mjs'
 import { fileExists, getPackageVersion, streamToBuffer } from './helpers.mjs'
 import { SUPPORTED_EXTENSIONS } from './constants.mjs'
 
@@ -62,6 +62,9 @@ const args = minimist(process.argv.slice(2), {
       break
     case 'dlf':
       json = DLF.load(raw)
+      break
+    case 'llf':
+      json = LLF.load(raw)
       break
   }
 

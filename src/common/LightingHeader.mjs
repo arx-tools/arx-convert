@@ -26,4 +26,8 @@ export default class LightingHeader {
 
     return buffer
   }
+
+  static sizeOf() {
+    return 4 * 4
+  }
 }

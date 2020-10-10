@@ -18,7 +18,8 @@ export default class FTS {
 
     const data = {
       meta: {
-        type: 'fts'
+        type: 'fts',
+        numberOfLeftoverBytes: 0
       },
       header: header,
       uniqueHeaders: times(() => UniqueHeader.readFrom(file), numberOfUniqueHeaders)
@@ -49,7 +50,7 @@ export default class FTS {
 
     const remainedBytes = decompressedFile.length - file.position
     if (remainedBytes > 0) {
-      console.log(`FTS: ignoring remained ${remainedBytes} bytes`)
+      data.meta.numberOfLeftoverBytes = remainedBytes
     }
 
     return data
