@@ -128,9 +128,8 @@ export default class FTS {
       polygons: []
     }], json.polygons)
 
-    const header = Header.accumulateFrom(json)
-    const uniqueHeaders = Buffer.concat(map(UniqueHeader.accumulateFrom.bind(UniqueHeader), json.uniqueHeaders))
     const sceneHeader = SceneHeader.accumulateFrom(json)
+
     const textureContainers = Buffer.concat(map(TextureContainer.accumulateFrom.bind(TextureContainer), json.textureContainers))
 
     // TODO: generate cells based on polygons
@@ -143,6 +142,12 @@ export default class FTS {
 
     const roomDistances = Buffer.concat(map(RoomDistance.accumulateFrom.bind(RoomDistance), json.roomDistances))
 
-    return Buffer.concat([header, uniqueHeaders, sceneHeader, textureContainers, cells, anchors, portals, rooms, roomDistances])
+    const dataWithoutHeader = Buffer.concat([sceneHeader, textureContainers, cells, anchors, portals, rooms, roomDistances])
+    const uncompressedSize = dataWithoutHeader.length
+
+    const header = Header.accumulateFrom(json, uncompressedSize)
+    const uniqueHeaders = Buffer.concat(map(UniqueHeader.accumulateFrom.bind(UniqueHeader), json.uniqueHeaders))
+
+    return Buffer.concat([header, uniqueHeaders, dataWithoutHeader])
   }
 }
