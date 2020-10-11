@@ -44,7 +44,7 @@ const args = minimist(process.argv.slice(2), {
   const extension = json.meta.type
 
   if (!SUPPORTED_EXTENSIONS.includes(extension)) {
-    console.error('error: unsupported extension')
+    console.error('error: unsupported meta type, expected "dlf", "fts" or "llf"')
     hasErrors = true
   }
 

@@ -39,7 +39,7 @@ const args = minimist(process.argv.slice(2), {
   }
 
   if (!SUPPORTED_EXTENSIONS.includes(extension)) {
-    console.error('error: unsupported extension')
+    console.error('error: unsupported extension, expected "dlf", "fts" or "llf"')
     hasErrors = true
   }
 

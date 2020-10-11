@@ -59,7 +59,7 @@ const args = minimist(process.argv.slice(2), {
   let extension = json.meta.type
 
   if (!SUPPORTED_EXTENSIONS.includes(extension)) {
-    console.error('error: unsupported extension for input file #1')
+    console.error('error: unsupported meta type for input file #1, expected "dlf", "fts" or "llf" ')
     hasErrors = true
   } else {
     source[extension] = json
@@ -69,7 +69,7 @@ const args = minimist(process.argv.slice(2), {
   extension = json.meta.type
 
   if (!SUPPORTED_EXTENSIONS.includes(extension)) {
-    console.error('error: unsupported extension for input file #2')
+    console.error('error: unsupported meta type for input file #2, expected "dlf", "fts" or "llf" ')
     hasErrors = true
   } else {
     source[extension] = json
@@ -79,7 +79,7 @@ const args = minimist(process.argv.slice(2), {
   extension = json.meta.type
 
   if (!SUPPORTED_EXTENSIONS.includes(extension)) {
-    console.error('error: unsupported extension for input file #3')
+    console.error('error: unsupported meta type for input file #3, expected "dlf", "fts" or "llf" ')
     hasErrors = true
   } else {
     source[extension] = json
