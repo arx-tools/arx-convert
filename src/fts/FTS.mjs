@@ -9,9 +9,9 @@ import Anchor from './Anchor.mjs'
 import Portal from './Portal.mjs'
 import Room from './Room.mjs'
 import RoomDistance from './RoomDistance.mjs'
-import { roundTo3Decimals, minAll } from '../common/helpers.mjs'
+import { roundTo3Decimals, minAll, isZeroVertex } from '../common/helpers.mjs'
 
-const getPolygons = (cells, sizeX) => {
+const getPolygons = cells => {
   return compose(
     unnest,
     pluck('polygons')
@@ -27,13 +27,7 @@ const getCellCoordinateFromPolygon = (axis, polygon) => {
     minAll,
     map(coordToCell),
     pluck(axis === 'x' ? 'posX' : 'posZ'),
-    reject(equals({
-      posY: 0,
-      posX: 0,
-      posZ: 0,
-      texU: 0,
-      texV: 0
-    })),
+    reject(isZeroVertex),
     prop('vertices')
   )(polygon)
 }
@@ -71,7 +65,7 @@ export default class FTS {
       }
     }
     data.cells = cells.map(dissoc('polygons'))
-    data.polygons = getPolygons(cells, sceneHeader.sizeX)
+    data.polygons = getPolygons(cells)
 
     data.anchors = times(() => Anchor.readFrom(file), numberOfAnchors)
     data.portals = times(() => Portal.readFrom(file), numberOfPortals)

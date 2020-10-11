@@ -3,7 +3,7 @@ import BinaryIO from '../Binary/BinaryIO.mjs'
 export default class LightingHeader {
   static readFrom(binary) {
     const data = {
-      numberOfLights: binary.readInt32()
+      numberOfColors: binary.readInt32()
     }
 
     binary.readInt32() // viewMode (unused)
@@ -17,7 +17,7 @@ export default class LightingHeader {
     const buffer = Buffer.alloc(this.sizeOf(), 0)
     const binary = new BinaryIO(buffer.buffer)
 
-    binary.writeInt32(json.lighting.colors.length)
+    binary.writeInt32(json.colors.length)
 
     binary.writeInt32(0)
     binary.writeInt32(63)

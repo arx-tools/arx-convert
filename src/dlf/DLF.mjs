@@ -39,12 +39,9 @@ export default class DLF {
     }
 
     if (header.lighting > 0) { // TODO: is this a boolean?
-      const { numberOfLights, ...lightingHeader } = LightingHeader.readFrom(file)
+      const { numberOfColors } = LightingHeader.readFrom(file)
 
-      data.lighting = {
-        header: lightingHeader,
-        colors: file.readUint32Array(numberOfLights) // TODO is apparently BGRA if it's in compact mode.
-      }
+      data.colors = file.readUint32Array(numberOfColors) // TODO is apparently BGRA if it's in compact mode.
     } else {
       data.lighting = null
     }
@@ -86,9 +83,9 @@ export default class DLF {
     if (json.header.lighting > 0) {
       const lightingHeader = LightingHeader.accumulateFrom(json)
 
-      const colors = Buffer.alloc(json.lighting.colors.length * 4, 0)
+      const colors = Buffer.alloc(json.colors.length * 4, 0)
       const binary = new BinaryIO(colors.buffer)
-      binary.writeUint32Array(json.lighting.colors)
+      binary.writeUint32Array(json.colors)
 
       lighting = Buffer.concat([lightingHeader, colors])
     } else {

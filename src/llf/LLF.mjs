@@ -15,7 +15,7 @@ export default class LLF {
 
     const data = {
       meta: {
-        type: 'fts',
+        type: 'llf',
         numberOfLeftoverBytes: 0
       },
       header: header
@@ -23,12 +23,9 @@ export default class LLF {
 
     data.lights = times(() => Light.readFrom(file), numberOfLights)
 
-    const { numberOfLights: numberOfColors, ...lightingHeader } = LightingHeader.readFrom(file)
+    const { numberOfColors } = LightingHeader.readFrom(file)
 
-    data.lighting = {
-      header: lightingHeader,
-      colors: file.readUint32Array(numberOfColors) // TODO is apparently BGRA if it's in compact mode.
-    }
+    data.colors = file.readUint32Array(numberOfColors) // TODO is apparently BGRA if it's in compact mode.
 
     const remainedBytes = decompressedFile.length - file.position
     if (remainedBytes > 0) {
@@ -45,9 +42,9 @@ export default class LLF {
 
     const lightingHeader = LightingHeader.accumulateFrom(json)
 
-    const colors = Buffer.alloc(json.lighting.colors.length * 4, 0)
+    const colors = Buffer.alloc(json.colors.length * 4, 0)
     const binary = new BinaryIO(colors.buffer)
-    binary.writeUint32Array(json.lighting.colors)
+    binary.writeUint32Array(json.colors)
 
     const lighting = Buffer.concat([lightingHeader, colors])
 

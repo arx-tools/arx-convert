@@ -3,7 +3,9 @@
 import fs from 'fs'
 import minimist from 'minimist'
 import { fileExists, getPackageVersion, streamToBuffer } from './helpers.mjs'
-import { omit, compose, dissocPath } from '../node_modules/ramda/src/index.mjs'
+import { omit, compose, dissocPath, evolve, assoc, map } from '../node_modules/ramda/src/index.mjs'
+import { isZeroVertex } from '../src/common/helpers.mjs'
+import { SUPPORTED_EXTENSIONS } from './constants.mjs'
 
 const args = minimist(process.argv.slice(2), {
   string: ['output'],
@@ -126,6 +128,17 @@ const args = minimist(process.argv.slice(2), {
       omit(['meta'])
     )(source.llf)
   }
+
+  // TODO: when lighting generation is implemented, then we don't need to deal with colors at all
+  let colorIdx = 0
+  data.fts.polygons = map(evolve({
+    vertices: map(vertex => {
+      let color = isZeroVertex(vertex) ? null : data.llf.colors[colorIdx++]
+      return assoc('color', color, vertex)
+    })
+  }), data.fts.polygons)
+
+  delete data.llf.colors
 
   if (args.pretty) {
     output.write(JSON.stringify(data, 0, 4))
