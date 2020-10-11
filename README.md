@@ -23,3 +23,7 @@ This will give you access to `to-json`, `from-json`, `combine` and `separate`
 `combine fast.fts.json level8.llf.json level8.dlf.json --pretty --output=level8.json`
 
 `combine fast.fts.json level8.llf.json level8.dlf.json --pretty > level8.json`
+
+`separate level8.json --pretty --llf=level8.llf.json --dlf=level8.dlf.json --fts=fast.fts.json`
+
+`cat level8.json | separate --pretty --llf=level8.llf.json --dlf=level8.dlf.json --fts=fast.fts.json`
