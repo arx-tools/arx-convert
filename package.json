@@ -5,7 +5,9 @@
   "main": "src/index.mjs",
   "bin": {
     "to-json": "bin/to-json.mjs",
-    "from-json": "bin/from-json.mjs"
+    "from-json": "bin/from-json.mjs",
+    "combine": "bin/combine.mjs",
+    "separate": "bin/separate.mjs"
   },
   "scripts": {},
   "repository": {

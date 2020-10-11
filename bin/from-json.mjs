@@ -7,7 +7,7 @@ import { fileExists, getPackageVersion, streamToBuffer } from './helpers.mjs'
 import { SUPPORTED_EXTENSIONS } from './constants.mjs'
 
 const args = minimist(process.argv.slice(2), {
-  string: ['output', 'ext'],
+  string: ['output'],
   boolean: ['version']
 });
 
@@ -18,7 +18,6 @@ const args = minimist(process.argv.slice(2), {
   }
 
   let filename = args._[0]
-  let extension = args.ext ? args.ext.toLowerCase() : ''
   let output = args.output
 
   let hasErrors = false
@@ -27,9 +26,6 @@ const args = minimist(process.argv.slice(2), {
   if (filename) {
     if (await fileExists(filename)) {
       input = fs.createReadStream(filename)
-      if (!extension) {
-        extension = filename.match(/\.([a-zA-Z]+)$/)[1].toLowerCase()
-      }
     } else {
       console.error('error: input file does not exist')
       hasErrors = true
@@ -38,22 +34,23 @@ const args = minimist(process.argv.slice(2), {
     input = process.openStdin()
   }
 
-  if (!SUPPORTED_EXTENSIONS.includes(extension)) {
-    console.error('error: unsupported extension')
-    hasErrors = true
-  }
-
   if (output) {
     output = fs.createWriteStream(output)
   } else {
     output = process.stdout
   }
 
+  const json = JSON.parse(await streamToBuffer(input))
+  const extension = json.meta.type
+
+  if (!SUPPORTED_EXTENSIONS.includes(extension)) {
+    console.error('error: unsupported extension')
+    hasErrors = true
+  }
+
   if (hasErrors) {
     process.exit(1)
   }
-
-  const json = JSON.parse(await streamToBuffer(input))
 
   let binary
   switch (extension) {
