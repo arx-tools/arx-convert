@@ -6,10 +6,10 @@ export default class Header {
     const data = {
       path: binary.readString(256),
       numberOfUniqueHeaders: binary.readInt32(),
-      version: binary.readFloat32(),
-      uncompressedSize: binary.readInt32() // uncompressed size in bytes
+      version: binary.readFloat32()
     }
 
+    binary.readInt32() // uncompressed size in bytes
     binary.readUint32Array(3) // pad
 
     return data
