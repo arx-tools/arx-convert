@@ -6,9 +6,11 @@ Converts Arx Fatalis level data to JSON and back
 
 `npm i arx-level-json-converter -g`
 
-This will give you access to `to-json` and `from-json`
+This will give you access to `to-json`, `from-json`, `combine` and `separate`
 
 ## examples
+
+`--version` will give you the version for any tool
 
 `cat fast.fts | to-json --ext=fts --pretty > fast.fts.json`
 
@@ -18,6 +20,6 @@ This will give you access to `to-json` and `from-json`
 
 `from-json fast.fts.json --ext=fts --output=fast.fts.repacked`
 
-`from-json --version`
+`combine fast.fts.json level8.llf.json level8.dlf.json --pretty --output=level8.json`
 
-`to-json --version`
+`combine fast.fts.json level8.llf.json level8.dlf.json --pretty > level8.json`
