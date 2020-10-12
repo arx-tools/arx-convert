@@ -1,5 +1,5 @@
 import { times, pluck, unnest, compose, map, prop, reject, equals, reduce, has, assoc, dissoc, append } from '../../node_modules/ramda/src/index.mjs'
-import BinaryIO from '../Binary/BinaryIO.mjs'
+import BinaryIO from '../binary/BinaryIO.mjs'
 import Header from './Header.mjs'
 import SceneHeader from './SceneHeader.mjs'
 import UniqueHeader from './UniqueHeader.mjs'

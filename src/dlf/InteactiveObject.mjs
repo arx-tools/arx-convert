@@ -1,4 +1,4 @@
-import BinaryIO from '../Binary/BinaryIO.mjs'
+import BinaryIO from '../binary/BinaryIO.mjs'
 import { repeat } from '../../node_modules/ramda/src/index.mjs'
 
 export default class InteractiveObject {

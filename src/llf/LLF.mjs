@@ -1,5 +1,5 @@
 import { times, map } from '../../node_modules/ramda/src/index.mjs'
-import BinaryIO from '../Binary/BinaryIO.mjs'
+import BinaryIO from '../binary/BinaryIO.mjs'
 import Header from './Header.mjs'
 import Light from '../common/Light.mjs'
 import LightingHeader from '../common/LightingHeader.mjs'

@@ -1,4 +1,4 @@
-import BinaryIO from '../Binary/BinaryIO.mjs'
+import BinaryIO from '../binary/BinaryIO.mjs'
 import SceneInfo from './SceneInfo.mjs'
 import Polygon from './Polygon.mjs'
 import { times, map } from '../../node_modules/ramda/src/index.mjs'

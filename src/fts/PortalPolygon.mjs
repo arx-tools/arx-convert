@@ -1,6 +1,6 @@
 import { times } from '../../node_modules/ramda/src/index.mjs'
 import TextureVertex from './TextureVertex.mjs'
-import BinaryIO from '../Binary/BinaryIO.mjs'
+import BinaryIO from '../binary/BinaryIO.mjs'
 
 export default class PortalPolygon {
   static readFrom(binary) {

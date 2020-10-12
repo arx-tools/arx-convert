@@ -1,5 +1,5 @@
 import { times, map } from '../../node_modules/ramda/src/index.mjs'
-import BinaryIO from '../Binary/BinaryIO.mjs'
+import BinaryIO from '../binary/BinaryIO.mjs'
 import RoomData from './RoomData.mjs'
 import EPData from './EPData.mjs'
 

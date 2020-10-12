@@ -1,4 +1,4 @@
-import BinaryIO from '../Binary/BinaryIO.mjs'
+import BinaryIO from '../binary/BinaryIO.mjs'
 import { times, map } from '../../node_modules/ramda/src/index.mjs'
 import Vertex from './Vertex.mjs'
 

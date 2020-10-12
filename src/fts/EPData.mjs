@@ -1,4 +1,4 @@
-import BinaryIO from '../Binary/BinaryIO.mjs'
+import BinaryIO from '../binary/BinaryIO.mjs'
 
 export default class EPData {
   static readFrom(binary) {

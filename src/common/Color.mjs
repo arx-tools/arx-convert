@@ -1,5 +1,5 @@
+import BinaryIO from '../binary/BinaryIO.mjs'
 import { getLowestByte } from "./helpers.mjs"
-
 
 const convertToFloatBetween0and1 = n => {
   return (1 / 255) * n
