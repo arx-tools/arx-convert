@@ -1,4 +1,4 @@
-import { times, pluck, unnest, compose, map, prop, reject, equals, reduce, has, assoc, dissoc, append } from '../../node_modules/ramda/src/index.mjs'
+import { times, pluck, unnest, compose, map, prop, reject, reduce, has, assoc, dissoc, append, evolve } from '../../node_modules/ramda/src/index.mjs'
 import BinaryIO from '../binary/BinaryIO.mjs'
 import Header from './Header.mjs'
 import SceneHeader from './SceneHeader.mjs'
@@ -11,8 +11,25 @@ import Room from './Room.mjs'
 import RoomDistance from './RoomDistance.mjs'
 import { roundTo3Decimals, minAll, isZeroVertex } from '../common/helpers.mjs'
 
-const getPolygons = cells => {
+const addIndexToVertices = polygons => {
+  let idx = 0
+
+  return map(evolve({
+    vertices: map(vertex => {
+      if (isZeroVertex(vertex)) {
+        vertex.llfColorIdx = null
+      } else {
+        vertex.llfColorIdx = idx
+        idx++
+      }
+      return vertex
+    })
+  }), polygons)
+}
+
+export const getPolygons = cells => {
   return compose(
+    addIndexToVertices,
     unnest,
     pluck('polygons')
   )(cells)
@@ -22,7 +39,7 @@ const coordToCell = (coord) => {
   return Math.floor(roundTo3Decimals(coord) / 100)
 }
 
-const getCellCoordinateFromPolygon = (axis, polygon) => {
+export const getCellCoordinateFromPolygon = (axis, polygon) => {
   return compose(
     minAll,
     map(coordToCell),
