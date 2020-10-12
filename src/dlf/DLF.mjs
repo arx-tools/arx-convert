@@ -8,6 +8,7 @@ import Fog from './Fog.mjs'
 import PathHeader from './PathHeader.mjs'
 import Pathways from './Pathways.mjs'
 import LightingHeader from '../common/LightingHeader.mjs'
+import Color from '../common/Color.mjs'
 
 export default class DLF {
   static load(decompressedFile) {
@@ -41,17 +42,17 @@ export default class DLF {
     if (header.lighting > 0) { // TODO: is this a boolean?
       const { numberOfColors } = LightingHeader.readFrom(file)
 
-      data.colors = file.readUint32Array(numberOfColors) // TODO is apparently BGRA if it's in compact mode.
+      data.colors = times(() => Color.readFrom(file, header.version > 1.001), numberOfColors)
     } else {
-      data.lighting = null
+      data.colors = null
     }
 
     data.lights = times(() => Light.readFrom(file), header.version < 1.003 ? 0 : numberOfLights)
 
     data.fogs = times(() => Fog.readFrom(file), numberOfFogs)
 
-    // waste bytes if format has newer version
-    if (header.version >= 1.001) {
+    if (header.version > 1.001) {
+      // waste bytes
       file.readInt8Array(header.numberOfNodes * (204 + header.numberOfNodeLinks * 64)) // TODO: what are these magic numbers?
     } else {
       // TODO: read data into data.nodes and data.numberOfNodeLinks
@@ -83,9 +84,7 @@ export default class DLF {
     if (json.header.lighting > 0) {
       const lightingHeader = LightingHeader.accumulateFrom(json)
 
-      const colors = Buffer.alloc(json.colors.length * 4, 0)
-      const binary = new BinaryIO(colors.buffer)
-      binary.writeUint32Array(json.colors)
+      const colors = Buffer.concat(map(color => Color.accumulateFrom(color, json.header.version > 1.001), json.colors))
 
       lighting = Buffer.concat([lightingHeader, colors])
     } else {

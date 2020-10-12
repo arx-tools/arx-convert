@@ -6,3 +6,7 @@ export const isZeroVertex = vertex => {
   const { posX, posY, posZ, texU, texV } = vertex
   return posX === 0 && posY === 0 && posZ === 0 && texU === 0 && texV === 0
 }
+
+export const getLowestByte = int => {
+  return int & 0xff
+}

@@ -3,6 +3,7 @@ import BinaryIO from '../Binary/BinaryIO.mjs'
 import Header from './Header.mjs'
 import Light from '../common/Light.mjs'
 import LightingHeader from '../common/LightingHeader.mjs'
+import Color from '../common/Color.mjs'
 
 export default class LLF {
   static load(decompressedFile) {
@@ -25,7 +26,7 @@ export default class LLF {
 
     const { numberOfColors } = LightingHeader.readFrom(file)
 
-    data.colors = file.readUint32Array(numberOfColors) // TODO is apparently BGRA if it's in compact mode.
+    data.colors = times(() => Color.readFrom(file, header.version > 1.001), numberOfColors)
 
     const remainedBytes = decompressedFile.length - file.position
     if (remainedBytes > 0) {
@@ -42,9 +43,7 @@ export default class LLF {
 
     const lightingHeader = LightingHeader.accumulateFrom(json)
 
-    const colors = Buffer.alloc(json.colors.length * 4, 0)
-    const binary = new BinaryIO(colors.buffer)
-    binary.writeUint32Array(json.colors)
+    const colors = Buffer.concat(map(color => Color.accumulateFrom(color, json.header.version > 1.001), json.colors))
 
     const lighting = Buffer.concat([lightingHeader, colors])
 
