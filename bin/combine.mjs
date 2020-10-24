@@ -2,7 +2,7 @@
 
 import fs from 'fs'
 import minimist from 'minimist'
-import { fileExists, getPackageVersion, streamToBuffer } from './helpers.mjs'
+import { fileExists, getPackageVersion, streamToBuffer, stringifyJSON } from './helpers.mjs'
 import { omit, compose, dissocPath, evolve, assoc, map, isNil, dissoc } from '../node_modules/ramda/src/index.mjs'
 import { isZeroVertex } from '../src/common/helpers.mjs'
 import { SUPPORTED_EXTENSIONS } from './constants.mjs'
@@ -139,9 +139,5 @@ const args = minimist(process.argv.slice(2), {
 
   delete data.llf.colors
 
-  if (args.pretty) {
-    output.write(JSON.stringify(data, 0, 4))
-  } else {
-    output.write(JSON.stringify(data))
-  }
+  output.write(stringifyJSON(data, args.pretty))
 })()

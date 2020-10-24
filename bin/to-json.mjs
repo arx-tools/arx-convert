@@ -3,7 +3,7 @@
 import fs from 'fs'
 import minimist from 'minimist'
 import { DLF, FTS, LLF } from '../src/index.mjs'
-import { fileExists, getPackageVersion, streamToBuffer } from './helpers.mjs'
+import { fileExists, getPackageVersion, streamToBuffer, stringifyJSON } from './helpers.mjs'
 import { SUPPORTED_EXTENSIONS } from './constants.mjs'
 
 const args = minimist(process.argv.slice(2), {
@@ -68,9 +68,5 @@ const args = minimist(process.argv.slice(2), {
       break
   }
 
-  if (args.pretty) {
-    output.write(JSON.stringify(json, 0, 4))
-  } else {
-    output.write(JSON.stringify(json))
-  }
+  output.write(stringifyJSON(json, args.pretty))
 })()

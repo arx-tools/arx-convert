@@ -2,7 +2,7 @@
 
 import fs from 'fs'
 import minimist from 'minimist'
-import { fileExists, getPackageVersion, streamToBuffer } from './helpers.mjs'
+import { fileExists, getPackageVersion, streamToBuffer, stringifyJSON } from './helpers.mjs'
 import { pluck, unnest, reject, evolve, map, dissoc, reduce, append, assoc } from '../node_modules/ramda/src/index.mjs'
 import { isZeroVertex } from '../src/common/helpers.mjs'
 import { getCellCoordinateFromPolygon, getPolygons } from '../src/fts/FTS.mjs'
@@ -63,11 +63,7 @@ const args = minimist(process.argv.slice(2), {
     name: json.header.name
   }
 
-  if (args.pretty) {
-    outputs.dlf.write(JSON.stringify(dlf, 0, 4))
-  } else {
-    outputs.dlf.write(JSON.stringify(dlf))
-  }
+  output.dlf.write(stringifyJSON(dlf, args.pretty))
 
   const llf = json.llf
   llf.meta = {
@@ -98,11 +94,7 @@ const args = minimist(process.argv.slice(2), {
   // TODO: generate colors, not just get them from vertices
   llf.colors = pluck('color', reject(isZeroVertex, unnest(pluck('vertices', polygons))))
 
-  if (args.pretty) {
-    outputs.llf.write(JSON.stringify(llf, 0, 4))
-  } else {
-    outputs.llf.write(JSON.stringify(llf))
-  }
+  output.llf.write(stringifyJSON(llf, args.pretty))
 
   const fts = json.fts
   fts.meta = {
@@ -113,9 +105,5 @@ const args = minimist(process.argv.slice(2), {
     vertices: map(dissoc('color'))
   }), fts.polygons)
 
-  if (args.pretty) {
-    outputs.fts.write(JSON.stringify(fts, 0, 4))
-  } else {
-    outputs.fts.write(JSON.stringify(fts))
-  }
+  output.fts.write(stringifyJSON(fts, args.pretty))
 })()

@@ -32,3 +32,11 @@ export const streamToBuffer = input => new Promise((resolve, reject) => {
     reject(e)
   })
 })
+
+export const stringifyJSON = (json, prettify = false) => {
+  if (prettify) {
+    return JSON.stringify(json, null, '\t')
+  } else {
+    return JSON.stringify(json)
+  }
+}
