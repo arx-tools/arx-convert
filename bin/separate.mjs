@@ -46,7 +46,7 @@ const args = minimist(process.argv.slice(2), {
     process.exit(1)
   }
 
-  const outputs = {
+  const output = {
     dlf: fs.createWriteStream(args.dlf),
     llf: fs.createWriteStream(args.llf),
     fts: fs.createWriteStream(args.fts)
