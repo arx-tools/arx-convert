@@ -10,14 +10,9 @@ const fileExists = async (filename) => {
   }
 };
 
-const getPackageVersion = async () => {
-  const packageRootDir = path.dirname(
-    path.dirname(import.meta.url.replace("file:///", ""))
-  );
+const getPackageVersion = () => {
   try {
-    const { version } = JSON.parse(
-      await fs.promises.readFile(path.resolve(packageRootDir, "./package.json"))
-    );
+    const { version } = require("package.json");
     return version;
   } catch (error) {
     return "unknown";

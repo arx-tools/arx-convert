@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const fs = require("fs");
 const minimist = require("minimist");
 const { DLF, FTS, LLF } = require("../src/index.js");
@@ -15,7 +17,7 @@ const args = minimist(process.argv.slice(2), {
 
 (async () => {
   if (args.version) {
-    console.log(await getPackageVersion());
+    console.log(getPackageVersion());
     process.exit(0);
   }
 
