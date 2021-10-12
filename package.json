@@ -2,12 +2,12 @@
   "name": "arx-level-json-converter",
   "version": "0.9.2",
   "description": "Converts Arx Fatalis level data to JSON and back",
-  "main": "src/index.mjs",
+  "main": "src/index.js",
   "bin": {
-    "to-json": "bin/to-json.mjs",
-    "from-json": "bin/from-json.mjs",
-    "combine": "bin/combine.mjs",
-    "separate": "bin/separate.mjs"
+    "to-json": "bin/to-json.js",
+    "from-json": "bin/from-json.js",
+    "combine": "bin/combine.js",
+    "separate": "bin/separate.js"
   },
   "scripts": {},
   "repository": {
