@@ -1,13 +1,23 @@
 const BinaryIO = require("../binary/BinaryIO.js");
 
+// y before x is not a typo: https://github.com/arx/ArxLibertatis/blob/master/src/graphics/data/FastSceneFormat.h#L73
+
 class Vertex {
   static readFrom(binary) {
+    const [y, x, z, u, v] = [
+      binary.readFloat32(),
+      binary.readFloat32(),
+      binary.readFloat32(),
+      binary.readFloat32(),
+      binary.readFloat32(),
+    ];
+
     return {
-      posY: binary.readFloat32(),
-      posX: binary.readFloat32(),
-      posZ: binary.readFloat32(),
-      texU: binary.readFloat32(),
-      texV: binary.readFloat32(),
+      posX: x,
+      posY: y,
+      posZ: z,
+      texU: u,
+      texV: v,
     };
   }
 
