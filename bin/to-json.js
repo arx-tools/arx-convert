@@ -8,6 +8,7 @@ const {
   getPackageVersion,
   streamToBuffer,
   stringifyJSON,
+  outputInChunks,
 } = require("./helpers.js");
 const { SUPPORTED_EXTENSIONS } = require("./constants.js");
 
@@ -75,5 +76,5 @@ const args = minimist(process.argv.slice(2), {
       break;
   }
 
-  output.write(stringifyJSON(json, args.pretty));
+  outputInChunks(stringifyJSON(json, args.pretty), output);
 })();

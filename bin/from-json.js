@@ -7,6 +7,7 @@ const {
   fileExists,
   getPackageVersion,
   streamToBuffer,
+  outputInChunks,
 } = require("./helpers.js");
 const { SUPPORTED_EXTENSIONS } = require("./constants.js");
 
@@ -71,5 +72,5 @@ const args = minimist(process.argv.slice(2), {
       break;
   }
 
-  output.write(binary);
+  outputInChunks(binary, output);
 })();

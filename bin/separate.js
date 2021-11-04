@@ -7,6 +7,7 @@ const {
   getPackageVersion,
   streamToBuffer,
   stringifyJSON,
+  outputInChunks,
 } = require("./helpers.js");
 const {
   pluck,
@@ -81,7 +82,7 @@ const args = minimist(process.argv.slice(2), {
     name: json.header.name,
   };
 
-  output.dlf.write(stringifyJSON(dlf, args.pretty));
+  outputInChunks(stringifyJSON(dlf, args.pretty), output.dlf);
 
   const llf = json.llf;
   llf.meta = {
@@ -122,7 +123,7 @@ const args = minimist(process.argv.slice(2), {
     reject(isZeroVertex, unnest(pluck("vertices", polygons)))
   );
 
-  output.llf.write(stringifyJSON(llf, args.pretty));
+  outputInChunks(stringifyJSON(llf, args.pretty), output.llf);
 
   const fts = json.fts;
   fts.meta = {
@@ -136,5 +137,5 @@ const args = minimist(process.argv.slice(2), {
     fts.polygons
   );
 
-  output.fts.write(stringifyJSON(fts, args.pretty));
+  outputInChunks(stringifyJSON(fts, args.pretty), output.fts);
 })();

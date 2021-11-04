@@ -163,5 +163,5 @@ const args = minimist(process.argv.slice(2), {
 
   delete data.llf.colors;
 
-  output.write(stringifyJSON(data, args.pretty));
+  outputInChunks(stringifyJSON(data, args.pretty), output);
 })();
