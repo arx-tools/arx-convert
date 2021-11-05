@@ -14,6 +14,9 @@ const { SUPPORTED_EXTENSIONS } = require("./constants.js");
 const args = minimist(process.argv.slice(2), {
   string: ["output"],
   boolean: ["version"],
+  alias: {
+    v: "version",
+  },
 });
 
 (async () => {

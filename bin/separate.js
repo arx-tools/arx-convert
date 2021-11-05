@@ -29,6 +29,10 @@ const {
 const args = minimist(process.argv.slice(2), {
   string: ["dlf", "llf", "fts"],
   boolean: ["version", "pretty"],
+  alias: {
+    v: "version",
+    p: "pretty",
+  },
 });
 
 (async () => {
