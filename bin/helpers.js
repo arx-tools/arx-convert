@@ -12,7 +12,7 @@ const fileExists = async (filename) => {
 
 const getPackageVersion = () => {
   try {
-    const { version } = require("package.json");
+    const { version } = require("../package.json");
     return version;
   } catch (error) {
     return "unknown";
