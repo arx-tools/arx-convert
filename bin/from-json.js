@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const fs = require("fs");
-const minimist = require("minimist");
+const minimist = require("minimist-lite");
 const { DLF, FTS, LLF } = require("../src/index.js");
 const {
   fileExists,

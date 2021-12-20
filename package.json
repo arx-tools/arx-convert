@@ -20,9 +20,8 @@
     "url": "https://github.com/meszaros-lajos-gyorgy/arx-level-json-converter/issues"
   },
   "homepage": "https://github.com/meszaros-lajos-gyorgy/arx-level-json-converter#readme",
-  "devDependencies": {},
   "dependencies": {
-    "minimist": "^1.2.5",
+    "minimist-lite": "^2.0.0",
     "ramda": "^0.27.1"
   }
 }
