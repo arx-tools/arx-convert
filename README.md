@@ -1,6 +1,6 @@
 # arx-level-json-converter
 
-Converts Arx Fatalis level data to JSON and back
+Converts Arx Fatalis level data to JSON or YAML and back
 
 ## installation
 
@@ -27,3 +27,7 @@ This will give you access to `to-json`, `from-json`, `combine` and `separate`
 `separate level8.json --pretty --llf=level8.llf.json --dlf=level8.dlf.json --fts=fast.fts.json`
 
 `cat level8.json | separate --pretty --llf=level8.llf.json --dlf=level8.dlf.json --fts=fast.fts.json`
+
+`cat level8.dlf.unpacked | to-yaml --ext=dlf > level8.dlf.yml`
+
+`cat level8.dlf.yml | from-yaml --ext=dlf > level8.dlf.unpacked`

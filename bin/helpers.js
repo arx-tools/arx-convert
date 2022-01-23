@@ -1,5 +1,5 @@
 const fs = require("fs");
-const path = require("path");
+const YAML = require("yaml");
 
 const fileExists = async (filename) => {
   try {
@@ -41,6 +41,10 @@ const stringifyJSON = (json, prettify = false) => {
   }
 };
 
+const stringifyYAML = (json) => {
+  return YAML.stringify(json);
+};
+
 const outputInChunks = (buffer, stream) => {
   const chunks = Math.ceil(buffer.length / 1000);
   for (let i = 0; i < chunks - 1; i++) {
@@ -55,5 +59,6 @@ module.exports = {
   getPackageVersion,
   streamToBuffer,
   stringifyJSON,
+  stringifyYAML,
   outputInChunks,
 };

@@ -7,7 +7,9 @@
     "to-json": "bin/to-json.js",
     "from-json": "bin/from-json.js",
     "combine": "bin/combine.js",
-    "separate": "bin/separate.js"
+    "separate": "bin/separate.js",
+    "to-yaml": "bin/to-yaml.js",
+    "from-yaml": "bin/from-yaml.js"
   },
   "scripts": {},
   "repository": {
@@ -22,6 +24,7 @@
   "homepage": "https://github.com/meszaros-lajos-gyorgy/arx-level-json-converter#readme",
   "dependencies": {
     "minimist-lite": "^2.0.0",
-    "ramda": "^0.27.1"
+    "ramda": "^0.27.1",
+    "yaml": "^1.10.2"
   }
 }
