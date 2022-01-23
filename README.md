@@ -31,3 +31,7 @@ This will give you access to `to-json`, `from-json`, `combine` and `separate`
 `cat level8.dlf.unpacked | to-yaml --ext=dlf > level8.dlf.yml`
 
 `cat level8.dlf.yml | from-yaml --ext=dlf > level8.dlf.unpacked`
+
+`cat level8.dlf.unpacked | to-bson --ext=dlf > level8.dlf.bson`
+
+`cat level8.dlf.bson | from-bson --ext=dlf > level8.dlf.unpacked`

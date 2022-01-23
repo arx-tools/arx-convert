@@ -1,5 +1,4 @@
 const fs = require("fs");
-const YAML = require("yaml");
 
 const fileExists = async (filename) => {
   try {
@@ -42,7 +41,13 @@ const stringifyJSON = (json, prettify = false) => {
 };
 
 const stringifyYAML = (json) => {
+  const YAML = require("yaml");
   return YAML.stringify(json);
+};
+
+const stringifyBSON = (json) => {
+  const BSON = require("bson");
+  return BSON.serialize(json);
 };
 
 const outputInChunks = (buffer, stream) => {
@@ -60,5 +65,6 @@ module.exports = {
   streamToBuffer,
   stringifyJSON,
   stringifyYAML,
+  stringifyBSON,
   outputInChunks,
 };
