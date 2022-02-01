@@ -2,7 +2,10 @@ const BinaryIO = require("../binary/BinaryIO.js");
 
 class Header {
   static readFrom(binary) {
-    const data = {};
+    const data = {
+      ident: binary.readString(4),
+      version: binary.readFloat32(),
+    };
 
     return data;
   }
