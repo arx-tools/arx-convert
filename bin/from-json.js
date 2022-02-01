@@ -2,7 +2,7 @@
 
 const fs = require("fs");
 const minimist = require("minimist-lite");
-const { DLF, FTS, LLF } = require("../src/index.js");
+const { DLF, FTS, LLF, FTL } = require("../src/index.js");
 const {
   fileExists,
   getPackageVersion,
@@ -53,7 +53,7 @@ const args = minimist(process.argv.slice(2), {
 
   if (!SUPPORTED_EXTENSIONS.includes(extension)) {
     console.error(
-      'error: unsupported meta type, expected "dlf", "fts" or "llf"'
+      'error: unsupported meta type, expected "dlf", "fts", "llf" or "ftl"'
     );
     hasErrors = true;
   }
@@ -72,6 +72,9 @@ const args = minimist(process.argv.slice(2), {
       break;
     case "llf":
       binary = LLF.save(json);
+      break;
+    case "ftl":
+      binary = FTL.save(json);
       break;
   }
 

@@ -2,7 +2,7 @@
 
 const fs = require("fs");
 const minimist = require("minimist-lite");
-const { DLF, FTS, LLF } = require("../src/index.js");
+const { DLF, FTS, LLF, FTL } = require("../src/index.js");
 const {
   fileExists,
   getPackageVersion,
@@ -77,6 +77,9 @@ const args = minimist(process.argv.slice(2), {
       break;
     case "llf":
       json = LLF.load(raw);
+      break;
+    case "ftl":
+      json = FTL.load(raw);
       break;
   }
 
