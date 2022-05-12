@@ -25,9 +25,9 @@
   },
   "homepage": "https://github.com/meszaros-lajos-gyorgy/arx-level-json-converter#readme",
   "dependencies": {
-    "bson": "^4.6.1",
-    "minimist-lite": "^2.0.0",
-    "ramda": "^0.27.1",
-    "yaml": "^1.10.2"
+    "bson": "^4.6.3",
+    "minimist-lite": "^2.2.1",
+    "ramda": "^0.28.0",
+    "yaml": "^2.0.1"
   }
 }
