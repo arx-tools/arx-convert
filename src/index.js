@@ -1,7 +1,7 @@
-const DLF = require("../src/dlf/DLF.js");
-const FTS = require("../src/fts/FTS.js");
-const LLF = require("../src/llf/LLF.js");
-const FTL = require("../src/ftl/FTL.js");
+const DLF = require("./dlf/DLF.js");
+const FTS = require("./fts/FTS.js");
+const LLF = require("./llf/LLF.js");
+const FTL = require("./ftl/FTL.js");
 
 module.exports = {
   DLF,
