@@ -1,6 +1,7 @@
 const { times } = require("ramda");
 const BinaryIO = require("../binary/BinaryIO.js");
 const AnchorData = require("./AnchorData.js");
+const { Buffer } = require("buffer");
 
 class Anchor {
   static readFrom(binary) {

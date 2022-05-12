@@ -1,4 +1,5 @@
 const PortalPolygon = require("./PortalPolygon.js");
+const { Buffer } = require("buffer");
 
 class Portal {
   static readFrom(binary) {

@@ -1,6 +1,7 @@
 const BinaryIO = require("../binary/BinaryIO.js");
 const { times, map } = require("ramda");
 const Vertex = require("./Vertex.js");
+const { Buffer } = require("buffer");
 
 class Polygon {
   static readFrom(binary) {

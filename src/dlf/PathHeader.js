@@ -1,5 +1,6 @@
 const BinaryIO = require("../binary/BinaryIO.js");
 const { repeat } = require("ramda");
+const { Buffer } = require("buffer");
 
 class PathHeader {
   static readFrom(binary) {

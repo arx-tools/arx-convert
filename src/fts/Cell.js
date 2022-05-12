@@ -1,7 +1,8 @@
 const BinaryIO = require("../binary/BinaryIO.js");
 const SceneInfo = require("./SceneInfo.js");
 const Polygon = require("./Polygon.js");
-const { times, map } = require("ramda");
+const { times } = require("ramda");
+const { Buffer } = require("buffer");
 
 class Cell {
   static readFrom(binary) {
@@ -20,7 +21,7 @@ class Cell {
     const sceneInfo = SceneInfo.accumulateFrom(cell);
 
     const polygons = Buffer.concat(
-      map(Polygon.accumulateFrom.bind(Polygon), cell.polygons)
+      cell.polygons.map(Polygon.accumulateFrom.bind(Polygon))
     );
 
     const anchors = Buffer.alloc(cell.anchors.length * 4);

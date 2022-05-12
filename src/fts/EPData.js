@@ -1,4 +1,5 @@
 const BinaryIO = require("../binary/BinaryIO.js");
+const { Buffer } = require("buffer");
 
 class EPData {
   static readFrom(binary) {

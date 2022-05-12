@@ -28,6 +28,7 @@ const {
   minAll,
   isZeroVertex,
 } = require("../common/helpers.js");
+const { Buffer } = require("buffer");
 
 const addIndexToVertices = (polygons) => {
   let idx = 0;
@@ -181,9 +182,8 @@ class FTS {
     const sceneHeader = SceneHeader.accumulateFrom(json);
 
     const textureContainers = Buffer.concat(
-      map(
-        TextureContainer.accumulateFrom.bind(TextureContainer),
-        json.textureContainers
+      json.textureContainers.map(
+        TextureContainer.accumulateFrom.bind(TextureContainer)
       )
     );
 

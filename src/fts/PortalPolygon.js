@@ -1,6 +1,7 @@
 const { times } = require("ramda");
 const TextureVertex = require("./TextureVertex.js");
 const BinaryIO = require("../binary/BinaryIO.js");
+const { Buffer } = require("buffer");
 
 class PortalPolygon {
   static readFrom(binary) {

@@ -1,4 +1,5 @@
 const BinaryIO = require("../binary/BinaryIO.js");
+const { Buffer } = require("buffer");
 
 // y before x is not a typo: https://github.com/arx/ArxLibertatis/blob/master/src/graphics/data/FastSceneFormat.h#L73
 

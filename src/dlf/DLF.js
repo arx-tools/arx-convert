@@ -9,6 +9,7 @@ const PathHeader = require("./PathHeader.js");
 const Pathways = require("./Pathways.js");
 const LightingHeader = require("../common/LightingHeader.js");
 const Color = require("../common/Color.js");
+const { Buffer } = require("buffer");
 
 class DLF {
   static load(decompressedFile) {

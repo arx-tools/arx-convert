@@ -2,6 +2,7 @@ const { times, map } = require("ramda");
 const BinaryIO = require("../binary/BinaryIO.js");
 const RoomData = require("./RoomData.js");
 const EPData = require("./EPData.js");
+const { Buffer } = require("buffer");
 
 class Room {
   static readFrom(binary) {

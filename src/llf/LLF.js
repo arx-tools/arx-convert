@@ -4,6 +4,7 @@ const Header = require("./Header.js");
 const Light = require("../common/Light.js");
 const LightingHeader = require("../common/LightingHeader.js");
 const Color = require("../common/Color.js");
+const { Buffer } = require("buffer");
 
 class LLF {
   static load(decompressedFile) {
