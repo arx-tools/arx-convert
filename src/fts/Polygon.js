@@ -1,5 +1,5 @@
 const BinaryIO = require("../binary/BinaryIO.js");
-const { times, map } = require("ramda");
+const { times } = require("ramda");
 const Vertex = require("./Vertex.js");
 const { Buffer } = require("buffer");
 
@@ -23,7 +23,7 @@ class Polygon {
 
   static accumulateFrom(polygon) {
     const vertices = Buffer.concat(
-      map(Vertex.accumulateFrom.bind(Vertex), polygon.vertices)
+      polygon.vertices.map(Vertex.accumulateFrom.bind(Vertex))
     );
 
     const buffer = Buffer.alloc(this.sizeWithoutVertices(), 0);

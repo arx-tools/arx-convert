@@ -1,7 +1,12 @@
 // source: https://cs.stanford.edu/people/miles/iso8859.html
 // source: https://mathiasbynens.be/notes/javascript-escapes
 
-const { map, unary, invertObj } = require("ramda");
+const flipArrayToLookupTable = (arr) => {
+  return arr.reduce((obj, value, idx) => {
+    obj[value] = idx;
+    return obj;
+  }, {});
+};
 
 // prettier-ignore
 const CHARS = [
@@ -23,6 +28,6 @@ const CHARS = [
   'ð', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', '÷', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'þ', 'ÿ'
 ]
 
-const CODES = map(unary(parseInt), invertObj(CHARS));
+const CODES = flipArrayToLookupTable(CHARS);
 
 module.exports = { CHARS, CODES };

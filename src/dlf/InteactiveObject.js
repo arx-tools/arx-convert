@@ -1,5 +1,4 @@
 const BinaryIO = require("../binary/BinaryIO.js");
-const { repeat } = require("ramda");
 const { Buffer } = require("buffer");
 
 class InteractiveObject {
@@ -28,8 +27,8 @@ class InteractiveObject {
     binary.writeInt32(interactiveObject.identifier);
     binary.writeInt32(interactiveObject.flags);
 
-    binary.writeInt32Array(repeat(0, 14));
-    binary.writeFloat32Array(repeat(0, 16));
+    binary.writeInt32Array(Array(14).fill(0));
+    binary.writeFloat32Array(Array(16).fill(0));
 
     return buffer;
   }

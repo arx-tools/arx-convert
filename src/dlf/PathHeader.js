@@ -1,5 +1,4 @@
 const BinaryIO = require("../binary/BinaryIO.js");
-const { repeat } = require("ramda");
 const { Buffer } = require("buffer");
 
 class PathHeader {
@@ -45,11 +44,11 @@ class PathHeader {
     binary.writeFloat32(path.header.reverb);
     binary.writeFloat32(path.header.ambianceMaxVolume);
 
-    binary.writeFloat32Array(repeat(0, 26));
+    binary.writeFloat32Array(Array(26).fill(0));
 
     binary.writeInt32(path.header.height);
 
-    binary.writeInt32Array(repeat(0, 31));
+    binary.writeInt32Array(Array(31).fill(0));
 
     binary.writeString(path.header.ambiance, 128);
 

@@ -1,5 +1,4 @@
 const BinaryIO = require("../binary/BinaryIO.js");
-const { repeat } = require("ramda");
 const { Buffer } = require("buffer");
 
 class Fog {
@@ -43,8 +42,8 @@ class Fog {
     binary.writeInt32(light.blend);
     binary.writeFloat32(light.frequency);
 
-    binary.writeFloat32Array(repeat(0, 32));
-    binary.writeInt32Array(repeat(0, 32));
+    binary.writeFloat32Array(Array(32).fill(0));
+    binary.writeInt32Array(Array(32).fill(0));
     binary.writeString("", 256);
 
     return binary;

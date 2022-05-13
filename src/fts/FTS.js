@@ -1,18 +1,4 @@
-const {
-  times,
-  pluck,
-  unnest,
-  compose,
-  map,
-  prop,
-  reject,
-  reduce,
-  has,
-  assoc,
-  dissoc,
-  append,
-  evolve,
-} = require("ramda");
+const { times, has, assoc, dissoc, append, evolve } = require("ramda");
 const BinaryIO = require("../binary/BinaryIO.js");
 const Header = require("./Header.js");
 const SceneHeader = require("./SceneHeader.js");
@@ -33,24 +19,25 @@ const { Buffer } = require("buffer");
 const addIndexToVertices = (polygons) => {
   let idx = 0;
 
-  return map(
+  return polygons.map(
     evolve({
-      vertices: map((vertex) => {
-        if (isZeroVertex(vertex)) {
-          vertex.llfColorIdx = null;
-        } else {
-          vertex.llfColorIdx = idx;
-          idx++;
-        }
-        return vertex;
-      }),
-    }),
-    polygons
+      vertices: (vertices) => {
+        vertices.map((vertex) => {
+          if (isZeroVertex(vertex)) {
+            vertex.llfColorIdx = null;
+          } else {
+            vertex.llfColorIdx = idx;
+            idx++;
+          }
+          return vertex;
+        });
+      },
+    })
   );
 };
 
 const getPolygons = (cells) => {
-  return compose(addIndexToVertices, unnest, pluck("polygons"))(cells);
+  return addIndexToVertices(cells.flatMap(({ polygons }) => polygons));
 };
 
 const coordToCell = (coord) => {
@@ -58,13 +45,13 @@ const coordToCell = (coord) => {
 };
 
 const getCellCoordinateFromPolygon = (axis, polygon) => {
-  return compose(
-    minAll,
-    map(coordToCell),
-    pluck(axis === "x" ? "posX" : "posZ"),
-    reject(isZeroVertex),
-    prop("vertices")
-  )(polygon);
+  const vertices = polygon.map(({ vertices }) => vertices);
+  const nonZeroVertices = vertices.filter((vertex) => !isZeroVertex(vertex));
+  const coords = nonZeroVertices.map(({ posX, posZ }) => {
+    return axis === "x" ? posX : posZ;
+  });
+  const cells = coords.map(coordToCell);
+  return minAll(cells);
 };
 
 class FTS {
@@ -131,26 +118,19 @@ class FTS {
   static save(json) {
     const sizeX = json.sceneHeader.sizeX;
 
-    const _cells = reduce(
-      (cells, polygon) => {
-        const cellX = getCellCoordinateFromPolygon("x", polygon);
-        const cellY = getCellCoordinateFromPolygon("z", polygon);
+    const _cells = json.polygons.reduce((cells, polygon) => {
+      const cellX = getCellCoordinateFromPolygon("x", polygon);
+      const cellY = getCellCoordinateFromPolygon("z", polygon);
 
-        const polygons = cells[cellY * sizeX + cellX].polygons;
-        const idx = polygons.length;
-        cells[cellY * sizeX + cellX].polygons = append(
-          { ...polygon },
-          polygons
-        );
-        polygon.idx = idx; // TODO: this is a rather ugly hack for getting the indexes into polygons
+      const polygons = cells[cellY * sizeX + cellX].polygons;
+      const idx = polygons.length;
+      cells[cellY * sizeX + cellX].polygons = append({ ...polygon }, polygons);
+      polygon.idx = idx; // TODO: this is a rather ugly hack for getting the indexes into polygons
 
-        return cells;
-      },
-      json.cells.map(assoc("polygons", [])),
-      json.polygons
-    );
+      return cells;
+    }, json.cells.map(assoc("polygons", [])));
 
-    const _rooms = reduce(
+    const _rooms = json.polygons.reduce(
       (rooms, polygon) => {
         const roomIdx = parseInt(polygon.room);
         const roomData = {
@@ -175,8 +155,7 @@ class FTS {
           portals: [],
           polygons: [],
         },
-      ],
-      json.polygons
+      ]
     );
 
     const sceneHeader = SceneHeader.accumulateFrom(json);
@@ -188,19 +167,19 @@ class FTS {
     );
 
     // TODO: generate cells based on polygons
-    const cells = Buffer.concat(map(Cell.accumulateFrom.bind(Cell), _cells));
+    const cells = Buffer.concat(_cells.map(Cell.accumulateFrom.bind(Cell)));
 
     const anchors = Buffer.concat(
-      map(Anchor.accumulateFrom.bind(Anchor), json.anchors)
+      json.anchors.map(Anchor.accumulateFrom.bind(Anchor))
     );
     const portals = Buffer.concat(
-      map(Portal.accumulateFrom.bind(Portal), json.portals)
+      json.portals.map(Portal.accumulateFrom.bind(Portal))
     );
 
-    const rooms = Buffer.concat(map(Room.accumulateFrom.bind(Room), _rooms));
+    const rooms = Buffer.concat(_rooms.map(Room.accumulateFrom.bind(Room)));
 
     const roomDistances = Buffer.concat(
-      map(RoomDistance.accumulateFrom.bind(RoomDistance), json.roomDistances)
+      json.roomDistances.map(RoomDistance.accumulateFrom.bind(RoomDistance))
     );
 
     const dataWithoutHeader = Buffer.concat([
@@ -216,7 +195,7 @@ class FTS {
 
     const header = Header.accumulateFrom(json, uncompressedSize);
     const uniqueHeaders = Buffer.concat(
-      map(UniqueHeader.accumulateFrom.bind(UniqueHeader), json.uniqueHeaders)
+      json.uniqueHeaders.map(UniqueHeader.accumulateFrom.bind(UniqueHeader))
     );
 
     return Buffer.concat([header, uniqueHeaders, dataWithoutHeader]);

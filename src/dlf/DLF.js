@@ -1,4 +1,4 @@
-const { times, map } = require("ramda");
+const { times } = require("ramda");
 const BinaryIO = require("../binary/BinaryIO.js");
 const Header = require("./Header.js");
 const Scene = require("./Scene.js");
@@ -92,9 +92,8 @@ class DLF {
     const header = Header.accumulateFrom(json);
     const scene = Scene.accumulateFrom(json);
     const interactiveObjects = Buffer.concat(
-      map(
-        InteractiveObject.accumulateFrom.bind(InteractiveObject),
-        json.interactiveObjects
+      json.interactiveObjects.map(
+        InteractiveObject.accumulateFrom.bind(InteractiveObject)
       )
     );
 
@@ -103,9 +102,8 @@ class DLF {
       const lightingHeader = LightingHeader.accumulateFrom(json);
 
       const colors = Buffer.concat(
-        map(
-          (color) => Color.accumulateFrom(color, json.header.version > 1.001),
-          json.colors
+        json.colors.map((color) =>
+          Color.accumulateFrom(color, json.header.version > 1.001)
         )
       );
 
@@ -115,9 +113,9 @@ class DLF {
     }
 
     const lights = Buffer.concat(
-      map(Light.accumulateFrom.bind(Light), json.lights)
+      json.lights.map(Light.accumulateFrom.bind(Light))
     );
-    const fogs = Buffer.concat(map(Fog.accumulateFrom.bind(Fog), json.fogs));
+    const fogs = Buffer.concat(json.fogs.map(Fog.accumulateFrom.bind(Fog)));
 
     let nodes;
     if (json.header.version >= 1.001) {
@@ -130,14 +128,14 @@ class DLF {
     }
 
     const paths = Buffer.concat(
-      map((path) => {
+      json.paths.map((path) => {
         const pathHeader = PathHeader.allocateFrom(path);
         const pathways = Buffer.concat(
-          map(Pathways.allocateFrom.bind(Pathways), path.pathways)
+          path.pathways.map(Pathways.allocateFrom.bind(Pathways))
         );
 
         return Buffer.concat([pathHeader, pathways]);
-      }, json.paths)
+      })
     );
 
     return Buffer.concat([

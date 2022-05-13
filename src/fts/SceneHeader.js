@@ -1,5 +1,5 @@
 const BinaryIO = require("../binary/BinaryIO.js");
-const { pluck, uniq } = require("ramda");
+const { uniq } = require("ramda");
 const { Buffer } = require("buffer");
 
 class SceneHeader {
@@ -28,7 +28,7 @@ class SceneHeader {
     const binary = new BinaryIO(buffer.buffer);
 
     const numberOfVertices = json.polygons.length;
-    const numberOfRooms = uniq(pluck("room", json.polygons)).length;
+    const numberOfRooms = uniq(json.polygons.map(({ room }) => room)).length;
 
     binary.writeFloat32(json.sceneHeader.version);
     binary.writeInt32(json.sceneHeader.sizeX);

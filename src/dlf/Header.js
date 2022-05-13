@@ -1,5 +1,4 @@
 const BinaryIO = require("../binary/BinaryIO.js");
-const { repeat } = require("ramda");
 const { Buffer } = require("buffer");
 
 class Header {
@@ -56,7 +55,7 @@ class Header {
     binary.writeInt32(json.numberOfZones);
     binary.writeInt32(json.header.lighting);
 
-    binary.writeInt32Array(repeat(0, 256));
+    binary.writeInt32Array(Array(256).fill(0));
 
     binary.writeInt32(json.lights.length);
     binary.writeInt32(json.fogs.length);
@@ -65,13 +64,13 @@ class Header {
     binary.writeInt32(json.numberOfChildPolygons);
     binary.writeInt32(json.paths.length);
 
-    binary.writeInt32Array(repeat(0, 250));
+    binary.writeInt32Array(Array(250).fill(0));
 
     binary.writeVector3(json.header.offset);
 
-    binary.writeFloat32Array(repeat(0, 253));
+    binary.writeFloat32Array(Array(253).fill(0));
     binary.writeString("", 4096);
-    binary.writeInt32Array(repeat(0, 256));
+    binary.writeInt32Array(Array(256).fill(0));
 
     return buffer;
   }

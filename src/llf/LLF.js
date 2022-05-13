@@ -1,4 +1,4 @@
-const { times, map } = require("ramda");
+const { times } = require("ramda");
 const BinaryIO = require("../binary/BinaryIO.js");
 const Header = require("./Header.js");
 const Light = require("../common/Light.js");
@@ -41,16 +41,15 @@ class LLF {
     const header = Header.accumulateFrom(json);
 
     const lights = Buffer.concat(
-      map(Light.accumulateFrom.bind(Light), json.lights)
+      json.lights.map(Light.accumulateFrom.bind(Light))
     );
 
     const lightingHeader = LightingHeader.accumulateFrom(json);
 
     const colors = Buffer.concat(
-      map(
-        (color) => Color.accumulateFrom(color, json.header.version > 1.001),
-        json.colors
-      )
+      json.colors.map((color) => {
+        return Color.accumulateFrom(color, json.header.version > 1.001);
+      })
     );
 
     const lighting = Buffer.concat([lightingHeader, colors]);

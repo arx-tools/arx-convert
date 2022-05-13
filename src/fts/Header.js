@@ -1,5 +1,4 @@
 const BinaryIO = require("../binary/BinaryIO.js");
-const { repeat } = require("ramda");
 const { Buffer } = require("buffer");
 
 class Header {
@@ -25,7 +24,7 @@ class Header {
     binary.writeFloat32(json.header.version);
     binary.writeInt32(uncompressedSize);
 
-    binary.writeUint32Array(repeat(0, 3));
+    binary.writeUint32Array(Array(3).fill(0));
 
     return buffer;
   }

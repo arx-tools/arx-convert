@@ -1,4 +1,3 @@
-const { map, join, propOr, split, nth, defaultTo } = require("ramda");
 const { CHARS, CODES } = require("./latin1CharsetLookup.js");
 
 const BYTE_OF_AN_UNKNOWN_CHAR = CODES[" "];
@@ -10,17 +9,17 @@ class TextIO {
   }
 
   decode(bytes) {
-    return join(
-      "",
-      map((byte) => defaultTo(CHAR_OF_AN_UNKNOWN_BYTE, nth(byte, CHARS)), bytes)
-    );
+    const chars = bytes.map((byte) => {
+      return CHARS[byte] ?? CHAR_OF_AN_UNKNOWN_BYTE;
+    });
+    return chars.join("");
   }
 
   encode(str) {
-    return map(
-      (char) => propOr(BYTE_OF_AN_UNKNOWN_CHAR, char, CODES),
-      split("", str)
-    );
+    const tokens = str.split("");
+    return tokens.map((char) => {
+      return CODES[char] ?? BYTE_OF_AN_UNKNOWN_CHAR;
+    });
   }
 }
 

@@ -1,5 +1,4 @@
 const BinaryIO = require("../binary/BinaryIO.js");
-const { repeat } = require("ramda");
 const { Buffer } = require("buffer");
 
 class Header {
@@ -36,10 +35,10 @@ class Header {
     binary.writeInt32(json.header.numberOfIgnoredPolygons);
     binary.writeInt32(json.header.numberOfBackgroundPolygons);
 
-    binary.writeInt32Array(repeat(0, 256));
-    binary.writeFloat32Array(repeat(0, 256));
+    binary.writeInt32Array(Array(256).fill(0));
+    binary.writeFloat32Array(Array(256).fill(0));
     binary.writeString("", 4096);
-    binary.writeInt32Array(repeat(0, 256));
+    binary.writeInt32Array(Array(256).fill(0));
 
     return buffer;
   }

@@ -1,4 +1,4 @@
-const { times, map } = require("ramda");
+const { times } = require("ramda");
 const BinaryIO = require("../binary/BinaryIO.js");
 const RoomData = require("./RoomData.js");
 const EPData = require("./EPData.js");
@@ -22,7 +22,7 @@ class Room {
     binary.writeInt32Array(room.portals);
 
     const polygons = Buffer.concat(
-      map(EPData.accumulateFrom.bind(EPData), room.polygons)
+      room.polygons.map(EPData.accumulateFrom.bind(EPData))
     );
 
     return Buffer.concat([roomData, portals, polygons]);

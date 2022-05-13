@@ -1,5 +1,4 @@
 const BinaryIO = require("../binary/BinaryIO.js");
-const { repeat } = require("ramda");
 const { Buffer } = require("buffer");
 
 class Pathways {
@@ -25,9 +24,9 @@ class Pathways {
     binary.writeInt32(pathway.flag);
     binary.writeUint32(pathway.time);
 
-    binary.writeFloat32Array(repeat(0, 2));
-    binary.writeInt32Array(repeat(0, 2));
-    binary.writeUint8Array(repeat(0, 32));
+    binary.writeFloat32Array(Array(2).fill(0));
+    binary.writeInt32Array(Array(2).fill(0));
+    binary.writeUint8Array(Array(32).fill(0));
 
     return buffer;
   }
