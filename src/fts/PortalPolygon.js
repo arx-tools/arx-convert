@@ -1,4 +1,3 @@
-const { times } = require("ramda");
 const TextureVertex = require("./TextureVertex.js");
 const BinaryIO = require("../binary/BinaryIO.js");
 const { Buffer } = require("buffer");
@@ -11,7 +10,7 @@ class PortalPolygon {
       max: binary.readVector3(),
       norm: binary.readVector3(),
       norm2: binary.readVector3(),
-      v: times(() => TextureVertex.readFrom(binary), 4),
+      v: [...Array(4)].map(() => TextureVertex.readFrom(binary)),
       unused: binary.readUint8Array(32 * 4), //TODO: apparently this does hold data, question is what kind of data...
       nrml: binary.readVector3Array(4),
       tex: binary.readInt32(),
@@ -34,7 +33,7 @@ class PortalPolygon {
     binary1.writeVector3(polygon.norm2);
 
     const textureVertex = Buffer.concat(
-      map(TextureVertex.accumulateFrom.bind(TextureVertex), polygon.v)
+      polygon.v.map(TextureVertex.accumulateFrom.bind(TextureVertex))
     );
 
     const buffer2 = Buffer.alloc(this.sizeOf(), 0);

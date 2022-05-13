@@ -1,4 +1,3 @@
-const { times } = require("ramda");
 const BinaryIO = require("../binary/BinaryIO.js");
 const Header = require("./Header.js");
 const Light = require("../common/Light.js");
@@ -20,14 +19,13 @@ class LLF {
       header: header,
     };
 
-    data.lights = times(() => Light.readFrom(file), numberOfLights);
+    data.lights = [...Array(numberOfLights)].map(() => Light.readFrom(file));
 
     const { numberOfColors } = LightingHeader.readFrom(file);
 
-    data.colors = times(
-      () => Color.readFrom(file, header.version > 1.001),
-      numberOfColors
-    );
+    data.colors = [...Array(numberOfColors)].map(() => {
+      return Color.readFrom(file, header.version > 1.001);
+    });
 
     const remainedBytes = decompressedFile.length - file.position;
     if (remainedBytes > 0) {

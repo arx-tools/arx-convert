@@ -1,4 +1,3 @@
-const { times } = require("ramda");
 const BinaryIO = require("../binary/BinaryIO.js");
 const RoomData = require("./RoomData.js");
 const EPData = require("./EPData.js");
@@ -9,8 +8,8 @@ class Room {
     const { numberOfPortals, numberOfPolygons } = RoomData.readFrom(binary);
 
     return {
-      portals: times(() => binary.readInt32(), numberOfPortals),
-      polygons: times(() => EPData.readFrom(binary), numberOfPolygons),
+      portals: [...Array(numberOfPortals)].map(() => binary.readInt32()),
+      polygons: [...Array(numberOfPolygons)].map(() => EPData.readFrom(binary)),
     };
   }
 

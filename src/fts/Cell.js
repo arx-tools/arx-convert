@@ -1,7 +1,6 @@
 const BinaryIO = require("../binary/BinaryIO.js");
 const SceneInfo = require("./SceneInfo.js");
 const Polygon = require("./Polygon.js");
-const { times } = require("ramda");
 const { Buffer } = require("buffer");
 
 class Cell {
@@ -9,11 +8,12 @@ class Cell {
     const sceneInfo = SceneInfo.readFrom(binary);
 
     return {
-      polygons: times(
-        () => Polygon.readFrom(binary),
-        sceneInfo.numberOfPolygons
-      ),
-      anchors: times(() => binary.readInt32(), sceneInfo.numberOfAnchors),
+      polygons: [...Array(sceneInfo.numberOfPolygons)].map(() => {
+        return Polygon.readFrom(binary);
+      }),
+      anchors: [...Array(sceneInfo.numberOfAnchors)].map(() => {
+        return binary.readInt32();
+      }),
     };
   }
 

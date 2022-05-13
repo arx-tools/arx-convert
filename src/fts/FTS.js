@@ -1,4 +1,4 @@
-const { times, has, assoc, dissoc, append, evolve } = require("ramda");
+const { has, evolve } = require("ramda");
 const BinaryIO = require("../binary/BinaryIO.js");
 const Header = require("./Header.js");
 const SceneHeader = require("./SceneHeader.js");
@@ -66,10 +66,9 @@ class FTS {
         numberOfLeftoverBytes: 0,
       },
       header: header,
-      uniqueHeaders: times(
-        () => UniqueHeader.readFrom(file),
-        numberOfUniqueHeaders
-      ),
+      uniqueHeaders: [...Array(numberOfUniqueHeaders)].map(() => {
+        return UniqueHeader.readFrom(file);
+      }),
     };
 
     const {
@@ -81,10 +80,9 @@ class FTS {
     } = SceneHeader.readFrom(file);
 
     data.sceneHeader = sceneHeader;
-    data.textureContainers = times(
-      () => TextureContainer.readFrom(file),
-      numberOfTextures
-    );
+    data.textureContainers = [...Array(numberOfTextures)].map(() => {
+      return TextureContainer.readFrom(file);
+    });
 
     const cells = [];
     for (let z = 0; z < sceneHeader.sizeZ; z++) {
@@ -92,16 +90,18 @@ class FTS {
         cells.push(Cell.readFrom(file));
       }
     }
-    data.cells = cells.map(dissoc("polygons"));
+    data.cells = cells.map((cell) => {
+      delete cell.polygons;
+      return cell;
+    });
     data.polygons = getPolygons(cells);
 
-    data.anchors = times(() => Anchor.readFrom(file), numberOfAnchors);
-    data.portals = times(() => Portal.readFrom(file), numberOfPortals);
-    data.rooms = times(() => Room.readFrom(file), numberOfRooms);
-    data.roomDistances = times(
-      () => RoomDistance.readFrom(file),
-      numberOfRooms ** 2
-    );
+    data.anchors = [...Array(numberOfAnchors)].map(() => Anchor.readFrom(file));
+    data.portals = [...Array(numberOfPortals)].map(() => Portal.readFrom(file));
+    data.rooms = [...Array(numberOfRooms)].map(() => Room.readFrom(file));
+    data.roomDistances = [...Array(numberOfRooms ** 2)].map(() => {
+      return RoomDistance.readFrom(file);
+    });
 
     const remainedBytes = decompressedFile.length - file.position;
     if (remainedBytes > 0) {
@@ -118,17 +118,23 @@ class FTS {
   static save(json) {
     const sizeX = json.sceneHeader.sizeX;
 
-    const _cells = json.polygons.reduce((cells, polygon) => {
-      const cellX = getCellCoordinateFromPolygon("x", polygon);
-      const cellY = getCellCoordinateFromPolygon("z", polygon);
+    const _cells = json.polygons.reduce(
+      (cells, polygon) => {
+        const cellX = getCellCoordinateFromPolygon("x", polygon);
+        const cellY = getCellCoordinateFromPolygon("z", polygon);
 
-      const polygons = cells[cellY * sizeX + cellX].polygons;
-      const idx = polygons.length;
-      cells[cellY * sizeX + cellX].polygons = append({ ...polygon }, polygons);
-      polygon.idx = idx; // TODO: this is a rather ugly hack for getting the indexes into polygons
+        const polygons = cells[cellY * sizeX + cellX].polygons;
+        const idx = polygons.length;
+        cells[cellY * sizeX + cellX].polygons.push({ ...polygon });
+        polygon.idx = idx; // TODO: this is a rather ugly hack for getting the indexes into polygons
 
-      return cells;
-    }, json.cells.map(assoc("polygons", [])));
+        return cells;
+      },
+      json.cells.map((cell) => {
+        cell.polygons = [];
+        return cell;
+      })
+    );
 
     const _rooms = json.polygons.reduce(
       (rooms, polygon) => {

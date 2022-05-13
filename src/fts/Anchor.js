@@ -1,4 +1,3 @@
-const { times } = require("ramda");
 const BinaryIO = require("../binary/BinaryIO.js");
 const AnchorData = require("./AnchorData.js");
 const { Buffer } = require("buffer");
@@ -10,7 +9,9 @@ class Anchor {
 
     return {
       data: anchorData,
-      linkedAnchors: times(() => binary.readInt32(), numberOfLinkedAnchors),
+      linkedAnchors: [...Array(numberOfLinkedAnchors)].map(() => {
+        return binary.readInt32();
+      }),
     };
   }
 

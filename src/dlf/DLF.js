@@ -1,4 +1,3 @@
-const { times } = require("ramda");
 const BinaryIO = require("../binary/BinaryIO.js");
 const Header = require("./Header.js");
 const Scene = require("./Scene.js");
@@ -37,30 +36,27 @@ class DLF {
       },
       header: header,
       scene: numberOfScenes > 0 ? Scene.readFrom(file) : null,
-      interactiveObjects: times(
-        () => InteractiveObject.readFrom(file),
-        numberOfInteractiveObjects
-      ),
+      interactiveObjects: [...Array(numberOfInteractiveObjects)].map(() => {
+        return InteractiveObject.readFrom(file);
+      }),
     };
 
     if (header.lighting > 0) {
       // TODO: is this a boolean?
       const { numberOfColors } = LightingHeader.readFrom(file);
 
-      data.colors = times(
-        () => Color.readFrom(file, header.version > 1.001),
-        numberOfColors
-      );
+      data.colors = [...Array(numberOfColors)].map(() => {
+        return Color.readFrom(file, header.version > 1.001);
+      });
     } else {
       data.colors = null;
     }
 
-    data.lights = times(
-      () => Light.readFrom(file),
-      header.version < 1.003 ? 0 : numberOfLights
+    data.lights = [...Array(header.version < 1.003 ? 0 : numberOfLights)].map(
+      () => Light.readFrom(file)
     );
 
-    data.fogs = times(() => Fog.readFrom(file), numberOfFogs);
+    data.fogs = [...Array(numberOfFogs)].map(() => Fog.readFrom(file));
 
     if (header.version > 1.001) {
       // waste bytes
@@ -71,14 +67,17 @@ class DLF {
       // TODO: read data into data.nodes and data.numberOfNodeLinks
     }
 
-    data.paths = times(() => {
+    data.paths = [...Array(numberOfPaths)].map(() => {
       const { numberOfPathways, ...pathHeader } = PathHeader.readFrom(file);
 
       return {
         header: pathHeader,
-        pathways: times(() => Pathways.readFrom(file), numberOfPathways),
+        pathways: [...Array(numberOfPathways)].map(
+          () => Pathways.readFrom(file),
+          numberOfPathways
+        ),
       };
-    }, numberOfPaths);
+    });
 
     const remainedBytes = decompressedFile.length - file.position;
     if (remainedBytes > 0) {
