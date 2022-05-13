@@ -10,8 +10,6 @@
   "bin": {
     "to-json": "bin/to-json.js",
     "from-json": "bin/from-json.js",
-    "combine": "bin/combine.js",
-    "separate": "bin/separate.js",
     "to-yaml": "bin/to-yaml.js",
     "from-yaml": "bin/from-yaml.js",
     "to-bson": "bin/to-bson.js",
