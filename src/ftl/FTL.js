@@ -1,4 +1,5 @@
 const Header = require("./Header");
+const BinaryIO = require("../binary/BinaryIO.js");
 const { Buffer } = require("buffer");
 
 /*

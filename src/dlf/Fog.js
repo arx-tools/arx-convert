@@ -29,18 +29,18 @@ class Fog {
     const buffer = Buffer.alloc(this.sizeOf(), 0);
     const binary = new BinaryIO(buffer.buffer);
 
-    binary.writeVector3(light.pos);
-    binary.writeColor(light.rgb);
-    binary.writeFloat32(light.size);
-    binary.writeInt32(light.special);
-    binary.writeFloat32(light.scale);
-    binary.writeVector3(light.move);
-    binary.writeAnglef(light.angle);
-    binary.writeFloat32(light.speed);
-    binary.writeFloat32(light.rotateSpeed);
-    binary.writeInt32(light.toLive);
-    binary.writeInt32(light.blend);
-    binary.writeFloat32(light.frequency);
+    binary.writeVector3(fog.pos);
+    binary.writeColor(fog.rgb);
+    binary.writeFloat32(fog.size);
+    binary.writeInt32(fog.special);
+    binary.writeFloat32(fog.scale);
+    binary.writeVector3(fog.move);
+    binary.writeAnglef(fog.angle);
+    binary.writeFloat32(fog.speed);
+    binary.writeFloat32(fog.rotateSpeed);
+    binary.writeInt32(fog.toLive);
+    binary.writeInt32(fog.blend);
+    binary.writeFloat32(fog.frequency);
 
     binary.writeFloat32Array(Array(32).fill(0));
     binary.writeInt32Array(Array(32).fill(0));

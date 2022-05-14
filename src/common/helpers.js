@@ -7,9 +7,7 @@ const isZeroVertex = (vertex) => {
   return posX === 0 && posY === 0 && posZ === 0 && texU === 0 && texV === 0;
 };
 
-const getLowestByte = (int) => {
-  return int & 0xff;
-};
+const getLowestByte = (int) => int & 0xff;
 
 module.exports = {
   roundTo3Decimals,

@@ -20,7 +20,7 @@ class TextureVertex {
     binary.writeVector3(vertex.pos);
     binary.writeFloat32(vertex.thw);
     binary.writeUint32(vertex.color);
-    binary.writeUin32(vertex.specular);
+    binary.writeUint32(vertex.specular);
     binary.writeFloat32(vertex.tu);
     binary.writeFloat32(vertex.tv);
 

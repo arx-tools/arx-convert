@@ -36,25 +36,25 @@ const addIndexToVertices = (polygons) => {
   );
 };
 
-const getPolygons = (cells) => {
-  return addIndexToVertices(cells.flatMap(({ polygons }) => polygons));
-};
-
 const coordToCell = (coord) => {
   return Math.floor(roundTo3Decimals(coord) / 100);
 };
 
-const getCellCoordinateFromPolygon = (axis, polygon) => {
-  const vertices = polygon.map(({ vertices }) => vertices);
-  const nonZeroVertices = vertices.filter((vertex) => !isZeroVertex(vertex));
-  const coords = nonZeroVertices.map(({ posX, posZ }) => {
-    return axis === "x" ? posX : posZ;
-  });
-  const cells = coords.map(coordToCell);
-  return minAll(cells);
-};
-
 class FTS {
+  static getPolygons(cells) {
+    return addIndexToVertices(cells.flatMap(({ polygons }) => polygons));
+  }
+
+  static getCellCoordinateFromPolygon(axis, polygon) {
+    const vertices = polygon.map(({ vertices }) => vertices);
+    const nonZeroVertices = vertices.filter((vertex) => !isZeroVertex(vertex));
+    const coords = nonZeroVertices.map(({ posX, posZ }) => {
+      return axis === "x" ? posX : posZ;
+    });
+    const cells = coords.map(coordToCell);
+    return minAll(cells);
+  }
+
   static load(decompressedFile) {
     const file = new BinaryIO(decompressedFile.buffer);
 
@@ -94,7 +94,7 @@ class FTS {
       delete cell.polygons;
       return cell;
     });
-    data.polygons = getPolygons(cells);
+    data.polygons = FTS.getPolygons(cells);
 
     data.anchors = [...Array(numberOfAnchors)].map(() => Anchor.readFrom(file));
     data.portals = [...Array(numberOfPortals)].map(() => Portal.readFrom(file));
@@ -120,8 +120,8 @@ class FTS {
 
     const _cells = json.polygons.reduce(
       (cells, polygon) => {
-        const cellX = getCellCoordinateFromPolygon("x", polygon);
-        const cellY = getCellCoordinateFromPolygon("z", polygon);
+        const cellX = FTS.getCellCoordinateFromPolygon("x", polygon);
+        const cellY = FTS.getCellCoordinateFromPolygon("z", polygon);
 
         const polygons = cells[cellY * sizeX + cellX].polygons;
         const idx = polygons.length;
@@ -140,12 +140,12 @@ class FTS {
       (rooms, polygon) => {
         const roomIdx = parseInt(polygon.room);
         const roomData = {
-          px: getCellCoordinateFromPolygon("x", polygon),
-          py: getCellCoordinateFromPolygon("z", polygon),
+          px: FTS.getCellCoordinateFromPolygon("x", polygon),
+          py: FTS.getCellCoordinateFromPolygon("z", polygon),
           idx: polygon.idx,
         };
 
-        if (!has(roomIdx, rooms)) {
+        if (typeof rooms[roomIdx] !== "undefined") {
           rooms[roomIdx] = {
             portals: [],
             polygons: [],
@@ -208,6 +208,4 @@ class FTS {
   }
 }
 
-FTS.getPolygons = getPolygons;
-FTS.getCellCoordinateFromPolygon = getCellCoordinateFromPolygon;
 module.exports = FTS;
