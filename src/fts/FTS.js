@@ -1,4 +1,4 @@
-const { has, evolve } = require("ramda");
+const { evolve } = require("ramda");
 const BinaryIO = require("../binary/BinaryIO.js");
 const Header = require("./Header.js");
 const SceneHeader = require("./SceneHeader.js");
@@ -22,7 +22,7 @@ const addIndexToVertices = (polygons) => {
   return polygons.map(
     evolve({
       vertices: (vertices) => {
-        vertices.map((vertex) => {
+        return vertices.map((vertex) => {
           if (isZeroVertex(vertex)) {
             vertex.llfColorIdx = null;
           } else {
@@ -46,8 +46,9 @@ class FTS {
   }
 
   static getCellCoordinateFromPolygon(axis, polygon) {
-    const vertices = polygon.map(({ vertices }) => vertices);
-    const nonZeroVertices = vertices.filter((vertex) => !isZeroVertex(vertex));
+    const nonZeroVertices = polygon.vertices.filter((vertex) => {
+      return !isZeroVertex(vertex);
+    });
     const coords = nonZeroVertices.map(({ posX, posZ }) => {
       return axis === "x" ? posX : posZ;
     });
@@ -90,10 +91,10 @@ class FTS {
         cells.push(Cell.readFrom(file));
       }
     }
-    data.cells = cells.map((cell) => {
-      delete cell.polygons;
+    data.cells = cells.map(({ polygons, ...cell }) => {
       return cell;
     });
+
     data.polygons = FTS.getPolygons(cells);
 
     data.anchors = [...Array(numberOfAnchors)].map(() => Anchor.readFrom(file));
@@ -145,7 +146,7 @@ class FTS {
           idx: polygon.idx,
         };
 
-        if (typeof rooms[roomIdx] !== "undefined") {
+        if (typeof rooms[roomIdx] === "undefined") {
           rooms[roomIdx] = {
             portals: [],
             polygons: [],
