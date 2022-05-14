@@ -51,17 +51,18 @@ class Header {
     binary.writeInt32(1);
     binary.writeInt32(json.interactiveObjects.length);
     binary.writeInt32(json.numberOfNodes);
-    binary.writeInt32(json.numberOfNodeLinks);
-    binary.writeInt32(json.numberOfZones);
+
+    binary.writeInt32(json.header.numberOfNodeLinks);
+    binary.writeInt32(json.header.numberOfZones);
     binary.writeInt32(json.header.lighting);
 
     binary.writeInt32Array(Array(256).fill(0));
 
     binary.writeInt32(json.lights.length);
     binary.writeInt32(json.fogs.length);
-    binary.writeInt32(json.numberOfBackgroundPolygons);
-    binary.writeInt32(json.numberOfIgnoredPolygons);
-    binary.writeInt32(json.numberOfChildPolygons);
+    binary.writeInt32(json.header.numberOfBackgroundPolygons);
+    binary.writeInt32(json.header.numberOfIgnoredPolygons);
+    binary.writeInt32(json.header.numberOfChildPolygons);
     binary.writeInt32(json.paths.length);
 
     binary.writeInt32Array(Array(250).fill(0));
