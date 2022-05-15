@@ -112,6 +112,7 @@ class FTS {
     // rooms are lookup tables for vertices, so we don't really need it,
     // we can just generate it from the cells > polygons > vertices
     delete data.rooms;
+    // TODO: rooms hold portal information!!
 
     return data;
   }
@@ -127,7 +128,7 @@ class FTS {
         const polygons = cells[cellY * sizeX + cellX].polygons;
         const idx = polygons.length;
         cells[cellY * sizeX + cellX].polygons.push({ ...polygon });
-        polygon.idx = idx; // TODO: this is a rather ugly hack for getting the indexes into polygons
+        polygon.idx = idx; // TODO: this is a rather ugly hack for getting the indices into polygons
 
         return cells;
       },
@@ -153,6 +154,8 @@ class FTS {
           };
         }
 
+        // TODO: room[roomIdx].portals ?
+
         rooms[roomIdx].polygons.push(roomData);
 
         return rooms;
@@ -174,19 +177,18 @@ class FTS {
     );
 
     // TODO: generate cells based on polygons
-    const cells = Buffer.concat(_cells.map(Cell.accumulateFrom.bind(Cell)));
+    const cells = Buffer.concat(_cells.map(Cell.accumulateFrom));
 
-    const anchors = Buffer.concat(
-      json.anchors.map(Anchor.accumulateFrom.bind(Anchor))
-    );
-    const portals = Buffer.concat(
-      json.portals.map(Portal.accumulateFrom.bind(Portal))
-    );
+    const anchors = Buffer.concat(json.anchors.map(Anchor.accumulateFrom));
 
-    const rooms = Buffer.concat(_rooms.map(Room.accumulateFrom.bind(Room)));
+    const portals = Buffer.concat(json.portals.map(Portal.accumulateFrom));
+
+    const rooms = Buffer.concat(
+      _rooms.filter((x) => x).map(Room.accumulateFrom)
+    );
 
     const roomDistances = Buffer.concat(
-      json.roomDistances.map(RoomDistance.accumulateFrom.bind(RoomDistance))
+      json.roomDistances.map(RoomDistance.accumulateFrom)
     );
 
     const dataWithoutHeader = Buffer.concat([

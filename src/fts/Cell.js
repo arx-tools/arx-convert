@@ -20,9 +20,7 @@ class Cell {
   static accumulateFrom(cell) {
     const sceneInfo = SceneInfo.accumulateFrom(cell);
 
-    const polygons = Buffer.concat(
-      cell.polygons.map(Polygon.accumulateFrom.bind(Polygon))
-    );
+    const polygons = Buffer.concat(cell.polygons.map(Polygon.accumulateFrom));
 
     const anchors = Buffer.alloc(cell.anchors.length * 4);
     const binary = new BinaryIO(anchors.buffer);
