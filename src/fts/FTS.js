@@ -1,6 +1,6 @@
 const { evolve } = require("ramda");
 const BinaryIO = require("../binary/BinaryIO.js");
-const Header = require("./Header.js");
+const FtsHeader = require("./FtsHeader.js");
 const SceneHeader = require("./SceneHeader.js");
 const UniqueHeader = require("./UniqueHeader.js");
 const TextureContainer = require("./TextureContainer.js");
@@ -59,7 +59,7 @@ class FTS {
   static load(decompressedFile) {
     const file = new BinaryIO(decompressedFile.buffer);
 
-    const { numberOfUniqueHeaders, ...header } = Header.readFrom(file);
+    const { numberOfUniqueHeaders, ...header } = FtsHeader.readFrom(file);
 
     const data = {
       meta: {
@@ -200,7 +200,7 @@ class FTS {
     ]);
     const uncompressedSize = dataWithoutHeader.length;
 
-    const header = Header.accumulateFrom(json, uncompressedSize);
+    const header = FtsHeader.accumulateFrom(json, uncompressedSize);
     const uniqueHeaders = Buffer.concat(
       json.uniqueHeaders.map(UniqueHeader.accumulateFrom.bind(UniqueHeader))
     );

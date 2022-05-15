@@ -1,5 +1,5 @@
 const BinaryIO = require("../binary/BinaryIO.js");
-const Header = require("./Header.js");
+const LlfHeader = require("./LlfHeader.js");
 const Light = require("../common/Light.js");
 const LightingHeader = require("../common/LightingHeader.js");
 const Color = require("../common/Color.js");
@@ -9,7 +9,7 @@ class LLF {
   static load(decompressedFile) {
     const file = new BinaryIO(decompressedFile.buffer);
 
-    const { numberOfLights, ...header } = Header.readFrom(file);
+    const { numberOfLights, ...header } = LlfHeader.readFrom(file);
 
     const data = {
       meta: {
@@ -36,7 +36,7 @@ class LLF {
   }
 
   static save(json) {
-    const header = Header.accumulateFrom(json);
+    const header = LlfHeader.accumulateFrom(json);
 
     const lights = Buffer.concat(
       json.lights.map(Light.accumulateFrom.bind(Light))

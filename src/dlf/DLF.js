@@ -1,5 +1,5 @@
 const BinaryIO = require("../binary/BinaryIO.js");
-const Header = require("./Header.js");
+const DlfHeader = require("./DlfHeader.js");
 const Scene = require("./Scene.js");
 const InteractiveObject = require("./InteactiveObject.js");
 const Light = require("../common/Light.js");
@@ -27,7 +27,7 @@ class DLF {
       // numberOfChildPolygons,
       numberOfPaths,
       ...header
-    } = Header.readFrom(file);
+    } = DlfHeader.readFrom(file);
 
     const data = {
       meta: {
@@ -88,7 +88,7 @@ class DLF {
   }
 
   static save(json) {
-    const header = Header.accumulateFrom(json);
+    const header = DlfHeader.accumulateFrom(json);
     const scene = Scene.accumulateFrom(json);
     const interactiveObjects = Buffer.concat(
       json.interactiveObjects.map(

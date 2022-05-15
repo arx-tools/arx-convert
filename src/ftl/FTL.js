@@ -1,4 +1,4 @@
-const Header = require("./Header");
+const FtlHeader = require("./FtlHeader");
 const BinaryIO = require("../binary/BinaryIO.js");
 const { Buffer } = require("buffer");
 
@@ -101,7 +101,7 @@ class FTL {
   static load(decompressedFile) {
     const file = new BinaryIO(decompressedFile.buffer);
 
-    const header = Header.readFrom(file);
+    const header = FtlHeader.readFrom(file);
 
     const data = {
       meta: {
