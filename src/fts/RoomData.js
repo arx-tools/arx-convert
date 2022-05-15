@@ -14,7 +14,7 @@ class RoomData {
   }
 
   static accumulateFrom(room) {
-    const buffer = Buffer.alloc(this.sizeOf(), 0);
+    const buffer = Buffer.alloc(RoomData.sizeOf(), 0);
     const binary = new BinaryIO(buffer.buffer);
 
     binary.writeInt32(room.portals.length);

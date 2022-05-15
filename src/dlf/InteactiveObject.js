@@ -18,7 +18,7 @@ class InteractiveObject {
   }
 
   static accumulateFrom(interactiveObject) {
-    const buffer = Buffer.alloc(this.sizeOf(), 0);
+    const buffer = Buffer.alloc(InteractiveObject.sizeOf(), 0);
     const binary = new BinaryIO(buffer.buffer);
 
     binary.writeString(interactiveObject.name, 512);

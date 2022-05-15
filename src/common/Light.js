@@ -28,7 +28,7 @@ class Light {
   }
 
   static accumulateFrom(light) {
-    const buffer = Buffer.alloc(this.sizeOf(), 0);
+    const buffer = Buffer.alloc(Light.sizeOf(), 0);
     const binary = new BinaryIO(buffer.buffer);
 
     binary.writeVector3(light.pos);

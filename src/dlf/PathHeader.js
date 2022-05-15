@@ -30,7 +30,7 @@ class PathHeader {
   }
 
   static allocateFrom(path) {
-    const buffer = Buffer.alloc(this.sizeOf(), 0);
+    const buffer = Buffer.alloc(PathHeader.sizeOf(), 0);
     const binary = new BinaryIO(buffer.buffer);
 
     binary.writeString(path.header.name, 64);

@@ -14,7 +14,7 @@ class TextureVertex {
   }
 
   static accumulateFrom(vertex) {
-    const buffer = Buffer.alloc(this.sizeOf(), 0);
+    const buffer = Buffer.alloc(TextureVertex.sizeOf(), 0);
     const binary = new BinaryIO(buffer.buffer);
 
     binary.writeVector3(vertex.pos);

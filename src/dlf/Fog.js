@@ -26,7 +26,7 @@ class Fog {
   }
 
   static accumulateFrom(fog) {
-    const buffer = Buffer.alloc(this.sizeOf(), 0);
+    const buffer = Buffer.alloc(Fog.sizeOf(), 0);
     const binary = new BinaryIO(buffer.buffer);
 
     binary.writeVector3(fog.pos);

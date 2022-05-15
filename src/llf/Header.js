@@ -23,7 +23,7 @@ class Header {
   }
 
   static accumulateFrom(json) {
-    const buffer = Buffer.alloc(this.sizeOf(), 0);
+    const buffer = Buffer.alloc(Header.sizeOf(), 0);
     const binary = new BinaryIO(buffer.buffer);
 
     binary.writeFloat32(json.header.version);

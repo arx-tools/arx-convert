@@ -13,7 +13,7 @@ class AnchorData {
   }
 
   static accumulateFrom(anchor) {
-    const buffer = Buffer.alloc(this.sizeOf(), 0);
+    const buffer = Buffer.alloc(AnchorData.sizeOf(), 0);
     const binary = new BinaryIO(buffer.buffer);
 
     binary.writeVector3(anchor.data.position);

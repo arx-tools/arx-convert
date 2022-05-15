@@ -23,7 +23,7 @@ class Vertex {
   }
 
   static accumulateFrom(vertex) {
-    const buffer = Buffer.alloc(this.sizeOf(), 0);
+    const buffer = Buffer.alloc(Vertex.sizeOf(), 0);
     const binary = new BinaryIO(buffer.buffer);
 
     binary.writeFloat32(vertex.posY);

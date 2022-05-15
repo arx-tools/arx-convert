@@ -11,7 +11,7 @@ class RoomDistance {
   }
 
   static accumulateFrom(roomDistance) {
-    const buffer = Buffer.alloc(this.sizeOf(), 0);
+    const buffer = Buffer.alloc(RoomDistance.sizeOf(), 0);
     const binary = new BinaryIO(buffer.buffer);
 
     binary.writeFloat32(roomDistance.distance);

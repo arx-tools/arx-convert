@@ -24,7 +24,7 @@ class SceneHeader {
   }
 
   static accumulateFrom(json) {
-    const buffer = Buffer.alloc(this.sizeOf(), 0);
+    const buffer = Buffer.alloc(SceneHeader.sizeOf(), 0);
     const binary = new BinaryIO(buffer.buffer);
 
     const numberOfVertices = json.polygons.length;

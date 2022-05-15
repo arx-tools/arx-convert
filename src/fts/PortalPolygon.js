@@ -23,7 +23,7 @@ class PortalPolygon {
   }
 
   static accumulateFrom(polygon) {
-    const buffer1 = Buffer.alloc(this.sizeOf(), 0);
+    const buffer1 = Buffer.alloc(PortalPolygon.sizeOf(), 0);
     const binary1 = new BinaryIO(buffer1.buffer);
 
     binary1.writeInt32(polygon.type);
@@ -36,7 +36,7 @@ class PortalPolygon {
       polygon.v.map(TextureVertex.accumulateFrom.bind(TextureVertex))
     );
 
-    const buffer2 = Buffer.alloc(this.sizeOf(), 0);
+    const buffer2 = Buffer.alloc(PortalPolygon.sizeOf(), 0);
     const binary2 = new BinaryIO(buffer2.buffer);
 
     binary2.writeUint8Array(polygon.unused);

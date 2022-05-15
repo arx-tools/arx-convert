@@ -25,7 +25,7 @@ class Polygon {
       polygon.vertices.map(Vertex.accumulateFrom.bind(Vertex))
     );
 
-    const buffer = Buffer.alloc(this.sizeWithoutVertices(), 0);
+    const buffer = Buffer.alloc(Polygon.sizeWithoutVertices(), 0);
     const binary = new BinaryIO(buffer.buffer);
 
     binary.writeInt32(polygon.tex);

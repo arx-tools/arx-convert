@@ -12,7 +12,7 @@ class Header {
   }
 
   static accumulateFrom(json, uncompressedSize) {
-    const buffer = Buffer.alloc(this.sizeOf(), 0);
+    const buffer = Buffer.alloc(Header.sizeOf(), 0);
     const binary = new BinaryIO(buffer.buffer);
 
     // TODO

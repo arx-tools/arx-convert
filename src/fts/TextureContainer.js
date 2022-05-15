@@ -11,7 +11,7 @@ class TextureContainer {
   }
 
   static accumulateFrom(textureContainer) {
-    const buffer = Buffer.alloc(this.sizeOf(), 0);
+    const buffer = Buffer.alloc(TextureContainer.sizeOf(), 0);
     const binary = new BinaryIO(buffer.buffer);
 
     binary.writeInt32(textureContainer.tc);
