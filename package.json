@@ -29,7 +29,6 @@
   "dependencies": {
     "bson": "^4.6.3",
     "minimist-lite": "^2.2.1",
-    "ramda": "^0.28.0",
     "yaml": "^2.0.1"
   }
 }

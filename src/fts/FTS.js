@@ -1,4 +1,3 @@
-const { evolve } = require("ramda");
 const BinaryIO = require("../binary/BinaryIO.js");
 const FtsHeader = require("./FtsHeader.js");
 const SceneHeader = require("./SceneHeader.js");

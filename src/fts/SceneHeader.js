@@ -1,6 +1,6 @@
 const BinaryIO = require("../binary/BinaryIO.js");
-const { uniq } = require("ramda");
 const { Buffer } = require("buffer");
+const { uniq } = require("../common/helpers.js");
 
 class SceneHeader {
   static readFrom(binary) {
