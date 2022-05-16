@@ -19,21 +19,18 @@ const { Buffer } = require("buffer");
 const addIndexToVertices = (polygons) => {
   let idx = 0;
 
-  return polygons.map(
-    evolve({
-      vertices: (vertices) => {
-        return vertices.map((vertex) => {
-          if (isZeroVertex(vertex)) {
-            vertex.llfColorIdx = null;
-          } else {
-            vertex.llfColorIdx = idx;
-            idx++;
-          }
-          return vertex;
-        });
-      },
-    })
-  );
+  return polygons.map((polygon) => {
+    polygon.vertices = polygon.vertices.map((vertex) => {
+      if (isZeroVertex(vertex)) {
+        vertex.llfColorIdx = null;
+      } else {
+        vertex.llfColorIdx = idx;
+        idx++;
+      }
+      return vertex;
+    });
+    return polygon;
+  });
 };
 
 const coordToCell = (coord) => {
@@ -50,10 +47,10 @@ class FTS {
       return !isZeroVertex(vertex);
     });
     const coords = nonZeroVertices.map(({ posX, posZ }) => {
-      return axis === "x" ? posX : posZ;
+      return roundTo3Decimals(axis === "x" ? posX : posZ);
     });
-    const cells = coords.map(coordToCell);
-    return minAll(cells);
+
+    return coordToCell(minAll(coords));
   }
 
   static load(decompressedFile) {
