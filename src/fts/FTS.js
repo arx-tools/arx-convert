@@ -12,6 +12,7 @@ const {
   roundTo3Decimals,
   minAll,
   isZeroVertex,
+  times,
 } = require("../common/helpers.js");
 const { Buffer } = require("buffer");
 
@@ -63,9 +64,10 @@ class FTS {
         numberOfLeftoverBytes: 0,
       },
       header: header,
-      uniqueHeaders: [...Array(numberOfUniqueHeaders)].map(() => {
-        return UniqueHeader.readFrom(file);
-      }),
+      uniqueHeaders: times(
+        () => UniqueHeader.readFrom(file),
+        numberOfUniqueHeaders
+      ),
     };
 
     const {
@@ -77,9 +79,10 @@ class FTS {
     } = SceneHeader.readFrom(file);
 
     data.sceneHeader = sceneHeader;
-    data.textureContainers = [...Array(numberOfTextures)].map(() => {
-      return TextureContainer.readFrom(file);
-    });
+    data.textureContainers = times(
+      () => TextureContainer.readFrom(file),
+      numberOfTextures
+    );
 
     const cells = [];
     for (let z = 0; z < sceneHeader.sizeZ; z++) {
@@ -93,12 +96,13 @@ class FTS {
 
     data.polygons = FTS.getPolygons(cells);
 
-    data.anchors = [...Array(numberOfAnchors)].map(() => Anchor.readFrom(file));
-    data.portals = [...Array(numberOfPortals)].map(() => Portal.readFrom(file));
-    data.rooms = [...Array(numberOfRooms)].map(() => Room.readFrom(file));
-    data.roomDistances = [...Array(numberOfRooms ** 2)].map(() => {
-      return RoomDistance.readFrom(file);
-    });
+    data.anchors = times(() => Anchor.readFrom(file), numberOfAnchors);
+    data.portals = times(() => Portal.readFrom(file), numberOfPortals);
+    data.rooms = times(() => Room.readFrom(file), numberOfRooms);
+    data.roomDistances = times(
+      () => RoomDistance.readFrom(file),
+      numberOfRooms ** 2
+    );
 
     const remainedBytes = decompressedFile.length - file.position;
     if (remainedBytes > 0) {

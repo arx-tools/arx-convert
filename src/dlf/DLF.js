@@ -9,6 +9,7 @@ const Pathways = require("./Pathways.js");
 const LightingHeader = require("../common/LightingHeader.js");
 const Color = require("../common/Color.js");
 const { Buffer } = require("buffer");
+const { times } = require("../common/helpers.js");
 
 class DLF {
   static load(decompressedFile) {
@@ -36,27 +37,30 @@ class DLF {
       },
       header: header,
       scene: numberOfScenes > 0 ? Scene.readFrom(file) : null,
-      interactiveObjects: [...Array(numberOfInteractiveObjects)].map(() => {
-        return InteractiveObject.readFrom(file);
-      }),
+      interactiveObjects: times(
+        () => InteractiveObject.readFrom(file),
+        numberOfInteractiveObjects
+      ),
     };
 
     if (header.lighting > 0) {
       // TODO: is this a boolean?
       const { numberOfColors } = LightingHeader.readFrom(file);
 
-      data.colors = [...Array(numberOfColors)].map(() => {
-        return Color.readFrom(file, header.version > 1.001);
-      });
+      data.colors = times(
+        () => Color.readFrom(file, header.version > 1.001),
+        numberOfColors
+      );
     } else {
       data.colors = null;
     }
 
-    data.lights = [...Array(header.version < 1.003 ? 0 : numberOfLights)].map(
-      () => Light.readFrom(file)
+    data.lights = times(
+      () => Light.readFrom(file),
+      header.version < 1.003 ? 0 : numberOfLights
     );
 
-    data.fogs = [...Array(numberOfFogs)].map(() => Fog.readFrom(file));
+    data.fogs = times(() => Fog.readFrom(file), numberOfFogs);
 
     if (header.version > 1.001) {
       // waste bytes
@@ -67,17 +71,14 @@ class DLF {
       // TODO: read data into data.nodes and data.numberOfNodeLinks
     }
 
-    data.paths = [...Array(numberOfPaths)].map(() => {
+    data.paths = times(() => {
       const { numberOfPathways, ...pathHeader } = PathHeader.readFrom(file);
 
       return {
         header: pathHeader,
-        pathways: [...Array(numberOfPathways)].map(
-          () => Pathways.readFrom(file),
-          numberOfPathways
-        ),
+        pathways: times(() => Pathways.readFrom(file), numberOfPathways),
       };
-    });
+    }, numberOfPaths);
 
     const remainedBytes = decompressedFile.length - file.position;
     if (remainedBytes > 0) {

@@ -2,18 +2,18 @@ const BinaryIO = require("../binary/BinaryIO.js");
 const SceneInfo = require("./SceneInfo.js");
 const Polygon = require("./Polygon.js");
 const { Buffer } = require("buffer");
+const { times } = require("../common/helpers.js");
 
 class Cell {
   static readFrom(binary) {
     const sceneInfo = SceneInfo.readFrom(binary);
 
     return {
-      polygons: [...Array(sceneInfo.numberOfPolygons)].map(() => {
-        return Polygon.readFrom(binary);
-      }),
-      anchors: [...Array(sceneInfo.numberOfAnchors)].map(() => {
-        return binary.readInt32();
-      }),
+      polygons: times(
+        () => Polygon.readFrom(binary),
+        sceneInfo.numberOfPolygons
+      ),
+      anchors: times(() => binary.readInt32(), sceneInfo.numberOfAnchors),
     };
   }
 

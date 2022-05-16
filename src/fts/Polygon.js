@@ -1,15 +1,16 @@
 const BinaryIO = require("../binary/BinaryIO.js");
 const Vertex = require("./Vertex.js");
 const { Buffer } = require("buffer");
+const { times } = require("../common/helpers.js");
 
 class Polygon {
   static readFrom(binary) {
     const data = {
-      vertices: [...Array(4)].map(() => Vertex.readFrom(binary)),
+      vertices: times(() => Vertex.readFrom(binary), 4),
       tex: binary.readInt32(),
       norm: binary.readVector3(),
       norm2: binary.readVector3(),
-      normals: [...Array(4)].map(() => binary.readVector3()),
+      normals: times(() => binary.readVector3(), 4),
       transval: binary.readFloat32(),
       area: binary.readFloat32(),
       type: binary.readInt32(),

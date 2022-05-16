@@ -1,6 +1,7 @@
 const BinaryIO = require("../binary/BinaryIO.js");
 const AnchorData = require("./AnchorData.js");
 const { Buffer } = require("buffer");
+const { times } = require("../common/helpers.js");
 
 class Anchor {
   static readFrom(binary) {
@@ -9,9 +10,7 @@ class Anchor {
 
     return {
       data: anchorData,
-      linkedAnchors: [...Array(numberOfLinkedAnchors)].map(() => {
-        return binary.readInt32();
-      }),
+      linkedAnchors: times(() => binary.readInt32(), numberOfLinkedAnchors),
     };
   }
 
