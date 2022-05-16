@@ -1,5 +1,6 @@
 const BinaryIO = require("../binary/BinaryIO.js");
 const { Buffer } = require("buffer");
+const { repeat } = require("../common/helpers.js");
 
 class Fog {
   static readFrom(binary) {
@@ -42,8 +43,8 @@ class Fog {
     binary.writeInt32(fog.blend);
     binary.writeFloat32(fog.frequency);
 
-    binary.writeFloat32Array(Array(32).fill(0));
-    binary.writeInt32Array(Array(32).fill(0));
+    binary.writeFloat32Array(repeat(0, 32));
+    binary.writeInt32Array(repeat(0, 32));
     binary.writeString("", 256);
 
     return binary;

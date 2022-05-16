@@ -1,5 +1,6 @@
 const BinaryIO = require("../binary/BinaryIO.js");
 const { Buffer } = require("buffer");
+const { repeat } = require("../common/helpers.js");
 
 class DlfHeader {
   static readFrom(binary) {
@@ -56,7 +57,7 @@ class DlfHeader {
     binary.writeInt32(json.header.numberOfZones);
     binary.writeInt32(json.header.lighting);
 
-    binary.writeInt32Array(Array(256).fill(0));
+    binary.writeInt32Array(repeat(0, 256));
 
     binary.writeInt32(json.lights.length);
     binary.writeInt32(json.fogs.length);
@@ -65,13 +66,13 @@ class DlfHeader {
     binary.writeInt32(json.header.numberOfChildPolygons);
     binary.writeInt32(json.paths.length);
 
-    binary.writeInt32Array(Array(250).fill(0));
+    binary.writeInt32Array(repeat(0, 250));
 
     binary.writeVector3(json.header.offset);
 
-    binary.writeFloat32Array(Array(253).fill(0));
+    binary.writeFloat32Array(repeat(0, 253));
     binary.writeString("", 4096);
-    binary.writeInt32Array(Array(256).fill(0));
+    binary.writeInt32Array(repeat(0, 256));
 
     return buffer;
   }

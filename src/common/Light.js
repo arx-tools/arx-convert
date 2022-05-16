@@ -1,5 +1,6 @@
 const BinaryIO = require("../binary/BinaryIO.js");
 const { Buffer } = require("buffer");
+const { repeat } = require("./helpers.js");
 
 class Light {
   static readFrom(binary) {
@@ -44,11 +45,11 @@ class Light {
     binary.writeFloat32(light.exSpeed);
     binary.writeFloat32(light.exFlareSize);
 
-    binary.writeFloat32Array(Array(24).fill(0));
+    binary.writeFloat32Array(repeat(0, 24));
 
     binary.writeInt32(light.extras);
 
-    binary.writeInt32Array(Array(31).fill(0));
+    binary.writeInt32Array(repeat(0, 31));
 
     return buffer;
   }

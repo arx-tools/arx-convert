@@ -1,5 +1,6 @@
 const BinaryIO = require("../binary/BinaryIO.js");
 const { Buffer } = require("buffer");
+const { repeat } = require("../common/helpers.js");
 
 class Scene {
   static readFrom(binary) {
@@ -18,8 +19,8 @@ class Scene {
     const binary = new BinaryIO(buffer.buffer);
 
     binary.writeString(json.scene.name, 512);
-    binary.writeInt32Array(Array(16).fill(0));
-    binary.writeFloat32Array(Array(16).fill(0));
+    binary.writeInt32Array(repeat(0, 16));
+    binary.writeFloat32Array(repeat(0, 16));
 
     return buffer;
   }

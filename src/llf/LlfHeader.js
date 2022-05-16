@@ -1,5 +1,6 @@
 const BinaryIO = require("../binary/BinaryIO.js");
 const { Buffer } = require("buffer");
+const { repeat } = require("../common/helpers.js");
 
 class LlfHeader {
   static readFrom(binary) {
@@ -35,10 +36,10 @@ class LlfHeader {
     binary.writeInt32(json.header.numberOfIgnoredPolygons);
     binary.writeInt32(json.header.numberOfBackgroundPolygons);
 
-    binary.writeInt32Array(Array(256).fill(0));
-    binary.writeFloat32Array(Array(256).fill(0));
+    binary.writeInt32Array(repeat(0, 256));
+    binary.writeFloat32Array(repeat(0, 256));
     binary.writeString("", 4096);
-    binary.writeInt32Array(Array(256).fill(0));
+    binary.writeInt32Array(repeat(0, 256));
 
     return buffer;
   }

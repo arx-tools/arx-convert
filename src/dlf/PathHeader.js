@@ -1,5 +1,6 @@
 const BinaryIO = require("../binary/BinaryIO.js");
 const { Buffer } = require("buffer");
+const { repeat } = require("../common/helpers.js");
 
 class PathHeader {
   static readFrom(binary) {
@@ -44,11 +45,11 @@ class PathHeader {
     binary.writeFloat32(path.header.reverb);
     binary.writeFloat32(path.header.ambianceMaxVolume);
 
-    binary.writeFloat32Array(Array(26).fill(0));
+    binary.writeFloat32Array(repeat(0, 26));
 
     binary.writeInt32(path.header.height);
 
-    binary.writeInt32Array(Array(31).fill(0));
+    binary.writeInt32Array(repeat(0, 31));
 
     binary.writeString(path.header.ambiance, 128);
 

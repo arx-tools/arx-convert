@@ -1,5 +1,6 @@
 const BinaryIO = require("../binary/BinaryIO.js");
 const { Buffer } = require("buffer");
+const { repeat } = require("../common/helpers.js");
 
 class InteractiveObject {
   static readFrom(binary) {
@@ -27,8 +28,8 @@ class InteractiveObject {
     binary.writeInt32(interactiveObject.identifier);
     binary.writeInt32(interactiveObject.flags);
 
-    binary.writeInt32Array(Array(14).fill(0));
-    binary.writeFloat32Array(Array(16).fill(0));
+    binary.writeInt32Array(repeat(0, 14));
+    binary.writeFloat32Array(repeat(0, 16));
 
     return buffer;
   }

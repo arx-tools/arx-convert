@@ -1,5 +1,6 @@
 const BinaryIO = require("../binary/BinaryIO.js");
 const { Buffer } = require("buffer");
+const { repeat } = require("../common/helpers.js");
 
 class FtsHeader {
   static readFrom(binary) {
@@ -24,7 +25,7 @@ class FtsHeader {
     binary.writeFloat32(json.header.version);
     binary.writeInt32(uncompressedSize);
 
-    binary.writeUint32Array(Array(3).fill(0));
+    binary.writeUint32Array(repeat(0, 3));
 
     return buffer;
   }

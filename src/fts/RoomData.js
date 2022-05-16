@@ -1,5 +1,6 @@
 const BinaryIO = require("../binary/BinaryIO.js");
 const { Buffer } = require("buffer");
+const { repeat } = require("../common/helpers.js");
 
 class RoomData {
   static readFrom(binary) {
@@ -19,7 +20,7 @@ class RoomData {
 
     binary.writeInt32(room.portals.length);
     binary.writeInt32(room.polygons.length);
-    binary.writeInt32Array(Array(6).fill(0));
+    binary.writeInt32Array(repeat(0, 6));
 
     return buffer;
   }

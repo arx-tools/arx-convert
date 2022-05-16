@@ -2,6 +2,7 @@ const Vector3 = require("./Vector3.js");
 const Anglef = require("./Anglef.js");
 const Color = require("./Color.js");
 const TextIO = require("./TextIO.js");
+const { repeat } = require("../common/helpers.js");
 
 class BinaryIO extends DataView {
   constructor(buffer, byteOffset, byteLength) {
@@ -286,8 +287,7 @@ class BinaryIO extends DataView {
   writeString(str, length) {
     // if length is given we assume a fixed length string
     if (length !== undefined) {
-      const charCodes = new Array(length);
-      charCodes.fill(0);
+      const charCodes = repeat(0, length);
 
       // replacing 0s in charCodes one by one from left to right
       this.textIO.encode(str).forEach((charCode, index) => {
