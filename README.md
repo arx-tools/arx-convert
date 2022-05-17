@@ -14,6 +14,8 @@ This will give you access to the following commands:
 - `from-yaml`
 - `to-bson`
 - `from-bson`
+- `combine`
+- `separate`
 
 ## examples
 
@@ -34,3 +36,11 @@ This will give you access to the following commands:
 `cat level8.dlf.unpacked | to-bson --ext=dlf > level8.dlf.bson`
 
 `cat level8.dlf.bson | from-bson --ext=dlf > level8.dlf.unpacked`
+
+`combine fast.fts.json level8.llf.json level8.dlf.json --pretty --output=level8.json`
+
+`combine fast.fts.json level8.llf.json level8.dlf.json --pretty > level8.json`
+
+`separate level8.json --pretty --llf=level8.llf.json --dlf=level8.dlf.json --fts=fast.fts.json`
+
+`cat level8.json | separate --pretty --llf=level8.llf.json --dlf=level8.dlf.json --fts=fast.fts.json`

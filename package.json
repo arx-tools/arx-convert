@@ -13,7 +13,9 @@
     "to-yaml": "bin/to-yaml.js",
     "from-yaml": "bin/from-yaml.js",
     "to-bson": "bin/to-bson.js",
-    "from-bson": "bin/from-bson.js"
+    "from-bson": "bin/from-bson.js",
+    "combine": "bin/combine.js",
+    "separate": "bin/separate.js"
   },
   "scripts": {},
   "repository": {
