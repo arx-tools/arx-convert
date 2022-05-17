@@ -112,10 +112,8 @@ class DLF {
       lighting = Buffer.from([]);
     }
 
-    const lights = Buffer.concat(
-      json.lights.map(Light.accumulateFrom.bind(Light))
-    );
-    const fogs = Buffer.concat(json.fogs.map(Fog.accumulateFrom.bind(Fog)));
+    const lights = Buffer.concat(json.lights.map(Light.accumulateFrom));
+    const fogs = Buffer.concat(json.fogs.map(Fog.accumulateFrom));
 
     let nodes;
     if (json.header.version >= 1.001) {

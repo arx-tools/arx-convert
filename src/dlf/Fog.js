@@ -47,7 +47,7 @@ class Fog {
     binary.writeInt32Array(repeat(0, 32));
     binary.writeString("", 256);
 
-    return binary;
+    return buffer;
   }
 
   static sizeOf() {
