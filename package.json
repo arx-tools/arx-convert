@@ -1,21 +1,15 @@
 {
   "name": "arx-level-json-converter",
   "version": "1.3.1",
-  "description": "Converts Arx Fatalis level data to JSON/YAML/BSON and back",
+  "description": "Converts various Arx Fatalis formats to JSON/YAML/BSON and back",
   "main": "src/index.js",
   "engines": {
     "npm": ">=7.0.0",
     "node": ">=16.0.0"
   },
   "bin": {
-    "to-json": "bin/to-json.js",
-    "from-json": "bin/from-json.js",
-    "to-yaml": "bin/to-yaml.js",
-    "from-yaml": "bin/from-yaml.js",
-    "to-bson": "bin/to-bson.js",
-    "from-bson": "bin/from-bson.js",
-    "combine": "bin/combine.js",
-    "separate": "bin/separate.js"
+    "arx-level-json-converter": "bin/convert.js",
+    "arx-convert": "bin/convert.js"
   },
   "scripts": {},
   "repository": {

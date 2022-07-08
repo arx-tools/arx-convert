@@ -1,4 +1,8 @@
 const fs = require("fs");
+const {
+  SUPPORTED_ARX_FORMATS,
+  SUPPORTED_DATA_FORMATS,
+} = require("./constants");
 
 const fileExists = async (filename) => {
   try {
@@ -59,6 +63,48 @@ const outputInChunks = (buffer, stream) => {
   stream.end();
 };
 
+const validTypes = [...SUPPORTED_ARX_FORMATS, ...SUPPORTED_DATA_FORMATS];
+
+const validateFromToPair = (from, to) => {
+  if (typeof from === "undefined" || from === "") {
+    throw new Error('"from" argument is missing or empty');
+  }
+  if (typeof to === "undefined" || to === "") {
+    throw new Error('"to" argument is missing or empty');
+  }
+
+  if (!validTypes.includes(from)) {
+    throw new Error(`unknown format '${from}' in "from"`);
+  }
+
+  if (!validTypes.includes(to)) {
+    throw new Error(`unknown format '${to}' in "to"`);
+  }
+
+  if (from === to) {
+    throw new Error('"from" and "to" have the same format');
+  }
+
+  // if "from" is sourcetype then "to" is targettype and vice-versa? (sourcetype=fts,dlf,...; targettype=json,bson,...)
+  if (
+    SUPPORTED_ARX_FORMATS.includes(from) &&
+    SUPPORTED_ARX_FORMATS.includes(to)
+  ) {
+    throw new Error(
+      '"from" and "to" are both referencing arx formats, expected one of them to be a data type'
+    );
+  }
+
+  if (
+    SUPPORTED_DATA_FORMATS.includes(from) &&
+    SUPPORTED_DATA_FORMATS.includes(to)
+  ) {
+    throw new Error(
+      '"from" and "to" are both referencing data types, expected one of them to be an arx format'
+    );
+  }
+};
+
 module.exports = {
   fileExists,
   getPackageVersion,
@@ -67,4 +113,5 @@ module.exports = {
   stringifyYAML,
   stringifyBSON,
   outputInChunks,
+  validateFromToPair,
 };

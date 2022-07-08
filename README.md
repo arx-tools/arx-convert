@@ -6,41 +6,51 @@ Converts Arx Fatalis level data to JSON, YAML, BSON and vice versa.
 
 `npm i arx-level-json-converter -g`
 
-This will give you access to the following commands:
+This will give you access to the following commands, both do the same:
 
-- `to-json`
-- `from-json`
-- `to-yaml`
-- `from-yaml`
-- `to-bson`
-- `from-bson`
-- `combine`
-- `separate`
+- `arx-level-json-converter`
+- `arx-convert`
+
+### format of the commands
+
+`arx-convert <inputfile> --from=<format> --to=<format> --output=<outputfile>`
+
+the inputfile and --output parameters can be omitted and then the code can be used in pipelines
+
+`cat <inputfile> | arx-convert --from=<format> --to=<format> > <outputfile>`
+
+the format parameter can be one of the following arx formats: `dlf`, `llf`, `fts` and `ftl`(WIP)
+
+and it can also a data format for the other side: `json`, `bson` and `yaml`(can also be spelled as `yml`)
 
 ## examples
 
-`--version` or `-v` will give you the version for any tool
+```sh
+# print out version
+--version
+-v
 
-`cat fast.fts | to-json --ext=fts --pretty > fast.fts.json`
+# convert and fts file to a json through piping
+cat fast.fts | arx-convert --from=fts --to=json --pretty > fast.fts.json
 
-`to-json level8.dlf --output=level8.dlf.min.json`
+# convert a dlf file to a minified json through files
+arx-convert level8.dlf --from=dlf --to=json --output=level8.dlf.min.json
 
-`cat level8.dlf.min.json | from-json --ext=dlf > level8.dlf.repacked`
+# convert a json to a dlf
+cat level8.dlf.min.json | arx-convert --from=json --to=dlf > level8.dlf.repacked
 
-`from-json fast.fts.json --ext=fts --output=fast.fts.repacked`
+# convert json to fts
+arx-convert fast.fts.json --from=json --to=fts --output=fast.fts.repacked
 
-`cat level8.dlf.unpacked | to-yaml --ext=dlf > level8.dlf.yml`
+# convert dlf to yaml
+cat level8.dlf.unpacked | arx-convert --to=yaml --from=dlf > level8.dlf.yml
 
-`cat level8.dlf.yml | from-yaml --ext=dlf > level8.dlf.unpacked`
+# convert yaml to dlf
+cat level8.dlf.yml | arx-convert --from=yaml --to=dlf > level8.dlf.unpacked
 
-`cat level8.dlf.unpacked | to-bson --ext=dlf > level8.dlf.bson`
+# convert dlf to bson
+cat level8.dlf.unpacked | arx-convert --to=bson --from=dlf > level8.dlf.bson
 
-`cat level8.dlf.bson | from-bson --ext=dlf > level8.dlf.unpacked`
-
-`combine fast.fts.json level8.llf.json level8.dlf.json --pretty --output=level8.json`
-
-`combine fast.fts.json level8.llf.json level8.dlf.json --pretty > level8.json`
-
-`separate level8.json --pretty --llf=level8.llf.json --dlf=level8.dlf.json --fts=fast.fts.json`
-
-`cat level8.json | separate --pretty --llf=level8.llf.json --dlf=level8.dlf.json --fts=fast.fts.json`
+# convert bson to dlf
+cat level8.dlf.bson | arx-convert --from=bson --to=dlf > level8.dlf.unpacked
+```
