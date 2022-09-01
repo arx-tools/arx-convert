@@ -386,20 +386,20 @@ class BinaryIO extends DataView {
     }
   }
 
-  readQuat() {
+  readQuat(littleEndian = LITTLE_ENDIAN) {
     return {
-      w: this.readFloat32(),
-      x: this.readFloat32(),
-      y: this.readFloat32(),
-      z: this.readFloat32(),
+      w: this.readFloat32(littleEndian),
+      x: this.readFloat32(littleEndian),
+      y: this.readFloat32(littleEndian),
+      z: this.readFloat32(littleEndian),
     };
   }
 
-  writeQuat(quat) {
-    this.writeFloat32(quat.w);
-    this.writeFloat32(quat.x);
-    this.writeFloat32(quat.y);
-    this.writeFloat32(quat.z);
+  writeQuat(quat, littleEndian = LITTLE_ENDIAN) {
+    this.writeFloat32(quat.w, littleEndian);
+    this.writeFloat32(quat.x, littleEndian);
+    this.writeFloat32(quat.y, littleEndian);
+    this.writeFloat32(quat.z, littleEndian);
   }
 }
 

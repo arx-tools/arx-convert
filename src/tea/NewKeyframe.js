@@ -1,12 +1,13 @@
 const BinaryIO = require("../binary/BinaryIO.js");
 const { Buffer } = require("buffer");
+const { KEEP_ZERO_BYTES } = require("../binary/BinaryIO.js");
 
 class NewKeyframe {
   static readFrom(binary) {
     const data = {
       num_frame: binary.readInt32(),
       flag_frame: binary.readInt32(),
-      info_frame: binary.readString(256),
+      info_frame: binary.readString(256, KEEP_ZERO_BYTES),
       master_key_frame: binary.readInt32() !== 0,
       key_frame: binary.readInt32() !== 0,
       key_move: binary.readInt32() !== 0, // is there a global translation?

@@ -3,6 +3,7 @@ const { Buffer } = require("buffer");
 const TeaHeader = require("./TeaHeader");
 const NewKeyframe = require("./NewKeyframe.js");
 const OldKeyframe = require("./OldKeyframe.js");
+const { KEEP_ZERO_BYTES } = require("../binary/BinaryIO.js");
 
 class TEA {
   static load(decompressedFile) {
@@ -22,8 +23,10 @@ class TEA {
       header: header,
       keyframes: [],
     };
+    console.log(header);
 
-    for (let i = 0; i < header.keyFrames; i++) {
+    for (let i = 0; i < header.numberOfKeyFrames; i++) {
+      console.log(i, file.position);
       let keyframe;
       if (header.version >= 2015) {
         keyframe = NewKeyframe.readFrom(file);
@@ -49,12 +52,12 @@ class TEA {
         // theo groupanim
         const group = {
           key: file.readInt32() !== 0,
-          angle: file.readUint8Array(8), // ignored
+          angle: file.readString(8, KEEP_ZERO_BYTES), // ignored
           quat: file.readQuat(),
           translate: file.readVector3(),
           zoom: file.readVector3(),
         };
-        keyframe.group = group;
+        // TODO: create groups and fill it in with group data
       }
 
       const numberOfSamples = file.readInt32();
@@ -62,14 +65,17 @@ class TEA {
       if (numberOfSamples !== -1) {
         // thea sample
         const sample = {
-          name: file.readString(256),
+          name: file.readString(256, KEEP_ZERO_BYTES),
           size: file.readInt32(),
         };
+        file.position += sample.size;
         keyframe.sample = sample;
       }
 
-      file.position += 4; // num_sfx?
+      console.log(keyframe);
     }
+
+    file.position += 4; // num_sfx?
 
     return data;
   }
