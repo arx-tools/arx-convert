@@ -5,7 +5,7 @@ class TeaHeader {
   static readFrom(binary) {
     const data = {
       ident: binary.readString(20),
-      version: binary.readFloat32(),
+      version: binary.readUint32(),
       name: binary.readString(256),
       numberOfFrames: binary.readInt32(),
       numberOfGroups: binary.readInt32(),
