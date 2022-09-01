@@ -19,7 +19,7 @@ the inputfile and --output parameters can be omitted and then the code can be us
 
 `cat <inputfile> | arx-convert --from=<format> --to=<format> > <outputfile>`
 
-the format parameter can be one of the following arx formats: `dlf`, `llf`, `fts` and `ftl`(WIP)
+the format parameter can be one of the following arx formats: `dlf`, `llf`, `fts`, `ftl`(WIP) and `tea`(WIP)
 
 and it can also a data format for the other side: `json`, `bson` and `yaml`(can also be spelled as `yml`)
 

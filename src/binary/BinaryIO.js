@@ -385,6 +385,22 @@ class BinaryIO extends DataView {
       this.writeColor(values[i], littleEndian);
     }
   }
+
+  readQuat() {
+    return {
+      w: this.readFloat32(),
+      x: this.readFloat32(),
+      y: this.readFloat32(),
+      z: this.readFloat32(),
+    };
+  }
+
+  writeQuat(quat) {
+    this.writeFloat32(quat.w);
+    this.writeFloat32(quat.x);
+    this.writeFloat32(quat.y);
+    this.writeFloat32(quat.z);
+  }
 }
 
 const LITTLE_ENDIAN = true;

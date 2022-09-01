@@ -14,7 +14,7 @@ const {
   outputInChunks,
   validateFromToPair,
 } = require("./helpers.js");
-const { DLF, FTS, LLF, FTL } = require("../src/index.js");
+const { DLF, FTS, LLF, FTL, TEA } = require("../src/index.js");
 
 // ---------------------------
 
@@ -91,6 +91,9 @@ let hasErrors = false;
     case "ftl":
       parsedIn = FTL.load(rawIn);
       break;
+    case "tea":
+      parsedIn = TEA.load(rawIn);
+      break;
   }
 
   let rawOut;
@@ -116,6 +119,9 @@ let hasErrors = false;
       break;
     case "ftl":
       rawOut = FTL.save(parsedIn);
+      break;
+    case "tea":
+      rawOut = TEA.save(parsedIn);
       break;
   }
 
