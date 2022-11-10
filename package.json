@@ -23,8 +23,8 @@
   },
   "homepage": "https://github.com/meszaros-lajos-gyorgy/arx-level-json-converter#readme",
   "dependencies": {
-    "bson": "^4.6.3",
+    "bson": "^4.7.0",
     "minimist-lite": "^2.2.1",
-    "yaml": "^2.0.1"
+    "yaml": "^2.1.3"
   }
 }
