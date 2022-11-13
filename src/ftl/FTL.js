@@ -1,6 +1,6 @@
-const FtlHeader = require("./FtlHeader");
-const BinaryIO = require("../binary/BinaryIO.js");
-const { Buffer } = require("buffer");
+const FtlHeader = require('./FtlHeader')
+const BinaryIO = require('../binary/BinaryIO.js')
+const { Buffer } = require('buffer')
 
 /*
 
@@ -99,24 +99,24 @@ struct EERIE_OLD_VERTEX {
 
 class FTL {
   static load(decompressedFile) {
-    const file = new BinaryIO(decompressedFile.buffer);
+    const file = new BinaryIO(decompressedFile.buffer)
 
-    const header = FtlHeader.readFrom(file);
+    const header = FtlHeader.readFrom(file)
 
     const data = {
       meta: {
-        type: "ftl",
+        type: 'ftl',
         numberOfLeftoverBytes: 0,
       },
       header: header,
-    };
+    }
 
-    return data;
+    return data
   }
 
   static save(json) {
-    return Buffer.concat([]);
+    return Buffer.concat([])
   }
 }
 
-module.exports = FTL;
+module.exports = FTL

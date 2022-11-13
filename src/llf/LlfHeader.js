@@ -1,6 +1,6 @@
-const BinaryIO = require("../binary/BinaryIO.js");
-const { Buffer } = require("buffer");
-const { repeat } = require("../common/helpers.js");
+const BinaryIO = require('../binary/BinaryIO.js')
+const { Buffer } = require('buffer')
+const { repeat } = require('../common/helpers.js')
 
 class LlfHeader {
   static readFrom(binary) {
@@ -13,40 +13,40 @@ class LlfHeader {
       numberOfShadowPolygons: binary.readInt32(),
       numberOfIgnoredPolygons: binary.readInt32(),
       numberOfBackgroundPolygons: binary.readInt32(),
-    };
+    }
 
-    binary.readInt32Array(256); // ipad1
-    binary.readFloat32Array(256); // fpad
-    binary.readString(4096); // cpad
-    binary.readInt32Array(256); // ipad2
+    binary.readInt32Array(256) // ipad1
+    binary.readFloat32Array(256) // fpad
+    binary.readString(4096) // cpad
+    binary.readInt32Array(256) // ipad2
 
-    return data;
+    return data
   }
 
   static accumulateFrom(json) {
-    const buffer = Buffer.alloc(LlfHeader.sizeOf(), 0);
-    const binary = new BinaryIO(buffer.buffer);
+    const buffer = Buffer.alloc(LlfHeader.sizeOf(), 0)
+    const binary = new BinaryIO(buffer.buffer)
 
-    binary.writeFloat32(json.header.version);
-    binary.writeString(json.header.identifier, 16);
-    binary.writeString(json.header.lastUser, 256);
-    binary.writeInt32(json.header.time);
-    binary.writeInt32(json.lights.length);
-    binary.writeInt32(json.header.numberOfShadowPolygons);
-    binary.writeInt32(json.header.numberOfIgnoredPolygons);
-    binary.writeInt32(json.header.numberOfBackgroundPolygons);
+    binary.writeFloat32(json.header.version)
+    binary.writeString(json.header.identifier, 16)
+    binary.writeString(json.header.lastUser, 256)
+    binary.writeInt32(json.header.time)
+    binary.writeInt32(json.lights.length)
+    binary.writeInt32(json.header.numberOfShadowPolygons)
+    binary.writeInt32(json.header.numberOfIgnoredPolygons)
+    binary.writeInt32(json.header.numberOfBackgroundPolygons)
 
-    binary.writeInt32Array(repeat(0, 256));
-    binary.writeFloat32Array(repeat(0, 256));
-    binary.writeString("", 4096);
-    binary.writeInt32Array(repeat(0, 256));
+    binary.writeInt32Array(repeat(0, 256))
+    binary.writeFloat32Array(repeat(0, 256))
+    binary.writeString('', 4096)
+    binary.writeInt32Array(repeat(0, 256))
 
-    return buffer;
+    return buffer
   }
 
   static sizeOf() {
-    return 4 + 16 + 256 + 5 * 4 + 256 * 4 * 2 + 4096 + 256 * 4;
+    return 4 + 16 + 256 + 5 * 4 + 256 * 4 * 2 + 4096 + 256 * 4
   }
 }
 
-module.exports = LlfHeader;
+module.exports = LlfHeader

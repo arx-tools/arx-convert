@@ -1,5 +1,5 @@
-const BinaryIO = require("../binary/BinaryIO.js");
-const { Buffer } = require("buffer");
+const BinaryIO = require('../binary/BinaryIO.js')
+const { Buffer } = require('buffer')
 
 class OldKeyframe {
   static readFrom(binary) {
@@ -12,23 +12,23 @@ class OldKeyframe {
       key_orient: binary.readInt32() !== 0,
       key_morph: binary.readInt32() !== 0,
       time_frame: binary.readInt32(),
-    };
+    }
 
-    return data;
+    return data
   }
 
   static accumulateFrom(json) {
-    const buffer = Buffer.alloc(OldKeyframe.sizeOf(), 0);
-    const binary = new BinaryIO(buffer.buffer);
+    const buffer = Buffer.alloc(OldKeyframe.sizeOf(), 0)
+    const binary = new BinaryIO(buffer.buffer)
 
     // TODO
 
-    return buffer;
+    return buffer
   }
 
   static sizeOf() {
-    return 0;
+    return 0
   }
 }
 
-module.exports = OldKeyframe;
+module.exports = OldKeyframe

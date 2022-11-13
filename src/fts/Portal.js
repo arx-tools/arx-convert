@@ -1,6 +1,6 @@
-const PortalPolygon = require("./PortalPolygon.js");
-const BinaryIO = require("../binary/BinaryIO.js");
-const { Buffer } = require("buffer");
+const PortalPolygon = require('./PortalPolygon.js')
+const BinaryIO = require('../binary/BinaryIO.js')
+const { Buffer } = require('buffer')
 
 class Portal {
   static readFrom(binary) {
@@ -10,22 +10,22 @@ class Portal {
       room2: binary.readInt32(),
       useportal: binary.readInt16(),
       paddy: binary.readInt16(),
-    };
+    }
   }
 
   static accumulateFrom(portal) {
-    const polygon = PortalPolygon.accumulateFrom(portal.polygon);
+    const polygon = PortalPolygon.accumulateFrom(portal.polygon)
 
-    const buffer = Buffer.alloc(12, 0);
-    const binary = new BinaryIO(buffer.buffer);
+    const buffer = Buffer.alloc(12, 0)
+    const binary = new BinaryIO(buffer.buffer)
 
-    binary.writeInt32(portal.room1);
-    binary.writeInt32(portal.room2);
-    binary.writeInt16(portal.useportal);
-    binary.writeInt16(portal.paddy);
+    binary.writeInt32(portal.room1)
+    binary.writeInt32(portal.room2)
+    binary.writeInt16(portal.useportal)
+    binary.writeInt16(portal.paddy)
 
-    return Buffer.concat([polygon, buffer]);
+    return Buffer.concat([polygon, buffer])
   }
 }
 
-module.exports = Portal;
+module.exports = Portal

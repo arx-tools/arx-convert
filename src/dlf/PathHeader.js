@@ -1,6 +1,6 @@
-const BinaryIO = require("../binary/BinaryIO.js");
-const { Buffer } = require("buffer");
-const { repeat } = require("../common/helpers.js");
+const BinaryIO = require('../binary/BinaryIO.js')
+const { Buffer } = require('buffer')
+const { repeat } = require('../common/helpers.js')
 
 class PathHeader {
   static readFrom(binary) {
@@ -15,68 +15,52 @@ class PathHeader {
       farClip: binary.readFloat32(),
       reverb: binary.readFloat32(),
       ambianceMaxVolume: binary.readFloat32(),
-    };
+    }
 
-    binary.readFloat32Array(26); // fpad
+    binary.readFloat32Array(26) // fpad
 
-    data.height = binary.readInt32();
+    data.height = binary.readInt32()
 
-    binary.readInt32Array(31); // lpad
+    binary.readInt32Array(31) // lpad
 
-    data.ambiance = binary.readString(128);
+    data.ambiance = binary.readString(128)
 
-    binary.readString(128); // cpad
+    binary.readString(128) // cpad
 
-    return data;
+    return data
   }
 
   static allocateFrom(path) {
-    const buffer = Buffer.alloc(PathHeader.sizeOf(), 0);
-    const binary = new BinaryIO(buffer.buffer);
+    const buffer = Buffer.alloc(PathHeader.sizeOf(), 0)
+    const binary = new BinaryIO(buffer.buffer)
 
-    binary.writeString(path.header.name, 64);
-    binary.writeInt16(path.header.idx);
-    binary.writeInt16(path.header.flags);
-    binary.writeVector3(path.header.initPos);
-    binary.writeVector3(path.header.pos);
-    binary.writeInt32(path.pathways.length);
-    binary.writeColor(path.header.rgb);
-    binary.writeFloat32(path.header.farClip);
-    binary.writeFloat32(path.header.reverb);
-    binary.writeFloat32(path.header.ambianceMaxVolume);
+    binary.writeString(path.header.name, 64)
+    binary.writeInt16(path.header.idx)
+    binary.writeInt16(path.header.flags)
+    binary.writeVector3(path.header.initPos)
+    binary.writeVector3(path.header.pos)
+    binary.writeInt32(path.pathways.length)
+    binary.writeColor(path.header.rgb)
+    binary.writeFloat32(path.header.farClip)
+    binary.writeFloat32(path.header.reverb)
+    binary.writeFloat32(path.header.ambianceMaxVolume)
 
-    binary.writeFloat32Array(repeat(0, 26));
+    binary.writeFloat32Array(repeat(0, 26))
 
-    binary.writeInt32(path.header.height);
+    binary.writeInt32(path.header.height)
 
-    binary.writeInt32Array(repeat(0, 31));
+    binary.writeInt32Array(repeat(0, 31))
 
-    binary.writeString(path.header.ambiance, 128);
+    binary.writeString(path.header.ambiance, 128)
 
-    binary.writeString("", 128);
+    binary.writeString('', 128)
 
-    return buffer;
+    return buffer
   }
 
   static sizeOf() {
-    return (
-      64 +
-      2 +
-      2 +
-      3 * 4 +
-      3 * 4 +
-      4 +
-      3 * 4 +
-      4 +
-      4 +
-      4 +
-      26 * 4 +
-      4 +
-      31 * 4 +
-      128 +
-      128
-    );
+    return 64 + 2 + 2 + 3 * 4 + 3 * 4 + 4 + 3 * 4 + 4 + 4 + 4 + 26 * 4 + 4 + 31 * 4 + 128 + 128
   }
 }
 
-module.exports = PathHeader;
+module.exports = PathHeader

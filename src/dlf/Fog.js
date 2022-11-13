@@ -1,6 +1,6 @@
-const BinaryIO = require("../binary/BinaryIO.js");
-const { Buffer } = require("buffer");
-const { repeat } = require("../common/helpers.js");
+const BinaryIO = require('../binary/BinaryIO.js')
+const { Buffer } = require('buffer')
+const { repeat } = require('../common/helpers.js')
 
 class Fog {
   static readFrom(binary) {
@@ -17,58 +17,42 @@ class Fog {
       toLive: binary.readInt32(),
       blend: binary.readInt32(),
       frequency: binary.readFloat32(),
-    };
+    }
 
-    binary.readFloat32Array(32); // fpad
-    binary.readInt32Array(32); // lpad
-    binary.readString(256); // cpad
+    binary.readFloat32Array(32) // fpad
+    binary.readInt32Array(32) // lpad
+    binary.readString(256) // cpad
 
-    return data;
+    return data
   }
 
   static accumulateFrom(fog) {
-    const buffer = Buffer.alloc(Fog.sizeOf(), 0);
-    const binary = new BinaryIO(buffer.buffer);
+    const buffer = Buffer.alloc(Fog.sizeOf(), 0)
+    const binary = new BinaryIO(buffer.buffer)
 
-    binary.writeVector3(fog.pos);
-    binary.writeColor(fog.rgb);
-    binary.writeFloat32(fog.size);
-    binary.writeInt32(fog.special);
-    binary.writeFloat32(fog.scale);
-    binary.writeVector3(fog.move);
-    binary.writeAnglef(fog.angle);
-    binary.writeFloat32(fog.speed);
-    binary.writeFloat32(fog.rotateSpeed);
-    binary.writeInt32(fog.toLive);
-    binary.writeInt32(fog.blend);
-    binary.writeFloat32(fog.frequency);
+    binary.writeVector3(fog.pos)
+    binary.writeColor(fog.rgb)
+    binary.writeFloat32(fog.size)
+    binary.writeInt32(fog.special)
+    binary.writeFloat32(fog.scale)
+    binary.writeVector3(fog.move)
+    binary.writeAnglef(fog.angle)
+    binary.writeFloat32(fog.speed)
+    binary.writeFloat32(fog.rotateSpeed)
+    binary.writeInt32(fog.toLive)
+    binary.writeInt32(fog.blend)
+    binary.writeFloat32(fog.frequency)
 
-    binary.writeFloat32Array(repeat(0, 32));
-    binary.writeInt32Array(repeat(0, 32));
-    binary.writeString("", 256);
+    binary.writeFloat32Array(repeat(0, 32))
+    binary.writeInt32Array(repeat(0, 32))
+    binary.writeString('', 256)
 
-    return buffer;
+    return buffer
   }
 
   static sizeOf() {
-    return (
-      3 * 4 +
-      3 * 4 +
-      4 +
-      4 +
-      4 +
-      3 * 4 +
-      3 * 4 +
-      4 +
-      4 +
-      4 +
-      4 +
-      4 +
-      32 * 4 +
-      32 * 4 +
-      256
-    );
+    return 3 * 4 + 3 * 4 + 4 + 4 + 4 + 3 * 4 + 3 * 4 + 4 + 4 + 4 + 4 + 4 + 32 * 4 + 32 * 4 + 256
   }
 }
 
-module.exports = Fog;
+module.exports = Fog

@@ -3,10 +3,10 @@
 
 const flipArrayToLookupTable = (arr) => {
   return arr.reduce((obj, value, idx) => {
-    obj[value] = idx;
-    return obj;
-  }, {});
-};
+    obj[value] = idx
+    return obj
+  }, {})
+}
 
 // prettier-ignore
 const CHARS = [
@@ -28,6 +28,6 @@ const CHARS = [
   'ð', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', '÷', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'þ', 'ÿ'
 ]
 
-const CODES = flipArrayToLookupTable(CHARS);
+const CODES = flipArrayToLookupTable(CHARS)
 
-module.exports = { CHARS, CODES };
+module.exports = { CHARS, CODES }

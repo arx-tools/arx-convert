@@ -27,6 +27,6 @@ const POLYGON_TYPE = {
   ANGULAR_IDX2: 1 << 25,
   ANGULAR_IDX3: 1 << 26,
   LATE_MIP: 1 << 27,
-};
+}
 
-module.exports = { POLYGON_TYPE };
+module.exports = { POLYGON_TYPE }
