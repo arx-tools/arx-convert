@@ -3,7 +3,7 @@
   "version": "2.0.1",
   "description": "Converts various Arx Fatalis formats to JSON/YAML/BSON and back",
   "main": "src/index.js",
-  "types": "src/index.d.ts",
+  "types": "types/index.d.ts",
   "engines": {
     "npm": ">=7.0.0",
     "node": ">=16.0.0"
@@ -26,6 +26,7 @@
   "dependencies": {
     "bson": "^4.7.0",
     "minimist-lite": "^2.2.1",
+    "three": "^0.146.0",
     "yaml": "^2.1.3"
   }
 }
