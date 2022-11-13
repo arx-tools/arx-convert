@@ -8,25 +8,25 @@ export const KEEP_ZERO_BYTES = false
 export type Endianness = typeof LITTLE_ENDIAN | typeof BIG_ENDIAN
 export type TruncateZeroBytes = typeof TRUNCATE_ZERO_BYTES | typeof KEEP_ZERO_BYTES
 
-export type Color = {
+export type ArxColor = {
   r: number
   g: number
   b: number
 }
 
-export type Vector3 = {
+export type ArxVector3 = {
   x: number
   y: number
   z: number
 }
 
-export type Rotation = {
+export type ArxRotation = {
   a: number
   b: number
   g: number
 }
 
-export type Quaternion = {
+export type ArxQuaternion = {
   x: number
   y: number
   z: number
@@ -35,7 +35,7 @@ export type Quaternion = {
 
 export declare class BinaryIO extends DataView {
   public position: number // TODO: make this private - this needs to be public because of TEA
-  public textIO: TextIO
+  private textIO: TextIO
 
   constructor(buffer: Buffer, byteOffset: number, byteLength: number)
 
@@ -76,17 +76,17 @@ export declare class BinaryIO extends DataView {
   readString(length: number, truncateZeroBytes: TruncateZeroBytes): string
   writeString(str: string, length: number): void
 
-  readVector3(endianness: Endianness): Vector3
-  readVector3Array(length: number, endianness: Endianness): Vector3[]
-  writeVector3(vec: Vector3, endianness: Endianness): void
-  writeVector3Array(values: Vector3[], endianness: Endianness): void
+  readVector3(endianness: Endianness): ArxVector3
+  readVector3Array(length: number, endianness: Endianness): ArxVector3[]
+  writeVector3(vec: ArxVector3, endianness: Endianness): void
+  writeVector3Array(values: ArxVector3[], endianness: Endianness): void
 
-  readRotation(endianness: Endianness): Rotation
-  writeRotation(ang: Rotation, endianness: Endianness): void
+  readRotation(endianness: Endianness): ArxRotation
+  writeRotation(ang: ArxRotation, endianness: Endianness): void
 
-  readColor(endianness: Endianness): Color
-  writeColor({ r, g, b }: Color, endianness: Endianness): void
+  readColor(endianness: Endianness): ArxColor
+  writeColor({ r, g, b }: ArxColor, endianness: Endianness): void
 
-  readQuat(endianness: Endianness): Quaternion
-  writeQuat(quat: Quaternion, endianness: Endianness): void
+  readQuat(endianness: Endianness): ArxQuaternion
+  writeQuat(quat: ArxQuaternion, endianness: Endianness): void
 }
