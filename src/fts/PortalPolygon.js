@@ -1,5 +1,5 @@
 const TextureVertex = require('./TextureVertex.js')
-const BinaryIO = require('../binary/BinaryIO.js')
+const { BinaryIO } = require('../binary/BinaryIO.js')
 const { Buffer } = require('buffer')
 const { times } = require('../common/helpers.js')
 

@@ -1,4 +1,4 @@
-const BinaryIO = require('../binary/BinaryIO.js')
+const { BinaryIO } = require('../binary/BinaryIO.js')
 const { Buffer } = require('buffer')
 
 // y before x is not a typo: https://github.com/arx/ArxLibertatis/blob/master/src/graphics/data/FastSceneFormat.h#L73
@@ -14,11 +14,11 @@ class Vertex {
     ]
 
     return {
-      posX: x,
-      posY: y,
-      posZ: z,
-      texU: u,
-      texV: v,
+      x,
+      y,
+      z,
+      u,
+      v,
     }
   }
 
@@ -26,11 +26,11 @@ class Vertex {
     const buffer = Buffer.alloc(Vertex.sizeOf(), 0)
     const binary = new BinaryIO(buffer.buffer)
 
-    binary.writeFloat32(vertex.posY)
-    binary.writeFloat32(vertex.posX)
-    binary.writeFloat32(vertex.posZ)
-    binary.writeFloat32(vertex.texU)
-    binary.writeFloat32(vertex.texV)
+    binary.writeFloat32(vertex.y)
+    binary.writeFloat32(vertex.x)
+    binary.writeFloat32(vertex.z)
+    binary.writeFloat32(vertex.u)
+    binary.writeFloat32(vertex.v)
 
     return buffer
   }

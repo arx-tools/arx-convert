@@ -1,4 +1,4 @@
-const BinaryIO = require('../binary/BinaryIO.js')
+const { BinaryIO } = require('../binary/BinaryIO.js')
 const { Buffer } = require('buffer')
 const { repeat } = require('../common/helpers.js')
 
@@ -11,7 +11,7 @@ class Fog {
       special: binary.readInt32(),
       scale: binary.readFloat32(),
       move: binary.readVector3(),
-      angle: binary.readAnglef(),
+      angle: binary.readRotation(),
       speed: binary.readFloat32(),
       rotateSpeed: binary.readFloat32(),
       toLive: binary.readInt32(),
@@ -36,7 +36,7 @@ class Fog {
     binary.writeInt32(fog.special)
     binary.writeFloat32(fog.scale)
     binary.writeVector3(fog.move)
-    binary.writeAnglef(fog.angle)
+    binary.writeRotation(fog.angle)
     binary.writeFloat32(fog.speed)
     binary.writeFloat32(fog.rotateSpeed)
     binary.writeInt32(fog.toLive)

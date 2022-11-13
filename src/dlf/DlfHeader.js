@@ -1,4 +1,4 @@
-const BinaryIO = require('../binary/BinaryIO.js')
+const { BinaryIO } = require('../binary/BinaryIO.js')
 const { Buffer } = require('buffer')
 const { repeat } = require('../common/helpers.js')
 
@@ -10,7 +10,7 @@ class DlfHeader {
       lastUser: binary.readString(256),
       time: binary.readInt32(),
       posEdit: binary.readVector3(),
-      angleEdit: binary.readAnglef(),
+      angleEdit: binary.readRotation(),
       numberOfScenes: binary.readInt32(),
       numberOfInteractiveObjects: binary.readInt32(),
       numberOfNodes: binary.readInt32(),
@@ -48,7 +48,7 @@ class DlfHeader {
     binary.writeString(json.header.lastUser, 256)
     binary.writeInt32(json.header.time)
     binary.writeVector3(json.header.posEdit)
-    binary.writeAnglef(json.header.angleEdit)
+    binary.writeRotation(json.header.angleEdit)
     binary.writeInt32(1)
     binary.writeInt32(json.interactiveObjects.length)
     binary.writeInt32(json.numberOfNodes)

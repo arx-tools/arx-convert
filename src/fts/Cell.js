@@ -1,4 +1,4 @@
-const BinaryIO = require('../binary/BinaryIO.js')
+const { BinaryIO } = require('../binary/BinaryIO.js')
 const SceneInfo = require('./SceneInfo.js')
 const Polygon = require('./Polygon.js')
 const { Buffer } = require('buffer')

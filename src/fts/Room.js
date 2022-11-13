@@ -1,4 +1,4 @@
-const BinaryIO = require('../binary/BinaryIO.js')
+const { BinaryIO } = require('../binary/BinaryIO.js')
 const RoomData = require('./RoomData.js')
 const EPData = require('./EPData.js')
 const { Buffer } = require('buffer')

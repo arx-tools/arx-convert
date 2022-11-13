@@ -1,4 +1,4 @@
-const BinaryIO = require('../binary/BinaryIO.js')
+const { BinaryIO } = require('../binary/BinaryIO.js')
 const { Buffer } = require('buffer')
 const { uniq } = require('../common/helpers.js')
 

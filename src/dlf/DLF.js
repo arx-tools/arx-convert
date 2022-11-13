@@ -1,4 +1,4 @@
-const BinaryIO = require('../binary/BinaryIO.js')
+const { BinaryIO } = require('../binary/BinaryIO.js')
 const DlfHeader = require('./DlfHeader.js')
 const Scene = require('./Scene.js')
 const InteractiveObject = require('./InteactiveObject.js')

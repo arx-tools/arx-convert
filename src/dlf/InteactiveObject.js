@@ -1,4 +1,4 @@
-const BinaryIO = require('../binary/BinaryIO.js')
+const { BinaryIO } = require('../binary/BinaryIO.js')
 const { Buffer } = require('buffer')
 const { repeat } = require('../common/helpers.js')
 
@@ -7,7 +7,7 @@ class InteractiveObject {
     const data = {
       name: binary.readString(512),
       pos: binary.readVector3(),
-      angle: binary.readAnglef(),
+      angle: binary.readRotation(),
       identifier: binary.readInt32(), // could also be a 4 byte string?
       flags: binary.readInt32(),
     }
@@ -24,7 +24,7 @@ class InteractiveObject {
 
     binary.writeString(interactiveObject.name, 512)
     binary.writeVector3(interactiveObject.pos)
-    binary.writeAnglef(interactiveObject.angle)
+    binary.writeRotation(interactiveObject.angle)
     binary.writeInt32(interactiveObject.identifier)
     binary.writeInt32(interactiveObject.flags)
 

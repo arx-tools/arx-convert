@@ -2,9 +2,8 @@ const roundTo3Decimals = (num) => Math.round((num * 10 ** 3) / 10 ** 3)
 
 const minAll = (xs) => Math.min.apply(Math, xs)
 
-const isZeroVertex = (vertex) => {
-  const { posX, posY, posZ, texU, texV } = vertex
-  return posX === 0 && posY === 0 && posZ === 0 && texU === 0 && texV === 0
+const isZeroVertex = ({ x, y, z, u, v }) => {
+  return x === 0 && y === 0 && z === 0 && u === 0 && v === 0
 }
 
 const getLowestByte = (int) => int & 0xff

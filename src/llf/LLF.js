@@ -1,4 +1,4 @@
-const BinaryIO = require('../binary/BinaryIO.js')
+const { BinaryIO } = require('../binary/BinaryIO.js')
 const LlfHeader = require('./LlfHeader.js')
 const Light = require('../common/Light.js')
 const LightingHeader = require('../common/LightingHeader.js')

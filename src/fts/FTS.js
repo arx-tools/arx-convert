@@ -1,4 +1,4 @@
-const BinaryIO = require('../binary/BinaryIO.js')
+const { BinaryIO } = require('../binary/BinaryIO.js')
 const FtsHeader = require('./FtsHeader.js')
 const SceneHeader = require('./SceneHeader.js')
 const UniqueHeader = require('./UniqueHeader.js')
@@ -41,8 +41,8 @@ class FTS {
     const nonZeroVertices = polygon.vertices.filter((vertex) => {
       return !isZeroVertex(vertex)
     })
-    const coords = nonZeroVertices.map(({ posX, posZ }) => {
-      return roundTo3Decimals(axis === 'x' ? posX : posZ)
+    const coords = nonZeroVertices.map(({ x, z }) => {
+      return roundTo3Decimals(axis === 'x' ? x : z)
     })
 
     return coordToCell(minAll(coords))
