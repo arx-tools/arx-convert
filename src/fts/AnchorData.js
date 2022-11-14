@@ -4,7 +4,7 @@ const { Buffer } = require('buffer')
 class AnchorData {
   static readFrom(binary) {
     return {
-      position: binary.readVector3(),
+      pos: binary.readVector3(),
       radius: binary.readFloat32(),
       height: binary.readFloat32(),
       numberOfLinkedAnchors: binary.readInt16(),
@@ -16,7 +16,7 @@ class AnchorData {
     const buffer = Buffer.alloc(AnchorData.sizeOf(), 0)
     const binary = new BinaryIO(buffer.buffer)
 
-    binary.writeVector3(anchor.data.position)
+    binary.writeVector3(anchor.data.pos)
     binary.writeFloat32(anchor.data.radius)
     binary.writeFloat32(anchor.data.height)
     binary.writeInt16(anchor.linkedAnchors.length)
