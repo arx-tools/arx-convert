@@ -1,21 +1,21 @@
 const fs = require('fs')
 const { SUPPORTED_ARX_FORMATS, SUPPORTED_DATA_FORMATS } = require('./constants')
 
+const getPackageVersion = async () => {
+  try {
+    const { version } = require('../package.json')
+    return version
+  } catch (error) {
+    return 'unknown'
+  }
+}
+
 const fileExists = async (filename) => {
   try {
     await fs.promises.access(filename, fs.constants.R_OK)
     return true
   } catch (error) {
     return false
-  }
-}
-
-const getPackageVersion = () => {
-  try {
-    const { version } = require('../package.json')
-    return version
-  } catch (error) {
-    return 'unknown'
   }
 }
 

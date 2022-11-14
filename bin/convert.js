@@ -27,16 +27,17 @@ const args = minimist(process.argv.slice(2), {
   },
 })
 
-if (args.version) {
-  console.log(getPackageVersion())
-  process.exit(0)
-}
-
-let filename = args._[0]
-let output = args.output
-let hasErrors = false
-
 ;(async () => {
+  if (args.version) {
+    const version = await getPackageVersion()
+    console.log(`arx-level-json-converter - version ${version}`)
+    process.exit(0)
+  }
+
+  let filename = args._[0]
+  let output = args.output
+  let hasErrors = false
+
   let input
   if (filename) {
     if (await fileExists(filename)) {
