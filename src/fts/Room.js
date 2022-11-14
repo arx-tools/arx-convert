@@ -21,7 +21,11 @@ class Room {
     const binary = new BinaryIO(portals.buffer)
     binary.writeInt32Array(room.portals)
 
-    const polygons = Buffer.concat(room.polygons.map(EPData.accumulateFrom.bind(EPData)))
+    const polygons = Buffer.concat(
+      room.polygons.map((polygon) => {
+        return EPData.accumulateFrom(polygon)
+      }),
+    )
 
     return Buffer.concat([roomData, portals, polygons])
   }

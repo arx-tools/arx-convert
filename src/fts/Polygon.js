@@ -22,7 +22,11 @@ class Polygon {
   }
 
   static accumulateFrom(polygon) {
-    const vertices = Buffer.concat(polygon.vertices.map(Vertex.accumulateFrom.bind(Vertex)))
+    const vertices = Buffer.concat(
+      polygon.vertices.map((vertex) => {
+        return Vertex.accumulateFrom(vertex)
+      }),
+    )
 
     const buffer = Buffer.alloc(Polygon.sizeWithoutVertices(), 0)
     const binary = new BinaryIO(buffer.buffer)

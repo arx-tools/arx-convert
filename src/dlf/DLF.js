@@ -81,14 +81,20 @@ class DLF {
     const header = DlfHeader.accumulateFrom(json)
     const scene = Scene.accumulateFrom(json)
     const interactiveObjects = Buffer.concat(
-      json.interactiveObjects.map(InteractiveObject.accumulateFrom.bind(InteractiveObject)),
+      json.interactiveObjects.map((obj) => {
+        return InteractiveObject.accumulateFrom(obj)
+      }),
     )
 
     let lighting
     if (json.header.lighting > 0) {
       const lightingHeader = LightingHeader.accumulateFrom(json)
 
-      const colors = Buffer.concat(json.colors.map((color) => Color.accumulateFrom(color, json.header.version > 1.001)))
+      const colors = Buffer.concat(
+        json.colors.map((color) => {
+          return Color.accumulateFrom(color, json.header.version > 1.001)
+        }),
+      )
 
       lighting = Buffer.concat([lightingHeader, colors])
     } else {
@@ -108,7 +114,11 @@ class DLF {
     const paths = Buffer.concat(
       json.paths.map((path) => {
         const pathHeader = PathHeader.allocateFrom(path)
-        const pathways = Buffer.concat(path.pathways.map(Pathways.allocateFrom.bind(Pathways)))
+        const pathways = Buffer.concat(
+          path.pathways.map((pathway) => {
+            return Pathways.allocateFrom(pathway)
+          }),
+        )
 
         return Buffer.concat([pathHeader, pathways])
       }),

@@ -37,7 +37,11 @@ class LLF {
   static save(json) {
     const header = LlfHeader.accumulateFrom(json)
 
-    const lights = Buffer.concat(json.lights.map(Light.accumulateFrom.bind(Light)))
+    const lights = Buffer.concat(
+      json.lights.map((light) => {
+        return Light.accumulateFrom(light)
+      }),
+    )
 
     const lightingHeader = LightingHeader.accumulateFrom(json)
 

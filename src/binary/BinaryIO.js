@@ -221,10 +221,14 @@ class BinaryIO extends DataView {
         charCodes[index] = charCode
       })
 
-      charCodes.forEach(this.writeUint8.bind(this))
+      charCodes.forEach((charCode) => {
+        this.writeUint8(charCode)
+      })
     } else {
       // otherwise its a 0 terminated c string
-      this.textIO.encode(str).forEach(this.writeUint8.bind(this))
+      this.textIO.encode(str).forEach((charCode) => {
+        this.writeUint8(charCode)
+      })
       this.writeUint8(0)
     }
   }
