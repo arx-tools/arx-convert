@@ -1,11 +1,8 @@
 import { TextIO } from './TextIO'
 
-export const LITTLE_ENDIAN = true
-export const BIG_ENDIAN = false
 export const TRUNCATE_ZERO_BYTES = true
 export const KEEP_ZERO_BYTES = false
 
-export type Endianness = typeof LITTLE_ENDIAN | typeof BIG_ENDIAN
 export type TruncateZeroBytes = typeof TRUNCATE_ZERO_BYTES | typeof KEEP_ZERO_BYTES
 
 export type ArxColor = {
@@ -39,54 +36,54 @@ export declare class BinaryIO extends DataView {
 
   constructor(buffer: Buffer, byteOffset: number, byteLength: number)
 
-  readFloat32(endianness: Endianness): number
-  readFloat32Array(length: number, endianness: Endianness): number[]
+  readFloat32(): number
+  readFloat32Array(length: number): number[]
 
   readInt8(): number
   readInt8Array(length: number): number[]
-  readInt16(endianness: Endianness): number
-  readInt16Array(length: number, endianness: Endianness): number[]
-  readInt32(endianness: Endianness): number
-  readInt32Array(length: number, endianness: Endianness): number[]
+  readInt16(): number
+  readInt16Array(length: number): number[]
+  readInt32(): number
+  readInt32Array(length: number): number[]
 
   readUint8(): number
   readUint8Array(length: number): number[]
-  readUint16(endianness: Endianness): number
-  readUint16Array(length: number, endianness: Endianness): number[]
-  readUint32(endianness: Endianness): number
-  readUint32Array(length: number, endianness: Endianness): number[]
+  readUint16(): number
+  readUint16Array(length: number): number[]
+  readUint32(): number
+  readUint32Array(length: number): number[]
 
-  writeFloat32(value: number, endianness: Endianness): void
-  writeFloat32Array(values: number[], endianness: Endianness): void
+  writeFloat32(value: number): void
+  writeFloat32Array(values: number[]): void
 
   writeInt8(value: number): void
   writeInt8Array(values: number[]): void
-  writeInt16(value: number, endianness: Endianness): void
-  writeInt16Array(values: number[], endianness: Endianness): void
-  writeInt32(value: number, endianness: Endianness): void
-  writeInt32Array(values: number[], endianness: Endianness): void
+  writeInt16(value: number): void
+  writeInt16Array(values: number[]): void
+  writeInt32(value: number): void
+  writeInt32Array(values: number[]): void
 
   writeUint8(value: number): void
   writeUint8Array(values: number[]): void
-  writeUint16(value: number, endianness: Endianness): void
-  writeUint16Array(values: number[], endianness: Endianness): void
-  writeUint32(value: number, endianness: Endianness): void
-  writeUint32Array(values: number[], endianness: Endianness): void
+  writeUint16(value: number): void
+  writeUint16Array(values: number[]): void
+  writeUint32(value: number): void
+  writeUint32Array(values: number[]): void
 
   readString(length: number, truncateZeroBytes: TruncateZeroBytes): string
   writeString(str: string, length: number): void
 
-  readVector3(endianness: Endianness): ArxVector3
-  readVector3Array(length: number, endianness: Endianness): ArxVector3[]
-  writeVector3(vec: ArxVector3, endianness: Endianness): void
-  writeVector3Array(values: ArxVector3[], endianness: Endianness): void
+  readVector3(): ArxVector3
+  readVector3Array(length: number): ArxVector3[]
+  writeVector3(vec: ArxVector3): void
+  writeVector3Array(values: ArxVector3[]): void
 
-  readRotation(endianness: Endianness): ArxRotation
-  writeRotation(ang: ArxRotation, endianness: Endianness): void
+  readRotation(): ArxRotation
+  writeRotation(ang: ArxRotation): void
 
-  readColor(endianness: Endianness): ArxColor
-  writeColor({ r, g, b }: ArxColor, endianness: Endianness): void
+  readColor(): ArxColor
+  writeColor({ r, g, b }: ArxColor): void
 
-  readQuat(endianness: Endianness): ArxQuaternion
-  writeQuat(quat: ArxQuaternion, endianness: Endianness): void
+  readQuat(): ArxQuaternion
+  writeQuat(quat: ArxQuaternion): void
 }

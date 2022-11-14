@@ -3,6 +3,7 @@ const { repeat } = require('../common/helpers.js')
 
 const LITTLE_ENDIAN = true
 const BIG_ENDIAN = false
+
 const TRUNCATE_ZERO_BYTES = true
 const KEEP_ZERO_BYTES = false
 
@@ -13,16 +14,16 @@ class BinaryIO extends DataView {
     this.textIO = new TextIO('iso-8859-1')
   }
 
-  readFloat32(endianness = LITTLE_ENDIAN) {
-    const val = this.getFloat32(this.position, endianness)
+  readFloat32() {
+    const val = this.getFloat32(this.position, LITTLE_ENDIAN)
     this.position += 4
     return val
   }
 
-  readFloat32Array(length, endianness = LITTLE_ENDIAN) {
+  readFloat32Array(length) {
     const arr = new Array(length)
     for (let i = 0; i < length; i++) {
-      arr[i] = this.readFloat32(endianness)
+      arr[i] = this.readFloat32()
     }
     return arr
   }
@@ -41,30 +42,30 @@ class BinaryIO extends DataView {
     return arr
   }
 
-  readInt16(endianness = LITTLE_ENDIAN) {
-    const val = this.getInt16(this.position, endianness)
+  readInt16() {
+    const val = this.getInt16(this.position, LITTLE_ENDIAN)
     this.position += 2
     return val
   }
 
-  readInt16Array(length, endianness = LITTLE_ENDIAN) {
+  readInt16Array(length) {
     const arr = new Array(length)
     for (let i = 0; i < length; i++) {
-      arr[i] = this.readInt16(endianness)
+      arr[i] = this.readInt16()
     }
     return arr
   }
 
-  readInt32(endianness = LITTLE_ENDIAN) {
-    const val = this.getInt32(this.position, endianness)
+  readInt32() {
+    const val = this.getInt32(this.position, LITTLE_ENDIAN)
     this.position += 4
     return val
   }
 
-  readInt32Array(length, endianness = LITTLE_ENDIAN) {
+  readInt32Array(length) {
     const arr = new Array(length)
     for (let i = 0; i < length; i++) {
-      arr[i] = this.readInt32(endianness)
+      arr[i] = this.readInt32()
     }
     return arr
   }
@@ -83,42 +84,42 @@ class BinaryIO extends DataView {
     return arr
   }
 
-  readUint16(endianness = LITTLE_ENDIAN) {
-    const val = this.getUint16(this.position, endianness)
+  readUint16() {
+    const val = this.getUint16(this.position, LITTLE_ENDIAN)
     this.position += 2
     return val
   }
 
-  readUint16Array(length, endianness = LITTLE_ENDIAN) {
+  readUint16Array(length) {
     const arr = new Array(length)
     for (let i = 0; i < length; i++) {
-      arr[i] = this.readUint16(endianness)
+      arr[i] = this.readUint16()
     }
     return arr
   }
 
-  readUint32(endianness = LITTLE_ENDIAN) {
-    const val = this.getUint32(this.position, endianness)
+  readUint32() {
+    const val = this.getUint32(this.position, LITTLE_ENDIAN)
     this.position += 4
     return val
   }
 
-  readUint32Array(length, endianness = LITTLE_ENDIAN) {
+  readUint32Array(length) {
     const arr = new Array(length)
     for (let i = 0; i < length; i++) {
-      arr[i] = this.readUint32(endianness)
+      arr[i] = this.readUint32()
     }
     return arr
   }
 
-  writeFloat32(value, endianness = LITTLE_ENDIAN) {
-    this.setFloat32(this.position, value, endianness)
+  writeFloat32(value) {
+    this.setFloat32(this.position, value, LITTLE_ENDIAN)
     this.position += 4
   }
 
-  writeFloat32Array(values, endianness = LITTLE_ENDIAN) {
+  writeFloat32Array(values) {
     for (let i = 0; i < values.length; i++) {
-      this.writeFloat32(values[i], endianness)
+      this.writeFloat32(values[i])
     }
   }
 
@@ -133,25 +134,25 @@ class BinaryIO extends DataView {
     }
   }
 
-  writeInt16(value, endianness = LITTLE_ENDIAN) {
-    this.setInt16(this.position, value, endianness)
+  writeInt16(value) {
+    this.setInt16(this.position, value, LITTLE_ENDIAN)
     this.position += 2
   }
 
-  writeInt16Array(values, endianness = LITTLE_ENDIAN) {
+  writeInt16Array(values) {
     for (let i = 0; i < values.length; i++) {
-      this.writeInt16(values[i], endianness)
+      this.writeInt16(values[i])
     }
   }
 
-  writeInt32(value, endianness = LITTLE_ENDIAN) {
-    this.setInt32(this.position, value, endianness)
+  writeInt32(value) {
+    this.setInt32(this.position, value, LITTLE_ENDIAN)
     this.position += 4
   }
 
-  writeInt32Array(values, endianness = LITTLE_ENDIAN) {
+  writeInt32Array(values) {
     for (let i = 0; i < values.length; i++) {
-      this.writeInt32(values[i], endianness)
+      this.writeInt32(values[i])
     }
   }
 
@@ -166,25 +167,25 @@ class BinaryIO extends DataView {
     }
   }
 
-  writeUint16(value, endianness = LITTLE_ENDIAN) {
-    this.setUint16(this.position, value, endianness)
+  writeUint16(value) {
+    this.setUint16(this.position, value, LITTLE_ENDIAN)
     this.position += 2
   }
 
-  writeUint16Array(values, endianness = LITTLE_ENDIAN) {
+  writeUint16Array(values) {
     for (let i = 0; i < values.length; i++) {
-      this.writeUint16(values[i], endianness)
+      this.writeUint16(values[i])
     }
   }
 
-  writeUint32(value, endianness = LITTLE_ENDIAN) {
-    this.setUint32(this.position, value, endianness)
+  writeUint32(value) {
+    this.setUint32(this.position, value, LITTLE_ENDIAN)
     this.position += 4
   }
 
-  writeUint32Array(values, endianness = LITTLE_ENDIAN) {
+  writeUint32Array(values) {
     for (let i = 0; i < values.length; i++) {
-      this.writeUint32(values[i], endianness)
+      this.writeUint32(values[i])
     }
   }
 
@@ -233,79 +234,77 @@ class BinaryIO extends DataView {
     }
   }
 
-  readVector3(endianness = LITTLE_ENDIAN) {
-    const x = this.readFloat32(endianness)
-    const y = this.readFloat32(endianness)
-    const z = this.readFloat32(endianness)
+  readVector3() {
+    const x = this.readFloat32()
+    const y = this.readFloat32()
+    const z = this.readFloat32()
     return { x, y, z }
   }
 
-  readVector3Array(length, endianness = LITTLE_ENDIAN) {
+  readVector3Array(length) {
     const arr = new Array(length)
     for (let i = 0; i < length; i++) {
-      arr[i] = this.readVector3(endianness)
+      arr[i] = this.readVector3()
     }
     return arr
   }
 
-  writeVector3({ x, y, z }, endianness = LITTLE_ENDIAN) {
-    this.writeFloat32(x, endianness)
-    this.writeFloat32(y, endianness)
-    this.writeFloat32(z, endianness)
+  writeVector3({ x, y, z }) {
+    this.writeFloat32(x)
+    this.writeFloat32(y)
+    this.writeFloat32(z)
   }
 
-  writeVector3Array(values, endianness = LITTLE_ENDIAN) {
+  writeVector3Array(values) {
     for (let i = 0; i < values.length; i++) {
-      this.writeVector3(values[i], endianness)
+      this.writeVector3(values[i])
     }
   }
 
-  readRotation(endianness = LITTLE_ENDIAN) {
-    const a = this.readFloat32(endianness)
-    const b = this.readFloat32(endianness)
-    const g = this.readFloat32(endianness)
+  readRotation() {
+    const a = this.readFloat32()
+    const b = this.readFloat32()
+    const g = this.readFloat32()
     return { a, b, g }
   }
 
-  writeRotation({ a, b, g }, endianness = LITTLE_ENDIAN) {
-    this.writeFloat32(a, endianness)
-    this.writeFloat32(b, endianness)
-    this.writeFloat32(g, endianness)
+  writeRotation({ a, b, g }) {
+    this.writeFloat32(a)
+    this.writeFloat32(b)
+    this.writeFloat32(g)
   }
 
-  readColor(endianness = LITTLE_ENDIAN) {
-    const r = this.readFloat32(endianness)
-    const g = this.readFloat32(endianness)
-    const b = this.readFloat32(endianness)
+  readColor() {
+    const r = this.readFloat32()
+    const g = this.readFloat32()
+    const b = this.readFloat32()
     return { r, g, b }
   }
 
-  writeColor({ r, g, b }, endianness = LITTLE_ENDIAN) {
-    this.writeFloat32(r, endianness)
-    this.writeFloat32(g, endianness)
-    this.writeFloat32(b, endianness)
+  writeColor({ r, g, b }) {
+    this.writeFloat32(r)
+    this.writeFloat32(g)
+    this.writeFloat32(b)
   }
 
-  readQuat(endianness = LITTLE_ENDIAN) {
-    const w = this.readFloat32(endianness)
-    const x = this.readFloat32(endianness)
-    const y = this.readFloat32(endianness)
-    const z = this.readFloat32(endianness)
+  readQuat() {
+    const w = this.readFloat32()
+    const x = this.readFloat32()
+    const y = this.readFloat32()
+    const z = this.readFloat32()
     return { x, y, z, w }
   }
 
-  writeQuat({ x, y, z, w }, endianness = LITTLE_ENDIAN) {
-    this.writeFloat32(w, endianness)
-    this.writeFloat32(x, endianness)
-    this.writeFloat32(y, endianness)
-    this.writeFloat32(z, endianness)
+  writeQuat({ x, y, z, w }) {
+    this.writeFloat32(w)
+    this.writeFloat32(x)
+    this.writeFloat32(y)
+    this.writeFloat32(z)
   }
 }
 
 module.exports = {
   BinaryIO,
-  LITTLE_ENDIAN,
-  BIG_ENDIAN,
   TRUNCATE_ZERO_BYTES,
   KEEP_ZERO_BYTES,
 }
