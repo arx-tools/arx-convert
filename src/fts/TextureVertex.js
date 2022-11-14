@@ -5,7 +5,7 @@ class TextureVertex {
   static readFrom(binary) {
     return {
       pos: binary.readVector3(),
-      rhw: binary.readFloat32(),
+      rhw: binary.readFloat32(), // portal bounds radius ?
       color: binary.readUint32(),
       specular: binary.readUint32(),
       tu: binary.readFloat32(),
@@ -18,7 +18,7 @@ class TextureVertex {
     const binary = new BinaryIO(buffer.buffer)
 
     binary.writeVector3(vertex.pos)
-    binary.writeFloat32(vertex.thw)
+    binary.writeFloat32(vertex.rhw)
     binary.writeUint32(vertex.color)
     binary.writeUint32(vertex.specular)
     binary.writeFloat32(vertex.tu)
