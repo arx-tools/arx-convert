@@ -1,9 +1,16 @@
-const roundTo3Decimals = (num) => Math.round((num * 10 ** 3) / 10 ** 3)
+const maxAll = (arr) => {
+  let len = arr.length
+  let max = -Infinity
 
-const minAll = (xs) => Math.min.apply(Math, xs)
+  while (len--) {
+    max = arr[len] > max ? arr[len] : max
+  }
 
-const isZeroVertex = ({ x, y, z, u, v }) => {
-  return x === 0 && y === 0 && z === 0 && u === 0 && v === 0
+  return max
+}
+
+const isZeroVertex = ({ x, y, z }) => {
+  return Math.abs(x) < Number.EPSILON && Math.abs(y) < Number.EPSILON && Math.abs(z) < Number.EPSILON
 }
 
 const getLowestByte = (int) => int & 0xff
@@ -24,8 +31,7 @@ const repeat = (value, repetitions) => {
 }
 
 module.exports = {
-  roundTo3Decimals,
-  minAll,
+  maxAll,
   isZeroVertex,
   getLowestByte,
   uniq,

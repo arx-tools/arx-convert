@@ -22,15 +22,15 @@ class Vertex {
     }
   }
 
-  static accumulateFrom(vertex) {
+  static accumulateFrom({ x, y, z, u, v }) {
     const buffer = Buffer.alloc(Vertex.sizeOf(), 0)
     const binary = new BinaryIO(buffer.buffer)
 
-    binary.writeFloat32(vertex.y)
-    binary.writeFloat32(vertex.x)
-    binary.writeFloat32(vertex.z)
-    binary.writeFloat32(vertex.u)
-    binary.writeFloat32(vertex.v)
+    binary.writeFloat32(y)
+    binary.writeFloat32(x)
+    binary.writeFloat32(z)
+    binary.writeFloat32(u)
+    binary.writeFloat32(v)
 
     return buffer
   }

@@ -8,46 +8,56 @@ const Anchor = require('./Anchor.js')
 const Portal = require('./Portal.js')
 const Room = require('./Room.js')
 const RoomDistance = require('./RoomDistance.js')
-const { roundTo3Decimals, minAll, isZeroVertex, times } = require('../common/helpers.js')
+const { isZeroVertex, times } = require('../common/helpers.js')
 const { Buffer } = require('buffer')
+const { coordsThatNeedRoundingUp } = require('./constants.js')
 
-const addIndexToVertices = (polygons) => {
+const doCoordsNeedToBeRoundedUp = (coords) => {
+  const [a, b, c] = coords.sort((a, b) => a - b)
+  return (
+    coordsThatNeedRoundingUp.find(([x, y, z]) => {
+      return a === x && b === y && c === z
+    }) !== undefined
+  )
+}
+
+const addLightIndex = (polygons) => {
   let idx = 0
 
   return polygons.map((polygon) => {
-    polygon.vertices = polygon.vertices.map((vertex) => {
-      if (isZeroVertex(vertex)) {
-        vertex.llfColorIdx = null
-      } else {
-        vertex.llfColorIdx = idx
-        idx++
-      }
-      return vertex
-    })
+    const isQuad = !isZeroVertex(polygon.vertices[3])
+
+    polygon.vertices[0].llfColorIdx = idx++
+    polygon.vertices[1].llfColorIdx = idx++
+    polygon.vertices[2].llfColorIdx = idx++
+    polygon.vertices[3].llfColorIdx = isQuad ? idx++ : null
+
     return polygon
   })
 }
 
-const coordToCell = (coord) => {
-  return Math.floor(roundTo3Decimals(coord) / 100)
+const getCellCoords = ([a, b, c]) => {
+  const x = (a.x + b.x + c.x) / 3
+  const y = (a.z + b.z + c.z) / 3
+
+  let cellX
+  if (doCoordsNeedToBeRoundedUp([a.x, b.x, c.x])) {
+    cellX = Math.ceil(x / 100)
+  } else {
+    cellX = Math.floor(x / 100)
+  }
+
+  let cellY
+  if (doCoordsNeedToBeRoundedUp([a.z, b.z, c.z])) {
+    cellY = Math.ceil(y / 100)
+  } else {
+    cellY = Math.floor(y / 100)
+  }
+
+  return [cellX, cellY]
 }
 
 class FTS {
-  static getPolygons(cells) {
-    return addIndexToVertices(cells.flatMap(({ polygons }) => polygons))
-  }
-
-  static getCellCoordinateFromPolygon(axis, polygon) {
-    const nonZeroVertices = polygon.vertices.filter((vertex) => {
-      return !isZeroVertex(vertex)
-    })
-    const coords = nonZeroVertices.map(({ x, z }) => {
-      return roundTo3Decimals(axis === 'x' ? x : z)
-    })
-
-    return coordToCell(minAll(coords))
-  }
-
   static load(decompressedFile) {
     const file = new BinaryIO(decompressedFile.buffer)
 
@@ -66,6 +76,8 @@ class FTS {
       SceneHeader.readFrom(file)
 
     data.sceneHeader = sceneHeader
+    delete data.sceneHeader.numberOfPolygons
+
     data.textureContainers = times(() => TextureContainer.readFrom(file), numberOfTextures)
 
     const cells = []
@@ -74,98 +86,43 @@ class FTS {
         cells.push(Cell.readFrom(file))
       }
     }
-    data.cells = cells.map(({ polygons, ...cell }) => {
-      return cell
-    })
-
-    data.polygons = FTS.getPolygons(cells)
+    data.cells = cells.map(({ polygons, ...cell }) => cell)
+    data.polygons = addLightIndex(cells.flatMap(({ polygons }) => polygons))
 
     data.anchors = times(() => Anchor.readFrom(file), numberOfAnchors)
     data.portals = times(() => Portal.readFrom(file), numberOfPortals)
     data.rooms = times(() => Room.readFrom(file), numberOfRooms)
     data.roomDistances = times(() => RoomDistance.readFrom(file), numberOfRooms ** 2)
 
-    const remainedBytes = decompressedFile.length - file.position
+    const remainedBytes = file.byteLength - file.position
     if (remainedBytes > 0) {
       data.meta.numberOfLeftoverBytes = remainedBytes
     }
-
-    // rooms are lookup tables for vertices, so we don't really need it,
-    // we can just generate it from the cells > polygons > vertices
-    delete data.rooms
-    // TODO: rooms hold portal information!!
 
     return data
   }
 
   static save(json) {
-    const sizeX = json.sceneHeader.sizeX
-
-    const _cells = json.polygons.reduce(
-      (cells, polygon) => {
-        const cellX = FTS.getCellCoordinateFromPolygon('x', polygon)
-        const cellY = FTS.getCellCoordinateFromPolygon('z', polygon)
-
-        const polygons = cells[cellY * sizeX + cellX].polygons
-        const idx = polygons.length
-        cells[cellY * sizeX + cellX].polygons.push({ ...polygon })
-        polygon.idx = idx // TODO: this is a rather ugly hack for getting the indices into polygons
-
-        return cells
-      },
-      json.cells.map((cell) => {
-        cell.polygons = []
-        return cell
-      }),
-    )
-
-    const _rooms = json.polygons.reduce(
-      (rooms, polygon) => {
-        const roomIdx = parseInt(polygon.room)
-        const roomData = {
-          px: FTS.getCellCoordinateFromPolygon('x', polygon),
-          py: FTS.getCellCoordinateFromPolygon('z', polygon),
-          idx: polygon.idx,
-        }
-
-        if (typeof rooms[roomIdx] === 'undefined') {
-          rooms[roomIdx] = {
-            portals: [],
-            polygons: [],
-          }
-        }
-
-        // TODO: room[roomIdx].portals ?
-
-        rooms[roomIdx].polygons.push(roomData)
-
-        return rooms
-      },
-      [
-        {
-          portals: [],
-          polygons: [],
-        },
-      ],
-    )
-
     const sceneHeader = SceneHeader.accumulateFrom(json)
 
-    const textureContainers = Buffer.concat(
-      json.textureContainers.map((texture) => {
-        return TextureContainer.accumulateFrom(texture)
-      }),
-    )
+    const sizeX = json.sceneHeader.sizeX
 
-    // TODO: generate cells based on polygons
-    const cells = Buffer.concat(_cells.map(Cell.accumulateFrom))
+    json.cells.forEach((cell) => {
+      cell.polygons = []
+    })
 
+    json.polygons.forEach((polygon) => {
+      const [cellX, cellY] = getCellCoords(polygon.vertices)
+
+      const cellIndex = cellY * sizeX + cellX
+      json.cells[cellIndex].polygons.push(polygon)
+    })
+
+    const textureContainers = Buffer.concat(json.textureContainers.map(TextureContainer.accumulateFrom))
+    const cells = Buffer.concat(json.cells.map(Cell.accumulateFrom))
     const anchors = Buffer.concat(json.anchors.map(Anchor.accumulateFrom))
-
     const portals = Buffer.concat(json.portals.map(Portal.accumulateFrom))
-
-    const rooms = Buffer.concat(_rooms.filter((x) => x).map(Room.accumulateFrom))
-
+    const rooms = Buffer.concat(json.rooms.map(Room.accumulateFrom))
     const roomDistances = Buffer.concat(json.roomDistances.map(RoomDistance.accumulateFrom))
 
     const dataWithoutHeader = Buffer.concat([
@@ -177,14 +134,11 @@ class FTS {
       rooms,
       roomDistances,
     ])
+
     const uncompressedSize = dataWithoutHeader.length
 
     const header = FtsHeader.accumulateFrom(json, uncompressedSize)
-    const uniqueHeaders = Buffer.concat(
-      json.uniqueHeaders.map((uniqueHeader) => {
-        return UniqueHeader.accumulateFrom(uniqueHeader)
-      }),
-    )
+    const uniqueHeaders = Buffer.concat(json.uniqueHeaders.map(UniqueHeader.accumulateFrom))
 
     return Buffer.concat([header, uniqueHeaders, dataWithoutHeader])
   }
