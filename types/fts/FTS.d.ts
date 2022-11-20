@@ -1,10 +1,12 @@
 import { Buffer } from 'node:buffer'
+import { ArxFtsHeader } from './FtsHeader'
 
 export type ArxFTS = {
   meta: {
     type: 'fts'
     numberOfLeftoverBytes: 0
   }
+  header: Omit<ArxFtsHeader, 'numberOfUniqueHeaders'>
   // TODO
 }
 
