@@ -1,21 +1,23 @@
-const { BinaryIO } = require('../binary/BinaryIO.js')
-const { Buffer } = require('buffer')
+const { Buffer } = require('node:buffer')
 const { uniq, maxAll } = require('../common/helpers.js')
+const { BinaryIO } = require('../binary/BinaryIO.js')
 
 class SceneHeader {
   static readFrom(binary) {
-    return {
+    const data = {
       version: binary.readFloat32(),
       sizeX: binary.readInt32(),
       sizeZ: binary.readInt32(),
       numberOfTextures: binary.readInt32(),
-      numberOfPolygons: binary.readInt32(), // we can calculate this
+      numberOfPolygons: binary.readInt32(),
       numberOfAnchors: binary.readInt32(),
       playerPosition: binary.readVector3(),
       mScenePosition: binary.readVector3(),
       numberOfPortals: binary.readInt32(),
       numberOfRooms: binary.readInt32() + 1, // rooms are 1 indexed, but an empty room is reserved for room #0
     }
+    delete data.numberOfPolygons // we can calculate this elsewhere
+    return data
   }
 
   static accumulateFrom(json) {
@@ -43,4 +45,4 @@ class SceneHeader {
   }
 }
 
-module.exports = SceneHeader
+module.exports = { SceneHeader }

@@ -5,10 +5,17 @@ export const KEEP_ZERO_BYTES = false
 
 export type TruncateZeroBytes = typeof TRUNCATE_ZERO_BYTES | typeof KEEP_ZERO_BYTES
 
-export type ArxColor = {
+export type ArxColor3 = {
   r: number
   g: number
   b: number
+}
+
+export type ArxColorRGBA = {
+  r: number
+  g: number
+  b: number
+  a: number
 }
 
 export type ArxVector3 = {
@@ -81,8 +88,11 @@ export declare class BinaryIO extends DataView {
   readRotation(): ArxRotation
   writeRotation(ang: ArxRotation): void
 
-  readColor(): ArxColor
-  writeColor({ r, g, b }: ArxColor): void
+  readColor3(): ArxColor3
+  writeColor3(color: ArxColor3): void
+
+  readColorRGBA(): ArxColorRGBA
+  writeColorRGBA(color: ArxColorRGBA): void
 
   readQuat(): ArxQuaternion
   writeQuat(quat: ArxQuaternion): void

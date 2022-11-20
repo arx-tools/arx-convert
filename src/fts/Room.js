@@ -1,8 +1,8 @@
-const { BinaryIO } = require('../binary/BinaryIO.js')
-const RoomData = require('./RoomData.js')
-const EPData = require('./EPData.js')
-const { Buffer } = require('buffer')
+const { Buffer } = require('node:buffer')
 const { times } = require('../common/helpers.js')
+const { BinaryIO } = require('../binary/BinaryIO.js')
+const { RoomData } = require('./RoomData.js')
+const { EPData } = require('./EPData.js')
 
 class Room {
   static readFrom(binary) {
@@ -21,14 +21,10 @@ class Room {
     const binary = new BinaryIO(portals.buffer)
     binary.writeInt32Array(room.portals)
 
-    const polygons = Buffer.concat(
-      room.polygons.map((polygon) => {
-        return EPData.accumulateFrom(polygon)
-      }),
-    )
+    const polygons = Buffer.concat(room.polygons.map((polygon) => EPData.accumulateFrom(polygon)))
 
     return Buffer.concat([roomData, portals, polygons])
   }
 }
 
-module.exports = Room
+module.exports = { Room }

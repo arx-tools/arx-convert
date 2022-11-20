@@ -1,24 +1,20 @@
-const { BinaryIO } = require('../binary/BinaryIO.js')
-const FtsHeader = require('./FtsHeader.js')
-const SceneHeader = require('./SceneHeader.js')
-const UniqueHeader = require('./UniqueHeader.js')
-const TextureContainer = require('./TextureContainer.js')
-const Cell = require('./Cell.js')
-const Anchor = require('./Anchor.js')
-const Portal = require('./Portal.js')
-const Room = require('./Room.js')
-const RoomDistance = require('./RoomDistance.js')
+const { Buffer } = require('node:buffer')
 const { isZeroVertex, times } = require('../common/helpers.js')
-const { Buffer } = require('buffer')
+const { BinaryIO } = require('../binary/BinaryIO.js')
 const { coordsThatNeedRoundingUp } = require('./constants.js')
+const { Anchor } = require('./Anchor.js')
+const { Cell } = require('./Cell.js')
+const { FtsHeader } = require('./FtsHeader.js')
+const { Portal } = require('./Portal.js')
+const { Room } = require('./Room.js')
+const { RoomDistance } = require('./RoomDistance.js')
+const { SceneHeader } = require('./SceneHeader.js')
+const { TextureContainer } = require('./TextureContainer.js')
+const { UniqueHeader } = require('./UniqueHeader.js')
 
 const doCoordsNeedToBeRoundedUp = (coords) => {
   const [a, b, c] = coords.sort((a, b) => a - b)
-  return (
-    coordsThatNeedRoundingUp.find(([x, y, z]) => {
-      return a === x && b === y && c === z
-    }) !== undefined
-  )
+  return coordsThatNeedRoundingUp.find(([x, y, z]) => a === x && b === y && c === z) !== undefined
 }
 
 const addLightIndex = (polygons) => {
@@ -38,21 +34,10 @@ const addLightIndex = (polygons) => {
 
 const getCellCoords = ([a, b, c]) => {
   const x = (a.x + b.x + c.x) / 3
-  const y = (a.z + b.z + c.z) / 3
+  const z = (a.z + b.z + c.z) / 3
 
-  let cellX
-  if (doCoordsNeedToBeRoundedUp([a.x, b.x, c.x])) {
-    cellX = Math.ceil(x / 100)
-  } else {
-    cellX = Math.floor(x / 100)
-  }
-
-  let cellY
-  if (doCoordsNeedToBeRoundedUp([a.z, b.z, c.z])) {
-    cellY = Math.ceil(y / 100)
-  } else {
-    cellY = Math.floor(y / 100)
-  }
+  let cellX = doCoordsNeedToBeRoundedUp([a.x, b.x, c.x]) ? Math.ceil(x / 100) : Math.floor(x / 100)
+  let cellY = doCoordsNeedToBeRoundedUp([a.z, b.z, c.z]) ? Math.ceil(z / 100) : Math.floor(z / 100)
 
   return [cellX, cellY]
 }
@@ -76,7 +61,6 @@ class FTS {
       SceneHeader.readFrom(file)
 
     data.sceneHeader = sceneHeader
-    delete data.sceneHeader.numberOfPolygons
 
     data.textureContainers = times(() => TextureContainer.readFrom(file), numberOfTextures)
 
@@ -144,4 +128,4 @@ class FTS {
   }
 }
 
-module.exports = FTS
+module.exports = { FTS }

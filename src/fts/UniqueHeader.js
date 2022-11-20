@@ -1,5 +1,5 @@
+const { Buffer } = require('node:buffer')
 const { BinaryIO } = require('../binary/BinaryIO.js')
-const { Buffer } = require('buffer')
 
 class UniqueHeader {
   static readFrom(binary) {
@@ -24,4 +24,4 @@ class UniqueHeader {
   }
 }
 
-module.exports = UniqueHeader
+module.exports = { UniqueHeader }

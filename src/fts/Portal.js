@@ -1,6 +1,6 @@
-const PortalPolygon = require('./PortalPolygon.js')
+const { Buffer } = require('node:buffer')
 const { BinaryIO } = require('../binary/BinaryIO.js')
-const { Buffer } = require('buffer')
+const { PortalPolygon } = require('./PortalPolygon.js')
 
 class Portal {
   static readFrom(binary) {
@@ -28,4 +28,4 @@ class Portal {
   }
 }
 
-module.exports = Portal
+module.exports = { Portal }

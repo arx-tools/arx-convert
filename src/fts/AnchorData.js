@@ -1,5 +1,5 @@
+const { Buffer } = require('node:buffer')
 const { BinaryIO } = require('../binary/BinaryIO.js')
-const { Buffer } = require('buffer')
 
 class AnchorData {
   static readFrom(binary) {
@@ -30,4 +30,4 @@ class AnchorData {
   }
 }
 
-module.exports = AnchorData
+module.exports = { AnchorData }

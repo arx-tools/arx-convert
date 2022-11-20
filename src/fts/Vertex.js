@@ -1,7 +1,8 @@
+const { Buffer } = require('node:buffer')
 const { BinaryIO } = require('../binary/BinaryIO.js')
-const { Buffer } = require('buffer')
 
-// y before x is not a typo: https://github.com/arx/ArxLibertatis/blob/master/src/graphics/data/FastSceneFormat.h#L73
+// y before x is not a typo:
+// https://github.com/arx/ArxLibertatis/blob/master/src/graphics/data/FastSceneFormat.h#L73
 
 class Vertex {
   static readFrom(binary) {
@@ -13,13 +14,7 @@ class Vertex {
       binary.readFloat32(),
     ]
 
-    return {
-      x,
-      y,
-      z,
-      u,
-      v,
-    }
+    return { x, y, z, u, v }
   }
 
   static accumulateFrom({ x, y, z, u, v }) {
@@ -40,4 +35,4 @@ class Vertex {
   }
 }
 
-module.exports = Vertex
+module.exports = { Vertex }

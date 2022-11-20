@@ -1,5 +1,5 @@
+const { Buffer } = require('node:buffer')
 const { BinaryIO } = require('../binary/BinaryIO.js')
-const { Buffer } = require('buffer')
 
 class SceneInfo {
   static readFrom(binary) {
@@ -24,4 +24,4 @@ class SceneInfo {
   }
 }
 
-module.exports = SceneInfo
+module.exports = { SceneInfo }

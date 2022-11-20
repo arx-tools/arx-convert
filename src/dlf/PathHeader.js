@@ -11,7 +11,7 @@ class PathHeader {
       initPos: binary.readVector3(),
       pos: binary.readVector3(),
       numberOfPathways: binary.readInt32(),
-      rgb: binary.readColor(),
+      rgb: binary.readColor3(),
       farClip: binary.readFloat32(),
       reverb: binary.readFloat32(),
       ambianceMaxVolume: binary.readFloat32(),
@@ -40,7 +40,7 @@ class PathHeader {
     binary.writeVector3(path.header.initPos)
     binary.writeVector3(path.header.pos)
     binary.writeInt32(path.pathways.length)
-    binary.writeColor(path.header.rgb)
+    binary.writeColor3(path.header.rgb)
     binary.writeFloat32(path.header.farClip)
     binary.writeFloat32(path.header.reverb)
     binary.writeFloat32(path.header.ambianceMaxVolume)

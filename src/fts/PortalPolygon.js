@@ -1,7 +1,7 @@
-const TextureVertex = require('./TextureVertex.js')
-const { BinaryIO } = require('../binary/BinaryIO.js')
-const { Buffer } = require('buffer')
+const { Buffer } = require('node:buffer')
 const { times } = require('../common/helpers.js')
+const { BinaryIO } = require('../binary/BinaryIO.js')
+const { TextureVertex } = require('./TextureVertex.js')
 
 class PortalPolygon {
   static readFrom(binary) {
@@ -53,4 +53,4 @@ class PortalPolygon {
   }
 }
 
-module.exports = PortalPolygon
+module.exports = { PortalPolygon }

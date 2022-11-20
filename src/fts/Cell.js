@@ -1,16 +1,16 @@
-const { BinaryIO } = require('../binary/BinaryIO.js')
-const SceneInfo = require('./SceneInfo.js')
-const Polygon = require('./Polygon.js')
-const { Buffer } = require('buffer')
+const { Buffer } = require('node:buffer')
 const { times } = require('../common/helpers.js')
+const { BinaryIO } = require('../binary/BinaryIO.js')
+const { Polygon } = require('./Polygon.js')
+const { SceneInfo } = require('./SceneInfo.js')
 
 class Cell {
   static readFrom(binary) {
-    const sceneInfo = SceneInfo.readFrom(binary)
+    const { numberOfPolygons, numberOfAnchors } = SceneInfo.readFrom(binary)
 
     return {
-      polygons: times(() => Polygon.readFrom(binary), sceneInfo.numberOfPolygons),
-      anchors: times(() => binary.readInt32(), sceneInfo.numberOfAnchors),
+      polygons: times(() => Polygon.readFrom(binary), numberOfPolygons),
+      anchors: times(() => binary.readInt32(), numberOfAnchors),
     }
   }
 
@@ -27,4 +27,4 @@ class Cell {
   }
 }
 
-module.exports = Cell
+module.exports = { Cell }

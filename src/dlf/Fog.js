@@ -6,7 +6,7 @@ class Fog {
   static readFrom(binary) {
     const data = {
       pos: binary.readVector3(),
-      rgb: binary.readColor(),
+      rgb: binary.readColor3(),
       size: binary.readFloat32(),
       special: binary.readInt32(),
       scale: binary.readFloat32(),
@@ -31,7 +31,7 @@ class Fog {
     const binary = new BinaryIO(buffer.buffer)
 
     binary.writeVector3(fog.pos)
-    binary.writeColor(fog.rgb)
+    binary.writeColor3(fog.rgb)
     binary.writeFloat32(fog.size)
     binary.writeInt32(fog.special)
     binary.writeFloat32(fog.scale)

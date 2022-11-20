@@ -1,5 +1,5 @@
+const { Buffer } = require('node:buffer')
 const { BinaryIO } = require('../binary/BinaryIO.js')
-const { Buffer } = require('buffer')
 
 class EPData {
   static readFrom(binary) {
@@ -32,4 +32,4 @@ class EPData {
   }
 }
 
-module.exports = EPData
+module.exports = { EPData }

@@ -1,5 +1,5 @@
+const { Buffer } = require('node:buffer')
 const { BinaryIO } = require('../binary/BinaryIO.js')
-const { Buffer } = require('buffer')
 
 class RoomDistance {
   static readFrom(binary) {
@@ -26,4 +26,4 @@ class RoomDistance {
   }
 }
 
-module.exports = RoomDistance
+module.exports = { RoomDistance }

@@ -1,6 +1,6 @@
-const { BinaryIO } = require('../binary/BinaryIO.js')
-const { Buffer } = require('buffer')
+const { Buffer } = require('node:buffer')
 const { repeat } = require('../common/helpers.js')
+const { BinaryIO } = require('../binary/BinaryIO.js')
 
 class FtsHeader {
   static readFrom(binary) {
@@ -35,4 +35,4 @@ class FtsHeader {
   }
 }
 
-module.exports = FtsHeader
+module.exports = { FtsHeader }

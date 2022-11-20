@@ -1,13 +1,13 @@
+const { Buffer } = require('node:buffer')
 const { BinaryIO } = require('../binary/BinaryIO.js')
-const { Buffer } = require('buffer')
 
 class TextureVertex {
   static readFrom(binary) {
     return {
       pos: binary.readVector3(),
       rhw: binary.readFloat32(), // portal bounds radius ?
-      color: binary.readUint32(),
-      specular: binary.readUint32(),
+      color: binary.readColorRGBA(),
+      specular: binary.readColorRGBA(), // unused btw...
       tu: binary.readFloat32(),
       tv: binary.readFloat32(),
     }
@@ -19,8 +19,8 @@ class TextureVertex {
 
     binary.writeVector3(vertex.pos)
     binary.writeFloat32(vertex.rhw)
-    binary.writeUint32(vertex.color)
-    binary.writeUint32(vertex.specular)
+    binary.writeColorRGBA(vertex.color)
+    binary.writeColorRGBA(vertex.specular)
     binary.writeFloat32(vertex.tu)
     binary.writeFloat32(vertex.tv)
 
@@ -32,4 +32,4 @@ class TextureVertex {
   }
 }
 
-module.exports = TextureVertex
+module.exports = { TextureVertex }

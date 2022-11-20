@@ -1,6 +1,6 @@
-const { BinaryIO } = require('../binary/BinaryIO.js')
-const { Buffer } = require('buffer')
+const { Buffer } = require('node:buffer')
 const { repeat } = require('../common/helpers.js')
+const { BinaryIO } = require('../binary/BinaryIO.js')
 
 class RoomData {
   static readFrom(binary) {
@@ -30,4 +30,4 @@ class RoomData {
   }
 }
 
-module.exports = RoomData
+module.exports = { RoomData }

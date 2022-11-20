@@ -274,17 +274,32 @@ class BinaryIO extends DataView {
     this.writeFloat32(g)
   }
 
-  readColor() {
+  readColor3() {
     const r = this.readFloat32()
     const g = this.readFloat32()
     const b = this.readFloat32()
     return { r, g, b }
   }
 
-  writeColor({ r, g, b }) {
+  writeColor3({ r, g, b }) {
     this.writeFloat32(r)
     this.writeFloat32(g)
     this.writeFloat32(b)
+  }
+
+  readColorRGBA() {
+    const a = this.readUint8()
+    const b = this.readUint8()
+    const g = this.readUint8()
+    const r = this.readUint8()
+    return { r, g, b, a }
+  }
+
+  writeColorRGBA({ r, g, b, a }) {
+    this.writeUint8(a)
+    this.writeUint8(b)
+    this.writeUint8(g)
+    this.writeUint8(r)
   }
 
   readQuat() {

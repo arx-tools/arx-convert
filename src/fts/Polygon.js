@@ -1,11 +1,11 @@
-const { BinaryIO } = require('../binary/BinaryIO.js')
-const Vertex = require('./Vertex.js')
-const { Buffer } = require('buffer')
+const { Buffer } = require('node:buffer')
 const { times } = require('../common/helpers.js')
+const { BinaryIO } = require('../binary/BinaryIO.js')
+const { Vertex } = require('./Vertex.js')
 
 class Polygon {
   static readFrom(binary) {
-    const data = {
+    return {
       vertices: times(() => Vertex.readFrom(binary), 4),
       tex: binary.readInt32(),
       norm: binary.readVector3(),
@@ -17,18 +17,12 @@ class Polygon {
       room: binary.readInt16(),
       paddy: binary.readInt16(),
     }
-
-    return data
   }
 
   static accumulateFrom(polygon) {
-    const vertices = Buffer.concat(
-      polygon.vertices.map((vertex) => {
-        return Vertex.accumulateFrom(vertex)
-      }),
-    )
+    const vertices = Buffer.concat(polygon.vertices.map((vertex) => Vertex.accumulateFrom(vertex)))
 
-    const buffer = Buffer.alloc(Polygon.sizeWithoutVertices(), 0)
+    const buffer = Buffer.alloc(Polygon.sizeOf() - 4 * Vertex.sizeOf(), 0)
     const binary = new BinaryIO(buffer.buffer)
 
     binary.writeInt32(polygon.tex)
@@ -44,9 +38,9 @@ class Polygon {
     return Buffer.concat([vertices, buffer])
   }
 
-  static sizeWithoutVertices() {
-    return 4 + 3 * 4 * 2 + 4 * 3 * 4 + 4 + 4 + 4 + 2 + 2
+  static sizeOf() {
+    return 4 * Vertex.sizeOf() + 4 + 3 * 4 * 2 + 4 * 3 * 4 + 4 + 4 + 4 + 2 + 2
   }
 }
 
-module.exports = Polygon
+module.exports = { Polygon }

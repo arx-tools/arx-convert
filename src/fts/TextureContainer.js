@@ -1,5 +1,5 @@
+const { Buffer } = require('node:buffer')
 const { BinaryIO } = require('../binary/BinaryIO.js')
-const { Buffer } = require('buffer')
 
 class TextureContainer {
   static readFrom(binary) {
@@ -26,4 +26,4 @@ class TextureContainer {
   }
 }
 
-module.exports = TextureContainer
+module.exports = { TextureContainer }
