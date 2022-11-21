@@ -2,7 +2,6 @@
 
 const fs = require('node:fs')
 const minimist = require('minimist-lite')
-const YAML = require('yaml')
 const {
   fileExists,
   getPackageVersion,
@@ -73,7 +72,10 @@ const args = minimist(process.argv.slice(2), {
       break
     case 'yml':
     case 'yaml':
-      parsedIn = YAML.parse(rawIn.toString())
+      {
+        const YAML = require('yaml')
+        parsedIn = YAML.parse(rawIn.toString())
+      }
       break
     case 'dlf':
       parsedIn = DLF.load(rawIn)
