@@ -1,14 +1,14 @@
 const { Buffer } = require('node:buffer')
 const { BinaryIO } = require('../binary/BinaryIO.js')
-const DlfHeader = require('./DlfHeader.js')
-const Scene = require('./Scene.js')
-const InteractiveObject = require('./InteactiveObject.js')
-const Light = require('../common/Light.js')
-const Fog = require('./Fog.js')
-const PathHeader = require('./PathHeader.js')
-const Pathways = require('./Pathways.js')
-const LightingHeader = require('../common/LightingHeader.js')
-const Color = require('../common/Color.js')
+const { DlfHeader } = require('./DlfHeader.js')
+const { Scene } = require('./Scene.js')
+const { InteractiveObject } = require('./InteactiveObject.js')
+const { Light } = require('../common/Light.js')
+const { Fog } = require('./Fog.js')
+const { PathHeader } = require('./PathHeader.js')
+const { Pathways } = require('./Pathways.js')
+const { LightingHeader } = require('../common/LightingHeader.js')
+const { Color } = require('../common/Color.js')
 const { times } = require('../common/helpers.js')
 
 class DLF {
@@ -128,4 +128,4 @@ class DLF {
   }
 }
 
-module.exports = DLF
+module.exports = { DLF }

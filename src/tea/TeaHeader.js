@@ -30,4 +30,4 @@ class TeaHeader {
   }
 }
 
-module.exports = TeaHeader
+module.exports = { TeaHeader }

@@ -49,4 +49,4 @@ class LlfHeader {
   }
 }
 
-module.exports = LlfHeader
+module.exports = { LlfHeader }

@@ -39,4 +39,4 @@ class InteractiveObject {
   }
 }
 
-module.exports = InteractiveObject
+module.exports = { InteractiveObject }

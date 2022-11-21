@@ -31,4 +31,4 @@ class OldKeyframe {
   }
 }
 
-module.exports = OldKeyframe
+module.exports = { OldKeyframe }

@@ -55,4 +55,4 @@ class Fog {
   }
 }
 
-module.exports = Fog
+module.exports = { Fog }

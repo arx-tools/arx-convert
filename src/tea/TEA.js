@@ -1,8 +1,8 @@
 const { Buffer } = require('node:buffer')
 const { BinaryIO } = require('../binary/BinaryIO.js')
-const TeaHeader = require('./TeaHeader')
-const NewKeyframe = require('./NewKeyframe.js')
-const OldKeyframe = require('./OldKeyframe.js')
+const { TeaHeader } = require('./TeaHeader')
+const { NewKeyframe } = require('./NewKeyframe.js')
+const { OldKeyframe } = require('./OldKeyframe.js')
 const { KEEP_ZERO_BYTES } = require('../binary/BinaryIO.js')
 
 class TEA {
@@ -85,4 +85,4 @@ class TEA {
   }
 }
 
-module.exports = TEA
+module.exports = { TEA }

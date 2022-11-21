@@ -30,4 +30,4 @@ class Scene {
   }
 }
 
-module.exports = Scene
+module.exports = { Scene }

@@ -59,4 +59,4 @@ class Light {
   }
 }
 
-module.exports = Light
+module.exports = { Light }

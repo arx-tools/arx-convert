@@ -37,4 +37,4 @@ class Pathways {
   }
 }
 
-module.exports = Pathways
+module.exports = { Pathways }

@@ -25,4 +25,4 @@ class FtlHeader {
   }
 }
 
-module.exports = FtlHeader
+module.exports = { FtlHeader }

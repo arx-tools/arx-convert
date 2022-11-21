@@ -63,4 +63,4 @@ class PathHeader {
   }
 }
 
-module.exports = PathHeader
+module.exports = { PathHeader }

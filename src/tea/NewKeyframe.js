@@ -33,4 +33,4 @@ class NewKeyframe {
   }
 }
 
-module.exports = NewKeyframe
+module.exports = { NewKeyframe }

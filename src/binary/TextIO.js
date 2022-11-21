@@ -23,6 +23,4 @@ class TextIO {
   }
 }
 
-module.exports = {
-  TextIO,
-}
+module.exports = { TextIO }

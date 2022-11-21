@@ -1,5 +1,5 @@
 const { Buffer } = require('node:buffer')
-const FtlHeader = require('./FtlHeader')
+const { FtlHeader } = require('./FtlHeader')
 const { BinaryIO } = require('../binary/BinaryIO.js')
 
 /*
@@ -119,4 +119,4 @@ class FTL {
   }
 }
 
-module.exports = FTL
+module.exports = { FTL }

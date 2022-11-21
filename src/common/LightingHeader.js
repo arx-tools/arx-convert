@@ -32,4 +32,4 @@ class LightingHeader {
   }
 }
 
-module.exports = LightingHeader
+module.exports = { LightingHeader }

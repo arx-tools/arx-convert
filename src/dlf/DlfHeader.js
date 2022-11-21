@@ -82,4 +82,4 @@ class DlfHeader {
   }
 }
 
-module.exports = DlfHeader
+module.exports = { DlfHeader }
