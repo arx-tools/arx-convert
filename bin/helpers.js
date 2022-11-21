@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fs = require('node:fs')
 const { SUPPORTED_ARX_FORMATS, SUPPORTED_DATA_FORMATS } = require('./constants')
 
 const getPackageVersion = async () => {

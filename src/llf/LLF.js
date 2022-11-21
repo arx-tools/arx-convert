@@ -1,9 +1,9 @@
+const { Buffer } = require('node:buffer')
 const { BinaryIO } = require('../binary/BinaryIO.js')
 const LlfHeader = require('./LlfHeader.js')
 const Light = require('../common/Light.js')
 const LightingHeader = require('../common/LightingHeader.js')
 const Color = require('../common/Color.js')
-const { Buffer } = require('buffer')
 const { times } = require('../common/helpers.js')
 
 class LLF {

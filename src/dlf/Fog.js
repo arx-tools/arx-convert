@@ -1,6 +1,6 @@
-const { BinaryIO } = require('../binary/BinaryIO.js')
-const { Buffer } = require('buffer')
+const { Buffer } = require('node:buffer')
 const { repeat } = require('../common/helpers.js')
+const { BinaryIO } = require('../binary/BinaryIO.js')
 
 class Fog {
   static readFrom(binary) {

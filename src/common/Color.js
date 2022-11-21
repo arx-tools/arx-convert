@@ -1,6 +1,6 @@
-const { BinaryIO } = require('../binary/BinaryIO.js')
+const { Buffer } = require('node:buffer')
 const { getLowestByte } = require('./helpers.js')
-const { Buffer } = require('buffer')
+const { BinaryIO } = require('../binary/BinaryIO.js')
 
 class Color {
   static readFrom(binary, isCompact) {

@@ -1,6 +1,6 @@
+const { Buffer } = require('node:buffer')
 const FtlHeader = require('./FtlHeader')
 const { BinaryIO } = require('../binary/BinaryIO.js')
-const { Buffer } = require('buffer')
 
 /*
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const fs = require('fs')
+const fs = require('node:fs')
 const minimist = require('minimist-lite')
 const BSON = require('bson')
 const YAML = require('yaml')

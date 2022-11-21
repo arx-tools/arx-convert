@@ -1,5 +1,5 @@
+const { Buffer } = require('node:buffer')
 const { BinaryIO } = require('../binary/BinaryIO.js')
-const { Buffer } = require('buffer')
 const TeaHeader = require('./TeaHeader')
 const NewKeyframe = require('./NewKeyframe.js')
 const OldKeyframe = require('./OldKeyframe.js')
