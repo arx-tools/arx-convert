@@ -2,7 +2,6 @@
 
 const fs = require('node:fs')
 const minimist = require('minimist-lite')
-const BSON = require('bson')
 const YAML = require('yaml')
 const {
   fileExists,
@@ -10,7 +9,6 @@ const {
   streamToBuffer,
   stringifyYAML,
   stringifyJSON,
-  stringifyBSON,
   outputInChunks,
   validateFromToPair,
 } = require('./helpers.js')
@@ -77,9 +75,6 @@ const args = minimist(process.argv.slice(2), {
     case 'yaml':
       parsedIn = YAML.parse(rawIn.toString())
       break
-    case 'bson':
-      parsedIn = BSON.deserialize(rawIn)
-      break
     case 'dlf':
       parsedIn = DLF.load(rawIn)
       break
@@ -105,9 +100,6 @@ const args = minimist(process.argv.slice(2), {
     case 'yml':
     case 'yaml':
       rawOut = stringifyYAML(parsedIn)
-      break
-    case 'bson':
-      rawOut = stringifyBSON(parsedIn)
       break
     case 'dlf':
       rawOut = DLF.save(parsedIn)

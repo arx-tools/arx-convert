@@ -46,11 +46,6 @@ const stringifyYAML = (json) => {
   return YAML.stringify(json)
 }
 
-const stringifyBSON = (json) => {
-  const BSON = require('bson')
-  return BSON.serialize(json)
-}
-
 const outputInChunks = (buffer, stream) => {
   const chunks = Math.ceil(buffer.length / 1000)
   for (let i = 0; i < chunks - 1; i++) {
@@ -82,7 +77,7 @@ const validateFromToPair = (from, to) => {
     throw new Error('"from" and "to" have the same format')
   }
 
-  // if "from" is sourcetype then "to" is targettype and vice-versa? (sourcetype=fts,dlf,...; targettype=json,bson,...)
+  // if "from" is sourcetype then "to" is targettype and vice-versa? (sourcetype=fts,dlf,...; targettype=json,...)
   if (SUPPORTED_ARX_FORMATS.includes(from) && SUPPORTED_ARX_FORMATS.includes(to)) {
     throw new Error('"from" and "to" are both referencing arx formats, expected one of them to be a data type')
   }
@@ -98,7 +93,6 @@ module.exports = {
   streamToBuffer,
   stringifyJSON,
   stringifyYAML,
-  stringifyBSON,
   outputInChunks,
   validateFromToPair,
 }

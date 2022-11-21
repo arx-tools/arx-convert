@@ -1,6 +1,6 @@
 # arx-level-json-converter
 
-Converts Arx Fatalis level data to JSON, YAML, BSON and vice versa.
+Converts Arx Fatalis level data to JSON or YAML and vice versa.
 
 **IMPORTANT: Arx Fatalis files are partially compressed. See "compression" section for more info**
 
@@ -29,7 +29,7 @@ the format parameter can be one of the following arx formats: `dlf`, `llf`, `fts
 
 work in progress formats: `ftl` and `tea`
 
-and it can also a data format for the other side: `json`, `bson` and `yaml`(can also be spelled as `yml`)
+and it can also a data format for the other side: `json` and `yaml`(can also be spelled as `yml`)
 
 ## examples
 
@@ -55,12 +55,6 @@ cat level8.dlf.unpacked | arx-convert --to=yaml --from=dlf > level8.dlf.yml
 
 # convert yaml to an unpacked dlf
 cat level8.dlf.yml | arx-convert --from=yaml --to=dlf > level8.dlf.repacked
-
-# convert an unpacked dlf to bson
-cat level8.dlf.unpacked | arx-convert --to=bson --from=dlf > level8.dlf.bson
-
-# convert bson to an unpacked dlf
-cat level8.dlf.bson | arx-convert --from=bson --to=dlf > level8.dlf.repacked
 ```
 
 ## Compression

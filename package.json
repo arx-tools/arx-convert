@@ -1,7 +1,7 @@
 {
   "name": "arx-level-json-converter",
   "version": "3.0.2",
-  "description": "Converts various Arx Fatalis formats to JSON/YAML/BSON and back",
+  "description": "Converts various Arx Fatalis formats to JSON or YAML and back",
   "main": "src/index.js",
   "types": "types/index.d.ts",
   "engines": {
@@ -24,7 +24,6 @@
   },
   "homepage": "https://github.com/meszaros-lajos-gyorgy/arx-level-json-converter#readme",
   "dependencies": {
-    "bson": "^4.7.0",
     "minimist-lite": "^2.2.1",
     "yaml": "^2.1.3"
   },
