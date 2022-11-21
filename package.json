@@ -6,7 +6,7 @@
   "types": "types/index.d.ts",
   "engines": {
     "npm": ">=7.0.0",
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "bin": {
     "arx-level-json-converter": "bin/convert.js",
