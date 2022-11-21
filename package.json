@@ -2,8 +2,8 @@
   "name": "arx-level-json-converter",
   "version": "3.0.2",
   "description": "Converts various Arx Fatalis formats to JSON or YAML and back",
-  "main": "src/index.js",
-  "types": "types/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "engines": {
     "npm": ">=8.0.0",
     "node": ">=18.0.0"
@@ -13,7 +13,8 @@
     "arx-convert": "bin/convert.js"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
