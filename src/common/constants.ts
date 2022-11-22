@@ -90,7 +90,7 @@ export enum ArxZoneFlags {
 // 0.9999967447916589,
 // 0.9999967447916731,
 
-export const CoordsThatNeedRoundingUp: [number, number, number][] = [
+export const COORDS_THAT_ROUND_UP: [number, number, number][] = [
   [2550, 2600, 2649.999755859375],
   [2649.999755859375, 2700, 2749.999755859375],
   [3949.999755859375, 4000, 4050],
@@ -187,7 +187,14 @@ export const CoordsThatNeedRoundingUp: [number, number, number][] = [
   [13839.9990234375, 13925, 13935],
 ]
 
-export const SupportedArxFormats = ['dlf', 'fts', 'llf', 'ftl', 'tea']
-export const SupportedDataFormats = ['json', 'yaml', 'yml']
+export const SUPPORTED_ARX_FORMATS = ['dlf', 'fts', 'llf', 'ftl', 'tea']
+export const SUPPORTED_DATA_FORMATS = ['json', 'yaml', 'yml']
 
-export const FtlVersion = 0.83257
+export const FTL_VERSION = 0.83257
+
+export const LITTLE_ENDIAN = true
+export const BIG_ENDIAN = false
+
+export const TRUNCATE_ZERO_BYTES = true
+export const KEEP_ZERO_BYTES = false
+export const SPACE = ' '.charCodeAt(0)
