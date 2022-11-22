@@ -1,10 +1,4 @@
-export type ArxColor3 = {
-  r: number
-  g: number
-  b: number
-}
-
-export type ArxColorRGBA = {
+export type ArxColor = {
   r: number
   g: number
   b: number

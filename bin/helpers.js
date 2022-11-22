@@ -1,5 +1,5 @@
 const fs = require('node:fs')
-const { SupportedArxFormats, SupportedDataFormats } = require('../src/common/constants')
+const { SUPPORTED_ARX_FORMATS, SUPPORTED_DATA_FORMATS } = require('../src/common/constants')
 
 const getPackageVersion = async () => {
   try {
@@ -55,7 +55,7 @@ const outputInChunks = (buffer, stream) => {
   stream.end()
 }
 
-const validTypes = [...SupportedArxFormats, ...SupportedDataFormats]
+const validTypes = [...SUPPORTED_ARX_FORMATS, ...SUPPORTED_DATA_FORMATS]
 
 const validateFromToPair = (from, to) => {
   if (typeof from === 'undefined' || from === '') {
@@ -78,11 +78,11 @@ const validateFromToPair = (from, to) => {
   }
 
   // if "from" is sourcetype then "to" is targettype and vice-versa? (sourcetype=fts,dlf,...; targettype=json,...)
-  if (SupportedArxFormats.includes(from) && SupportedArxFormats.includes(to)) {
+  if (SUPPORTED_ARX_FORMATS.includes(from) && SUPPORTED_ARX_FORMATS.includes(to)) {
     throw new Error('"from" and "to" are both referencing arx formats, expected one of them to be a data type')
   }
 
-  if (SupportedDataFormats.includes(from) && SupportedDataFormats.includes(to)) {
+  if (SUPPORTED_DATA_FORMATS.includes(from) && SUPPORTED_DATA_FORMATS.includes(to)) {
     throw new Error('"from" and "to" are both referencing data types, expected one of them to be an arx format')
   }
 }

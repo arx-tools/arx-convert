@@ -10,7 +10,7 @@ class UniqueHeader {
   }
 
   static accumulateFrom(uniqueHeader) {
-    const buffer = Buffer.alloc(UniqueHeader.sizeOf(), 0)
+    const buffer = Buffer.alloc(UniqueHeader.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
     binary.writeString(uniqueHeader.path, 256)

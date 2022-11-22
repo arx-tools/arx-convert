@@ -1,12 +1,13 @@
 const { Buffer } = require('node:buffer')
 const { repeat } = require('../common/helpers.js')
 const { BinaryIO } = require('../binary/BinaryIO.js')
+const { Color } = require('../common/Color.js')
 
 class Fog {
   static readFrom(binary) {
     const data = {
       pos: binary.readVector3(),
-      rgb: binary.readColor3(),
+      rgb: Color.readFrom(binary, 'rgb'),
       size: binary.readFloat32(),
       special: binary.readInt32(),
       scale: binary.readFloat32(),
@@ -27,11 +28,11 @@ class Fog {
   }
 
   static accumulateFrom(fog) {
-    const buffer = Buffer.alloc(Fog.sizeOf(), 0)
+    const buffer = Buffer.alloc(Fog.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
     binary.writeVector3(fog.pos)
-    binary.writeColor3(fog.rgb)
+    binary.writeBuffer(Color.accumulateFrom(fog.rgb, 'rgb'))
     binary.writeFloat32(fog.size)
     binary.writeInt32(fog.special)
     binary.writeFloat32(fog.scale)

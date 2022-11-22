@@ -17,7 +17,7 @@ class FtsHeader {
   }
 
   static accumulateFrom(json, uncompressedSize) {
-    const buffer = Buffer.alloc(FtsHeader.sizeOf(), 0)
+    const buffer = Buffer.alloc(FtsHeader.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
     binary.writeString(json.header.path, 256)

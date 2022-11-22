@@ -24,32 +24,29 @@ class PortalPolygon {
   }
 
   static accumulateFrom(polygon) {
-    const size1 = 4 + 4 * 3 * 4
-    const buffer1 = Buffer.alloc(size1, 0)
-    const binary1 = new BinaryIO(buffer1.buffer)
+    const buffer = Buffer.alloc(PortalPolygon.sizeOf())
+    const binary = new BinaryIO(buffer.buffer)
 
-    binary1.writeInt32(polygon.type)
-    binary1.writeVector3(polygon.min)
-    binary1.writeVector3(polygon.max)
-    binary1.writeVector3(polygon.norm)
-    binary1.writeVector3(polygon.norm2)
+    binary.writeInt32(polygon.type)
+    binary.writeVector3(polygon.min)
+    binary.writeVector3(polygon.max)
+    binary.writeVector3(polygon.norm)
+    binary.writeVector3(polygon.norm2)
+    binary.writeBuffer(Buffer.concat(polygon.v.map(TextureVertex.accumulateFrom)))
+    binary.writeUint8Array(polygon.unused)
+    binary.writeVector3Array(polygon.nrml)
+    binary.writeInt32(polygon.tex)
+    binary.writeVector3(polygon.center)
+    binary.writeFloat32(polygon.transval)
+    binary.writeFloat32(polygon.area)
+    binary.writeInt16(polygon.room)
+    binary.writeInt16(polygon.misc)
 
-    const textureVertex = Buffer.concat(polygon.v.map(TextureVertex.accumulateFrom))
+    return buffer
+  }
 
-    const size2 = 32 * 4 + 4 * 3 * 4 + 4 + 3 * 4 + 4 + 4 + 2 + 2
-    const buffer2 = Buffer.alloc(size2, 0)
-    const binary2 = new BinaryIO(buffer2.buffer)
-
-    binary2.writeUint8Array(polygon.unused)
-    binary2.writeVector3Array(polygon.nrml)
-    binary2.writeInt32(polygon.tex)
-    binary2.writeVector3(polygon.center)
-    binary2.writeFloat32(polygon.transval)
-    binary2.writeFloat32(polygon.area)
-    binary2.writeInt16(polygon.room)
-    binary2.writeInt16(polygon.misc)
-
-    return Buffer.concat([buffer1, textureVertex, buffer2])
+  static sizeOf() {
+    return 52 + TextureVertex.sizeOf() * 4 + 204
   }
 }
 

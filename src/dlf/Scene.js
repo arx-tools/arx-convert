@@ -15,7 +15,7 @@ class Scene {
   }
 
   static accumulateFrom(json) {
-    const buffer = Buffer.alloc(Scene.sizeOf(), 0)
+    const buffer = Buffer.alloc(Scene.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
     binary.writeString(json.scene.name, 512)

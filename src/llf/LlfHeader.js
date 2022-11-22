@@ -24,7 +24,7 @@ class LlfHeader {
   }
 
   static accumulateFrom(json) {
-    const buffer = Buffer.alloc(LlfHeader.sizeOf(), 0)
+    const buffer = Buffer.alloc(LlfHeader.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
     binary.writeFloat32(json.header.version)

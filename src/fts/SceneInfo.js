@@ -10,7 +10,7 @@ class SceneInfo {
   }
 
   static accumulateFrom(cell) {
-    const buffer = Buffer.alloc(SceneInfo.sizeOf(), 0)
+    const buffer = Buffer.alloc(SceneInfo.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
     binary.writeInt32(cell.polygons.length)

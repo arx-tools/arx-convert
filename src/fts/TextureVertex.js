@@ -1,26 +1,27 @@
 const { Buffer } = require('node:buffer')
 const { BinaryIO } = require('../binary/BinaryIO.js')
+const { Color } = require('../common/Color.js')
 
 class TextureVertex {
   static readFrom(binary) {
     return {
       pos: binary.readVector3(),
       rhw: binary.readFloat32(), // portal bounds radius ?
-      color: binary.readColorRGBA(),
-      specular: binary.readColorRGBA(), // unused btw...
+      color: Color.readFrom(binary, 'abgr'),
+      specular: Color.readFrom(binary, 'abgr'), // unused btw...
       tu: binary.readFloat32(),
       tv: binary.readFloat32(),
     }
   }
 
   static accumulateFrom(vertex) {
-    const buffer = Buffer.alloc(TextureVertex.sizeOf(), 0)
+    const buffer = Buffer.alloc(TextureVertex.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
     binary.writeVector3(vertex.pos)
     binary.writeFloat32(vertex.rhw)
-    binary.writeColorRGBA(vertex.color)
-    binary.writeColorRGBA(vertex.specular)
+    binary.writeBuffer(Color.accumulateFrom(vertex.color, 'abgr'))
+    binary.writeBuffer(Color.accumulateFrom(vertex.specular, 'abgr'))
     binary.writeFloat32(vertex.tu)
     binary.writeFloat32(vertex.tv)
 
@@ -28,7 +29,7 @@ class TextureVertex {
   }
 
   static sizeOf() {
-    return 3 * 4 + 4 + 4 + 4 + 4 + 4
+    return 3 * 4 + 4 + Color.sizeOf('abgr') * 2 + 4 + 4
   }
 }
 

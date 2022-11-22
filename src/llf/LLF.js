@@ -24,7 +24,7 @@ class LLF {
 
     const { numberOfColors } = LightingHeader.readFrom(file)
 
-    data.colors = times(() => Color.readFrom(file, header.version > 1.001), numberOfColors)
+    data.colors = times(() => Color.readFrom(file, header.version > 1.001 ? 'bgra' : 'rgb'), numberOfColors)
 
     const remainedBytes = decompressedFile.length - file.position
     if (remainedBytes > 0) {
@@ -37,23 +37,17 @@ class LLF {
   static save(json) {
     const header = LlfHeader.accumulateFrom(json)
 
-    const lights = Buffer.concat(
-      json.lights.map((light) => {
-        return Light.accumulateFrom(light)
-      }),
-    )
+    const lights = Buffer.concat(json.lights.map(Light.accumulateFrom))
 
     const lightingHeader = LightingHeader.accumulateFrom(json)
 
     const colors = Buffer.concat(
       json.colors.map((color) => {
-        return Color.accumulateFrom(color, json.header.version > 1.001)
+        return Color.accumulateFrom(color, json.header.version > 1.001 ? 'bgra' : 'rgb')
       }),
     )
 
-    const lighting = Buffer.concat([lightingHeader, colors])
-
-    return Buffer.concat([header, lights, lighting])
+    return Buffer.concat([header, lights, lightingHeader, colors])
   }
 }
 

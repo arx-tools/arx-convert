@@ -20,11 +20,10 @@ class Polygon {
   }
 
   static accumulateFrom(polygon) {
-    const vertices = Buffer.concat(polygon.vertices.map((vertex) => Vertex.accumulateFrom(vertex)))
-
-    const buffer = Buffer.alloc(Polygon.sizeOf() - 4 * Vertex.sizeOf(), 0)
+    const buffer = Buffer.alloc(Polygon.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
+    binary.writeBuffer(Buffer.concat(polygon.vertices.map(Vertex.accumulateFrom)))
     binary.writeInt32(polygon.tex)
     binary.writeVector3(polygon.norm)
     binary.writeVector3(polygon.norm2)
@@ -35,7 +34,7 @@ class Polygon {
     binary.writeInt16(polygon.room)
     binary.writeInt16(polygon.paddy)
 
-    return Buffer.concat([vertices, buffer])
+    return buffer
   }
 
   static sizeOf() {

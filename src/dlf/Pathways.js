@@ -18,7 +18,7 @@ class Pathways {
   }
 
   static allocateFrom(pathway) {
-    const buffer = Buffer.alloc(Pathways.sizeOf(), 0)
+    const buffer = Buffer.alloc(Pathways.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
     binary.writeVector3(pathway.rpos)

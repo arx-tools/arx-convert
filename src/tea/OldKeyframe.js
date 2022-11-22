@@ -18,7 +18,7 @@ class OldKeyframe {
   }
 
   static accumulateFrom(json) {
-    const buffer = Buffer.alloc(OldKeyframe.sizeOf(), 0)
+    const buffer = Buffer.alloc(OldKeyframe.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
     // TODO

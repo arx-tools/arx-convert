@@ -1,17 +1,18 @@
 const { Buffer } = require('node:buffer')
 const { repeat } = require('./helpers.js')
 const { BinaryIO } = require('../binary/BinaryIO.js')
+const { Color } = require('./Color.js')
 
 class Light {
   static readFrom(binary) {
     const data = {
       pos: binary.readVector3(),
-      rgb: binary.readColor3(),
+      rgb: Color.readFrom(binary, 'rgb'),
       fallstart: binary.readFloat32(),
       fallend: binary.readFloat32(),
       intensity: binary.readFloat32(),
       i: binary.readFloat32(),
-      exFlicker: binary.readColor3(),
+      exFlicker: Color.readFrom(binary, 'rgb'),
       exRadius: binary.readFloat32(),
       exFrequency: binary.readFloat32(),
       exSize: binary.readFloat32(),
@@ -29,16 +30,16 @@ class Light {
   }
 
   static accumulateFrom(light) {
-    const buffer = Buffer.alloc(Light.sizeOf(), 0)
+    const buffer = Buffer.alloc(Light.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
     binary.writeVector3(light.pos)
-    binary.writeColor3(light.rgb)
+    binary.writeBuffer(Color.accumulateFrom(light.rgb, 'rgb'))
     binary.writeFloat32(light.fallstart)
     binary.writeFloat32(light.fallend)
     binary.writeFloat32(light.intensity)
     binary.writeFloat32(light.i)
-    binary.writeColor3(light.exFlicker)
+    binary.writeBuffer(Color.accumulateFrom(light.exFlicker, 'rgb'))
     binary.writeFloat32(light.exRadius)
     binary.writeFloat32(light.exFrequency)
     binary.writeFloat32(light.exSize)

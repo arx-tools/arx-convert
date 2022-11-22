@@ -14,17 +14,20 @@ class Portal {
   }
 
   static accumulateFrom(portal) {
-    const polygon = PortalPolygon.accumulateFrom(portal.polygon)
-
-    const buffer = Buffer.alloc(12, 0)
+    const buffer = Buffer.alloc(Portal.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
+    binary.writeBuffer(PortalPolygon.accumulateFrom(portal.polygon))
     binary.writeInt32(portal.room1)
     binary.writeInt32(portal.room2)
     binary.writeInt16(portal.useportal)
     binary.writeInt16(portal.paddy)
 
-    return Buffer.concat([polygon, buffer])
+    return buffer
+  }
+
+  static sizeOf() {
+    return 12 + PortalPolygon.sizeOf()
   }
 }
 

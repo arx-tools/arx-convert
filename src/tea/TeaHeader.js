@@ -17,7 +17,7 @@ class TeaHeader {
   }
 
   static accumulateFrom(json, uncompressedSize) {
-    const buffer = Buffer.alloc(TeaHeader.sizeOf(), 0)
+    const buffer = Buffer.alloc(TeaHeader.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
     // TODO

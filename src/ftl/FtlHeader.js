@@ -12,7 +12,7 @@ class FtlHeader {
   }
 
   static accumulateFrom(json, uncompressedSize) {
-    const buffer = Buffer.alloc(FtlHeader.sizeOf(), 0)
+    const buffer = Buffer.alloc(FtlHeader.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
     // TODO

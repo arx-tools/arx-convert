@@ -16,7 +16,7 @@ class Anchor {
   static accumulateFrom(anchor) {
     const anchorData = AnchorData.accumulateFrom(anchor)
 
-    const linkedAnchors = Buffer.alloc(anchor.linkedAnchors.length * 4, 0)
+    const linkedAnchors = Buffer.alloc(anchor.linkedAnchors.length * 4)
     const binary = new BinaryIO(linkedAnchors.buffer)
 
     binary.writeInt32Array(anchor.linkedAnchors)

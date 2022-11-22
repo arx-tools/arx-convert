@@ -44,7 +44,7 @@ class DLF {
       // TODO: is this a boolean?
       const { numberOfColors } = LightingHeader.readFrom(file)
 
-      data.colors = times(() => Color.readFrom(file, header.version > 1.001), numberOfColors)
+      data.colors = times(() => Color.readFrom(file, header.version > 1.001 ? 'bgra' : 'rgb'), numberOfColors)
     } else {
       data.colors = null
     }
@@ -92,7 +92,7 @@ class DLF {
 
       const colors = Buffer.concat(
         json.colors.map((color) => {
-          return Color.accumulateFrom(color, json.header.version > 1.001)
+          return Color.accumulateFrom(color, json.header.version > 1.001 ? 'bgra' : 'rgb')
         }),
       )
 
@@ -106,7 +106,7 @@ class DLF {
 
     let nodes
     if (json.header.version >= 1.001) {
-      nodes = Buffer.alloc(json.header.numberOfNodes * (204 + json.header.numberOfNodeLinks * 64), 0)
+      nodes = Buffer.alloc(json.header.numberOfNodes * (204 + json.header.numberOfNodeLinks * 64))
     } else {
       nodes = Buffer.from([])
     }
@@ -114,12 +114,7 @@ class DLF {
     const paths = Buffer.concat(
       json.paths.map((path) => {
         const pathHeader = PathHeader.allocateFrom(path)
-        const pathways = Buffer.concat(
-          path.pathways.map((pathway) => {
-            return Pathways.allocateFrom(pathway)
-          }),
-        )
-
+        const pathways = Buffer.concat(path.pathways.map(Pathways.allocateFrom))
         return Buffer.concat([pathHeader, pathways])
       }),
     )

@@ -15,7 +15,7 @@ class EPData {
   }
 
   static accumulateFrom(polygon) {
-    const buffer = Buffer.alloc(EPData.sizeOf(), 0)
+    const buffer = Buffer.alloc(EPData.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
     binary.writeInt16(polygon.px)

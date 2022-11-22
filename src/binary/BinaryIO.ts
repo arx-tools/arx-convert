@@ -1,12 +1,12 @@
 import { TextIO } from './TextIO'
 import { repeat } from '../common/helpers'
 import { LITTLE_ENDIAN, TRUNCATE_ZERO_BYTES, KEEP_ZERO_BYTES, SPACE } from '../common/constants'
-import { ArxColor3, ArxColorRGBA, ArxQuaternion, ArxRotation, ArxVector3 } from '../common/types'
+import { ArxColor, ArxQuaternion, ArxRotation, ArxVector3 } from '../common/types'
 
 export class BinaryIO extends DataView {
   public position: number // TODO: make this private - this needs to be public because of TEA
 
-  constructor(buffer: Buffer, byteOffset: number, byteLength: number) {
+  constructor(buffer: ArrayBufferLike, byteOffset?: number, byteLength?: number) {
     super(buffer, byteOffset, byteLength)
     this.position = 0
   }
@@ -158,7 +158,7 @@ export class BinaryIO extends DataView {
     this.position += 1
   }
 
-  writeUint8Array(values: number[]) {
+  writeUint8Array(values: number[] | Uint8Array) {
     values.forEach((value) => {
       this.writeUint8(value)
     })
@@ -261,24 +261,6 @@ export class BinaryIO extends DataView {
     this.writeFloat32Array([a, b, g])
   }
 
-  readColor3() {
-    const [r, g, b] = this.readFloat32Array(3)
-    return { r, g, b } as ArxColor3
-  }
-
-  writeColor3({ r, g, b }: ArxColor3) {
-    this.writeFloat32Array([r, g, b])
-  }
-
-  readColorRGBA() {
-    const [a, b, g, r] = this.readUint8Array(4)
-    return { r, g, b, a } as ArxColorRGBA
-  }
-
-  writeColorRGBA({ r, g, b, a }: ArxColorRGBA) {
-    this.writeUint8Array([a, b, g, r])
-  }
-
   readQuat() {
     const [w, x, y, z] = this.readFloat32Array(4)
     return { x, y, z, w } as ArxQuaternion
@@ -286,5 +268,9 @@ export class BinaryIO extends DataView {
 
   writeQuat({ x, y, z, w }: ArxQuaternion) {
     this.writeFloat32Array([w, x, y, z])
+  }
+
+  writeBuffer(buffer: Buffer) {
+    this.writeUint8Array(buffer)
   }
 }

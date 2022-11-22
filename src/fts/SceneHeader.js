@@ -21,7 +21,7 @@ class SceneHeader {
   }
 
   static accumulateFrom(json) {
-    const buffer = Buffer.alloc(SceneHeader.sizeOf(), 0)
+    const buffer = Buffer.alloc(SceneHeader.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
     const numberOfRooms = maxAll(uniq(json.polygons.map(({ room }) => room)))

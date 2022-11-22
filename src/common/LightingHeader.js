@@ -15,7 +15,7 @@ class LightingHeader {
   }
 
   static accumulateFrom(json) {
-    const buffer = Buffer.alloc(LightingHeader.sizeOf(), 0)
+    const buffer = Buffer.alloc(LightingHeader.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
     binary.writeInt32(json.colors.length)

@@ -1,5 +1,6 @@
 const { Buffer } = require('node:buffer')
 const { BinaryIO } = require('../binary/BinaryIO.js')
+const { Color } = require('../common/Color.js')
 const { repeat } = require('../common/helpers.js')
 
 class PathHeader {
@@ -11,7 +12,7 @@ class PathHeader {
       initPos: binary.readVector3(),
       pos: binary.readVector3(),
       numberOfPathways: binary.readInt32(),
-      rgb: binary.readColor3(),
+      rgb: Color.readFrom(binary, 'rgb'),
       farClip: binary.readFloat32(),
       reverb: binary.readFloat32(),
       ambianceMaxVolume: binary.readFloat32(),
@@ -31,7 +32,7 @@ class PathHeader {
   }
 
   static allocateFrom(path) {
-    const buffer = Buffer.alloc(PathHeader.sizeOf(), 0)
+    const buffer = Buffer.alloc(PathHeader.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
     binary.writeString(path.header.name, 64)
@@ -40,7 +41,7 @@ class PathHeader {
     binary.writeVector3(path.header.initPos)
     binary.writeVector3(path.header.pos)
     binary.writeInt32(path.pathways.length)
-    binary.writeColor3(path.header.rgb)
+    binary.writeBuffer(Color.accumulateFrom(path.header.rgb, 'rgb'))
     binary.writeFloat32(path.header.farClip)
     binary.writeFloat32(path.header.reverb)
     binary.writeFloat32(path.header.ambianceMaxVolume)
