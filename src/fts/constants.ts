@@ -1,4 +1,4 @@
-const POLYGON_TYPE = {
+export const POLYGON_TYPE = {
   NO_SHADOW: 1 << 0,
   DOUBLESIDED: 1 << 1,
   TRANS: 1 << 2,
@@ -69,7 +69,7 @@ const POLYGON_TYPE = {
 // 0.9999967447916589,
 // 0.9999967447916731,
 
-const coordsThatNeedRoundingUp = [
+export const coordsThatNeedRoundingUp: [number, number, number][] = [
   [2550, 2600, 2649.999755859375],
   [2649.999755859375, 2700, 2749.999755859375],
   [3949.999755859375, 4000, 4050],
