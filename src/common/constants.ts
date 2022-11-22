@@ -1,32 +1,53 @@
-export const POLYGON_TYPE = {
-  NO_SHADOW: 1 << 0,
-  DOUBLESIDED: 1 << 1,
-  TRANS: 1 << 2,
-  WATER: 1 << 3,
-  GLOW: 1 << 4,
-  IGNORE: 1 << 5,
-  QUAD: 1 << 6,
-  TILED: 1 << 7,
-  METAL: 1 << 8,
-  HIDE: 1 << 9,
-  STONE: 1 << 10,
-  WOOD: 1 << 11,
-  GRAVEL: 1 << 12,
-  EARTH: 1 << 13,
-  NOCOL: 1 << 14,
-  LAVA: 1 << 15,
-  CLIMB: 1 << 16,
-  FALL: 1 << 17,
-  NOPATH: 1 << 18,
-  NODRAW: 1 << 19,
-  PRECISE_PATH: 1 << 20,
-  NO_CLIMB: 1 << 21,
-  ANGULAR: 1 << 22,
-  ANGULAR_IDX0: 1 << 23,
-  ANGULAR_IDX1: 1 << 24,
-  ANGULAR_IDX2: 1 << 25,
-  ANGULAR_IDX3: 1 << 26,
-  LATE_MIP: 1 << 27,
+export enum ArxPolygonFlags {
+  NoShadow = 1 << 0,
+  DoubleSided = 1 << 1,
+  Trans = 1 << 2,
+  Water = 1 << 3,
+  Glow = 1 << 4,
+  Ignore = 1 << 5,
+  Quad = 1 << 6,
+  Tiled = 1 << 7, // unused
+  Metal = 1 << 8,
+  Hide = 1 << 9,
+  Stone = 1 << 10,
+  Wood = 1 << 11,
+  Gravel = 1 << 12,
+  Earth = 1 << 13,
+  NoCollision = 1 << 14,
+  Lava = 1 << 15,
+  Climbable = 1 << 16,
+  Falling = 1 << 17,
+  NoPath = 1 << 18,
+  NoDraw = 1 << 19,
+  PrecisePath = 1 << 20,
+  NoClimb = 1 << 21, // unused
+  Angular = 1 << 22, // unused
+  AngularIdx0 = 1 << 23, // unused
+  AngularIdx1 = 1 << 24, // unused
+  AngularIdx2 = 1 << 25, // unused
+  AngularIdx3 = 1 << 26, // unused
+  LateMip = 1 << 27,
+}
+
+export enum ArxLightFlags {
+  SemiDynamic = 1 << 0,
+  Extinguishable = 1 << 1,
+  StartExtinguished = 1 << 2,
+  SpawnFire = 1 << 3,
+  SpawnSmoke = 1 << 4,
+  Off = 1 << 5,
+  ColorLegacy = 1 << 6,
+  NoCasted = 1 << 7, // unused
+  FixFlareSize = 1 << 8,
+  Fireplace = 1 << 9,
+  NoIgnit = 1 << 10, // it will not react to player casting ignite spell. douse will still work!
+  Flare = 1 << 11,
+}
+
+export enum ArxZoneFlags {
+  Ambiance = 1 << 1,
+  Rgb = 1 << 2,
+  FarClip = 1 << 3,
 }
 
 // for whatever reason the following coords create a polygon, which ends up in an incorrect cell
@@ -69,7 +90,7 @@ export const POLYGON_TYPE = {
 // 0.9999967447916589,
 // 0.9999967447916731,
 
-export const coordsThatNeedRoundingUp: [number, number, number][] = [
+export const CoordsThatNeedRoundingUp: [number, number, number][] = [
   [2550, 2600, 2649.999755859375],
   [2649.999755859375, 2700, 2749.999755859375],
   [3949.999755859375, 4000, 4050],
@@ -166,4 +187,7 @@ export const coordsThatNeedRoundingUp: [number, number, number][] = [
   [13839.9990234375, 13925, 13935],
 ]
 
-module.exports = { POLYGON_TYPE, coordsThatNeedRoundingUp }
+export const SupportedArxFormats = ['dlf', 'fts', 'llf', 'ftl', 'tea']
+export const SupportedDataFormats = ['json', 'yaml', 'yml']
+
+export const FtlVersion = 0.83257

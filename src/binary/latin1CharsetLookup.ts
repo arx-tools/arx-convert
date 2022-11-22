@@ -1,15 +1,15 @@
 // source: https://cs.stanford.edu/people/miles/iso8859.html
 // source: https://mathiasbynens.be/notes/javascript-escapes
 
-const flipArrayToLookupTable = (arr) => {
+const flipArrayToLookupTable = (arr: string[]) => {
   return arr.reduce((obj, value, idx) => {
     obj[value] = idx
     return obj
-  }, {})
+  }, {} as Record<string, number>)
 }
 
 // prettier-ignore
-const CHARS = [
+export const CHARS = [
   '\0', '\x01', '\x02', '\x03', '\x04', '\x05', '\x06', '\x07', '\b', '\t', '\n', '\v', '\f', '\r', '\x0e', '\x0f',
   '\0x10', '\0x11', '\0x12', '\0x13', '\0x14', '\0x15', '\0x16', '\0x17', '\0x18', '\0x19', '\0x1a', '\0x1b', '\0x1c', '\0x1d', '\0x1e', '\0x1f',
   ' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/',
@@ -28,6 +28,4 @@ const CHARS = [
   'ð', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', '÷', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'þ', 'ÿ'
 ]
 
-const CODES = flipArrayToLookupTable(CHARS)
-
-module.exports = { CHARS, CODES }
+export const CODES = flipArrayToLookupTable(CHARS)

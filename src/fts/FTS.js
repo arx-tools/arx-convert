@@ -1,7 +1,7 @@
 const { Buffer } = require('node:buffer')
 const { isZeroVertex, times } = require('../common/helpers.js')
 const { BinaryIO } = require('../binary/BinaryIO.js')
-const { coordsThatNeedRoundingUp } = require('./constants.js')
+const { CoordsThatNeedRoundingUp } = require('../common/constants')
 const { Anchor } = require('./Anchor.js')
 const { Cell } = require('./Cell.js')
 const { FtsHeader } = require('./FtsHeader.js')
@@ -14,7 +14,7 @@ const { UniqueHeader } = require('./UniqueHeader.js')
 
 const doCoordsNeedToBeRoundedUp = (coords) => {
   const [a, b, c] = coords.sort((a, b) => a - b)
-  return coordsThatNeedRoundingUp.find(([x, y, z]) => a === x && b === y && c === z) !== undefined
+  return CoordsThatNeedRoundingUp.find(([x, y, z]) => a === x && b === y && c === z) !== undefined
 }
 
 const addLightIndex = (polygons) => {
