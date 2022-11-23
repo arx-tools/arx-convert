@@ -39,7 +39,7 @@ class LLF {
 
     const lights = Buffer.concat(json.lights.map(Light.accumulateFrom))
 
-    const lightingHeader = LightingHeader.accumulateFrom(json)
+    const lightingHeader = LightingHeader.accumulateFrom(json.colors)
 
     const colors = Buffer.concat(
       json.colors.map((color) => {

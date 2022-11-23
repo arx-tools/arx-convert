@@ -1,4 +1,5 @@
 export enum ArxPolygonFlags {
+  None = 0,
   NoShadow = 1 << 0,
   DoubleSided = 1 << 1,
   Trans = 1 << 2,
@@ -30,6 +31,7 @@ export enum ArxPolygonFlags {
 }
 
 export enum ArxLightFlags {
+  None = 0,
   SemiDynamic = 1 << 0,
   Extinguishable = 1 << 1,
   StartExtinguished = 1 << 2,
@@ -45,6 +47,7 @@ export enum ArxLightFlags {
 }
 
 export enum ArxZoneFlags {
+  None = 0,
   Ambiance = 1 << 1,
   Rgb = 1 << 2,
   FarClip = 1 << 3,

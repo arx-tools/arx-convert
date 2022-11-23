@@ -1,8 +1,8 @@
-const { Buffer } = require('node:buffer')
-const { BinaryIO } = require('../binary/BinaryIO.js')
+import { BinaryIO } from '../binary/BinaryIO'
+import { Color } from './Color'
 
-class LightingHeader {
-  static readFrom(binary) {
+export class LightingHeader {
+  static readFrom(binary: BinaryIO) {
     const data = {
       numberOfColors: binary.readInt32(),
     }
@@ -14,11 +14,11 @@ class LightingHeader {
     return data
   }
 
-  static accumulateFrom(json) {
+  static accumulateFrom(colors: Color[]) {
     const buffer = Buffer.alloc(LightingHeader.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
-    binary.writeInt32(json.colors.length)
+    binary.writeInt32(colors.length)
 
     binary.writeInt32(0)
     binary.writeInt32(63)
@@ -31,5 +31,3 @@ class LightingHeader {
     return 4 * 4
   }
 }
-
-module.exports = { LightingHeader }

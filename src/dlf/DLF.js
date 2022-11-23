@@ -88,7 +88,7 @@ class DLF {
 
     let lighting
     if (json.header.lighting > 0) {
-      const lightingHeader = LightingHeader.accumulateFrom(json)
+      const lightingHeader = LightingHeader.accumulateFrom(json.colors)
 
       const colors = Buffer.concat(
         json.colors.map((color) => {

@@ -1,11 +1,28 @@
-const { Buffer } = require('node:buffer')
-const { repeat } = require('./helpers.js')
-const { BinaryIO } = require('../binary/BinaryIO.js')
-const { Color } = require('./Color.js')
+import { BinaryIO } from '../binary/BinaryIO'
+import { Color } from './Color'
+import { ArxLightFlags } from './constants'
+import { repeat } from './helpers'
+import { ArxColor, ArxVector3 } from './types'
 
-class Light {
-  static readFrom(binary) {
-    const data = {
+export type ArxLight = {
+  pos: ArxVector3
+  rgb: ArxColor
+  fallstart: number
+  fallend: number
+  intensity: number
+  i: number
+  exFlicker: ArxColor
+  exRadius: number
+  exFrequency: number
+  exSize: number
+  exSpeed: number
+  exFlareSize: number
+  flags: ArxLightFlags
+}
+
+export class Light {
+  static readFrom(binary: BinaryIO) {
+    const data: ArxLight = {
       pos: binary.readVector3(),
       rgb: Color.readFrom(binary, 'rgb'),
       fallstart: binary.readFloat32(),
@@ -18,18 +35,19 @@ class Light {
       exSize: binary.readFloat32(),
       exSpeed: binary.readFloat32(),
       exFlareSize: binary.readFloat32(),
+      flags: ArxLightFlags.None,
     }
 
     binary.readFloat32Array(24) // fpad
 
-    data.extras = binary.readInt32()
+    data.flags = binary.readInt32()
 
     binary.readInt32Array(31) // lpad
 
     return data
   }
 
-  static accumulateFrom(light) {
+  static accumulateFrom(light: ArxLight) {
     const buffer = Buffer.alloc(Light.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
@@ -48,7 +66,7 @@ class Light {
 
     binary.writeFloat32Array(repeat(0, 24))
 
-    binary.writeInt32(light.extras)
+    binary.writeInt32(light.flags)
 
     binary.writeInt32Array(repeat(0, 31))
 
@@ -59,5 +77,3 @@ class Light {
     return 296
   }
 }
-
-module.exports = { Light }
