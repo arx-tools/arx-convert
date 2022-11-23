@@ -15,7 +15,7 @@ export enum ArxLightFlags {
   NoCasted = 1 << 7, // unused
   FixFlareSize = 1 << 8,
   Fireplace = 1 << 9,
-  NoIgnit = 1 << 10, // it will not react to player casting ignite spell, but douse will still work!
+  NoIgnit = 1 << 10, // block reacting to player casting ignite spell, but douse will still work!
   Flare = 1 << 11,
 }
 
