@@ -1,28 +1,23 @@
-const { Buffer } = require('node:buffer')
-const { BinaryIO } = require('../binary/BinaryIO.js')
+import { Buffer } from 'node:buffer'
+import { BinaryIO } from '../binary/BinaryIO'
 
-class EPData {
-  static readFrom(binary) {
-    const data = {
-      px: binary.readInt16(),
-      py: binary.readInt16(),
-      idx: binary.readInt16(),
-    }
+export type ArxEPData = {
+  px: number
+  py: number
+  idx: number
+}
 
-    binary.readInt16()
-
-    return data
+export class EPData {
+  static readFrom(binary: BinaryIO) {
+    const [px, py, idx] = binary.readInt16Array(4)
+    return { px, py, idx } as ArxEPData
   }
 
-  static accumulateFrom(polygon) {
+  static accumulateFrom({ px, py, idx }: ArxEPData) {
     const buffer = Buffer.alloc(EPData.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
-    binary.writeInt16(polygon.px)
-    binary.writeInt16(polygon.py)
-    binary.writeInt16(polygon.idx)
-
-    binary.writeInt16(0)
+    binary.writeInt16Array([px, py, idx, 0])
 
     return buffer
   }
@@ -31,5 +26,3 @@ class EPData {
     return 4 * 2
   }
 }
-
-module.exports = { EPData }
