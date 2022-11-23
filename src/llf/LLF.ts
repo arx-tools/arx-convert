@@ -16,7 +16,7 @@ export type ArxLLF = {
   colors: ArxColor[]
 }
 
-class LLF {
+export class LLF {
   static load(decompressedFile: Buffer) {
     const file = new BinaryIO(decompressedFile.buffer)
 
