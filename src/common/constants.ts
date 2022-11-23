@@ -30,22 +30,6 @@ export enum ArxPolygonFlags {
   LateMip = 1 << 27,
 }
 
-export enum ArxLightFlags {
-  None = 0,
-  SemiDynamic = 1 << 0,
-  Extinguishable = 1 << 1,
-  StartExtinguished = 1 << 2,
-  SpawnFire = 1 << 3,
-  SpawnSmoke = 1 << 4,
-  Off = 1 << 5,
-  ColorLegacy = 1 << 6,
-  NoCasted = 1 << 7, // unused
-  FixFlareSize = 1 << 8,
-  Fireplace = 1 << 9,
-  NoIgnit = 1 << 10, // it will not react to player casting ignite spell. douse will still work!
-  Flare = 1 << 11,
-}
-
 export enum ArxZoneFlags {
   None = 0,
   Ambiance = 1 << 1,

@@ -1,9 +1,15 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../binary/BinaryIO'
 import { getLowestByte } from './helpers'
-import { ArxColor } from './types'
 
 type ColorMode = 'bgra' | 'rgb' | 'abgr'
+
+export type ArxColor = {
+  r: number
+  g: number
+  b: number
+  a: number
+}
 
 export class Color {
   static readFrom(binary: BinaryIO, mode: ColorMode) {

@@ -1,8 +1,23 @@
 import { BinaryIO } from '../binary/BinaryIO'
-import { Color } from './Color'
-import { ArxLightFlags } from './constants'
+import { ArxColor, Color } from './Color'
 import { repeat } from './helpers'
-import { ArxColor, ArxVector3 } from './types'
+import { ArxVector3 } from './types'
+
+export enum ArxLightFlags {
+  None = 0,
+  SemiDynamic = 1 << 0,
+  Extinguishable = 1 << 1,
+  StartExtinguished = 1 << 2,
+  SpawnFire = 1 << 3,
+  SpawnSmoke = 1 << 4,
+  Off = 1 << 5,
+  ColorLegacy = 1 << 6,
+  NoCasted = 1 << 7, // unused
+  FixFlareSize = 1 << 8,
+  Fireplace = 1 << 9,
+  NoIgnit = 1 << 10, // it will not react to player casting ignite spell, but douse will still work!
+  Flare = 1 << 11,
+}
 
 export type ArxLight = {
   pos: ArxVector3

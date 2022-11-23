@@ -1,26 +1,36 @@
-const { Buffer } = require('node:buffer')
-const { BinaryIO } = require('../binary/BinaryIO.js')
-const { LlfHeader } = require('./LlfHeader.js')
-const { Light } = require('../common/Light.js')
-const { LightingHeader } = require('../common/LightingHeader.js')
-const { Color } = require('../common/Color.js')
-const { times } = require('../common/helpers.js')
+import { Buffer } from 'node:buffer'
+import { BinaryIO } from '../binary/BinaryIO'
+import { ArxColor, Color } from '../common/Color'
+import { times } from '../common/helpers'
+import { ArxLight, Light } from '../common/Light'
+import { LightingHeader } from '../common/LightingHeader'
+import { ArxLlfHeader, LlfHeader } from './LlfHeader'
+
+export type ArxLLF = {
+  meta: {
+    type: 'llf'
+    numberOfLeftoverBytes: number
+  }
+  header: Omit<ArxLlfHeader, 'numberOfLights'>
+  lights: ArxLight[]
+  colors: ArxColor[]
+}
 
 class LLF {
-  static load(decompressedFile) {
+  static load(decompressedFile: Buffer) {
     const file = new BinaryIO(decompressedFile.buffer)
 
     const { numberOfLights, ...header } = LlfHeader.readFrom(file)
 
-    const data = {
+    const data: ArxLLF = {
       meta: {
         type: 'llf',
         numberOfLeftoverBytes: 0,
       },
       header: header,
+      lights: times(() => Light.readFrom(file), numberOfLights),
+      colors: [],
     }
-
-    data.lights = times(() => Light.readFrom(file), numberOfLights)
 
     const { numberOfColors } = LightingHeader.readFrom(file)
 
@@ -34,7 +44,7 @@ class LLF {
     return data
   }
 
-  static save(json) {
+  static save(json: ArxLLF) {
     const header = LlfHeader.accumulateFrom(json)
 
     const lights = Buffer.concat(json.lights.map(Light.accumulateFrom))

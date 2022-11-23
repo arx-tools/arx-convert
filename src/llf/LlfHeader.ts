@@ -1,9 +1,21 @@
-const { Buffer } = require('node:buffer')
-const { BinaryIO } = require('../binary/BinaryIO.js')
-const { repeat } = require('../common/helpers.js')
+import { Buffer } from 'node:buffer'
+import { BinaryIO } from '../binary/BinaryIO'
+import { repeat } from '../common/helpers'
+import { ArxLLF } from './LLF'
 
-class LlfHeader {
-  static readFrom(binary) {
+export type ArxLlfHeader = {
+  version: number
+  identifier: string
+  lastUser: string
+  time: number
+  numberOfLights: number
+  numberOfShadowPolygons: number
+  numberOfIgnoredPolygons: number
+  numberOfBackgroundPolygons: number
+}
+
+export class LlfHeader {
+  static readFrom(binary: BinaryIO) {
     const data = {
       version: binary.readFloat32(),
       identifier: binary.readString(16),
@@ -23,7 +35,7 @@ class LlfHeader {
     return data
   }
 
-  static accumulateFrom(json) {
+  static accumulateFrom(json: ArxLLF) {
     const buffer = Buffer.alloc(LlfHeader.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
@@ -48,5 +60,3 @@ class LlfHeader {
     return 4 + 16 + 256 + 5 * 4 + 256 * 4 * 2 + 4096 + 256 * 4
   }
 }
-
-module.exports = { LlfHeader }

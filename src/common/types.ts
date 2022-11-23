@@ -1,10 +1,3 @@
-export type ArxColor = {
-  r: number
-  g: number
-  b: number
-  a: number
-}
-
 export type ArxVector3 = {
   x: number
   y: number
