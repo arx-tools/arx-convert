@@ -1,10 +1,16 @@
-const { Buffer } = require('node:buffer')
-const { BinaryIO } = require('../binary/BinaryIO.js')
-const { KEEP_ZERO_BYTES } = require('../binary/BinaryIO.js')
+import { KEEP_ZERO_BYTES } from '../common/constants'
+import { Buffer } from 'node:buffer'
+import { BinaryIO } from '../binary/BinaryIO'
+import { ArxTEA } from './TEA'
+import { ArxOldKeyFrame, OldKeyFrame } from './OldKeyFrame'
 
-class NewKeyframe {
-  static readFrom(binary) {
-    const data = {
+export type ArxNewKeyFrame = ArxOldKeyFrame & {
+  info_frame: string
+}
+
+export class NewKeyFrame {
+  static readFrom(binary: BinaryIO) {
+    return {
       num_frame: binary.readInt32(),
       flag_frame: binary.readInt32(),
       info_frame: binary.readString(256, KEEP_ZERO_BYTES),
@@ -14,13 +20,11 @@ class NewKeyframe {
       key_orient: binary.readInt32() !== 0, // is there a global rotation?
       key_morph: binary.readInt32() !== 0, // is there a global morph? (ignored)
       time_frame: binary.readInt32(),
-    }
-
-    return data
+    } as ArxNewKeyFrame
   }
 
-  static accumulateFrom(json) {
-    const buffer = Buffer.alloc(NewKeyframe.sizeOf())
+  static accumulateFrom(json: ArxTEA) {
+    const buffer = Buffer.alloc(NewKeyFrame.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
     // TODO
@@ -29,8 +33,6 @@ class NewKeyframe {
   }
 
   static sizeOf() {
-    return 0
+    return OldKeyFrame.sizeOf() + 256
   }
 }
-
-module.exports = { NewKeyframe }

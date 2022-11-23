@@ -1,21 +1,42 @@
-const { Buffer } = require('node:buffer')
-const { BinaryIO } = require('../binary/BinaryIO.js')
-const { TeaHeader } = require('./TeaHeader')
-const { NewKeyframe } = require('./NewKeyframe.js')
-const { OldKeyframe } = require('./OldKeyframe.js')
-const { KEEP_ZERO_BYTES } = require('../binary/BinaryIO.js')
+import { ArxTeaHeader, TeaHeader } from './TeaHeader'
+import { Buffer } from 'node:buffer'
+import { BinaryIO } from '../binary/BinaryIO'
+import { KEEP_ZERO_BYTES } from '../common/constants'
+import { ArxNewKeyFrame, NewKeyFrame } from './NewKeyFrame'
+import { ArxOldKeyFrame, OldKeyFrame } from './OldKeyFrame'
+import { ArxQuaternion, ArxVector3 } from '../common/types'
 
-class TEA {
-  static load(decompressedFile) {
+export type ArxTEA = {
+  meta: {
+    type: 'tea'
+    numberOfLeftoverBytes: number
+  }
+  header: Omit<ArxTeaHeader, 'numberOfKeyFrames' | 'numberOfGroups'>
+  keyframes: ArxKeyFrame[]
+}
+
+export type ArxTheaSample = {
+  name: string
+  size: number
+}
+
+export type ArxKeyFrame = (ArxNewKeyFrame | ArxOldKeyFrame) & {
+  translate?: ArxVector3
+  quat?: ArxQuaternion
+  sample?: ArxTheaSample
+}
+
+export class TEA {
+  static load(decompressedFile: Buffer) {
     const file = new BinaryIO(decompressedFile.buffer)
 
-    const header = TeaHeader.readFrom(file)
+    const { numberOfKeyFrames, numberOfGroups, ...header } = TeaHeader.readFrom(file)
 
     if (header.version < 2014) {
       throw new Error(`Invalid TEA version ${header.version}`)
     }
 
-    const data = {
+    const data: ArxTEA = {
       meta: {
         type: 'tea',
         numberOfLeftoverBytes: 0,
@@ -23,15 +44,14 @@ class TEA {
       header: header,
       keyframes: [],
     }
-    console.log(header)
 
-    for (let i = 0; i < header.numberOfKeyFrames; i++) {
+    for (let i = 0; i < numberOfKeyFrames; i++) {
       console.log(i, file.position)
-      let keyframe
+      let keyframe: ArxKeyFrame
       if (header.version >= 2015) {
-        keyframe = NewKeyframe.readFrom(file)
+        keyframe = NewKeyFrame.readFrom(file)
       } else {
-        keyframe = OldKeyframe.readFrom(file)
+        keyframe = OldKeyFrame.readFrom(file)
       }
       data.keyframes.push(keyframe)
 
@@ -48,7 +68,7 @@ class TEA {
         file.position += 16 // thea morph
       }
 
-      for (let j = 0; j < header.numberOfGroups; j++) {
+      for (let j = 0; j < numberOfGroups; j++) {
         // theo groupanim
         const group = {
           key: file.readInt32() !== 0,
@@ -63,13 +83,12 @@ class TEA {
       const numberOfSamples = file.readInt32()
 
       if (numberOfSamples !== -1) {
-        // thea sample
-        const sample = {
+        const sample: ArxTheaSample = {
           name: file.readString(256, KEEP_ZERO_BYTES),
           size: file.readInt32(),
         }
-        file.position += sample.size
         keyframe.sample = sample
+        file.position += sample.size
       }
 
       console.log(keyframe)
@@ -80,7 +99,7 @@ class TEA {
     return data
   }
 
-  static save(json) {
+  static save(json: ArxTEA) {
     return Buffer.concat([])
   }
 }
