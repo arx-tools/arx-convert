@@ -1,18 +1,28 @@
-const { Buffer } = require('node:buffer')
-const { BinaryIO } = require('../binary/BinaryIO.js')
+import { Buffer } from 'node:buffer'
+import { BinaryIO } from '../binary/BinaryIO'
+import { ArxVector3 } from '../common/types'
+import { ArxAnchor } from './Anchor'
 
-class AnchorData {
-  static readFrom(binary) {
+export type ArxAnchorData = {
+  pos: ArxVector3
+  radius: number
+  height: number
+  numberOfLinkedAnchors: number
+  flags: number
+}
+
+export class AnchorData {
+  static readFrom(binary: BinaryIO) {
     return {
       pos: binary.readVector3(),
       radius: binary.readFloat32(),
       height: binary.readFloat32(),
       numberOfLinkedAnchors: binary.readInt16(),
       flags: binary.readInt16(),
-    }
+    } as ArxAnchorData
   }
 
-  static accumulateFrom(anchor) {
+  static accumulateFrom(anchor: ArxAnchor) {
     const buffer = Buffer.alloc(AnchorData.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
@@ -29,5 +39,3 @@ class AnchorData {
     return 3 * 4 + 4 + 4 + 2 + 2
   }
 }
-
-module.exports = { AnchorData }
