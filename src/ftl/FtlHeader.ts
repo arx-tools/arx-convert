@@ -1,8 +1,13 @@
-const { Buffer } = require('node:buffer')
-const { BinaryIO } = require('../binary/BinaryIO.js')
+import { BinaryIO } from '../binary/BinaryIO'
+import { ArxFTL } from './FTL'
 
-class FtlHeader {
-  static readFrom(binary) {
+export type ArxFtlHeader = {
+  ident: string
+  version: number
+}
+
+export class FtlHeader {
+  static readFrom(binary: BinaryIO) {
     const data = {
       ident: binary.readString(4),
       version: binary.readFloat32(),
@@ -11,7 +16,7 @@ class FtlHeader {
     return data
   }
 
-  static accumulateFrom(json, uncompressedSize) {
+  static accumulateFrom(json: ArxFTL, uncompressedSize: number) {
     const buffer = Buffer.alloc(FtlHeader.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
@@ -24,5 +29,3 @@ class FtlHeader {
     return 0
   }
 }
-
-module.exports = { FtlHeader }

@@ -1,6 +1,14 @@
-const { Buffer } = require('node:buffer')
-const { FtlHeader } = require('./FtlHeader')
-const { BinaryIO } = require('../binary/BinaryIO.js')
+import { Buffer } from 'node:buffer'
+import { BinaryIO } from '../binary/BinaryIO'
+import { ArxFtlHeader, FtlHeader } from './FtlHeader'
+
+export type ArxFTL = {
+  meta: {
+    type: 'ftl'
+    numberOfLeftoverBytes: number
+  }
+  header: ArxFtlHeader
+}
 
 /*
 
@@ -97,13 +105,13 @@ struct EERIE_OLD_VERTEX {
 
 */
 
-class FTL {
-  static load(decompressedFile) {
+export class FTL {
+  static load(decompressedFile: Buffer) {
     const file = new BinaryIO(decompressedFile.buffer)
 
     const header = FtlHeader.readFrom(file)
 
-    const data = {
+    const data: ArxFTL = {
       meta: {
         type: 'ftl',
         numberOfLeftoverBytes: 0,
@@ -114,9 +122,7 @@ class FTL {
     return data
   }
 
-  static save(json) {
+  static save(json: ArxFTL) {
     return Buffer.concat([])
   }
 }
-
-module.exports = { FTL }
