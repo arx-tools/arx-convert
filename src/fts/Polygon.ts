@@ -1,10 +1,24 @@
-const { Buffer } = require('node:buffer')
-const { times } = require('../common/helpers.js')
-const { BinaryIO } = require('../binary/BinaryIO.js')
-const { Vertex } = require('./Vertex.js')
+import { Buffer } from 'node:buffer'
+import { BinaryIO } from '../binary/BinaryIO'
+import { ArxVertex, Vertex } from './Vertex'
+import { ArxVector3 } from '../common/types'
+import { times } from '../common/helpers'
 
-class Polygon {
-  static readFrom(binary) {
+export type ArxPolygon = {
+  vertices: [ArxVertex, ArxVertex, ArxVertex, ArxVertex]
+  tex: number
+  norm: ArxVector3
+  norm2: ArxVector3
+  normals: [ArxVector3, ArxVector3, ArxVector3, ArxVector3]
+  transval: number
+  area: number
+  type: number
+  room: number
+  paddy: number
+}
+
+export class Polygon {
+  static readFrom(binary: BinaryIO) {
     return {
       vertices: times(() => Vertex.readFrom(binary), 4),
       tex: binary.readInt32(),
@@ -16,10 +30,10 @@ class Polygon {
       type: binary.readInt32(),
       room: binary.readInt16(),
       paddy: binary.readInt16(),
-    }
+    } as ArxPolygon
   }
 
-  static accumulateFrom(polygon) {
+  static accumulateFrom(polygon: ArxPolygon) {
     const buffer = Buffer.alloc(Polygon.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
@@ -38,8 +52,6 @@ class Polygon {
   }
 
   static sizeOf() {
-    return 4 * Vertex.sizeOf() + 4 + 3 * 4 * 2 + 4 * 3 * 4 + 4 + 4 + 4 + 2 + 2
+    return Vertex.sizeOf() * 4 + 4 + 3 * 4 * 2 + 4 * 3 * 4 + 4 + 4 + 4 + 2 + 2
   }
 }
-
-module.exports = { Polygon }

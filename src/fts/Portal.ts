@@ -1,19 +1,27 @@
-const { Buffer } = require('node:buffer')
-const { BinaryIO } = require('../binary/BinaryIO.js')
-const { PortalPolygon } = require('./PortalPolygon.js')
+import { Buffer } from 'node:buffer'
+import { BinaryIO } from '../binary/BinaryIO'
+import { ArxPortalPolygon, PortalPolygon } from './PortalPolygon'
 
-class Portal {
-  static readFrom(binary) {
+export type ArxPortal = {
+  polygon: ArxPortalPolygon
+  room1: number
+  room2: number
+  useportal: number
+  paddy: number
+}
+
+export class Portal {
+  static readFrom(binary: BinaryIO) {
     return {
       polygon: PortalPolygon.readFrom(binary),
       room1: binary.readInt32(), // facing normal
       room2: binary.readInt32(),
       useportal: binary.readInt16(),
       paddy: binary.readInt16(),
-    }
+    } as ArxPortal
   }
 
-  static accumulateFrom(portal) {
+  static accumulateFrom(portal: ArxPortal) {
     const buffer = Buffer.alloc(Portal.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
@@ -30,5 +38,3 @@ class Portal {
     return 12 + PortalPolygon.sizeOf()
   }
 }
-
-module.exports = { Portal }

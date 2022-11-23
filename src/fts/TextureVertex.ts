@@ -1,9 +1,19 @@
-const { Buffer } = require('node:buffer')
-const { BinaryIO } = require('../binary/BinaryIO.js')
-const { Color } = require('../common/Color.js')
+import { Buffer } from 'node:buffer'
+import { BinaryIO } from '../binary/BinaryIO'
+import { ArxColor, Color } from '../common/Color'
+import { ArxVector3 } from '../common/types'
 
-class TextureVertex {
-  static readFrom(binary) {
+export type ArxTextureVertex = {
+  pos: ArxVector3
+  rhw: number
+  color: ArxColor
+  specular: ArxColor
+  tu: number
+  tv: number
+}
+
+export class TextureVertex {
+  static readFrom(binary: BinaryIO) {
     return {
       pos: binary.readVector3(),
       rhw: binary.readFloat32(), // portal bounds radius ?
@@ -11,10 +21,10 @@ class TextureVertex {
       specular: Color.readFrom(binary, 'abgr'), // unused btw...
       tu: binary.readFloat32(),
       tv: binary.readFloat32(),
-    }
+    } as ArxTextureVertex
   }
 
-  static accumulateFrom(vertex) {
+  static accumulateFrom(vertex: ArxTextureVertex) {
     const buffer = Buffer.alloc(TextureVertex.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
@@ -32,5 +42,3 @@ class TextureVertex {
     return 3 * 4 + 4 + Color.sizeOf('abgr') * 2 + 4 + 4
   }
 }
-
-module.exports = { TextureVertex }

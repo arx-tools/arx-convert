@@ -1,16 +1,22 @@
-const { Buffer } = require('node:buffer')
-const { BinaryIO } = require('../binary/BinaryIO.js')
+import { Buffer } from 'node:buffer'
+import { BinaryIO } from '../binary/BinaryIO'
 
-class TextureContainer {
-  static readFrom(binary) {
+export type ArxTextureContainer = {
+  tc: number
+  temp: number
+  fic: string
+}
+
+export class TextureContainer {
+  static readFrom(binary: BinaryIO) {
     return {
       tc: binary.readInt32(),
       temp: binary.readInt32(),
       fic: binary.readString(256),
-    }
+    } as ArxTextureContainer
   }
 
-  static accumulateFrom(textureContainer) {
+  static accumulateFrom(textureContainer: ArxTextureContainer) {
     const buffer = Buffer.alloc(TextureContainer.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
@@ -25,5 +31,3 @@ class TextureContainer {
     return 256 + 2 * 4
   }
 }
-
-module.exports = { TextureContainer }

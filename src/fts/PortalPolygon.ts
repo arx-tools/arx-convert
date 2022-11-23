@@ -1,10 +1,28 @@
-const { Buffer } = require('node:buffer')
-const { times } = require('../common/helpers.js')
-const { BinaryIO } = require('../binary/BinaryIO.js')
-const { TextureVertex } = require('./TextureVertex.js')
+import { Buffer } from 'node:buffer'
+import { BinaryIO } from '../binary/BinaryIO'
+import { times } from '../common/helpers'
+import { ArxVector3 } from '../common/types'
+import { ArxTextureVertex, TextureVertex } from './TextureVertex'
 
-class PortalPolygon {
-  static readFrom(binary) {
+export type ArxPortalPolygon = {
+  type: number
+  min: ArxVector3
+  max: ArxVector3
+  norm: ArxVector3
+  norm2: ArxVector3
+  v: [ArxTextureVertex, ArxTextureVertex, ArxTextureVertex, ArxTextureVertex]
+  unused: number[] // array holds 32*4 bytes of some data, but no idea what is it for
+  nrml: [ArxVector3, ArxVector3, ArxVector3, ArxVector3]
+  tex: number
+  center: ArxVector3
+  transval: number
+  area: number
+  room: number
+  misc: number
+}
+
+export class PortalPolygon {
+  static readFrom(binary: BinaryIO) {
     return {
       type: binary.readInt32(),
       min: binary.readVector3(),
@@ -12,7 +30,7 @@ class PortalPolygon {
       norm: binary.readVector3(),
       norm2: binary.readVector3(),
       v: times(() => TextureVertex.readFrom(binary), 4),
-      unused: binary.readUint8Array(32 * 4), //TODO: apparently this does hold data, question is what kind of data...
+      unused: binary.readUint8Array(32 * 4),
       nrml: binary.readVector3Array(4),
       tex: binary.readInt32(),
       center: binary.readVector3(),
@@ -20,10 +38,10 @@ class PortalPolygon {
       area: binary.readFloat32(),
       room: binary.readInt16(),
       misc: binary.readInt16(),
-    }
+    } as ArxPortalPolygon
   }
 
-  static accumulateFrom(polygon) {
+  static accumulateFrom(polygon: ArxPortalPolygon) {
     const buffer = Buffer.alloc(PortalPolygon.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
@@ -49,5 +67,3 @@ class PortalPolygon {
     return 52 + TextureVertex.sizeOf() * 4 + 204
   }
 }
-
-module.exports = { PortalPolygon }
