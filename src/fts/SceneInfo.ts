@@ -1,15 +1,21 @@
-const { Buffer } = require('node:buffer')
-const { BinaryIO } = require('../binary/BinaryIO.js')
+import { Buffer } from 'node:buffer'
+import { BinaryIO } from '../binary/BinaryIO'
+import { ArxCell } from './Cell'
 
-class SceneInfo {
-  static readFrom(binary) {
+export type ArxSceneInfo = {
+  numberOfPolygons: number
+  numberOfAnchors: number
+}
+
+export class SceneInfo {
+  static readFrom(binary: BinaryIO) {
     return {
       numberOfPolygons: binary.readInt32(),
       numberOfAnchors: binary.readInt32(),
-    }
+    } as ArxSceneInfo
   }
 
-  static accumulateFrom(cell) {
+  static accumulateFrom(cell: ArxCell) {
     const buffer = Buffer.alloc(SceneInfo.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
@@ -23,5 +29,3 @@ class SceneInfo {
     return 2 * 4
   }
 }
-
-module.exports = { SceneInfo }

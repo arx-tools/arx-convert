@@ -1,7 +1,7 @@
 import { TextIO } from './TextIO'
 import { repeat } from '../common/helpers'
 import { LITTLE_ENDIAN, TRUNCATE_ZERO_BYTES, KEEP_ZERO_BYTES, SPACE } from '../common/constants'
-import { ArxColor, ArxQuaternion, ArxRotation, ArxVector3 } from '../common/types'
+import { ArxQuaternion, ArxRotation, ArxVector3 } from '../common/types'
 
 export class BinaryIO extends DataView {
   public position: number // TODO: make this private - this needs to be public because of TEA

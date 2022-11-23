@@ -1,10 +1,25 @@
-const { Buffer } = require('node:buffer')
-const { uniq, maxAll } = require('../common/helpers.js')
-const { BinaryIO } = require('../binary/BinaryIO.js')
+import { Buffer } from 'node:buffer'
+import { BinaryIO } from '../binary/BinaryIO'
+import { maxAll, uniq } from '../common/helpers'
+import { ArxVector3 } from '../common/types'
+import { ArxFTS } from './FTS'
 
-class SceneHeader {
-  static readFrom(binary) {
-    const data = {
+export type ArxSceneHeader = {
+  version: number
+  sizeX: number
+  sizeZ: number
+  numberOfTextures: number
+  numberOfPolygons: number
+  numberOfAnchors: number
+  playerPosition: ArxVector3
+  mScenePosition: ArxVector3
+  numberOfPortals: number
+  numberOfRooms: number
+}
+
+export class SceneHeader {
+  static readFrom(binary: BinaryIO) {
+    return {
       version: binary.readFloat32(),
       sizeX: binary.readInt32(),
       sizeZ: binary.readInt32(),
@@ -14,17 +29,15 @@ class SceneHeader {
       playerPosition: binary.readVector3(),
       mScenePosition: binary.readVector3(),
       numberOfPortals: binary.readInt32(),
-      numberOfRooms: binary.readInt32() + 1, // rooms are 1 indexed, but an empty room is reserved for room #0
-    }
-    delete data.numberOfPolygons // we can calculate this elsewhere
-    return data
+      numberOfRooms: binary.readInt32() + 1, // rooms are 1 indexed, because an empty room is reserved for room #0
+    } as ArxSceneHeader
   }
 
-  static accumulateFrom(json) {
+  static accumulateFrom(json: ArxFTS) {
+    const numberOfRooms = maxAll(uniq(json.polygons.map(({ room }) => room)))
+
     const buffer = Buffer.alloc(SceneHeader.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
-
-    const numberOfRooms = maxAll(uniq(json.polygons.map(({ room }) => room)))
 
     binary.writeFloat32(json.sceneHeader.version)
     binary.writeInt32(json.sceneHeader.sizeX)
@@ -44,5 +57,3 @@ class SceneHeader {
     return 6 * 4 + 2 * 3 * 4 + 2 * 4
   }
 }
-
-module.exports = { SceneHeader }
