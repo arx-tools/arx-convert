@@ -1,7 +1,4 @@
-import { CHARS, CODES } from './latin1CharsetLookup'
-
-const BYTE_OF_AN_UNKNOWN_CHAR = CODES[' ']
-const CHAR_OF_AN_UNKNOWN_BYTE = ' '
+import { BYTE_OF_AN_UNKNOWN_CHAR, CHARS, CHAR_OF_AN_UNKNOWN_BYTE, CODES } from './latin1CharsetLookup'
 
 export class TextIO {
   static decode(bytes: number[]) {

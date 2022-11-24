@@ -1,7 +1,8 @@
 import { TextIO } from './TextIO'
 import { repeat } from '../common/helpers'
-import { LITTLE_ENDIAN, TRUNCATE_ZERO_BYTES, KEEP_ZERO_BYTES, SPACE } from '../common/constants'
+import { LITTLE_ENDIAN, TRUNCATE_ZERO_BYTES, KEEP_ZERO_BYTES } from '../common/constants'
 import { ArxQuaternion, ArxRotation, ArxVector3 } from '../common/types'
+import { BYTE_OF_AN_UNKNOWN_CHAR } from './latin1CharsetLookup'
 
 export class BinaryIO extends DataView {
   public position: number // TODO: make this private - this needs to be public because of TEA
@@ -193,7 +194,7 @@ export class BinaryIO extends DataView {
       for (let i = 0; i < length; i++) {
         let c = this.readUint8()
         if (c !== 0 || truncateZeroBytes === KEEP_ZERO_BYTES) {
-          codes.push(c === 0 ? SPACE : c)
+          codes.push(c === 0 ? BYTE_OF_AN_UNKNOWN_CHAR : c)
         }
       }
     } else {

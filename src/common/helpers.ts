@@ -29,3 +29,10 @@ export const times = <T>(fn: (index: number) => T, repetitions: number): T[] => 
 export const repeat = <T>(value: T, repetitions: number): T[] => {
   return Array(repetitions).fill(value)
 }
+
+export const invertArray = (arr: string[]) => {
+  return arr.reduce((obj, value, idx) => {
+    obj[value] = idx
+    return obj
+  }, {} as Record<string, number>)
+}

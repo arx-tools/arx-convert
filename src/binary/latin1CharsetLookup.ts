@@ -1,12 +1,7 @@
+import { invertArray } from '../common/helpers'
+
 // source: https://cs.stanford.edu/people/miles/iso8859.html
 // source: https://mathiasbynens.be/notes/javascript-escapes
-
-const flipArrayToLookupTable = (arr: string[]) => {
-  return arr.reduce((obj, value, idx) => {
-    obj[value] = idx
-    return obj
-  }, {} as Record<string, number>)
-}
 
 // prettier-ignore
 export const CHARS = [
@@ -28,4 +23,8 @@ export const CHARS = [
   'ð', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', '÷', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'þ', 'ÿ'
 ]
 
-export const CODES = flipArrayToLookupTable(CHARS)
+export const CODES = invertArray(CHARS)
+
+export const BYTE_OF_AN_UNKNOWN_CHAR = CODES[' ']
+
+export const CHAR_OF_AN_UNKNOWN_BYTE = ' '
