@@ -1,16 +1,23 @@
-const { Buffer } = require('node:buffer')
-const { BinaryIO } = require('../binary/BinaryIO.js')
+import { Buffer } from 'node:buffer'
+import { BinaryIO } from '../binary/BinaryIO'
+import { ArxVector3 } from '../common/types'
 
-class RoomDistance {
-  static readFrom(binary) {
+export type ArxRoomDistance = {
+  distance: number
+  startPosition: ArxVector3
+  endPosition: ArxVector3
+}
+
+export class RoomDistance {
+  static readFrom(binary: BinaryIO) {
     return {
       distance: binary.readFloat32(), // -1 means use truedist
       startPosition: binary.readVector3(),
       endPosition: binary.readVector3(),
-    }
+    } as ArxRoomDistance
   }
 
-  static accumulateFrom(roomDistance) {
+  static accumulateFrom(roomDistance: ArxRoomDistance) {
     const buffer = Buffer.alloc(RoomDistance.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
@@ -25,5 +32,3 @@ class RoomDistance {
     return 4 + 3 * 4 + 3 * 4
   }
 }
-
-module.exports = { RoomDistance }

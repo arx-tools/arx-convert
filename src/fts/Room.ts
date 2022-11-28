@@ -1,30 +1,33 @@
-const { Buffer } = require('node:buffer')
-const { times } = require('../common/helpers.js')
-const { BinaryIO } = require('../binary/BinaryIO.js')
-const { RoomData } = require('./RoomData.js')
-const { EPData } = require('./EPData.js')
+import { Buffer } from 'node:buffer'
+import { BinaryIO } from '../binary/BinaryIO'
+import { times } from '../common/helpers'
+import { ArxEPData, EPData } from './EPData'
+import { RoomData } from './RoomData'
 
-class Room {
-  static readFrom(binary) {
+export type ArxRoom = {
+  portals: number[]
+  polygons: ArxEPData[]
+}
+
+export class Room {
+  static readFrom(binary: BinaryIO) {
     const { numberOfPortals, numberOfPolygons } = RoomData.readFrom(binary)
 
     return {
       portals: times(() => binary.readInt32(), numberOfPortals),
       polygons: times(() => EPData.readFrom(binary), numberOfPolygons),
-    }
+    } as ArxRoom
   }
 
-  static accumulateFrom(room) {
+  static accumulateFrom(room: ArxRoom) {
     const roomData = RoomData.accumulateFrom(room)
 
     const portals = Buffer.alloc(room.portals.length * 4)
     const binary = new BinaryIO(portals.buffer)
     binary.writeInt32Array(room.portals)
 
-    const polygons = Buffer.concat(room.polygons.map((polygon) => EPData.accumulateFrom(polygon)))
+    const polygons = Buffer.concat(room.polygons.map(EPData.accumulateFrom))
 
     return Buffer.concat([roomData, portals, polygons])
   }
 }
-
-module.exports = { Room }

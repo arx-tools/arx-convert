@@ -1,20 +1,26 @@
-const { Buffer } = require('node:buffer')
-const { repeat } = require('../common/helpers.js')
-const { BinaryIO } = require('../binary/BinaryIO.js')
+import { Buffer } from 'node:buffer'
+import { BinaryIO } from '../binary/BinaryIO'
+import { repeat } from '../common/helpers'
+import { ArxRoom } from './Room'
 
-class RoomData {
-  static readFrom(binary) {
+export type ArxRoomData = {
+  numberOfPortals: number
+  numberOfPolygons: number
+}
+
+export class RoomData {
+  static readFrom(binary: BinaryIO) {
     const data = {
       numberOfPortals: binary.readInt32(),
       numberOfPolygons: binary.readInt32(),
-    }
+    } as ArxRoomData
 
     binary.readInt32Array(6)
 
     return data
   }
 
-  static accumulateFrom(room) {
+  static accumulateFrom(room: ArxRoom) {
     const buffer = Buffer.alloc(RoomData.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
@@ -29,5 +35,3 @@ class RoomData {
     return 4 + 4 + 6 * 4
   }
 }
-
-module.exports = { RoomData }

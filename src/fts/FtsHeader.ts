@@ -1,14 +1,21 @@
-const { Buffer } = require('node:buffer')
-const { repeat } = require('../common/helpers.js')
-const { BinaryIO } = require('../binary/BinaryIO.js')
+import { Buffer } from 'node:buffer'
+import { BinaryIO } from '../binary/BinaryIO'
+import { repeat } from '../common/helpers'
+import { ArxFTS } from './FTS'
 
-class FtsHeader {
-  static readFrom(binary) {
+export type ArxFtsHeader = {
+  path: string
+  numberOfUniqueHeaders: number
+  version: number
+}
+
+export class FtsHeader {
+  static readFrom(binary: BinaryIO) {
     const data = {
       path: binary.readString(256),
       numberOfUniqueHeaders: binary.readInt32(),
       version: binary.readFloat32(),
-    }
+    } as ArxFtsHeader
 
     binary.readInt32() // uncompressed size in bytes
     binary.readUint32Array(3) // pad
@@ -16,7 +23,7 @@ class FtsHeader {
     return data
   }
 
-  static accumulateFrom(json, uncompressedSize) {
+  static accumulateFrom(json: ArxFTS, uncompressedSize: number) {
     const buffer = Buffer.alloc(FtsHeader.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
@@ -34,5 +41,3 @@ class FtsHeader {
     return 280
   }
 }
-
-module.exports = { FtsHeader }

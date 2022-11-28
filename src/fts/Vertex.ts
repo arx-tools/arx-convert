@@ -7,6 +7,7 @@ export type ArxVertex = {
   z: number
   u: number
   v: number
+  llfColorIdx?: number
 }
 
 export class Vertex {
@@ -14,7 +15,7 @@ export class Vertex {
     // y before x is not a typo:
     // https://github.com/arx/ArxLibertatis/blob/master/src/graphics/data/FastSceneFormat.h#L73
     const [y, x, z, u, v] = binary.readFloat32Array(5)
-    return { x, y, z, u, v }
+    return { x, y, z, u, v } as ArxVertex
   }
 
   static accumulateFrom({ x, y, z, u, v }: ArxVertex) {
