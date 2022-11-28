@@ -9,11 +9,11 @@ export type ArxRoomData = {
 }
 
 export class RoomData {
-  static readFrom(binary: BinaryIO) {
+  static readFrom(binary: BinaryIO): ArxRoomData {
     const data = {
       numberOfPortals: binary.readInt32(),
       numberOfPolygons: binary.readInt32(),
-    } as ArxRoomData
+    }
 
     binary.readInt32Array(6)
 

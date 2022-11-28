@@ -10,13 +10,13 @@ export type ArxCell = {
 }
 
 export class Cell {
-  static readFrom(binary: BinaryIO) {
+  static readFrom(binary: BinaryIO): ArxCell {
     const { numberOfPolygons, numberOfAnchors } = SceneInfo.readFrom(binary)
 
     return {
       polygons: times(() => Polygon.readFrom(binary), numberOfPolygons),
       anchors: binary.readInt32Array(numberOfAnchors),
-    } as ArxCell
+    }
   }
 
   static accumulateFrom(cell: ArxCell) {

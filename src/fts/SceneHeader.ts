@@ -18,7 +18,7 @@ export type ArxSceneHeader = {
 }
 
 export class SceneHeader {
-  static readFrom(binary: BinaryIO) {
+  static readFrom(binary: BinaryIO): ArxSceneHeader {
     return {
       version: binary.readFloat32(),
       sizeX: binary.readInt32(),
@@ -30,7 +30,7 @@ export class SceneHeader {
       mScenePosition: binary.readVector3(),
       numberOfPortals: binary.readInt32(),
       numberOfRooms: binary.readInt32() + 1, // rooms are 1 indexed, because an empty room is reserved for room #0
-    } as ArxSceneHeader
+    }
   }
 
   static accumulateFrom(json: ArxFTS) {

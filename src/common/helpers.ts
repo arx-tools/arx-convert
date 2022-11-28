@@ -31,8 +31,8 @@ export const repeat = <T>(value: T, repetitions: number): T[] => {
 }
 
 export const invertArray = (arr: string[]) => {
-  return arr.reduce((obj, value, idx) => {
+  return arr.reduce((obj: Record<string, number>, value, idx) => {
     obj[value] = idx
     return obj
-  }, {} as Record<string, number>)
+  }, {})
 }

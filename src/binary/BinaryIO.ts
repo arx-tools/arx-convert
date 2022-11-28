@@ -230,9 +230,9 @@ export class BinaryIO extends DataView {
     }
   }
 
-  readVector3() {
+  readVector3(): ArxVector3 {
     const [x, y, z] = this.readFloat32Array(3)
-    return { x, y, z } as ArxVector3
+    return { x, y, z }
   }
 
   readVector3Array(length: number) {
@@ -253,18 +253,18 @@ export class BinaryIO extends DataView {
     })
   }
 
-  readRotation() {
+  readRotation(): ArxRotation {
     const [a, b, g] = this.readFloat32Array(3)
-    return { a, b, g } as ArxRotation
+    return { a, b, g }
   }
 
   writeRotation({ a, b, g }: ArxRotation) {
     this.writeFloat32Array([a, b, g])
   }
 
-  readQuat() {
+  readQuat(): ArxQuaternion {
     const [w, x, y, z] = this.readFloat32Array(4)
-    return { x, y, z, w } as ArxQuaternion
+    return { x, y, z, w }
   }
 
   writeQuat({ x, y, z, w }: ArxQuaternion) {

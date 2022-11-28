@@ -12,16 +12,16 @@ export type ArxColor = {
 }
 
 export class Color {
-  static readFrom(binary: BinaryIO, mode: ColorMode) {
+  static readFrom(binary: BinaryIO, mode: ColorMode): ArxColor {
     if (mode === 'bgra') {
       const [b, g, r, a] = binary.readUint8Array(4)
-      return { r, g, b, a } as ArxColor
+      return { r, g, b, a }
     } else if (mode === 'abgr') {
       const [a, b, g, r] = binary.readUint8Array(4)
-      return { r, g, b, a } as ArxColor
+      return { r, g, b, a }
     } else {
       const [r, g, b] = binary.readInt32Array(3).map(getLowestByte)
-      return { r, g, b, a: 1 } as ArxColor
+      return { r, g, b, a: 1 }
     }
   }
 

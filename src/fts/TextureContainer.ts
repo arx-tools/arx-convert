@@ -8,12 +8,12 @@ export type ArxTextureContainer = {
 }
 
 export class TextureContainer {
-  static readFrom(binary: BinaryIO) {
+  static readFrom(binary: BinaryIO): ArxTextureContainer {
     return {
       tc: binary.readInt32(),
       temp: binary.readInt32(),
       fic: binary.readString(256),
-    } as ArxTextureContainer
+    }
   }
 
   static accumulateFrom(textureContainer: ArxTextureContainer) {

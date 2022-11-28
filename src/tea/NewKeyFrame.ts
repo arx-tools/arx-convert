@@ -9,7 +9,7 @@ export type ArxNewKeyFrame = ArxOldKeyFrame & {
 }
 
 export class NewKeyFrame {
-  static readFrom(binary: BinaryIO) {
+  static readFrom(binary: BinaryIO): ArxNewKeyFrame {
     return {
       num_frame: binary.readInt32(),
       flag_frame: binary.readInt32(),
@@ -20,7 +20,7 @@ export class NewKeyFrame {
       key_orient: binary.readInt32() !== 0, // is there a global rotation?
       key_morph: binary.readInt32() !== 0, // is there a global morph? (ignored)
       time_frame: binary.readInt32(),
-    } as ArxNewKeyFrame
+    }
   }
 
   static accumulateFrom(json: ArxTEA) {

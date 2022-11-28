@@ -22,7 +22,7 @@ export type ArxPortalPolygon = {
 }
 
 export class PortalPolygon {
-  static readFrom(binary: BinaryIO) {
+  static readFrom(binary: BinaryIO): ArxPortalPolygon {
     return {
       type: binary.readInt32(),
       min: binary.readVector3(),
@@ -38,7 +38,7 @@ export class PortalPolygon {
       area: binary.readFloat32(),
       room: binary.readInt16(),
       misc: binary.readInt16(),
-    } as ArxPortalPolygon
+    }
   }
 
   static accumulateFrom(polygon: ArxPortalPolygon) {

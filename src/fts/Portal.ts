@@ -11,14 +11,14 @@ export type ArxPortal = {
 }
 
 export class Portal {
-  static readFrom(binary: BinaryIO) {
+  static readFrom(binary: BinaryIO): ArxPortal {
     return {
       polygon: PortalPolygon.readFrom(binary),
       room1: binary.readInt32(), // facing normal
       room2: binary.readInt32(),
       useportal: binary.readInt16(),
       paddy: binary.readInt16(),
-    } as ArxPortal
+    }
   }
 
   static accumulateFrom(portal: ArxPortal) {

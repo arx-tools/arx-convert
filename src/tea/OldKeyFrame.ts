@@ -1,4 +1,3 @@
-import { KEEP_ZERO_BYTES } from '../common/constants'
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../binary/BinaryIO'
 import { ArxTEA } from './TEA'
@@ -15,7 +14,7 @@ export type ArxOldKeyFrame = {
 }
 
 export class OldKeyFrame {
-  static readFrom(binary: BinaryIO) {
+  static readFrom(binary: BinaryIO): ArxOldKeyFrame {
     return {
       num_frame: binary.readInt32(),
       flag_frame: binary.readInt32(),
@@ -25,7 +24,7 @@ export class OldKeyFrame {
       key_orient: binary.readInt32() !== 0,
       key_morph: binary.readInt32() !== 0,
       time_frame: binary.readInt32(),
-    } as ArxOldKeyFrame
+    }
   }
 
   static accumulateFrom(json: ArxTEA) {

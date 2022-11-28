@@ -26,7 +26,7 @@ export type ArxDlfHeader = {
 }
 
 export class DlfHeader {
-  static readFrom(binary: BinaryIO) {
+  static readFrom(binary: BinaryIO): ArxDlfHeader {
     const dataBlock1 = {
       version: binary.readFloat32(),
       identifier: binary.readString(16),
@@ -67,7 +67,7 @@ export class DlfHeader {
       ...dataBlock1,
       ...dataBlock2,
       ...dataBlock3,
-    } as ArxDlfHeader
+    }
   }
 
   static accumulateFrom(json) {

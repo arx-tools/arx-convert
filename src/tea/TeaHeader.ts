@@ -13,7 +13,7 @@ export type ArxTeaHeader = {
 }
 
 export class TeaHeader {
-  static readFrom(binary: BinaryIO) {
+  static readFrom(binary: BinaryIO): ArxTeaHeader {
     return {
       ident: binary.readString(20),
       version: binary.readUint32(),
@@ -21,7 +21,7 @@ export class TeaHeader {
       numberOfFrames: binary.readInt32(),
       numberOfGroups: binary.readInt32(),
       numberOfKeyFrames: binary.readInt32(),
-    } as ArxTeaHeader
+    }
   }
 
   static accumulateFrom(json: ArxTEA, uncompressedSize: number) {

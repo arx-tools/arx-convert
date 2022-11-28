@@ -8,11 +8,11 @@ export type ArxSceneInfo = {
 }
 
 export class SceneInfo {
-  static readFrom(binary: BinaryIO) {
+  static readFrom(binary: BinaryIO): ArxSceneInfo {
     return {
       numberOfPolygons: binary.readInt32(),
       numberOfAnchors: binary.readInt32(),
-    } as ArxSceneInfo
+    }
   }
 
   static accumulateFrom(cell: ArxCell) {

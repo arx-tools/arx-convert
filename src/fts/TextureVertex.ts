@@ -13,7 +13,7 @@ export type ArxTextureVertex = {
 }
 
 export class TextureVertex {
-  static readFrom(binary: BinaryIO) {
+  static readFrom(binary: BinaryIO): ArxTextureVertex {
     return {
       pos: binary.readVector3(),
       rhw: binary.readFloat32(), // portal bounds radius ?
@@ -21,7 +21,7 @@ export class TextureVertex {
       specular: Color.readFrom(binary, 'abgr'), // unused btw...
       tu: binary.readFloat32(),
       tv: binary.readFloat32(),
-    } as ArxTextureVertex
+    }
   }
 
   static accumulateFrom(vertex: ArxTextureVertex) {

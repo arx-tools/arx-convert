@@ -7,11 +7,11 @@ export type ArxUniqueHeader = {
 }
 
 export class UniqueHeader {
-  static readFrom(binary: BinaryIO) {
+  static readFrom(binary: BinaryIO): ArxUniqueHeader {
     return {
       path: binary.readString(256),
       check: binary.readUint8Array(512),
-    } as ArxUniqueHeader
+    }
   }
 
   static accumulateFrom(uniqueHeader: ArxUniqueHeader) {

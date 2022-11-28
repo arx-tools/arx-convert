@@ -18,7 +18,7 @@ export type ArxPolygon = {
 }
 
 export class Polygon {
-  static readFrom(binary: BinaryIO) {
+  static readFrom(binary: BinaryIO): ArxPolygon {
     return {
       vertices: times(() => Vertex.readFrom(binary), 4),
       tex: binary.readInt32(),
@@ -30,7 +30,7 @@ export class Polygon {
       type: binary.readInt32(),
       room: binary.readInt16(),
       paddy: binary.readInt16(),
-    } as ArxPolygon
+    }
   }
 
   static accumulateFrom(polygon: ArxPolygon) {

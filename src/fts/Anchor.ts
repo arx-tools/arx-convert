@@ -8,13 +8,13 @@ export type ArxAnchor = {
 }
 
 export class Anchor {
-  static readFrom(binary: BinaryIO) {
+  static readFrom(binary: BinaryIO): ArxAnchor {
     const { numberOfLinkedAnchors, ...anchorData } = AnchorData.readFrom(binary)
 
     return {
       data: anchorData,
       linkedAnchors: binary.readInt32Array(numberOfLinkedAnchors),
-    } as ArxAnchor
+    }
   }
 
   static accumulateFrom(anchor: ArxAnchor) {

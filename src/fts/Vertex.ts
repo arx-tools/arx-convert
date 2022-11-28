@@ -11,11 +11,11 @@ export type ArxVertex = {
 }
 
 export class Vertex {
-  static readFrom(binary: BinaryIO) {
+  static readFrom(binary: BinaryIO): ArxVertex {
     // y before x is not a typo:
     // https://github.com/arx/ArxLibertatis/blob/master/src/graphics/data/FastSceneFormat.h#L73
     const [y, x, z, u, v] = binary.readFloat32Array(5)
-    return { x, y, z, u, v } as ArxVertex
+    return { x, y, z, u, v }
   }
 
   static accumulateFrom({ x, y, z, u, v }: ArxVertex) {

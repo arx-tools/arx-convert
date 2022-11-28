@@ -8,9 +8,9 @@ export type ArxEPData = {
 }
 
 export class EPData {
-  static readFrom(binary: BinaryIO) {
+  static readFrom(binary: BinaryIO): ArxEPData {
     const [px, py, idx] = binary.readInt16Array(4)
-    return { px, py, idx } as ArxEPData
+    return { px, py, idx }
   }
 
   static accumulateFrom({ px, py, idx }: ArxEPData) {
