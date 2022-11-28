@@ -1,10 +1,19 @@
-const { Buffer } = require('node:buffer')
-const { BinaryIO } = require('../binary/BinaryIO.js')
-const { repeat } = require('../common/helpers.js')
+import { Buffer } from 'node:buffer'
+import { BinaryIO } from '../binary/BinaryIO'
+import { repeat } from '../common/helpers'
+import { ArxRotation, ArxVector3 } from '../common/types'
 
-class InteractiveObject {
-  static readFrom(binary) {
-    const data = {
+export type ArxInteractiveObject = {
+  name: string
+  pos: ArxVector3
+  angle: ArxRotation
+  identifier: number
+  flags: number
+}
+
+export class InteractiveObject {
+  static readFrom(binary: BinaryIO) {
+    const data: ArxInteractiveObject = {
       name: binary.readString(512),
       pos: binary.readVector3(),
       angle: binary.readRotation(),
@@ -18,7 +27,7 @@ class InteractiveObject {
     return data
   }
 
-  static accumulateFrom(interactiveObject) {
+  static accumulateFrom(interactiveObject: ArxInteractiveObject) {
     const buffer = Buffer.alloc(InteractiveObject.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
@@ -38,5 +47,3 @@ class InteractiveObject {
     return 512 + 3 * 4 + 3 * 4 + 4 + 4 + 14 * 4 + 16 * 4
   }
 }
-
-module.exports = { InteractiveObject }

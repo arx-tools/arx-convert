@@ -1,10 +1,33 @@
-const { Buffer } = require('node:buffer')
-const { repeat } = require('../common/helpers.js')
-const { BinaryIO } = require('../binary/BinaryIO.js')
+import { Buffer } from 'node:buffer'
+import { BinaryIO } from '../binary/BinaryIO'
+import { repeat } from '../common/helpers'
+import { ArxRotation, ArxVector3 } from '../common/types'
 
-class DlfHeader {
-  static readFrom(binary) {
-    const data = {
+export type ArxDlfHeader = {
+  version: number
+  identifier: string
+  lastUser: string
+  time: number
+  posEdit: ArxVector3
+  angleEdit: ArxRotation
+  numberOfScenes: number
+  numberOfInteractiveObjects: number
+  numberOfNodes: number
+  numberOfNodeLinks: number
+  numberOfZones: number
+  lighting: number
+  numberOfLights: number
+  numberOfFogs: number
+  numberOfBackgroundPolygons: number
+  numberOfIgnoredPolygons: number
+  numberOfChildPolygons: number
+  numberOfPaths: number
+  offset: ArxVector3
+}
+
+export class DlfHeader {
+  static readFrom(binary: BinaryIO) {
+    const dataBlock1 = {
       version: binary.readFloat32(),
       identifier: binary.readString(16),
       lastUser: binary.readString(256),
@@ -21,22 +44,30 @@ class DlfHeader {
 
     binary.readInt32Array(256) // Bpad
 
-    data.numberOfLights = binary.readInt32()
-    data.numberOfFogs = binary.readInt32()
-    data.numberOfBackgroundPolygons = binary.readInt32()
-    data.numberOfIgnoredPolygons = binary.readInt32()
-    data.numberOfChildPolygons = binary.readInt32()
-    data.numberOfPaths = binary.readInt32()
+    const dataBlock2 = {
+      numberOfLights: binary.readInt32(),
+      numberOfFogs: binary.readInt32(),
+      numberOfBackgroundPolygons: binary.readInt32(),
+      numberOfIgnoredPolygons: binary.readInt32(),
+      numberOfChildPolygons: binary.readInt32(),
+      numberOfPaths: binary.readInt32(),
+    }
 
     binary.readInt32Array(250) // pad
 
-    data.offset = binary.readVector3()
+    const dataBlock3 = {
+      offset: binary.readVector3(),
+    }
 
     binary.readFloat32Array(253) // fpad
     binary.readString(4096) // cpad
     binary.readInt32Array(256) // bpad
 
-    return data
+    return {
+      ...dataBlock1,
+      ...dataBlock2,
+      ...dataBlock3,
+    } as ArxDlfHeader
   }
 
   static accumulateFrom(json) {
@@ -81,5 +112,3 @@ class DlfHeader {
     return 8520
   }
 }
-
-module.exports = { DlfHeader }
