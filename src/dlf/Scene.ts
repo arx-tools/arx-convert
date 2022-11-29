@@ -18,11 +18,11 @@ export class Scene {
     return data
   }
 
-  static accumulateFrom(json) {
+  static accumulateFrom(scene: ArxScene) {
     const buffer = Buffer.alloc(Scene.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
-    binary.writeString(json.scene.name, 512)
+    binary.writeString(scene.name, 512)
     binary.writeInt32Array(repeat(0, 16))
     binary.writeFloat32Array(repeat(0, 16))
 

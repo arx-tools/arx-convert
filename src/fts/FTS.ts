@@ -2,6 +2,7 @@ import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../binary/BinaryIO'
 import { COORDS_THAT_ROUND_UP } from '../common/constants'
 import { isZeroVertex, times } from '../common/helpers'
+import { ArxFormat } from '../common/types'
 import { Anchor, ArxAnchor } from './Anchor'
 import { ArxCell, Cell } from './Cell'
 import { ArxFtsHeader, FtsHeader } from './FtsHeader'
@@ -14,11 +15,7 @@ import { ArxTextureContainer, TextureContainer } from './TextureContainer'
 import { ArxUniqueHeader, UniqueHeader } from './UniqueHeader'
 import { ArxVertex } from './Vertex'
 
-export type ArxFTS = {
-  meta: {
-    type: 'fts'
-    numberOfLeftoverBytes: number
-  }
+export type ArxFTS = ArxFormat & {
   header: Omit<ArxFtsHeader, 'numberOfUniqueHeaders'>
   uniqueHeaders: ArxUniqueHeader[]
   sceneHeader: Omit<ArxSceneHeader, 'numberOfTextures' | 'numberOfAnchors' | 'numberOfPortals' | 'numberOfRooms'>

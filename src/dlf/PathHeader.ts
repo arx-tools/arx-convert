@@ -2,6 +2,7 @@ import { BinaryIO } from '../binary/BinaryIO'
 import { ArxColor, Color } from '../common/Color'
 import { repeat } from '../common/helpers'
 import { ArxVector3 } from '../common/types'
+import { ArxPath } from './DLF'
 
 export type ArxPathHeader = {
   name: string
@@ -54,7 +55,7 @@ export class PathHeader {
     }
   }
 
-  static allocateFrom(path) {
+  static allocateFrom(path: ArxPath) {
     const buffer = Buffer.alloc(PathHeader.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
@@ -75,7 +76,7 @@ export class PathHeader {
 
     binary.writeInt32Array(repeat(0, 31))
 
-    binary.writeString(path.header.ambiance, 128)
+    binary.writeString(path.header.ambience, 128)
 
     binary.writeString('', 128)
 

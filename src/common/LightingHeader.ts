@@ -22,11 +22,7 @@ export class LightingHeader {
     const buffer = Buffer.alloc(LightingHeader.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
-    binary.writeInt32(colors.length)
-
-    binary.writeInt32(0)
-    binary.writeInt32(63)
-    binary.writeInt32(0)
+    binary.writeInt32Array([colors.length, 0, 63, 0])
 
     return buffer
   }

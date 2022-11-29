@@ -4,13 +4,10 @@ import { ArxColor, Color } from '../common/Color'
 import { times } from '../common/helpers'
 import { ArxLight, Light } from '../common/Light'
 import { LightingHeader } from '../common/LightingHeader'
+import { ArxFormat } from '../common/types'
 import { ArxLlfHeader, LlfHeader } from './LlfHeader'
 
-export type ArxLLF = {
-  meta: {
-    type: 'llf'
-    numberOfLeftoverBytes: number
-  }
+export type ArxLLF = ArxFormat & {
   header: Omit<ArxLlfHeader, 'numberOfLights'>
   lights: ArxLight[]
   colors: ArxColor[]

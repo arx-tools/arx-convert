@@ -2,6 +2,7 @@ import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../binary/BinaryIO'
 import { repeat } from '../common/helpers'
 import { ArxRotation, ArxVector3 } from '../common/types'
+import { ArxDLF } from './DLF'
 
 export type ArxDlfHeader = {
   version: number
@@ -10,12 +11,11 @@ export type ArxDlfHeader = {
   time: number
   posEdit: ArxVector3
   angleEdit: ArxRotation
-  numberOfScenes: number
+  hasScene: boolean
   numberOfInteractiveObjects: number
   numberOfNodes: number
   numberOfNodeLinks: number
   numberOfZones: number
-  lighting: number
   numberOfLights: number
   numberOfFogs: number
   numberOfBackgroundPolygons: number
@@ -34,14 +34,14 @@ export class DlfHeader {
       time: binary.readInt32(),
       posEdit: binary.readVector3(),
       angleEdit: binary.readRotation(),
-      numberOfScenes: binary.readInt32(),
+      hasScene: binary.readInt32() > 0,
       numberOfInteractiveObjects: binary.readInt32(),
       numberOfNodes: binary.readInt32(),
       numberOfNodeLinks: binary.readInt32(),
       numberOfZones: binary.readInt32(),
-      lighting: binary.readInt32(),
     }
 
+    binary.readInt32() // lighting - we don't parse it as it's 0 in all the levels
     binary.readInt32Array(256) // Bpad
 
     const dataBlock2 = {
@@ -70,7 +70,7 @@ export class DlfHeader {
     }
   }
 
-  static accumulateFrom(json) {
+  static accumulateFrom(json: ArxDLF) {
     const buffer = Buffer.alloc(DlfHeader.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
@@ -80,13 +80,13 @@ export class DlfHeader {
     binary.writeInt32(json.header.time)
     binary.writeVector3(json.header.posEdit)
     binary.writeRotation(json.header.angleEdit)
-    binary.writeInt32(1)
+    binary.writeInt32(typeof json.scene !== 'undefined' ? 1 : 0)
     binary.writeInt32(json.interactiveObjects.length)
-    binary.writeInt32(json.numberOfNodes)
+    binary.writeInt32(json.header.numberOfNodes)
 
     binary.writeInt32(json.header.numberOfNodeLinks)
     binary.writeInt32(json.header.numberOfZones)
-    binary.writeInt32(json.header.lighting)
+    binary.writeInt32(0) // lighting
 
     binary.writeInt32Array(repeat(0, 256))
 
