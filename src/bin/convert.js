@@ -10,8 +10,8 @@ const {
   stringifyJSON,
   outputInChunks,
   validateFromToPair,
-} = require('./helpers.js')
-const { DLF, FTS, LLF, FTL, TEA } = require('../src/index.js')
+} = require('../bin/helpers.js')
+const { DLF, FTS, LLF, FTL, TEA } = require('../index.js')
 
 // ---------------------------
 

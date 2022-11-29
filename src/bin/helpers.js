@@ -1,9 +1,9 @@
 const fs = require('node:fs')
-const { SUPPORTED_ARX_FORMATS, SUPPORTED_DATA_FORMATS } = require('../src/common/constants')
+const { SUPPORTED_ARX_FORMATS, SUPPORTED_DATA_FORMATS } = require('../common/constants')
 
 const getPackageVersion = async () => {
   try {
-    const { version } = require('../package.json')
+    const { version } = require('../../package.json')
     return version
   } catch (error) {
     return 'unknown'
