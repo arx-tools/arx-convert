@@ -1,7 +1,7 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../binary/BinaryIO'
 import { ArxColor, Color } from '../common/Color'
-import { ArxVector3 } from '../common/types'
+import { ArxVector3 } from '../types'
 
 export type ArxTextureVertex = {
   pos: ArxVector3

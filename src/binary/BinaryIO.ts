@@ -1,7 +1,7 @@
 import { TextIO } from './TextIO'
 import { repeat } from '../common/helpers'
 import { LITTLE_ENDIAN, TRUNCATE_ZERO_BYTES, KEEP_ZERO_BYTES } from '../common/constants'
-import { ArxQuaternion, ArxRotation, ArxVector3 } from '../common/types'
+import { ArxQuaternion, ArxRotation, ArxVector3 } from '../types'
 import { BYTE_OF_AN_UNKNOWN_CHAR } from './latin1CharsetLookup'
 
 export class BinaryIO extends DataView {

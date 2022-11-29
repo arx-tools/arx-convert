@@ -2,7 +2,7 @@ import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../binary/BinaryIO'
 import { ArxColor, Color } from '../common/Color'
 import { repeat } from '../common/helpers'
-import { ArxRotation, ArxVector3 } from '../common/types'
+import { ArxRotation, ArxVector3 } from '../types'
 
 export type ArxFog = {
   pos: ArxVector3

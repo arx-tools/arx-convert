@@ -4,7 +4,7 @@ import { ArxColor, Color } from '../common/Color'
 import { times } from '../common/helpers'
 import { ArxLight, Light } from '../common/Light'
 import { LightingHeader } from './LightingHeader'
-import { ArxFormat } from '../common/types'
+import { ArxFormat } from '../types'
 import { ArxLlfHeader, LlfHeader } from './LlfHeader'
 
 export type ArxLLF = ArxFormat & {

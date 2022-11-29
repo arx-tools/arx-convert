@@ -1,7 +1,7 @@
 import { BinaryIO } from '../binary/BinaryIO'
 import { ArxColor, Color } from '../common/Color'
 import { repeat } from '../common/helpers'
-import { ArxVector3 } from '../common/types'
+import { ArxVector3 } from '../types'
 import { ArxPath } from './DLF'
 
 export type ArxPathHeader = {

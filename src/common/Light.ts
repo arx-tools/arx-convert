@@ -1,7 +1,7 @@
 import { BinaryIO } from '../binary/BinaryIO'
 import { ArxColor, Color } from './Color'
 import { repeat } from './helpers'
-import { ArxVector3 } from './types'
+import { ArxVector3 } from '../types'
 
 export enum ArxLightFlags {
   None = 0,
