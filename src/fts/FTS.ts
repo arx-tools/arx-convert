@@ -64,7 +64,7 @@ const getCellCoords = ([a, b, c]: [ArxVertex, ArxVertex, ArxVertex, ArxVertex]) 
 }
 
 class FTS {
-  static load(decompressedFile: Buffer) {
+  static load(decompressedFile: Buffer): ArxFTS {
     const file = new BinaryIO(decompressedFile.buffer)
 
     const { numberOfUniqueHeaders, ...header } = FtsHeader.readFrom(file)
@@ -76,36 +76,31 @@ class FTS {
 
     const textureContainers = times(() => TextureContainer.readFrom(file), numberOfTextures)
 
-    const cells: ArxCell[] = []
+    const combinedCells: ArxCell[] = []
     for (let z = 0; z < sceneHeader.sizeZ; z++) {
       for (let x = 0; x < sceneHeader.sizeX; x++) {
-        cells.push(Cell.readFrom(file))
+        combinedCells.push(Cell.readFrom(file))
       }
     }
 
-    const data: ArxFTS = {
+    const remainedBytes = file.byteLength - file.position
+
+    return {
       meta: {
         type: 'fts',
-        numberOfLeftoverBytes: 0,
+        numberOfLeftoverBytes: remainedBytes,
       },
       header,
       uniqueHeaders,
       sceneHeader,
       textureContainers,
-      cells: cells.map(({ polygons, ...cell }) => cell),
-      polygons: addLightIndex(cells.flatMap(({ polygons }) => polygons)),
+      cells: combinedCells.map(({ polygons, ...cell }) => cell),
+      polygons: addLightIndex(combinedCells.flatMap(({ polygons }) => polygons)),
       anchors: times(() => Anchor.readFrom(file), numberOfAnchors),
       portals: times(() => Portal.readFrom(file), numberOfPortals),
       rooms: times(() => Room.readFrom(file), numberOfRooms),
       roomDistances: times(() => RoomDistance.readFrom(file), numberOfRooms ** 2),
     }
-
-    const remainedBytes = file.byteLength - file.position
-    if (remainedBytes > 0) {
-      data.meta.numberOfLeftoverBytes = remainedBytes
-    }
-
-    return data
   }
 
   static save(json: ArxFTS) {

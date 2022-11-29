@@ -16,7 +16,7 @@ export type ArxLlfHeader = {
 
 export class LlfHeader {
   static readFrom(binary: BinaryIO) {
-    const data = {
+    const data: ArxLlfHeader = {
       version: binary.readFloat32(),
       identifier: binary.readString(16),
       lastUser: binary.readString(256),

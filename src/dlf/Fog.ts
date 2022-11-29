@@ -1,11 +1,27 @@
-const { Buffer } = require('node:buffer')
-const { repeat } = require('../common/helpers.js')
-const { BinaryIO } = require('../binary/BinaryIO.js')
-const { Color } = require('../common/Color.js')
+import { Buffer } from 'node:buffer'
+import { BinaryIO } from '../binary/BinaryIO'
+import { ArxColor, Color } from '../common/Color'
+import { repeat } from '../common/helpers'
+import { ArxRotation, ArxVector3 } from '../common/types'
 
-class Fog {
-  static readFrom(binary) {
-    const data = {
+export type ArxFog = {
+  pos: ArxVector3
+  rgb: ArxColor
+  size: number
+  special: number
+  scale: number
+  move: ArxVector3
+  angle: ArxRotation
+  speed: number
+  rotateSpeed: number
+  toLive: number
+  blend: number
+  frequency: number
+}
+
+export class Fog {
+  static readFrom(binary: BinaryIO) {
+    const data: ArxFog = {
       pos: binary.readVector3(),
       rgb: Color.readFrom(binary, 'rgb'),
       size: binary.readFloat32(),
@@ -27,7 +43,7 @@ class Fog {
     return data
   }
 
-  static accumulateFrom(fog) {
+  static accumulateFrom(fog: ArxFog) {
     const buffer = Buffer.alloc(Fog.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
@@ -55,5 +71,3 @@ class Fog {
     return 3 * 4 + 3 * 4 + 4 + 4 + 4 + 3 * 4 + 3 * 4 + 4 + 4 + 4 + 4 + 4 + 32 * 4 + 32 * 4 + 256
   }
 }
-
-module.exports = { Fog }

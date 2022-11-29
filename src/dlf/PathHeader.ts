@@ -1,11 +1,26 @@
-const { Buffer } = require('node:buffer')
-const { BinaryIO } = require('../binary/BinaryIO.js')
-const { Color } = require('../common/Color.js')
-const { repeat } = require('../common/helpers.js')
+import { BinaryIO } from '../binary/BinaryIO'
+import { ArxColor, Color } from '../common/Color'
+import { repeat } from '../common/helpers'
+import { ArxVector3 } from '../common/types'
 
-class PathHeader {
-  static readFrom(binary) {
-    const data = {
+export type ArxPathHeader = {
+  name: string
+  idx: number
+  flags: number
+  initPos: ArxVector3
+  pos: ArxVector3
+  numberOfPathways: number
+  rgb: ArxColor
+  farClip: number
+  reverb: number
+  ambienceMaxVolume: number
+  height: number
+  ambience: string
+}
+
+export class PathHeader {
+  static readFrom(binary: BinaryIO): ArxPathHeader {
+    const dataBlock1 = {
       name: binary.readString(64),
       idx: binary.readInt16(),
       flags: binary.readInt16(),
@@ -15,20 +30,28 @@ class PathHeader {
       rgb: Color.readFrom(binary, 'rgb'),
       farClip: binary.readFloat32(),
       reverb: binary.readFloat32(),
-      ambianceMaxVolume: binary.readFloat32(),
+      ambienceMaxVolume: binary.readFloat32(),
     }
 
     binary.readFloat32Array(26) // fpad
 
-    data.height = binary.readInt32()
+    const dataBlock2 = {
+      height: binary.readInt32(),
+    }
 
     binary.readInt32Array(31) // lpad
 
-    data.ambiance = binary.readString(128)
+    const dataBlock3 = {
+      ambience: binary.readString(128),
+    }
 
     binary.readString(128) // cpad
 
-    return data
+    return {
+      ...dataBlock1,
+      ...dataBlock2,
+      ...dataBlock3,
+    }
   }
 
   static allocateFrom(path) {
@@ -44,7 +67,7 @@ class PathHeader {
     binary.writeBuffer(Color.accumulateFrom(path.header.rgb, 'rgb'))
     binary.writeFloat32(path.header.farClip)
     binary.writeFloat32(path.header.reverb)
-    binary.writeFloat32(path.header.ambianceMaxVolume)
+    binary.writeFloat32(path.header.ambienceMaxVolume)
 
     binary.writeFloat32Array(repeat(0, 26))
 
@@ -63,5 +86,3 @@ class PathHeader {
     return 64 + 2 + 2 + 3 * 4 + 3 * 4 + 4 + 3 * 4 + 4 + 4 + 4 + 26 * 4 + 4 + 31 * 4 + 128 + 128
   }
 }
-
-module.exports = { PathHeader }

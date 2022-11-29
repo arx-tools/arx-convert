@@ -1,9 +1,13 @@
 import { BinaryIO } from '../binary/BinaryIO'
 import { Color } from './Color'
 
+export type ArxLightingHeader = {
+  numberOfColors: number
+}
+
 export class LightingHeader {
   static readFrom(binary: BinaryIO) {
-    const data = {
+    const data: ArxLightingHeader = {
       numberOfColors: binary.readInt32(),
     }
 

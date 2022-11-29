@@ -10,8 +10,8 @@ export type ArxFtsHeader = {
 }
 
 export class FtsHeader {
-  static readFrom(binary: BinaryIO): ArxFtsHeader {
-    const data = {
+  static readFrom(binary: BinaryIO) {
+    const data: ArxFtsHeader = {
       path: binary.readString(256),
       numberOfUniqueHeaders: binary.readInt32(),
       version: binary.readFloat32(),

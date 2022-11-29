@@ -1,10 +1,14 @@
-const { Buffer } = require('node:buffer')
-const { BinaryIO } = require('../binary/BinaryIO.js')
-const { repeat } = require('../common/helpers.js')
+import { Buffer } from 'node:buffer'
+import { BinaryIO } from '../binary/BinaryIO'
+import { repeat } from '../common/helpers'
 
-class Scene {
-  static readFrom(binary) {
-    const data = {
+export type ArxScene = {
+  name: string
+}
+
+export class Scene {
+  static readFrom(binary: BinaryIO) {
+    const data: ArxScene = {
       name: binary.readString(512),
     }
 
@@ -29,5 +33,3 @@ class Scene {
     return 512 + 4 * 16 + 4 * 16
   }
 }
-
-module.exports = { Scene }

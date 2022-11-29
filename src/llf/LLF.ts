@@ -17,31 +17,28 @@ export type ArxLLF = {
 }
 
 export class LLF {
-  static load(decompressedFile: Buffer) {
+  static load(decompressedFile: Buffer): ArxLLF {
     const file = new BinaryIO(decompressedFile.buffer)
 
     const { numberOfLights, ...header } = LlfHeader.readFrom(file)
 
-    const data: ArxLLF = {
-      meta: {
-        type: 'llf',
-        numberOfLeftoverBytes: 0,
-      },
-      header: header,
-      lights: times(() => Light.readFrom(file), numberOfLights),
-      colors: [],
-    }
+    const lights = times(() => Light.readFrom(file), numberOfLights)
 
     const { numberOfColors } = LightingHeader.readFrom(file)
 
-    data.colors = times(() => Color.readFrom(file, header.version > 1.001 ? 'bgra' : 'rgb'), numberOfColors)
+    const colors = times(() => Color.readFrom(file, header.version > 1.001 ? 'bgra' : 'rgb'), numberOfColors)
 
     const remainedBytes = decompressedFile.length - file.position
-    if (remainedBytes > 0) {
-      data.meta.numberOfLeftoverBytes = remainedBytes
-    }
 
-    return data
+    return {
+      meta: {
+        type: 'llf',
+        numberOfLeftoverBytes: remainedBytes,
+      },
+      header,
+      lights,
+      colors,
+    }
   }
 
   static save(json: ArxLLF) {

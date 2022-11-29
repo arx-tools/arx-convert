@@ -1,10 +1,17 @@
-const { Buffer } = require('node:buffer')
-const { BinaryIO } = require('../binary/BinaryIO.js')
-const { repeat } = require('../common/helpers.js')
+import { Buffer } from 'node:buffer'
+import { BinaryIO } from '../binary/BinaryIO'
+import { repeat } from '../common/helpers'
+import { ArxVector3 } from '../common/types'
 
-class Pathways {
-  static readFrom(binary) {
-    const data = {
+export type ArxPathway = {
+  rpos: ArxVector3
+  flag: number
+  time: number
+}
+
+export class Pathway {
+  static readFrom(binary: BinaryIO) {
+    const data: ArxPathway = {
       rpos: binary.readVector3(),
       flag: binary.readInt32(),
       time: binary.readUint32(),
@@ -17,8 +24,8 @@ class Pathways {
     return data
   }
 
-  static allocateFrom(pathway) {
-    const buffer = Buffer.alloc(Pathways.sizeOf())
+  static allocateFrom(pathway: ArxPathway) {
+    const buffer = Buffer.alloc(Pathway.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
     binary.writeVector3(pathway.rpos)
@@ -36,5 +43,3 @@ class Pathways {
     return 3 * 4 + 4 + 4 + 2 * 4 + 2 * 4 + 32
   }
 }
-
-module.exports = { Pathways }

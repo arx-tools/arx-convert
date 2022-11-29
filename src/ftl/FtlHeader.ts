@@ -7,13 +7,12 @@ export type ArxFtlHeader = {
 }
 
 export class FtlHeader {
-  static readFrom(binary: BinaryIO) {
-    const data = {
+  static readFrom(binary: BinaryIO): ArxFtlHeader {
+    return {
       ident: binary.readString(4),
       version: binary.readFloat32(),
+      // TODO: more things to read
     }
-
-    return data
   }
 
   static accumulateFrom(json: ArxFTL, uncompressedSize: number) {
