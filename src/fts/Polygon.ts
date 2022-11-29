@@ -20,11 +20,11 @@ export type ArxPolygon = {
 export class Polygon {
   static readFrom(binary: BinaryIO): ArxPolygon {
     return {
-      vertices: times(() => Vertex.readFrom(binary), 4),
+      vertices: times(() => Vertex.readFrom(binary), 4) as [ArxVertex, ArxVertex, ArxVertex, ArxVertex],
       tex: binary.readInt32(),
       norm: binary.readVector3(),
       norm2: binary.readVector3(),
-      normals: times(() => binary.readVector3(), 4),
+      normals: times(() => binary.readVector3(), 4) as [ArxVector3, ArxVector3, ArxVector3, ArxVector3],
       transval: binary.readFloat32(),
       area: binary.readFloat32(),
       type: binary.readInt32(),
