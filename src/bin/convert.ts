@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-const fs = require('node:fs')
-const minimist = require('minimist-lite')
-const {
+import fs from 'node:fs'
+import minimist from 'minimist-lite'
+import {
   fileExists,
   getPackageVersion,
   streamToBuffer,
@@ -10,8 +10,8 @@ const {
   stringifyJSON,
   outputInChunks,
   validateFromToPair,
-} = require('../bin/helpers.js')
-const { DLF, FTS, LLF, FTL, TEA } = require('../index.js')
+} from './helpers'
+import { DLF, FTS, LLF, FTL, TEA } from '../index'
 
 // ---------------------------
 
@@ -31,11 +31,10 @@ const args = minimist(process.argv.slice(2), {
     process.exit(0)
   }
 
-  let filename = args._[0]
-  let output = args.output
+  const filename = args._[0]
   let hasErrors = false
 
-  let input
+  let input: fs.ReadStream | NodeJS.Socket
   if (filename) {
     if (await fileExists(filename)) {
       input = fs.createReadStream(filename)
@@ -49,13 +48,15 @@ const args = minimist(process.argv.slice(2), {
 
   try {
     validateFromToPair(args.from, args.to)
-  } catch (e) {
-    console.error(`error: ${e.message}`)
+  } catch (e: unknown) {
+    const error = e as Error
+    console.error('error:', error.message)
     hasErrors = true
   }
 
-  if (output) {
-    output = fs.createWriteStream(output)
+  let output
+  if (args.output) {
+    output = fs.createWriteStream(args.output)
   } else {
     output = process.stdout
   }

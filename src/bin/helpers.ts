@@ -1,4 +1,5 @@
 import fs from 'node:fs'
+import { Buffer } from 'node:buffer'
 import { SUPPORTED_ARX_FORMATS, SUPPORTED_DATA_FORMATS } from '../common/constants'
 
 export const getPackageVersion = async () => {
@@ -20,16 +21,16 @@ export const fileExists = async (filename: string) => {
   }
 }
 
-export const streamToBuffer = (input) => {
+export const streamToBuffer = (input: fs.ReadStream | NodeJS.Socket): Promise<Buffer> => {
   return new Promise((resolve, reject) => {
-    const chunks = []
-    input.on('data', (chunk) => {
+    const chunks: Buffer[] = []
+    input.on('data', (chunk: Buffer) => {
       chunks.push(chunk)
     })
     input.on('end', () => {
       resolve(Buffer.concat(chunks))
     })
-    input.on('error', (e) => {
+    input.on('error', (e: unknown) => {
       reject(e)
     })
   })
@@ -48,7 +49,7 @@ export const stringifyYAML = async (json: any) => {
   return YAML.stringify(json)
 }
 
-export const outputInChunks = (buffer, stream) => {
+export const outputInChunks = (buffer: Buffer, stream: NodeJS.WritableStream) => {
   const chunks = Math.ceil(buffer.length / 1000)
   for (let i = 0; i < chunks - 1; i++) {
     stream.write(buffer.slice(i * 1000, (i + 1) * 1000))
@@ -57,7 +58,7 @@ export const outputInChunks = (buffer, stream) => {
   stream.end()
 }
 
-export const validTypes = [...SUPPORTED_ARX_FORMATS, ...SUPPORTED_DATA_FORMATS]
+const validTypes = [...SUPPORTED_ARX_FORMATS, ...SUPPORTED_DATA_FORMATS]
 
 export const validateFromToPair = (from: string, to: string) => {
   if (typeof from === 'undefined' || from === '') {
@@ -87,4 +88,24 @@ export const validateFromToPair = (from: string, to: string) => {
   if (SUPPORTED_DATA_FORMATS.includes(from) && SUPPORTED_DATA_FORMATS.includes(to)) {
     throw new Error('"from" and "to" are both referencing data types, expected one of them to be an arx format')
   }
+}
+
+export const getInputStream = async (filename?: string) => {
+  if (typeof filename === 'undefined') {
+    return process.openStdin()
+  }
+
+  if (await fileExists(filename)) {
+    return fs.createReadStream(filename)
+  }
+
+  throw new Error('input file does not exist')
+}
+
+export const getOutputStream = async (filename?: string): Promise<any> => {
+  if (typeof filename === 'undefined') {
+    return process.stdout
+  }
+
+  return fs.createWriteStream(filename)
 }
