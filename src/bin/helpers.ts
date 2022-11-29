@@ -1,16 +1,17 @@
-const fs = require('node:fs')
-const { SUPPORTED_ARX_FORMATS, SUPPORTED_DATA_FORMATS } = require('../common/constants')
+import fs from 'node:fs'
+import { SUPPORTED_ARX_FORMATS, SUPPORTED_DATA_FORMATS } from '../common/constants'
 
-const getPackageVersion = async () => {
+export const getPackageVersion = async () => {
   try {
-    const { version } = require('../../package.json')
+    const rawIn = await fs.promises.readFile('../../package.json', 'utf-8')
+    const { version } = JSON.parse(rawIn) as { version: string }
     return version
   } catch (error) {
     return 'unknown'
   }
 }
 
-const fileExists = async (filename) => {
+export const fileExists = async (filename: string) => {
   try {
     await fs.promises.access(filename, fs.constants.R_OK)
     return true
@@ -19,8 +20,8 @@ const fileExists = async (filename) => {
   }
 }
 
-const streamToBuffer = (input) =>
-  new Promise((resolve, reject) => {
+export const streamToBuffer = (input) => {
+  return new Promise((resolve, reject) => {
     const chunks = []
     input.on('data', (chunk) => {
       chunks.push(chunk)
@@ -32,8 +33,9 @@ const streamToBuffer = (input) =>
       reject(e)
     })
   })
+}
 
-const stringifyJSON = (json, prettify = false) => {
+export const stringifyJSON = (json: any, prettify = false) => {
   if (prettify) {
     return JSON.stringify(json, null, '\t')
   } else {
@@ -41,12 +43,12 @@ const stringifyJSON = (json, prettify = false) => {
   }
 }
 
-const stringifyYAML = (json) => {
-  const YAML = require('yaml')
+export const stringifyYAML = async (json: any) => {
+  const YAML = await import('yaml')
   return YAML.stringify(json)
 }
 
-const outputInChunks = (buffer, stream) => {
+export const outputInChunks = (buffer, stream) => {
   const chunks = Math.ceil(buffer.length / 1000)
   for (let i = 0; i < chunks - 1; i++) {
     stream.write(buffer.slice(i * 1000, (i + 1) * 1000))
@@ -55,9 +57,9 @@ const outputInChunks = (buffer, stream) => {
   stream.end()
 }
 
-const validTypes = [...SUPPORTED_ARX_FORMATS, ...SUPPORTED_DATA_FORMATS]
+export const validTypes = [...SUPPORTED_ARX_FORMATS, ...SUPPORTED_DATA_FORMATS]
 
-const validateFromToPair = (from, to) => {
+export const validateFromToPair = (from: string, to: string) => {
   if (typeof from === 'undefined' || from === '') {
     throw new Error('"from" argument is missing or empty')
   }
@@ -85,14 +87,4 @@ const validateFromToPair = (from, to) => {
   if (SUPPORTED_DATA_FORMATS.includes(from) && SUPPORTED_DATA_FORMATS.includes(to)) {
     throw new Error('"from" and "to" are both referencing data types, expected one of them to be an arx format')
   }
-}
-
-module.exports = {
-  fileExists,
-  getPackageVersion,
-  streamToBuffer,
-  stringifyJSON,
-  stringifyYAML,
-  outputInChunks,
-  validateFromToPair,
 }
