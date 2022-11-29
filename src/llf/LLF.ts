@@ -3,7 +3,7 @@ import { BinaryIO } from '../binary/BinaryIO'
 import { ArxColor, Color } from '../common/Color'
 import { times } from '../common/helpers'
 import { ArxLight, Light } from '../common/Light'
-import { LightingHeader } from '../common/LightingHeader'
+import { LightingHeader } from './LightingHeader'
 import { ArxFormat } from '../common/types'
 import { ArxLlfHeader, LlfHeader } from './LlfHeader'
 
@@ -18,11 +18,9 @@ export class LLF {
     const file = new BinaryIO(decompressedFile.buffer)
 
     const { numberOfLights, ...header } = LlfHeader.readFrom(file)
-
     const lights = times(() => Light.readFrom(file), numberOfLights)
 
     const { numberOfColors } = LightingHeader.readFrom(file)
-
     const colors = times(() => Color.readFrom(file, header.version > 1.001 ? 'bgra' : 'rgb'), numberOfColors)
 
     const remainedBytes = decompressedFile.length - file.position
@@ -46,9 +44,7 @@ export class LLF {
     const lightingHeader = LightingHeader.accumulateFrom(json.colors)
 
     const colors = Buffer.concat(
-      json.colors.map((color) => {
-        return Color.accumulateFrom(color, json.header.version > 1.001 ? 'bgra' : 'rgb')
-      }),
+      json.colors.map((color) => Color.accumulateFrom(color, json.header.version > 1.001 ? 'bgra' : 'rgb')),
     )
 
     return Buffer.concat([header, lights, lightingHeader, colors])

@@ -1,5 +1,5 @@
 import { BinaryIO } from '../binary/BinaryIO'
-import { Color } from './Color'
+import { Color } from '../common/Color'
 
 export type ArxLightingHeader = {
   numberOfColors: number
