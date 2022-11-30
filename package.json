@@ -9,8 +9,8 @@
     "node": ">=18.0.0"
   },
   "bin": {
-    "arx-level-json-converter": "dist/convert.js",
-    "arx-convert": "dist/convert.js"
+    "arx-level-json-converter": "dist/bin/convert.js",
+    "arx-convert": "dist/bin/convert.js"
   },
   "scripts": {
     "build": "tsc",
