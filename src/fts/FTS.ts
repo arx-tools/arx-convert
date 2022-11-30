@@ -2,7 +2,7 @@ import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../binary/BinaryIO'
 import { COORDS_THAT_ROUND_UP } from '../common/constants'
 import { isZeroVertex, times } from '../common/helpers'
-import { ArxFormat } from '../common/types'
+import { ArxFormat } from '../types'
 import { Anchor, ArxAnchor } from './Anchor'
 import { ArxCell, Cell } from './Cell'
 import { ArxFtsHeader, FtsHeader } from './FtsHeader'
@@ -60,7 +60,7 @@ const getCellCoords = ([a, b, c]: [ArxVertex, ArxVertex, ArxVertex, ArxVertex]) 
   return [cellX, cellY]
 }
 
-class FTS {
+export class FTS {
   static load(decompressedFile: Buffer): ArxFTS {
     const file = new BinaryIO(decompressedFile.buffer)
 
