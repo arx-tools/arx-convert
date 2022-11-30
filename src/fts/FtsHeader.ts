@@ -1,5 +1,5 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '../binary/BinaryIO'
+import { BinaryIO } from '../common/BinaryIO'
 import { repeat } from '../common/helpers'
 import { ArxFTS } from './FTS'
 

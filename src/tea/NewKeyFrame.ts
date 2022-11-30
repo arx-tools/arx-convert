@@ -1,6 +1,6 @@
 import { KEEP_ZERO_BYTES } from '../common/constants'
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '../binary/BinaryIO'
+import { BinaryIO } from '../common/BinaryIO'
 import { ArxTEA } from './TEA'
 import { ArxOldKeyFrame, OldKeyFrame } from './OldKeyFrame'
 

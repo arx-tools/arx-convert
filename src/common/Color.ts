@@ -1,5 +1,5 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '../binary/BinaryIO'
+import { BinaryIO } from './BinaryIO'
 import { getLowestByte } from './helpers'
 
 type ColorMode = 'bgra' | 'rgb' | 'abgr'

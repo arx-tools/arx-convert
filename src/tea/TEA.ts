@@ -1,6 +1,6 @@
 import { ArxTeaHeader, TeaHeader } from './TeaHeader'
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '../binary/BinaryIO'
+import { BinaryIO } from '../common/BinaryIO'
 import { KEEP_ZERO_BYTES } from '../common/constants'
 import { ArxNewKeyFrame, NewKeyFrame } from './NewKeyFrame'
 import { ArxOldKeyFrame, OldKeyFrame } from './OldKeyFrame'

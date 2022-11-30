@@ -1,5 +1,5 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '../binary/BinaryIO'
+import { BinaryIO } from '../common/BinaryIO'
 import { ArxAnchorData, AnchorData } from './AnchorData'
 
 export type ArxAnchor = {

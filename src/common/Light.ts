@@ -1,4 +1,4 @@
-import { BinaryIO } from '../binary/BinaryIO'
+import { BinaryIO } from './BinaryIO'
 import { ArxColor, Color } from './Color'
 import { repeat } from './helpers'
 import { ArxVector3 } from '../types'

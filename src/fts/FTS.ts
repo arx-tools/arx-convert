@@ -1,5 +1,5 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '../binary/BinaryIO'
+import { BinaryIO } from '../common/BinaryIO'
 import { COORDS_THAT_ROUND_UP } from '../common/constants'
 import { isZeroVertex, times } from '../common/helpers'
 import { ArxFormat } from '../types'

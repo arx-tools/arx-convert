@@ -1,4 +1,4 @@
-import { invertArray } from '../common/helpers'
+import { invertArray } from './helpers'
 
 // source: https://cs.stanford.edu/people/miles/iso8859.html
 // source: https://mathiasbynens.be/notes/javascript-escapes

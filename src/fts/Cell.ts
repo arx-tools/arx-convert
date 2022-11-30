@@ -1,5 +1,5 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '../binary/BinaryIO'
+import { BinaryIO } from '../common/BinaryIO'
 import { times } from '../common/helpers'
 import { ArxPolygon, Polygon } from './Polygon'
 import { SceneInfo } from './SceneInfo'

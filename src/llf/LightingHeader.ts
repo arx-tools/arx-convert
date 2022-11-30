@@ -1,4 +1,4 @@
-import { BinaryIO } from '../binary/BinaryIO'
+import { BinaryIO } from '../common/BinaryIO'
 import { Color } from '../common/Color'
 
 export type ArxLightingHeader = {

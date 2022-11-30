@@ -1,5 +1,5 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '../binary/BinaryIO'
+import { BinaryIO } from '../common/BinaryIO'
 import { times } from '../common/helpers'
 import { ArxLight, Light } from '../common/Light'
 import { ArxFormat } from '../types'
