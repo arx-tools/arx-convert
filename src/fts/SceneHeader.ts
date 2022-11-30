@@ -1,7 +1,7 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../binary/BinaryIO'
 import { maxAll, uniq } from '../common/helpers'
-import { ArxVector3 } from '../common/types'
+import { ArxVector3 } from '../types'
 import { ArxFTS } from './FTS'
 
 export type ArxSceneHeader = {

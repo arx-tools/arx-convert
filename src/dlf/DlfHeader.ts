@@ -1,7 +1,7 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../binary/BinaryIO'
 import { repeat } from '../common/helpers'
-import { ArxRotation, ArxVector3 } from '../common/types'
+import { ArxRotation, ArxVector3 } from '../types'
 import { ArxDLF } from './DLF'
 
 export type ArxDlfHeader = {

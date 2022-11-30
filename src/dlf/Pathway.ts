@@ -1,7 +1,7 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../binary/BinaryIO'
 import { repeat } from '../common/helpers'
-import { ArxVector3 } from '../common/types'
+import { ArxVector3 } from '../types'
 
 export type ArxPathway = {
   rpos: ArxVector3

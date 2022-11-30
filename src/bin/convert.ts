@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 
-import fs from 'node:fs'
 import minimist from 'minimist-lite'
 import {
-  fileExists,
   getPackageVersion,
   streamToBuffer,
   stringifyYAML,
   stringifyJSON,
   outputInChunks,
   validateFromToPair,
+  getInputStream,
+  getOutputStream,
 } from './helpers'
 import { DLF, FTS, LLF, FTL, TEA } from '../index'
 
@@ -31,37 +31,15 @@ const args = minimist(process.argv.slice(2), {
     process.exit(0)
   }
 
-  const filename = args._[0]
-  let hasErrors = false
-
-  let input: fs.ReadStream | NodeJS.Socket
-  if (filename) {
-    if (await fileExists(filename)) {
-      input = fs.createReadStream(filename)
-    } else {
-      console.error('error: input file does not exist')
-      hasErrors = true
-    }
-  } else {
-    input = process.openStdin()
-  }
-
+  let input
+  let output
   try {
     validateFromToPair(args.from, args.to)
+    input = await getInputStream(args._[0])
+    output = await getOutputStream(args.output)
   } catch (e: unknown) {
     const error = e as Error
     console.error('error:', error.message)
-    hasErrors = true
-  }
-
-  let output
-  if (args.output) {
-    output = fs.createWriteStream(args.output)
-  } else {
-    output = process.stdout
-  }
-
-  if (hasErrors) {
     process.exit(1)
   }
 
@@ -69,13 +47,13 @@ const args = minimist(process.argv.slice(2), {
   let parsedIn
   switch (args.from) {
     case 'json':
-      parsedIn = JSON.parse(rawIn)
+      parsedIn = JSON.parse(rawIn.toString('utf-8'))
       break
     case 'yml':
     case 'yaml':
       {
-        const YAML = require('yaml')
-        parsedIn = YAML.parse(rawIn.toString())
+        const YAML = await import('yaml')
+        parsedIn = YAML.parse(rawIn.toString('utf-8'))
       }
       break
     case 'dlf':
@@ -95,14 +73,14 @@ const args = minimist(process.argv.slice(2), {
       break
   }
 
-  let rawOut
+  let rawOut: string | Buffer
   switch (args.to) {
     case 'json':
       rawOut = stringifyJSON(parsedIn, args.pretty)
       break
     case 'yml':
     case 'yaml':
-      rawOut = stringifyYAML(parsedIn)
+      rawOut = await stringifyYAML(parsedIn)
       break
     case 'dlf':
       rawOut = DLF.save(parsedIn)
@@ -119,7 +97,11 @@ const args = minimist(process.argv.slice(2), {
     case 'tea':
       rawOut = TEA.save(parsedIn)
       break
+    default:
+      rawOut = ''
   }
 
-  outputInChunks(rawOut, output)
+  if (rawOut) {
+    outputInChunks(rawOut, output)
+  }
 })()

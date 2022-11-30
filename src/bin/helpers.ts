@@ -21,7 +21,7 @@ export const fileExists = async (filename: string) => {
   }
 }
 
-export const streamToBuffer = (input: fs.ReadStream | NodeJS.Socket): Promise<Buffer> => {
+export const streamToBuffer = (input: NodeJS.ReadableStream): Promise<Buffer> => {
   return new Promise((resolve, reject) => {
     const chunks: Buffer[] = []
     input.on('data', (chunk: Buffer) => {
@@ -49,12 +49,20 @@ export const stringifyYAML = async (json: any) => {
   return YAML.stringify(json)
 }
 
-export const outputInChunks = (buffer: Buffer, stream: NodeJS.WritableStream) => {
+const sliceBuffer = (buffer: string | Buffer, start?: number, end?: number) => {
+  if (buffer instanceof Buffer) {
+    return Uint8Array.prototype.slice.call(buffer, start, end)
+  } else {
+    return buffer.slice(start, end)
+  }
+}
+
+export const outputInChunks = (buffer: string | Buffer, stream: NodeJS.WritableStream) => {
   const chunks = Math.ceil(buffer.length / 1000)
   for (let i = 0; i < chunks - 1; i++) {
-    stream.write(buffer.slice(i * 1000, (i + 1) * 1000))
+    stream.write(sliceBuffer(buffer, i * 1000, (i + 1) * 1000))
   }
-  stream.write(buffer.slice((chunks - 1) * 1000))
+  stream.write(sliceBuffer(buffer, (chunks - 1) * 1000))
   stream.end()
 }
 
@@ -90,7 +98,7 @@ export const validateFromToPair = (from: string, to: string) => {
   }
 }
 
-export const getInputStream = async (filename?: string) => {
+export const getInputStream = async (filename?: string): Promise<NodeJS.ReadableStream> => {
   if (typeof filename === 'undefined') {
     return process.openStdin()
   }
@@ -102,7 +110,7 @@ export const getInputStream = async (filename?: string) => {
   throw new Error('input file does not exist')
 }
 
-export const getOutputStream = async (filename?: string): Promise<any> => {
+export const getOutputStream = async (filename?: string): Promise<NodeJS.WritableStream> => {
   if (typeof filename === 'undefined') {
     return process.stdout
   }

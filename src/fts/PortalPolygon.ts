@@ -1,7 +1,7 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../binary/BinaryIO'
 import { times } from '../common/helpers'
-import { ArxVector3 } from '../common/types'
+import { ArxVector3 } from '../types'
 import { ArxTextureVertex, TextureVertex } from './TextureVertex'
 
 export type ArxPortalPolygon = {
