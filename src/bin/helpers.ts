@@ -1,10 +1,11 @@
 import fs from 'node:fs'
+import path from 'node:path'
 import { Buffer } from 'node:buffer'
 import { SUPPORTED_ARX_FORMATS, SUPPORTED_DATA_FORMATS } from '../common/constants'
 
 export const getPackageVersion = async () => {
   try {
-    const rawIn = await fs.promises.readFile('../../package.json', 'utf-8')
+    const rawIn = await fs.promises.readFile(path.resolve(__dirname, '../../package.json'), 'utf-8')
     const { version } = JSON.parse(rawIn) as { version: string }
     return version
   } catch (error) {
