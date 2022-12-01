@@ -58,12 +58,21 @@ const sliceBuffer = (buffer: string | Buffer, start?: number, end?: number) => {
   }
 }
 
-export const outputInChunks = (buffer: string | Buffer, stream: NodeJS.WritableStream) => {
-  const chunks = Math.ceil(buffer.length / 1000)
-  for (let i = 0; i < chunks - 1; i++) {
-    stream.write(sliceBuffer(buffer, i * 1000, (i + 1) * 1000))
+export const evenAndRemainder = (divisor: number, n: number): [number, number] => {
+  return [Math.floor(n / divisor), n % divisor]
+}
+
+export const outputInChunks = (buffer: string | Buffer, stream: NodeJS.WritableStream, chunkSize: number = 1024) => {
+  const [numberOfWholeChunks, leftoverChunkSize] = evenAndRemainder(buffer.length, chunkSize)
+
+  for (let i = 0; i < numberOfWholeChunks; i++) {
+    stream.write(sliceBuffer(buffer, i * chunkSize, (i + 1) * chunkSize))
   }
-  stream.write(sliceBuffer(buffer, (chunks - 1) * 1000))
+
+  if (leftoverChunkSize > 0) {
+    stream.write(sliceBuffer(buffer, numberOfWholeChunks * chunkSize))
+  }
+
   stream.end()
 }
 

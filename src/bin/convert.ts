@@ -13,8 +13,6 @@ import {
 } from './helpers'
 import { DLF, FTS, LLF, FTL, TEA } from '../index'
 
-// ---------------------------
-
 const args = minimist(process.argv.slice(2), {
   string: ['output', 'from', 'to'],
   boolean: ['version', 'prettify'],
