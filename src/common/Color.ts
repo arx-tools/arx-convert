@@ -33,7 +33,7 @@ export class Color {
     } else if (mode === 'abgr') {
       binary.writeUint8Array([a * 255, b, g, r])
     } else {
-      binary.writeInt32Array([r / 255, g / 255, b / 255])
+      binary.writeFloat32Array([r / 255, g / 255, b / 255])
     }
 
     return buffer

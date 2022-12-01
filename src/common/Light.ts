@@ -23,7 +23,6 @@ export enum ArxLightFlags {
 export type ArxLight = {
   pos: ArxVector3
   rgb: ArxColor
-  /*
   fallstart: number
   fallend: number
   intensity: number
@@ -35,8 +34,6 @@ export type ArxLight = {
   exSpeed: number
   exFlareSize: number
   flags: ArxLightFlags
-  */
-  bytes: number[]
 }
 
 export class Light {
@@ -44,7 +41,6 @@ export class Light {
     const data: ArxLight = {
       pos: binary.readVector3(),
       rgb: Color.readFrom(binary, 'rgb'),
-      /*
       fallstart: binary.readFloat32(),
       fallend: binary.readFloat32(),
       intensity: binary.readFloat32(),
@@ -56,17 +52,13 @@ export class Light {
       exSpeed: binary.readFloat32(),
       exFlareSize: binary.readFloat32(),
       flags: ArxLightFlags.None,
-      */
-      bytes: binary.readUint8Array(Light.sizeOf() - (3 * 4 + Color.sizeOf('rgb'))),
     }
 
-    /*
     binary.readFloat32Array(24) // fpad
 
     data.flags = binary.readInt32()
 
     binary.readInt32Array(31) // lpad
-    */
 
     return data
   }
@@ -77,7 +69,6 @@ export class Light {
 
     binary.writeVector3(light.pos)
     binary.writeBuffer(Color.accumulateFrom(light.rgb, 'rgb'))
-    /*
     binary.writeFloat32(light.fallstart)
     binary.writeFloat32(light.fallend)
     binary.writeFloat32(light.intensity)
@@ -94,8 +85,6 @@ export class Light {
     binary.writeInt32(light.flags)
 
     binary.writeInt32Array(repeat(0, 31))
-    */
-    binary.writeUint8Array(light.bytes)
 
     return buffer
   }
