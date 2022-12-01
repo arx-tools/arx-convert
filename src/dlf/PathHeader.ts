@@ -4,6 +4,7 @@ import { repeat } from '../common/helpers'
 import { ArxVector3 } from '../types'
 import { ArxPath } from './DLF'
 
+// https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L150
 export type ArxPathHeader = {
   name: string
   idx: number
@@ -14,9 +15,9 @@ export type ArxPathHeader = {
   rgb: ArxColor
   farClip: number
   reverb: number
-  ambienceMaxVolume: number
+  ambianceMaxVolume: number
   height: number
-  ambience: string
+  ambiance: string
 }
 
 export class PathHeader {
@@ -31,7 +32,7 @@ export class PathHeader {
       rgb: Color.readFrom(binary, 'rgb'),
       farClip: binary.readFloat32(),
       reverb: binary.readFloat32(),
-      ambienceMaxVolume: binary.readFloat32(),
+      ambianceMaxVolume: binary.readFloat32(),
     }
 
     binary.readFloat32Array(26) // fpad
@@ -43,7 +44,7 @@ export class PathHeader {
     binary.readInt32Array(31) // lpad
 
     const dataBlock3 = {
-      ambience: binary.readString(128),
+      ambiance: binary.readString(128),
     }
 
     binary.readString(128) // cpad
@@ -68,7 +69,7 @@ export class PathHeader {
     binary.writeBuffer(Color.accumulateFrom(path.header.rgb, 'rgb'))
     binary.writeFloat32(path.header.farClip)
     binary.writeFloat32(path.header.reverb)
-    binary.writeFloat32(path.header.ambienceMaxVolume)
+    binary.writeFloat32(path.header.ambianceMaxVolume)
 
     binary.writeFloat32Array(repeat(0, 26))
 
@@ -76,7 +77,7 @@ export class PathHeader {
 
     binary.writeInt32Array(repeat(0, 31))
 
-    binary.writeString(path.header.ambience, 128)
+    binary.writeString(path.header.ambiance, 128)
 
     binary.writeString('', 128)
 

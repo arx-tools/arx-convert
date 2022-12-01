@@ -1,27 +1,26 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from './BinaryIO'
-import { getLowestByte } from './helpers'
 
 type ColorMode = 'bgra' | 'rgb' | 'abgr'
 
 export type ArxColor = {
-  r: number
-  g: number
-  b: number
-  a: number
+  r: number // between 0 and 255
+  g: number // between 0 and 255
+  b: number // between 0 and 255
+  a: number // between 0.0 and 1.0
 }
 
 export class Color {
   static readFrom(binary: BinaryIO, mode: ColorMode): ArxColor {
     if (mode === 'bgra') {
       const [b, g, r, a] = binary.readUint8Array(4)
-      return { r, g, b, a }
+      return { r, g, b, a: a / 255 }
     } else if (mode === 'abgr') {
       const [a, b, g, r] = binary.readUint8Array(4)
-      return { r, g, b, a }
+      return { r, g, b, a: a / 255 }
     } else {
-      const [r, g, b] = binary.readInt32Array(3).map(getLowestByte)
-      return { r, g, b, a: 1 }
+      const [r, g, b] = binary.readFloat32Array(3)
+      return { r: r * 255, g: g * 255, b: b * 255, a: 1 }
     }
   }
 
@@ -30,11 +29,11 @@ export class Color {
     const binary = new BinaryIO(buffer.buffer)
 
     if (mode === 'bgra') {
-      binary.writeUint8Array([b, g, r, a])
+      binary.writeUint8Array([b, g, r, a * 255])
     } else if (mode === 'abgr') {
-      binary.writeUint8Array([a, b, g, r])
+      binary.writeUint8Array([a * 255, b, g, r])
     } else {
-      binary.writeInt32Array([r, g, b])
+      binary.writeInt32Array([r / 255, g / 255, b / 255])
     }
 
     return buffer

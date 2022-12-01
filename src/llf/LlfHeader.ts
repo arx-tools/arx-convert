@@ -3,6 +3,7 @@ import { BinaryIO } from '../common/BinaryIO'
 import { repeat } from '../common/helpers'
 import { ArxLLF } from './LLF'
 
+// https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L178
 export type ArxLlfHeader = {
   version: number
   identifier: string
@@ -27,10 +28,10 @@ export class LlfHeader {
       numberOfBackgroundPolygons: binary.readInt32(),
     }
 
-    binary.readInt32Array(256) // ipad1
+    binary.readInt32Array(256) // pad
     binary.readFloat32Array(256) // fpad
     binary.readString(4096) // cpad
-    binary.readInt32Array(256) // ipad2
+    binary.readInt32Array(256) // bpad
 
     return data
   }
@@ -43,7 +44,9 @@ export class LlfHeader {
     binary.writeString(json.header.identifier, 16)
     binary.writeString(json.header.lastUser, 256)
     binary.writeInt32(json.header.time)
+
     binary.writeInt32(json.lights.length)
+
     binary.writeInt32(json.header.numberOfShadowPolygons)
     binary.writeInt32(json.header.numberOfIgnoredPolygons)
     binary.writeInt32(json.header.numberOfBackgroundPolygons)
