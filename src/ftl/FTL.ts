@@ -116,6 +116,8 @@ export class FTL {
       header: header,
     }
 
+    data.meta.numberOfLeftoverBytes = file.byteLength - file.position
+
     return data
   }
 

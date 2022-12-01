@@ -14,7 +14,7 @@ export type ArxLLF = ArxFormat & {
 }
 
 export class LLF {
-  static load(decompressedFile: Buffer): ArxLLF {
+  static load(decompressedFile: Buffer) {
     const file = new BinaryIO(decompressedFile.buffer)
 
     const { numberOfLights, ...header } = LlfHeader.readFrom(file)
@@ -23,17 +23,19 @@ export class LLF {
     const { numberOfColors } = LightingHeader.readFrom(file)
     const colors = times(() => Color.readFrom(file, header.version > 1.001 ? 'bgra' : 'rgb'), numberOfColors)
 
-    const remainedBytes = decompressedFile.length - file.position
-
-    return {
+    const data: ArxLLF = {
       meta: {
         type: 'llf',
-        numberOfLeftoverBytes: remainedBytes,
+        numberOfLeftoverBytes: 0,
       },
       header,
       lights,
       colors,
     }
+
+    data.meta.numberOfLeftoverBytes = file.byteLength - file.position
+
+    return data
   }
 
   static save(json: ArxLLF) {

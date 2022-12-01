@@ -70,10 +70,7 @@ export class DLF {
       }
     }, numberOfPaths)
 
-    const remainedBytes = decompressedFile.length - file.position
-    if (remainedBytes > 0) {
-      data.meta.numberOfLeftoverBytes = remainedBytes
-    }
+    data.meta.numberOfLeftoverBytes = file.byteLength - file.position
 
     return data
   }

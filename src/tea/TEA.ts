@@ -92,6 +92,8 @@ export class TEA {
 
     file.position += 4 // num_sfx?
 
+    data.meta.numberOfLeftoverBytes = file.byteLength - file.position
+
     return data
   }
 

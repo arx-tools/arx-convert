@@ -61,7 +61,7 @@ const getCellCoords = ([a, b, c]: [ArxVertex, ArxVertex, ArxVertex, ArxVertex]) 
 }
 
 export class FTS {
-  static load(decompressedFile: Buffer): ArxFTS {
+  static load(decompressedFile: Buffer) {
     const file = new BinaryIO(decompressedFile.buffer)
 
     const { numberOfUniqueHeaders, ...header } = FtsHeader.readFrom(file)
@@ -80,12 +80,10 @@ export class FTS {
       }
     }
 
-    const remainedBytes = file.byteLength - file.position
-
-    return {
+    const data: ArxFTS = {
       meta: {
         type: 'fts',
-        numberOfLeftoverBytes: remainedBytes,
+        numberOfLeftoverBytes: 0,
       },
       header,
       uniqueHeaders,
@@ -98,6 +96,10 @@ export class FTS {
       rooms: times(() => Room.readFrom(file), numberOfRooms),
       roomDistances: times(() => RoomDistance.readFrom(file), numberOfRooms ** 2),
     }
+
+    data.meta.numberOfLeftoverBytes = file.byteLength - file.position
+
+    return data
   }
 
   static save(json: ArxFTS) {
