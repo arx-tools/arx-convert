@@ -52,5 +52,3 @@ export class LLF {
     return Buffer.concat([header, lights, lightingHeader, colors])
   }
 }
-
-module.exports = { LLF }

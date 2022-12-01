@@ -44,5 +44,3 @@ export class Color {
     return mode === 'rgb' ? 3 * 4 : 4 * 1
   }
 }
-
-module.exports = { Color }

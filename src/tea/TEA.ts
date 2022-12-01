@@ -101,5 +101,3 @@ export class TEA {
     return Buffer.concat([])
   }
 }
-
-module.exports = { TEA }
