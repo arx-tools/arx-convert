@@ -19,7 +19,7 @@ nodejs 18+ (because the lib uses prefix-only core modules)
 
 ### format of the commands
 
-`arx-convert <inputfile> --from=<format> --to=<format> --output=<outputfile> (--pretty)`
+`arx-convert <inputfile> --from=<format> --to=<format> --output=<outputfile> (--prettify|-p)`
 
 the inputfile and --output parameters can be omitted and then the code can be used in pipelines
 
@@ -39,7 +39,7 @@ and it can also a data format for the other side: `json` and `yaml`(can also be 
 -v
 
 # convert an unpacked fts file to a json through piping
-cat fast.fts.unpacked | arx-convert --from=fts --to=json --pretty > fast.fts.json
+cat fast.fts.unpacked | arx-convert --from=fts --to=json --prettify > fast.fts.json
 
 # convert an unpacked dlf file to a minified json through files
 arx-convert level8.dlf.unpacked --from=dlf --to=json --output=level8.dlf.min.json

@@ -17,10 +17,10 @@ import { DLF, FTS, LLF, FTL, TEA } from '../index'
 
 const args = minimist(process.argv.slice(2), {
   string: ['output', 'from', 'to'],
-  boolean: ['version', 'pretty'],
+  boolean: ['version', 'prettify'],
   alias: {
     v: 'version',
-    p: 'pretty',
+    p: 'prettify',
   },
 })
 
@@ -76,7 +76,7 @@ const args = minimist(process.argv.slice(2), {
   let rawOut: string | Buffer
   switch (args.to) {
     case 'json':
-      rawOut = stringifyJSON(parsedIn, args.pretty)
+      rawOut = stringifyJSON(parsedIn, args.prettify)
       break
     case 'yml':
     case 'yaml':
