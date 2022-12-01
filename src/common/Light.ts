@@ -89,6 +89,6 @@ export class Light {
   }
 
   static sizeOf() {
-    return 296
+    return 3 * 4 + Color.sizeOf('rgb') * 2 + 9 * 4 + 24 * 4 + 4 + 31 * 4
   }
 }

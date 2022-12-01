@@ -68,6 +68,6 @@ export class Fog {
   }
 
   static sizeOf() {
-    return 3 * 4 + 3 * 4 + 4 + 4 + 4 + 3 * 4 + 3 * 4 + 4 + 4 + 4 + 4 + 4 + 32 * 4 + 32 * 4 + 256
+    return 3 * 4 + Color.sizeOf('rgb') + 3 * 4 + 3 * 4 + 3 * 4 + 5 * 4 + 32 * 4 + 32 * 4 + 256
   }
 }

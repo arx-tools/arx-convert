@@ -107,7 +107,7 @@ export class FTS {
 
     const sizeX = json.sceneHeader.sizeX
 
-    const recominedCells: ArxCell[] = json.cells.map((cell) => {
+    const recominedCells = json.cells.map((cell): ArxCell => {
       return {
         ...cell,
         polygons: [],

@@ -41,7 +41,7 @@ export class Color {
   }
 
   static sizeOf(mode: ColorMode) {
-    return mode === 'rgb' ? 12 : 4
+    return mode === 'rgb' ? 3 * 4 : 4 * 1
   }
 }
 
