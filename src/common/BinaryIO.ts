@@ -13,7 +13,7 @@ export class BinaryIO extends DataView {
 
   readFloat32() {
     const val = this.getFloat32(this.position, LITTLE_ENDIAN)
-    this.position += 4
+    this.position += this.sizeOfFloat32()
     return val
   }
 
@@ -27,7 +27,7 @@ export class BinaryIO extends DataView {
 
   readInt8() {
     const val = this.getInt8(this.position)
-    this.position += 1
+    this.position += this.sizeOfInt8()
     return val
   }
 
@@ -41,7 +41,7 @@ export class BinaryIO extends DataView {
 
   readInt16() {
     const val = this.getInt16(this.position, LITTLE_ENDIAN)
-    this.position += 2
+    this.position += this.sizeOfInt16()
     return val
   }
 
@@ -55,7 +55,7 @@ export class BinaryIO extends DataView {
 
   readInt32() {
     const val = this.getInt32(this.position, LITTLE_ENDIAN)
-    this.position += 4
+    this.position += this.sizeOfInt32()
     return val
   }
 
@@ -69,7 +69,7 @@ export class BinaryIO extends DataView {
 
   readUint8() {
     const val = this.getUint8(this.position)
-    this.position += 1
+    this.position += this.sizeOfUint8()
     return val
   }
 
@@ -83,7 +83,7 @@ export class BinaryIO extends DataView {
 
   readUint16() {
     const val = this.getUint16(this.position, LITTLE_ENDIAN)
-    this.position += 2
+    this.position += this.sizeOfUint16()
     return val
   }
 
@@ -97,7 +97,7 @@ export class BinaryIO extends DataView {
 
   readUint32() {
     const val = this.getUint32(this.position, LITTLE_ENDIAN)
-    this.position += 4
+    this.position += this.sizeOfUint32()
     return val
   }
 
@@ -111,7 +111,7 @@ export class BinaryIO extends DataView {
 
   writeFloat32(value: number) {
     this.setFloat32(this.position, value, LITTLE_ENDIAN)
-    this.position += 4
+    this.position += this.sizeOfFloat32()
   }
 
   writeFloat32Array(values: number[]) {
@@ -122,7 +122,7 @@ export class BinaryIO extends DataView {
 
   writeInt8(value: number) {
     this.setInt8(this.position, value)
-    this.position += 1
+    this.position += this.sizeOfInt8()
   }
 
   writeInt8Array(values: number[]) {
@@ -133,7 +133,7 @@ export class BinaryIO extends DataView {
 
   writeInt16(value: number) {
     this.setInt16(this.position, value, LITTLE_ENDIAN)
-    this.position += 2
+    this.position += this.sizeOfInt16()
   }
 
   writeInt16Array(values: number[]) {
@@ -144,7 +144,7 @@ export class BinaryIO extends DataView {
 
   writeInt32(value: number) {
     this.setInt32(this.position, value, LITTLE_ENDIAN)
-    this.position += 4
+    this.position += this.sizeOfInt32()
   }
 
   writeInt32Array(values: number[]) {
@@ -155,7 +155,7 @@ export class BinaryIO extends DataView {
 
   writeUint8(value: number) {
     this.setUint8(this.position, value)
-    this.position += 1
+    this.position += this.sizeOfUint8()
   }
 
   writeUint8Array(values: number[] | Uint8Array) {
@@ -166,7 +166,7 @@ export class BinaryIO extends DataView {
 
   writeUint16(value: number) {
     this.setUint16(this.position, value, LITTLE_ENDIAN)
-    this.position += 2
+    this.position += this.sizeOfUint16()
   }
 
   writeUint16Array(values: number[]) {
@@ -177,7 +177,7 @@ export class BinaryIO extends DataView {
 
   writeUint32(value: number) {
     this.setUint32(this.position, value, LITTLE_ENDIAN)
-    this.position += 4
+    this.position += this.sizeOfUint32()
   }
 
   writeUint32Array(values: number[]) {
