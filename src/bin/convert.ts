@@ -7,18 +7,29 @@ import {
   stringifyYAML,
   stringifyJSON,
   outputInChunks,
-  validateFromToPair,
   getInputStream,
   getOutputStream,
+  isValidFormat,
+  isArxFormat,
+  isDataFormat,
 } from './helpers'
 import { DLF, FTS, LLF, FTL, TEA } from '../index'
 
-const args = minimist(process.argv.slice(2), {
+type AppArgs = {
+  _: string[]
+  version: boolean
+  v: boolean
+  prettify: boolean
+  output?: string
+  from?: string
+  to?: string
+}
+
+const args: AppArgs = minimist(process.argv.slice(2), {
   string: ['output', 'from', 'to'],
   boolean: ['version', 'prettify'],
   alias: {
     v: 'version',
-    p: 'prettify',
   },
 })
 
@@ -32,7 +43,31 @@ const args = minimist(process.argv.slice(2), {
   let input
   let output
   try {
-    validateFromToPair(args.from, args.to)
+    if (typeof args.from === 'undefined' || args.from === '') {
+      throw new Error('"from" argument is missing or empty')
+    }
+    if (typeof args.to === 'undefined' || args.to === '') {
+      throw new Error('"to" argument is missing or empty')
+    }
+
+    if (!isValidFormat(args.from)) {
+      throw new Error(`unknown format '${args.from}' in "from"`)
+    }
+    if (!isValidFormat(args.to)) {
+      throw new Error(`unknown format '${args.to}' in "to"`)
+    }
+
+    if (args.from === args.to) {
+      throw new Error('"from" and "to" have the same format')
+    }
+
+    if (isArxFormat(args.from) && isArxFormat(args.to)) {
+      throw new Error('"from" and "to" are both referencing arx formats, expected one of them to be a data type')
+    }
+    if (isDataFormat(args.from) && isDataFormat(args.to)) {
+      throw new Error('"from" and "to" are both referencing data types, expected one of them to be an arx format')
+    }
+
     input = await getInputStream(args._[0])
     output = await getOutputStream(args.output)
   } catch (e: unknown) {
@@ -99,7 +134,5 @@ const args = minimist(process.argv.slice(2), {
       rawOut = ''
   }
 
-  if (rawOut) {
-    outputInChunks(rawOut, output)
-  }
+  outputInChunks(rawOut, output)
 })()

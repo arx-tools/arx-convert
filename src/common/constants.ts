@@ -176,8 +176,13 @@ export const COORDS_THAT_ROUND_UP: [number, number, number][] = [
   [13839.9990234375, 13925, 13935],
 ]
 
-export const SUPPORTED_ARX_FORMATS = ['dlf', 'fts', 'llf', 'ftl', 'tea']
-export const SUPPORTED_DATA_FORMATS = ['json', 'yaml', 'yml']
+export const SUPPORTED_ARX_FORMATS = ['dlf', 'fts', 'llf', 'ftl', 'tea'] as const
+export const SUPPORTED_DATA_FORMATS = ['json', 'yaml', 'yml'] as const
+export const SUPPORTED_FORMATS = [...SUPPORTED_ARX_FORMATS, ...SUPPORTED_DATA_FORMATS] as const
+
+export type SupportedArxFormat = typeof SUPPORTED_ARX_FORMATS[number]
+export type SupportedDataFormat = typeof SUPPORTED_DATA_FORMATS[number]
+export type SupportedFormat = typeof SUPPORTED_FORMATS[number]
 
 export const FTL_VERSION = 0.83257
 

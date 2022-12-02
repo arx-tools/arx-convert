@@ -1,7 +1,14 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { Buffer } from 'node:buffer'
-import { SUPPORTED_ARX_FORMATS, SUPPORTED_DATA_FORMATS } from '../common/constants'
+import {
+  SupportedArxFormat,
+  SupportedDataFormat,
+  SupportedFormat,
+  SUPPORTED_ARX_FORMATS,
+  SUPPORTED_DATA_FORMATS,
+  SUPPORTED_FORMATS,
+} from '../common/constants'
 
 export const getPackageVersion = async () => {
   try {
@@ -76,36 +83,31 @@ export const outputInChunks = (buffer: string | Buffer, stream: NodeJS.WritableS
   stream.end()
 }
 
-const validTypes = [...SUPPORTED_ARX_FORMATS, ...SUPPORTED_DATA_FORMATS]
+export const isValidFormat = (arg: string): arg is SupportedFormat => {
+  for (let i = 0; i < SUPPORTED_FORMATS.length; i++) {
+    if (SUPPORTED_FORMATS[i] === arg) {
+      return true
+    }
+  }
+  return false
+}
 
-export const validateFromToPair = (from: string, to: string) => {
-  if (typeof from === 'undefined' || from === '') {
-    throw new Error('"from" argument is missing or empty')
+export const isArxFormat = (arg: SupportedFormat): arg is SupportedArxFormat => {
+  for (let i = 0; i < SUPPORTED_ARX_FORMATS.length; i++) {
+    if (SUPPORTED_ARX_FORMATS[i] === arg) {
+      return true
+    }
   }
-  if (typeof to === 'undefined' || to === '') {
-    throw new Error('"to" argument is missing or empty')
-  }
+  return false
+}
 
-  if (!validTypes.includes(from)) {
-    throw new Error(`unknown format '${from}' in "from"`)
+export const isDataFormat = (arg: SupportedFormat): arg is SupportedDataFormat => {
+  for (let i = 0; i < SUPPORTED_DATA_FORMATS.length; i++) {
+    if (SUPPORTED_DATA_FORMATS[i] === arg) {
+      return true
+    }
   }
-
-  if (!validTypes.includes(to)) {
-    throw new Error(`unknown format '${to}' in "to"`)
-  }
-
-  if (from === to) {
-    throw new Error('"from" and "to" have the same format')
-  }
-
-  // if "from" is sourcetype then "to" is targettype and vice-versa? (sourcetype=fts,dlf,...; targettype=json,...)
-  if (SUPPORTED_ARX_FORMATS.includes(from) && SUPPORTED_ARX_FORMATS.includes(to)) {
-    throw new Error('"from" and "to" are both referencing arx formats, expected one of them to be a data type')
-  }
-
-  if (SUPPORTED_DATA_FORMATS.includes(from) && SUPPORTED_DATA_FORMATS.includes(to)) {
-    throw new Error('"from" and "to" are both referencing data types, expected one of them to be an arx format')
-  }
+  return false
 }
 
 export const getInputStream = async (filename?: string): Promise<NodeJS.ReadableStream> => {

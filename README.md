@@ -19,7 +19,7 @@ nodejs 18+ (because the lib uses prefix-only core modules)
 
 ### format of the commands
 
-`arx-convert <inputfile> --from=<format> --to=<format> --output=<outputfile> (--prettify|-p)`
+`arx-convert <inputfile> --from=<format> --to=<format> --output=<outputfile> --prettify`
 
 the inputfile and --output parameters can be omitted and then the code can be used in pipelines
 
