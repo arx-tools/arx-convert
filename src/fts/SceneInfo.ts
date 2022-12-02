@@ -26,6 +26,6 @@ export class SceneInfo {
   }
 
   static sizeOf() {
-    return 2 * 4
+    return BinaryIO.sizeOfInt32Array(2)
   }
 }

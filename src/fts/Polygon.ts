@@ -52,6 +52,13 @@ export class Polygon {
   }
 
   static sizeOf() {
-    return Vertex.sizeOf() * 4 + 4 + 3 * 4 * 2 + 4 * 3 * 4 + 4 + 4 + 4 + 2 + 2
+    return (
+      Vertex.sizeOf() * 4 +
+      BinaryIO.sizeOfInt32() +
+      BinaryIO.sizeOfVector3Array(1 + 1 + 4) +
+      BinaryIO.sizeOfFloat32Array(2) +
+      BinaryIO.sizeOfInt32() +
+      BinaryIO.sizeOfInt16Array(2)
+    )
   }
 }

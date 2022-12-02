@@ -34,6 +34,8 @@ export class TeaHeader {
   }
 
   static sizeOf() {
-    return 20 + 4 + 256 + 4 + 4 + 4
+    return (
+      BinaryIO.sizeOfString(20) + BinaryIO.sizeOfUint32() + BinaryIO.sizeOfString(256) + BinaryIO.sizeOfInt32Array(3)
+    )
   }
 }

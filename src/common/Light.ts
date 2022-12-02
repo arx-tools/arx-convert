@@ -90,6 +90,11 @@ export class Light {
   }
 
   static sizeOf() {
-    return 3 * 4 + Color.sizeOf('rgb') * 2 + 9 * 4 + 24 * 4 + 4 + 31 * 4
+    return (
+      BinaryIO.sizeOfVector3() +
+      Color.sizeOf('rgb') * 2 +
+      BinaryIO.sizeOfFloat32Array(9 + 24) +
+      BinaryIO.sizeOfInt32Array(32)
+    )
   }
 }

@@ -40,6 +40,13 @@ export class Pathway {
   }
 
   static sizeOf() {
-    return 3 * 4 + 4 + 4 + 2 * 4 + 2 * 4 + 32
+    return (
+      BinaryIO.sizeOfVector3() +
+      BinaryIO.sizeOfInt32() +
+      BinaryIO.sizeOfUint32() +
+      BinaryIO.sizeOfFloat32Array(2) +
+      BinaryIO.sizeOfInt32Array(2) +
+      BinaryIO.sizeOfUint8Array(32)
+    )
   }
 }

@@ -28,6 +28,6 @@ export class Vertex {
   }
 
   static sizeOf() {
-    return 5 * 4
+    return BinaryIO.sizeOfFloat32Array(5)
   }
 }

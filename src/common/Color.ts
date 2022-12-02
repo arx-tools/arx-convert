@@ -40,6 +40,10 @@ export class Color {
   }
 
   static sizeOf(mode: ColorMode) {
-    return mode === 'rgb' ? 3 * 4 : 4 * 1
+    if (mode === 'rgb') {
+      return BinaryIO.sizeOfFloat32Array(3)
+    } else {
+      return BinaryIO.sizeOfUint8Array(4)
+    }
   }
 }

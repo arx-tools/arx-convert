@@ -60,6 +60,13 @@ export class LlfHeader {
   }
 
   static sizeOf() {
-    return 4 + 16 + 256 + 5 * 4 + 256 * 4 * 2 + 4096 + 256 * 4
+    return (
+      BinaryIO.sizeOfFloat32() +
+      BinaryIO.sizeOfString(16 + 256) +
+      BinaryIO.sizeOfInt32Array(5 + 256) +
+      BinaryIO.sizeOfFloat32Array(256) +
+      BinaryIO.sizeOfString(4096) +
+      BinaryIO.sizeOfInt32Array(256)
+    )
   }
 }

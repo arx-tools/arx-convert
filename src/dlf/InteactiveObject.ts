@@ -44,6 +44,12 @@ export class InteractiveObject {
   }
 
   static sizeOf() {
-    return 512 + 3 * 4 + 3 * 4 + 4 + 4 + 14 * 4 + 16 * 4
+    return (
+      BinaryIO.sizeOfString(512) +
+      BinaryIO.sizeOfVector3() +
+      BinaryIO.sizeOfRotation() +
+      BinaryIO.sizeOfInt32Array(16) +
+      BinaryIO.sizeOfFloat32Array(16)
+    )
   }
 }

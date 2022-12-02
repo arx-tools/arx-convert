@@ -38,6 +38,12 @@ export class FtsHeader {
   }
 
   static sizeOf() {
-    return 280
+    return (
+      BinaryIO.sizeOfString(256) +
+      BinaryIO.sizeOfInt32() +
+      BinaryIO.sizeOfFloat32() +
+      BinaryIO.sizeOfInt32() +
+      BinaryIO.sizeOfUint32Array(3)
+    )
   }
 }

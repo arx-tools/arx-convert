@@ -85,6 +85,15 @@ export class PathHeader {
   }
 
   static sizeOf() {
-    return 64 + 2 + 2 + 3 * 4 + 3 * 4 + 4 + Color.sizeOf('rgb') + 4 + 4 + 4 + 26 * 4 + 4 + 31 * 4 + 128 + 128
+    return (
+      BinaryIO.sizeOfString(64) +
+      BinaryIO.sizeOfInt16Array(2) +
+      BinaryIO.sizeOfVector3Array(2) +
+      BinaryIO.sizeOfInt32() +
+      Color.sizeOf('rgb') +
+      BinaryIO.sizeOfFloat32Array(3 + 26) +
+      BinaryIO.sizeOfInt32Array(1 + 31) +
+      BinaryIO.sizeOfString(256)
+    )
   }
 }

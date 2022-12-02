@@ -54,6 +54,6 @@ export class SceneHeader {
   }
 
   static sizeOf() {
-    return 6 * 4 + 2 * 3 * 4 + 2 * 4
+    return BinaryIO.sizeOfFloat32() + BinaryIO.sizeOfInt32Array(5 + 2) + BinaryIO.sizeOfVector3Array(2)
   }
 }

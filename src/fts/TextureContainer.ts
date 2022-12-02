@@ -28,6 +28,6 @@ export class TextureContainer {
   }
 
   static sizeOf() {
-    return 256 + 2 * 4
+    return BinaryIO.sizeOfInt32Array(2) + BinaryIO.sizeOfString(256)
   }
 }

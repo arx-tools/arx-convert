@@ -29,6 +29,6 @@ export class RoomDistance {
   }
 
   static sizeOf() {
-    return 4 + 3 * 4 + 3 * 4
+    return BinaryIO.sizeOfFloat32() + BinaryIO.sizeOfVector3Array(2)
   }
 }

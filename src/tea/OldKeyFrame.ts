@@ -37,6 +37,6 @@ export class OldKeyFrame {
   }
 
   static sizeOf() {
-    return 8 * 4
+    return BinaryIO.sizeOfInt32Array(8)
   }
 }

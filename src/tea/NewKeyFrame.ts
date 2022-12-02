@@ -33,6 +33,6 @@ export class NewKeyFrame {
   }
 
   static sizeOf() {
-    return OldKeyFrame.sizeOf() + 256
+    return OldKeyFrame.sizeOf() + BinaryIO.sizeOfString(256)
   }
 }

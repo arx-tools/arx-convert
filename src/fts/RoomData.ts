@@ -32,6 +32,6 @@ export class RoomData {
   }
 
   static sizeOf() {
-    return 4 + 4 + 6 * 4
+    return BinaryIO.sizeOfInt32Array(1 + 1 + 6)
   }
 }

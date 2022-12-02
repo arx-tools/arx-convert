@@ -36,6 +36,6 @@ export class AnchorData {
   }
 
   static sizeOf() {
-    return 3 * 4 + 4 + 4 + 2 + 2
+    return BinaryIO.sizeOfVector3() + BinaryIO.sizeOfFloat32Array(2) + BinaryIO.sizeOfInt16Array(2)
   }
 }

@@ -39,6 +39,8 @@ export class TextureVertex {
   }
 
   static sizeOf() {
-    return 3 * 4 + 4 + Color.sizeOf('abgr') * 2 + 4 + 4
+    return (
+      BinaryIO.sizeOfVector3() + BinaryIO.sizeOfFloat32() + Color.sizeOf('abgr') * 2 + BinaryIO.sizeOfFloat32Array(2)
+    )
   }
 }

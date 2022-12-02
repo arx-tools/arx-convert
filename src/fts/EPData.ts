@@ -23,6 +23,6 @@ export class EPData {
   }
 
   static sizeOf() {
-    return 4 * 2
+    return BinaryIO.sizeOfInt16Array(4)
   }
 }

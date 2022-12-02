@@ -28,6 +28,6 @@ export class LightingHeader {
   }
 
   static sizeOf() {
-    return 4 * 4
+    return BinaryIO.sizeOfInt32Array(4)
   }
 }

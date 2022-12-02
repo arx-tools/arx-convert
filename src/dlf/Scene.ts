@@ -30,6 +30,6 @@ export class Scene {
   }
 
   static sizeOf() {
-    return 512 + 4 * 16 + 4 * 16
+    return BinaryIO.sizeOfString(512) + BinaryIO.sizeOfInt32Array(16) + BinaryIO.sizeOfFloat32Array(16)
   }
 }

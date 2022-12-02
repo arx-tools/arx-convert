@@ -20,7 +20,9 @@ export class Cell {
   }
 
   static accumulateFrom(cell: ArxCell) {
-    const buffer = Buffer.alloc(SceneInfo.sizeOf() + Polygon.sizeOf() * cell.polygons.length + cell.anchors.length * 4)
+    const buffer = Buffer.alloc(
+      SceneInfo.sizeOf() + Polygon.sizeOf() * cell.polygons.length + BinaryIO.sizeOfInt32Array(cell.anchors.length),
+    )
     const binary = new BinaryIO(buffer.buffer)
 
     binary.writeBuffer(SceneInfo.accumulateFrom(cell))

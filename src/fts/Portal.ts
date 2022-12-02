@@ -35,6 +35,6 @@ export class Portal {
   }
 
   static sizeOf() {
-    return 4 + 4 + 2 + 2 + PortalPolygon.sizeOf()
+    return PortalPolygon.sizeOf() + BinaryIO.sizeOfInt32Array(2) + BinaryIO.sizeOfInt16Array(2)
   }
 }

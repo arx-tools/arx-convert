@@ -53,6 +53,7 @@ export class Fog {
     binary.writeInt32(fog.special)
     binary.writeFloat32(fog.scale)
     binary.writeVector3(fog.move)
+
     binary.writeRotation(fog.angle)
     binary.writeFloat32(fog.speed)
     binary.writeFloat32(fog.rotateSpeed)
@@ -68,6 +69,18 @@ export class Fog {
   }
 
   static sizeOf() {
-    return 3 * 4 + Color.sizeOf('rgb') + 3 * 4 + 3 * 4 + 3 * 4 + 5 * 4 + 32 * 4 + 32 * 4 + 256
+    return (
+      BinaryIO.sizeOfVector3() +
+      Color.sizeOf('rgb') +
+      BinaryIO.sizeOfFloat32Array(2) +
+      BinaryIO.sizeOfInt32() +
+      BinaryIO.sizeOfVector3() +
+      BinaryIO.sizeOfRotation() +
+      BinaryIO.sizeOfFloat32Array(3) +
+      BinaryIO.sizeOfInt32Array(2) +
+      BinaryIO.sizeOfFloat32Array(32) +
+      BinaryIO.sizeOfInt32Array(32) +
+      BinaryIO.sizeOfString(256)
+    )
   }
 }

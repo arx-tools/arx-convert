@@ -25,6 +25,6 @@ export class UniqueHeader {
   }
 
   static sizeOf() {
-    return 768
+    return BinaryIO.sizeOfString(256) + BinaryIO.sizeOfUint8Array(512)
   }
 }

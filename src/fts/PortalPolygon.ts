@@ -69,6 +69,16 @@ export class PortalPolygon {
   }
 
   static sizeOf() {
-    return 52 + TextureVertex.sizeOf() * 4 + 204
+    return (
+      BinaryIO.sizeOfInt32() +
+      BinaryIO.sizeOfVector3Array(4) +
+      TextureVertex.sizeOf() * 4 +
+      BinaryIO.sizeOfUint8Array(32 * 4) +
+      BinaryIO.sizeOfVector3Array(4) +
+      BinaryIO.sizeOfInt32() +
+      BinaryIO.sizeOfVector3() +
+      BinaryIO.sizeOfFloat32Array(2) +
+      BinaryIO.sizeOfInt16Array(2)
+    )
   }
 }
