@@ -31,20 +31,8 @@ export class DLF {
   static load(decompressedFile: Buffer) {
     const file = new BinaryIO(decompressedFile.buffer)
 
-    const {
-      hasScene,
-      numberOfInteractiveObjects,
-      // numberOfNodes,
-      // numberOfNodeLinks,
-      // numberOfZones,
-      numberOfLights,
-      numberOfFogs,
-      // numberOfBackgroundPolygons,
-      // numberOfIgnoredPolygons,
-      // numberOfChildPolygons,
-      numberOfPaths,
-      ...header
-    } = DlfHeader.readFrom(file)
+    const { hasScene, numberOfInteractiveObjects, numberOfLights, numberOfFogs, numberOfPaths, ...header } =
+      DlfHeader.readFrom(file)
 
     const data: ArxDLF = {
       meta: {

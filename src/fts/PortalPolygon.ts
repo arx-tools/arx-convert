@@ -11,7 +11,7 @@ export type ArxPortalPolygon = {
   norm: ArxVector3
   norm2: ArxVector3
   v: [ArxTextureVertex, ArxTextureVertex, ArxTextureVertex, ArxTextureVertex]
-  unused: number[] // array holds 32*4 bytes of some data, but no idea what is it for
+  unused: number[] // array holds 32*4 bytes of some data, but no idea what it is
   nrml: [ArxVector3, ArxVector3, ArxVector3, ArxVector3]
   tex: number
   center: ArxVector3

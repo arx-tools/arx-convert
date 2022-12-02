@@ -1,7 +1,6 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../common/BinaryIO'
-import { COORDS_THAT_ROUND_UP } from '../common/constants'
-import { isZeroVertex, times } from '../common/helpers'
+import { addLightIndex, getCellCoords, times } from '../common/helpers'
 import { ArxFormat } from '../types'
 import { Anchor, ArxAnchor } from './Anchor'
 import { ArxCell, Cell } from './Cell'
@@ -13,7 +12,6 @@ import { ArxRoomDistance, RoomDistance } from './RoomDistance'
 import { ArxSceneHeader, SceneHeader } from './SceneHeader'
 import { ArxTextureContainer, TextureContainer } from './TextureContainer'
 import { ArxUniqueHeader, UniqueHeader } from './UniqueHeader'
-import { ArxVertex } from './Vertex'
 
 export type ArxFTS = ArxFormat & {
   header: Omit<ArxFtsHeader, 'numberOfUniqueHeaders'>
@@ -26,38 +24,6 @@ export type ArxFTS = ArxFormat & {
   portals: ArxPortal[]
   rooms: ArxRoom[]
   roomDistances: ArxRoomDistance[]
-}
-
-const doCoordsNeedToBeRoundedUp = (coords: [number, number, number]) => {
-  const [a, b, c] = coords.sort((a, b) => a - b)
-  return COORDS_THAT_ROUND_UP.find(([x, y, z]) => a === x && b === y && c === z) !== undefined
-}
-
-const addLightIndex = (polygons: ArxPolygon[]) => {
-  let idx = 0
-
-  return polygons.map((polygon) => {
-    const isQuad = !isZeroVertex(polygon.vertices[3])
-
-    polygon.vertices[0].llfColorIdx = idx++
-    polygon.vertices[1].llfColorIdx = idx++
-    polygon.vertices[2].llfColorIdx = idx++
-    if (isQuad) {
-      polygon.vertices[3].llfColorIdx = idx++
-    }
-
-    return polygon
-  })
-}
-
-const getCellCoords = ([a, b, c]: [ArxVertex, ArxVertex, ArxVertex, ArxVertex]) => {
-  const x = (a.x + b.x + c.x) / 3
-  const z = (a.z + b.z + c.z) / 3
-
-  let cellX = doCoordsNeedToBeRoundedUp([a.x, b.x, c.x]) ? Math.ceil(x / 100) : Math.floor(x / 100)
-  let cellY = doCoordsNeedToBeRoundedUp([a.z, b.z, c.z]) ? Math.ceil(z / 100) : Math.floor(z / 100)
-
-  return [cellX, cellY]
 }
 
 export class FTS {
@@ -138,9 +104,7 @@ export class FTS {
       roomDistances,
     ])
 
-    const uncompressedSize = dataWithoutHeader.length
-
-    const header = FtsHeader.accumulateFrom(json, uncompressedSize)
+    const header = FtsHeader.accumulateFrom(json, dataWithoutHeader.length)
     const uniqueHeaders = Buffer.concat(json.uniqueHeaders.map(UniqueHeader.accumulateFrom))
 
     return Buffer.concat([header, uniqueHeaders, dataWithoutHeader])

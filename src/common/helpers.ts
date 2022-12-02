@@ -1,9 +1,13 @@
+import { ArxPolygon } from '../fts/Polygon'
+import { ArxVertex } from '../fts/Vertex'
+import { COORDS_THAT_ROUND_UP } from './constants'
+
 export const maxAll = (arr: number[]) => {
-  let len = arr.length
+  let i = arr.length
   let max = -Infinity
 
-  while (len--) {
-    max = arr[len] > max ? arr[len] : max
+  while (i-- > 0) {
+    max = arr[i] > max ? arr[i] : max
   }
 
   return max
@@ -33,4 +37,36 @@ export const invertArray = (arr: string[]) => {
     obj[value] = idx
     return obj
   }, {})
+}
+
+export const doCoordsNeedToBeRoundedUp = (coords: [number, number, number]) => {
+  const [a, b, c] = coords.sort((a, b) => a - b)
+  return COORDS_THAT_ROUND_UP.find(([x, y, z]) => a === x && b === y && c === z) !== undefined
+}
+
+export const addLightIndex = (polygons: ArxPolygon[]) => {
+  let idx = 0
+
+  return polygons.map((polygon) => {
+    const isQuad = !isZeroVertex(polygon.vertices[3])
+
+    polygon.vertices[0].llfColorIdx = idx++
+    polygon.vertices[1].llfColorIdx = idx++
+    polygon.vertices[2].llfColorIdx = idx++
+    if (isQuad) {
+      polygon.vertices[3].llfColorIdx = idx++
+    }
+
+    return polygon
+  })
+}
+
+export const getCellCoords = ([a, b, c]: [ArxVertex, ArxVertex, ArxVertex, ArxVertex]) => {
+  const x = (a.x + b.x + c.x) / 3
+  const z = (a.z + b.z + c.z) / 3
+
+  let cellX = doCoordsNeedToBeRoundedUp([a.x, b.x, c.x]) ? Math.ceil(x / 100) : Math.floor(x / 100)
+  let cellY = doCoordsNeedToBeRoundedUp([a.z, b.z, c.z]) ? Math.ceil(z / 100) : Math.floor(z / 100)
+
+  return [cellX, cellY]
 }
