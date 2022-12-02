@@ -273,4 +273,80 @@ export class BinaryIO extends DataView {
   writeBuffer(buffer: Buffer) {
     this.writeUint8Array(buffer)
   }
+
+  sizeOfFloat32() {
+    return 4 as const
+  }
+
+  sizeOfFloat32Array(length: number) {
+    return length * this.sizeOfFloat32()
+  }
+
+  sizeOfInt8() {
+    return 1 as const
+  }
+
+  sizeOfInt8Array(length: number) {
+    return length * this.sizeOfInt8()
+  }
+
+  sizeOfInt16() {
+    return 2 as const
+  }
+
+  sizeOfInt16Array(length: number) {
+    return length * this.sizeOfInt16()
+  }
+
+  sizeOfInt32() {
+    return 4 as const
+  }
+
+  sizeOfInt32Array(length: number) {
+    return length * this.sizeOfInt32()
+  }
+
+  sizeOfUint8() {
+    return 1 as const
+  }
+
+  sizeOfUint8Array(length: number) {
+    return length * this.sizeOfUint8()
+  }
+
+  sizeOfUint16() {
+    return 2 as const
+  }
+
+  sizeOfUint16Array(length: number) {
+    return length * this.sizeOfUint16()
+  }
+
+  sizeOfUint32() {
+    return 4 as const
+  }
+
+  sizeOfUint32Array(length: number) {
+    return length * this.sizeOfUint32()
+  }
+
+  sizeOfString(length: number) {
+    return length
+  }
+
+  sizeOfVector3() {
+    return this.sizeOfFloat32Array(3)
+  }
+
+  sizeOfVector3Array(length: number) {
+    return length * this.sizeOfVector3()
+  }
+
+  sizeOfRotation() {
+    return this.sizeOfFloat32Array(3)
+  }
+
+  sizeOfQuat() {
+    return this.sizeOfFloat32Array(4)
+  }
 }
