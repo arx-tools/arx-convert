@@ -1,7 +1,6 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../common/BinaryIO'
 import { addLightIndex, getCellCoords, times } from '../common/helpers'
-import { ArxFormat } from '../types'
 import { Anchor, ArxAnchor } from './Anchor'
 import { ArxCell, Cell } from './Cell'
 import { ArxFtsHeader, FtsHeader } from './FtsHeader'
@@ -13,7 +12,7 @@ import { ArxSceneHeader, SceneHeader } from './SceneHeader'
 import { ArxTextureContainer, TextureContainer } from './TextureContainer'
 import { ArxUniqueHeader, UniqueHeader } from './UniqueHeader'
 
-export type ArxFTS = ArxFormat & {
+export type ArxFTS = {
   header: Omit<ArxFtsHeader, 'numberOfUniqueHeaders'>
   uniqueHeaders: ArxUniqueHeader[]
   sceneHeader: Omit<ArxSceneHeader, 'numberOfTextures' | 'numberOfAnchors' | 'numberOfPortals' | 'numberOfRooms'>
@@ -27,7 +26,7 @@ export type ArxFTS = ArxFormat & {
 }
 
 export class FTS {
-  static load(decompressedFile: Buffer) {
+  static load(decompressedFile: Buffer): ArxFTS {
     const file = new BinaryIO(decompressedFile.buffer)
 
     const { numberOfUniqueHeaders, ...header } = FtsHeader.readFrom(file)
@@ -46,11 +45,7 @@ export class FTS {
       }
     }
 
-    const data: ArxFTS = {
-      meta: {
-        type: 'fts',
-        numberOfLeftoverBytes: 0,
-      },
+    return {
       header,
       uniqueHeaders,
       sceneHeader,
@@ -62,10 +57,6 @@ export class FTS {
       rooms: times(() => Room.readFrom(file), numberOfRooms),
       roomDistances: times(() => RoomDistance.readFrom(file), numberOfRooms ** 2),
     }
-
-    data.meta.numberOfLeftoverBytes = file.byteLength - file.position
-
-    return data
   }
 
   static save(json: ArxFTS) {

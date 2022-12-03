@@ -1,9 +1,8 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../common/BinaryIO'
-import { ArxFormat } from '../types'
 import { ArxFtlHeader, FtlHeader } from './FtlHeader'
 
-export type ArxFTL = ArxFormat & {
+export type ArxFTL = {
   header: ArxFtlHeader
 }
 
@@ -109,14 +108,8 @@ export class FTL {
     const header = FtlHeader.readFrom(file)
 
     const data: ArxFTL = {
-      meta: {
-        type: 'ftl',
-        numberOfLeftoverBytes: 0,
-      },
       header: header,
     }
-
-    data.meta.numberOfLeftoverBytes = file.byteLength - file.position
 
     return data
   }

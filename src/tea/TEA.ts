@@ -4,9 +4,9 @@ import { BinaryIO } from '../common/BinaryIO'
 import { KEEP_ZERO_BYTES } from '../common/constants'
 import { ArxNewKeyFrame, NewKeyFrame } from './NewKeyFrame'
 import { ArxOldKeyFrame, OldKeyFrame } from './OldKeyFrame'
-import { ArxFormat, ArxQuaternion, ArxVector3 } from '../types'
+import { ArxQuaternion, ArxVector3 } from '../types'
 
-export type ArxTEA = ArxFormat & {
+export type ArxTEA = {
   header: Omit<ArxTeaHeader, 'numberOfKeyFrames' | 'numberOfGroups'>
   keyframes: ArxKeyFrame[]
 }
@@ -34,10 +34,6 @@ export class TEA {
     }
 
     const data: ArxTEA = {
-      meta: {
-        type: 'tea',
-        numberOfLeftoverBytes: 0,
-      },
       header: header,
       keyframes: [],
     }
@@ -92,8 +88,6 @@ export class TEA {
     }
 
     file.position += 4 // num_sfx?
-
-    data.meta.numberOfLeftoverBytes = file.byteLength - file.position
 
     return data
   }

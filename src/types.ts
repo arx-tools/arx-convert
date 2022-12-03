@@ -19,10 +19,3 @@ export type ArxQuaternion = {
   z: number
   w: number
 }
-
-export type ArxFormat = {
-  meta: {
-    type: string
-    numberOfLeftoverBytes: number
-  }
-}

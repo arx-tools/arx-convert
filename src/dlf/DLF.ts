@@ -2,7 +2,6 @@ import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../common/BinaryIO'
 import { times } from '../common/helpers'
 import { ArxLight, Light } from '../common/Light'
-import { ArxFormat } from '../types'
 import { ArxDlfHeader, DlfHeader } from './DlfHeader'
 import { ArxFog, Fog } from './Fog'
 import { ArxInteractiveObject, InteractiveObject } from './InteactiveObject'
@@ -15,7 +14,7 @@ export type ArxPath = {
   pathways: ArxPathway[]
 }
 
-export type ArxDLF = ArxFormat & {
+export type ArxDLF = {
   header: Omit<
     ArxDlfHeader,
     'hasScene' | 'numberOfInteractiveObjects' | 'numberOfLights' | 'numberOfFogs' | 'numberOfPaths'
@@ -35,10 +34,6 @@ export class DLF {
       DlfHeader.readFrom(file)
 
     const data: ArxDLF = {
-      meta: {
-        type: 'dlf',
-        numberOfLeftoverBytes: 0,
-      },
       header: header,
       scene: hasScene ? Scene.readFrom(file) : undefined,
       interactiveObjects: times(() => InteractiveObject.readFrom(file), numberOfInteractiveObjects),
@@ -57,8 +52,6 @@ export class DLF {
         pathways: times(() => Pathway.readFrom(file), numberOfPathways),
       }
     }, numberOfPaths)
-
-    data.meta.numberOfLeftoverBytes = file.byteLength - file.position
 
     return data
   }

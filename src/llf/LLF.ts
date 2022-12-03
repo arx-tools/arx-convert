@@ -4,17 +4,16 @@ import { ArxColor, Color } from '../common/Color'
 import { times } from '../common/helpers'
 import { ArxLight, Light } from '../common/Light'
 import { LightingHeader } from './LightingHeader'
-import { ArxFormat } from '../types'
 import { ArxLlfHeader, LlfHeader } from './LlfHeader'
 
-export type ArxLLF = ArxFormat & {
+export type ArxLLF = {
   header: Omit<ArxLlfHeader, 'numberOfLights'>
   lights: ArxLight[]
   colors: ArxColor[]
 }
 
 export class LLF {
-  static load(decompressedFile: Buffer) {
+  static load(decompressedFile: Buffer): ArxLLF {
     const file = new BinaryIO(decompressedFile.buffer)
 
     const { numberOfLights, ...header } = LlfHeader.readFrom(file)
@@ -23,19 +22,11 @@ export class LLF {
     const { numberOfColors } = LightingHeader.readFrom(file)
     const colors = times(() => Color.readFrom(file, header.version > 1.001 ? 'bgra' : 'rgb'), numberOfColors)
 
-    const data: ArxLLF = {
-      meta: {
-        type: 'llf',
-        numberOfLeftoverBytes: 0,
-      },
+    return {
       header,
       lights,
       colors,
     }
-
-    data.meta.numberOfLeftoverBytes = file.byteLength - file.position
-
-    return data
   }
 
   static save(json: ArxLLF) {
