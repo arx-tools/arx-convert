@@ -187,6 +187,7 @@ export type SupportedDataFormat = typeof SUPPORTED_DATA_FORMATS[number]
 export type SupportedFormat = typeof SUPPORTED_FORMATS[number]
 
 export const FTL_VERSION = 0.83257
+export const FTS_VERSION = 0.14100000262260437
 
 export const LITTLE_ENDIAN = true
 export const BIG_ENDIAN = false
@@ -222,3 +223,6 @@ export const CODES = invertArray(CHARS)
 export const BYTE_OF_AN_UNKNOWN_CHAR = CODES[' ']
 
 export const CHAR_OF_AN_UNKNOWN_BYTE = ' '
+
+export const MAP_WIDTH_IN_CELLS = 160
+export const MAP_DEPTH_IN_CELLS = 160

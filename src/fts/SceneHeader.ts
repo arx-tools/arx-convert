@@ -1,14 +1,12 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../common/BinaryIO'
+import { FTS_VERSION, MAP_DEPTH_IN_CELLS, MAP_WIDTH_IN_CELLS } from '../common/constants'
 import { maxAll, uniq } from '../common/helpers'
 import { ArxVector3 } from '../types'
 import { ArxFTS } from './FTS'
 
 /** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L94 */
 export type ArxSceneHeader = {
-  version: number
-  sizeX: number
-  sizeZ: number
   numberOfTextures: number
   numberOfPolygons: number
   numberOfAnchors: number
@@ -20,10 +18,11 @@ export type ArxSceneHeader = {
 
 export class SceneHeader {
   static readFrom(binary: BinaryIO): ArxSceneHeader {
+    binary.readFloat32() // version - always 0.14100000262260437
+    binary.readInt32() // sizeX - always 160
+    binary.readInt32() // sizeZ - always 160
+
     return {
-      version: binary.readFloat32(),
-      sizeX: binary.readInt32(),
-      sizeZ: binary.readInt32(),
       numberOfTextures: binary.readInt32(),
       numberOfPolygons: binary.readInt32(),
       numberOfAnchors: binary.readInt32(),
@@ -40,9 +39,9 @@ export class SceneHeader {
     const buffer = Buffer.alloc(SceneHeader.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
-    binary.writeFloat32(json.sceneHeader.version)
-    binary.writeInt32(json.sceneHeader.sizeX)
-    binary.writeInt32(json.sceneHeader.sizeZ)
+    binary.writeFloat32(FTS_VERSION)
+    binary.writeInt32(MAP_WIDTH_IN_CELLS)
+    binary.writeInt32(MAP_DEPTH_IN_CELLS)
     binary.writeInt32(json.textureContainers.length)
     binary.writeInt32(json.polygons.length)
     binary.writeInt32(json.anchors.length)

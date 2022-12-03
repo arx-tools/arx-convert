@@ -1,5 +1,6 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../common/BinaryIO'
+import { MAP_DEPTH_IN_CELLS, MAP_WIDTH_IN_CELLS } from '../common/constants'
 import { addLightIndex, getCellCoords, times } from '../common/helpers'
 import { Anchor, ArxAnchor } from './Anchor'
 import { ArxCell, Cell } from './Cell'
@@ -39,8 +40,8 @@ export class FTS {
     const textureContainers = times(() => TextureContainer.readFrom(file), numberOfTextures)
 
     const combinedCells: ArxCell[] = []
-    for (let z = 0; z < sceneHeader.sizeZ; z++) {
-      for (let x = 0; x < sceneHeader.sizeX; x++) {
+    for (let z = 0; z < MAP_DEPTH_IN_CELLS; z++) {
+      for (let x = 0; x < MAP_WIDTH_IN_CELLS; x++) {
         combinedCells.push(Cell.readFrom(file))
       }
     }
@@ -62,8 +63,6 @@ export class FTS {
   static save(json: ArxFTS) {
     const sceneHeader = SceneHeader.accumulateFrom(json)
 
-    const sizeX = json.sceneHeader.sizeX
-
     const recominedCells = json.cells.map((cell): ArxCell => {
       return {
         ...cell,
@@ -74,7 +73,7 @@ export class FTS {
     json.polygons.forEach((polygon) => {
       const [cellX, cellY] = getCellCoords(polygon.vertices)
 
-      const cellIndex = cellY * sizeX + cellX
+      const cellIndex = cellY * MAP_WIDTH_IN_CELLS + cellX
       recominedCells[cellIndex].polygons.push(polygon)
     })
 

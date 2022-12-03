@@ -10,12 +10,12 @@ export type ArxPolygon = {
   tex: number
   norm: ArxVector3
   norm2: ArxVector3
-  normals: [ArxVector3, ArxVector3, ArxVector3, ArxVector3]
+  normals?: [ArxVector3, ArxVector3, ArxVector3, ArxVector3]
   transval: number
   area: number
   type: number
   room: number
-  paddy: number
+  paddy?: number
 }
 
 export class Polygon {
@@ -42,12 +42,12 @@ export class Polygon {
     binary.writeInt32(polygon.tex)
     binary.writeVector3(polygon.norm)
     binary.writeVector3(polygon.norm2)
-    binary.writeVector3Array(polygon.normals)
+    binary.writeVector3Array(polygon.normals ?? [polygon.norm, polygon.norm, polygon.norm, polygon.norm2])
     binary.writeFloat32(polygon.transval)
     binary.writeFloat32(polygon.area)
     binary.writeInt32(polygon.type)
     binary.writeInt16(polygon.room)
-    binary.writeInt16(polygon.paddy)
+    binary.writeInt16(polygon.paddy ?? 0)
 
     return buffer
   }
