@@ -6,14 +6,16 @@ import { ArxFTS } from './FTS'
 
 /** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L56 */
 export type ArxFtsHeader = {
-  path: string
+  levelIdx: number
   numberOfUniqueHeaders: number
 }
 
 export class FtsHeader {
   static readFrom(binary: BinaryIO) {
+    const path = binary.readString(256)
+
     const data: ArxFtsHeader = {
-      path: binary.readString(256),
+      levelIdx: FtsHeader.pathToLevelIdx(path),
       numberOfUniqueHeaders: binary.readInt32(),
     }
 
@@ -28,7 +30,7 @@ export class FtsHeader {
     const buffer = Buffer.alloc(FtsHeader.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
-    binary.writeString(json.header.path, 256)
+    binary.writeString(FtsHeader.levelIdxToPath(json.header.levelIdx), 256)
     binary.writeInt32(json.uniqueHeaders.length)
     binary.writeFloat32(FTS_VERSION)
     binary.writeInt32(uncompressedSize)
@@ -36,6 +38,14 @@ export class FtsHeader {
     binary.writeUint32Array(repeat(0, 3))
 
     return buffer
+  }
+
+  static pathToLevelIdx(path: string) {
+    return parseInt(path.replace('C:\\ARX\\Game\\Graph\\Levels\\Level', '').replace('\\', ''))
+  }
+
+  static levelIdxToPath(levelIdx: number) {
+    return `C:\\ARX\\Game\\Graph\\Levels\\Level${levelIdx}\\`
   }
 
   static sizeOf() {
