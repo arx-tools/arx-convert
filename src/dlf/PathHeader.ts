@@ -4,7 +4,7 @@ import { repeat } from '../common/helpers'
 import { ArxVector3 } from '../types'
 import { ArxPath } from './DLF'
 
-// https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L150
+/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L150 */
 export type ArxPathHeader = {
   name: string
   idx: number

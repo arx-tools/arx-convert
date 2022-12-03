@@ -4,6 +4,7 @@ import { times } from '../common/helpers'
 import { ArxVector3 } from '../types'
 import { ArxTextureVertex, TextureVertex } from './TextureVertex'
 
+/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L136 */
 export type ArxPortalPolygon = {
   type: number
   min: ArxVector3

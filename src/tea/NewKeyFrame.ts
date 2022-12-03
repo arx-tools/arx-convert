@@ -4,6 +4,7 @@ import { BinaryIO } from '../common/BinaryIO'
 import { ArxTEA } from './TEA'
 import { ArxOldKeyFrame, OldKeyFrame } from './OldKeyFrame'
 
+/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/animation/AnimationFormat.h#L102 */
 export type ArxNewKeyFrame = ArxOldKeyFrame & {
   info_frame: string
 }

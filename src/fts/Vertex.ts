@@ -1,7 +1,7 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../common/BinaryIO'
 
-/** @see https://github.com/arx/ArxLibertatis/blob/master/src/graphics/data/FastSceneFormat.h#L73 */
+/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L73 */
 export type ArxVertex = {
   x: number
   y: number

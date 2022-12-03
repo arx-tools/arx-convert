@@ -2,6 +2,7 @@ import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../common/BinaryIO'
 import { ArxVector3 } from '../types'
 
+/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L130 */
 export type ArxRoomDistance = {
   distance: number
   startPosition: ArxVector3

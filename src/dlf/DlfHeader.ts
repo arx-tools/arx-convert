@@ -4,6 +4,7 @@ import { repeat } from '../common/helpers'
 import { ArxRotation, ArxVector3 } from '../types'
 import { ArxDLF } from './DLF'
 
+/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L58 */
 export type ArxDlfHeader = {
   version: number
   identifier: string

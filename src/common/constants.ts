@@ -1,5 +1,6 @@
 import { invertArray } from './helpers'
 
+/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/GraphicsTypes.h#L88 */
 export enum ArxPolygonFlags {
   None = 0,
   NoShadow = 1 << 0,
@@ -32,6 +33,7 @@ export enum ArxPolygonFlags {
   LateMip = 1 << 27,
 }
 
+/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/ai/Paths.h#L65 */
 export enum ArxZoneFlags {
   None = 0,
   Ambiance = 1 << 1,

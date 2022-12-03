@@ -3,6 +3,7 @@ import { BinaryIO } from './BinaryIO'
 
 type ColorMode = 'bgra' | 'rgb' | 'abgr'
 
+/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/GraphicsFormat.h#L29 */
 export type ArxColor = {
   r: number // between 0 and 255
   g: number // between 0 and 255

@@ -3,6 +3,7 @@ import { ArxColor, Color } from './Color'
 import { repeat } from './helpers'
 import { ArxVector3 } from '../types'
 
+/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/Light.h#L80 */
 export enum ArxLightFlags {
   None = 0,
   SemiDynamic = 1 << 0,

@@ -3,12 +3,12 @@ import { BinaryIO } from '../common/BinaryIO'
 import { repeat } from '../common/helpers'
 import { ArxRotation, ArxVector3 } from '../types'
 
+/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L193 */
 export type ArxInteractiveObject = {
   name: string
   pos: ArxVector3
   angle: ArxRotation
   identifier: number
-  flags: number
 }
 
 export class InteractiveObject {
@@ -18,9 +18,9 @@ export class InteractiveObject {
       pos: binary.readVector3(),
       angle: binary.readRotation(),
       identifier: binary.readInt32(), // could also be a 4 byte string?
-      flags: binary.readInt32(),
     }
 
+    binary.readInt32() // flags - always 0
     binary.readInt32Array(14) // pad
     binary.readFloat32Array(16) // fpad
 
@@ -35,7 +35,7 @@ export class InteractiveObject {
     binary.writeVector3(interactiveObject.pos)
     binary.writeRotation(interactiveObject.angle)
     binary.writeInt32(interactiveObject.identifier)
-    binary.writeInt32(interactiveObject.flags)
+    binary.writeInt32(0)
 
     binary.writeInt32Array(repeat(0, 14))
     binary.writeFloat32Array(repeat(0, 16))

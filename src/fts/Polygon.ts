@@ -4,6 +4,7 @@ import { ArxVertex, Vertex } from './Vertex'
 import { ArxVector3 } from '../types'
 import { times } from '../common/helpers'
 
+/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L81 */
 export type ArxPolygon = {
   vertices: [ArxVertex, ArxVertex, ArxVertex, ArxVertex]
   tex: number

@@ -2,6 +2,7 @@ import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../common/BinaryIO'
 import { ArxPortalPolygon, PortalPolygon } from './PortalPolygon'
 
+/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/GraphicsTypes.h#L268 */
 export type ArxPortal = {
   polygon: ArxPortalPolygon
   room1: number

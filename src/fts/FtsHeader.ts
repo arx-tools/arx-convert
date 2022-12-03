@@ -3,6 +3,7 @@ import { BinaryIO } from '../common/BinaryIO'
 import { repeat } from '../common/helpers'
 import { ArxFTS } from './FTS'
 
+/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L56 */
 export type ArxFtsHeader = {
   path: string
   numberOfUniqueHeaders: number

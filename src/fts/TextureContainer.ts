@@ -1,6 +1,7 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../common/BinaryIO'
 
+/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L107 */
 export type ArxTextureContainer = {
   tc: number
   temp: number

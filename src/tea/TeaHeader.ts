@@ -3,6 +3,7 @@ import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../common/BinaryIO'
 import { ArxTEA } from './TEA'
 
+/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/animation/AnimationFormat.h#L82 */
 export type ArxTeaHeader = {
   ident: string
   version: number
