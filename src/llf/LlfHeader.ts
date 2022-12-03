@@ -3,7 +3,7 @@ import { BinaryIO } from '../common/BinaryIO'
 import { repeat } from '../common/helpers'
 import { ArxLLF } from './LLF'
 
-// https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L178
+/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L178 */
 export type ArxLlfHeader = {
   version: number
   identifier: string

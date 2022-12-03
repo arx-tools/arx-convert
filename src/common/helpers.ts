@@ -17,7 +17,7 @@ export const isZeroVertex = ({ x, y, z }: { x: number; y: number; z: number }) =
   return Math.abs(x) < Number.EPSILON && Math.abs(y) < Number.EPSILON && Math.abs(z) < Number.EPSILON
 }
 
-// https://stackoverflow.com/a/14438954/1806628
+/** @see https://stackoverflow.com/a/14438954/1806628 */
 export const uniq = <T>(values: T[]) => {
   return values.filter((value, index, self) => {
     return self.indexOf(value) === index

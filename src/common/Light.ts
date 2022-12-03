@@ -19,7 +19,7 @@ export enum ArxLightFlags {
   Flare = 1 << 11,
 }
 
-// source: https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L114
+/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L114 */
 export type ArxLight = {
   pos: ArxVector3
   rgb: ArxColor
