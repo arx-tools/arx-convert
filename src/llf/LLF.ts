@@ -20,7 +20,7 @@ export class LLF {
     const lights = times(() => Light.readFrom(file), numberOfLights)
 
     const { numberOfColors } = LightingHeader.readFrom(file)
-    const colors = times(() => Color.readFrom(file, header.version > 1.001 ? 'bgra' : 'rgb'), numberOfColors)
+    const colors = times(() => Color.readFrom(file, 'bgra'), numberOfColors)
 
     return {
       header,
@@ -36,9 +36,7 @@ export class LLF {
 
     const lightingHeader = LightingHeader.accumulateFrom(json.colors)
 
-    const colors = Buffer.concat(
-      json.colors.map((color) => Color.accumulateFrom(color, json.header.version > 1.001 ? 'bgra' : 'rgb')),
-    )
+    const colors = Buffer.concat(json.colors.map((color) => Color.accumulateFrom(color, 'bgra')))
 
     return Buffer.concat([header, lights, lightingHeader, colors])
   }
