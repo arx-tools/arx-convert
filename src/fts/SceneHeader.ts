@@ -8,7 +8,6 @@ import { ArxFTS } from './FTS'
 /** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L94 */
 export type ArxSceneHeader = {
   numberOfTextures: number
-  numberOfPolygons: number
   numberOfAnchors: number
   playerPosition: ArxVector3
   mScenePosition: ArxVector3
@@ -22,9 +21,12 @@ export class SceneHeader {
     binary.readInt32() // sizeX - always 160
     binary.readInt32() // sizeZ - always 160
 
+    const numberOfTextures = binary.readInt32()
+
+    binary.readInt32() // numberOfPolygons - we calculate that from cells
+
     return {
-      numberOfTextures: binary.readInt32(),
-      numberOfPolygons: binary.readInt32(),
+      numberOfTextures,
       numberOfAnchors: binary.readInt32(),
       playerPosition: binary.readVector3(),
       mScenePosition: binary.readVector3(),
