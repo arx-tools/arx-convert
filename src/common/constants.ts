@@ -1,5 +1,3 @@
-import { invertArray } from './helpers'
-
 /** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/GraphicsTypes.h#L88 */
 export enum ArxPolygonFlags {
   None = 0,
@@ -219,7 +217,10 @@ export const CHARS = [
   'ð', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', '÷', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'þ', 'ÿ'
 ]
 
-export const CODES = invertArray(CHARS)
+export const CODES: Record<string, number> = {}
+CHARS.forEach((value, idx) => {
+  CODES[value] = idx
+})
 
 export const BYTE_OF_AN_UNKNOWN_CHAR = CODES[' ']
 

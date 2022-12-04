@@ -32,13 +32,6 @@ export const repeat = <T>(value: T, repetitions: number): T[] => {
   return Array(repetitions).fill(value)
 }
 
-export const invertArray = (arr: string[]) => {
-  return arr.reduce((obj: Record<string, number>, value, idx) => {
-    obj[value] = idx
-    return obj
-  }, {})
-}
-
 export const doCoordsNeedToBeRoundedUp = (coords: [number, number, number]) => {
   const [a, b, c] = coords.sort((a, b) => a - b)
   return COORDS_THAT_ROUND_UP.find(([x, y, z]) => a === x && b === y && c === z) !== undefined
