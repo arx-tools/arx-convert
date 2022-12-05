@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../common/BinaryIO'
-import { LLF_VERSION } from '../common/constants'
+import { DANAE_VERSION } from '../common/constants'
 import { repeat } from '../common/helpers'
 import { ArxLLF } from './LLF'
 
@@ -40,7 +40,7 @@ export class LlfHeader {
     const buffer = Buffer.alloc(LlfHeader.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
-    binary.writeFloat32(LLF_VERSION)
+    binary.writeFloat32(DANAE_VERSION)
     binary.writeString('DANAE_LLH_FILE', 16)
     binary.writeString(json.header.lastUser, 256)
     binary.writeInt32(json.header.time)

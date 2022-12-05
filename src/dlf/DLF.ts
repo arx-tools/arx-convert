@@ -15,10 +15,7 @@ export type ArxPath = {
 }
 
 export type ArxDLF = {
-  header: Omit<
-    ArxDlfHeader,
-    'hasScene' | 'numberOfInteractiveObjects' | 'numberOfLights' | 'numberOfFogs' | 'numberOfPaths'
-  >
+  header: Omit<ArxDlfHeader, 'numberOfInteractiveObjects' | 'numberOfLights' | 'numberOfFogs' | 'numberOfPaths'>
   scene?: ArxScene
   interactiveObjects: ArxInteractiveObject[]
   lights: ArxLight[]
@@ -30,14 +27,14 @@ export class DLF {
   static load(decompressedFile: Buffer) {
     const file = new BinaryIO(decompressedFile.buffer)
 
-    const { hasScene, numberOfInteractiveObjects, numberOfLights, numberOfFogs, numberOfPaths, ...header } =
+    const { numberOfInteractiveObjects, numberOfLights, numberOfFogs, numberOfPaths, ...header } =
       DlfHeader.readFrom(file)
 
     const data: ArxDLF = {
       header: header,
-      scene: hasScene ? Scene.readFrom(file) : undefined,
+      scene: Scene.readFrom(file),
       interactiveObjects: times(() => InteractiveObject.readFrom(file), numberOfInteractiveObjects),
-      lights: times(() => Light.readFrom(file), header.version < 1.003 ? 0 : numberOfLights),
+      lights: times(() => Light.readFrom(file), numberOfLights),
       fogs: times(() => Fog.readFrom(file), numberOfFogs),
       paths: [],
     }

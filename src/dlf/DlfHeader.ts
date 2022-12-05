@@ -1,18 +1,16 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../common/BinaryIO'
+import { DANAE_VERSION } from '../common/constants'
 import { repeat } from '../common/helpers'
 import { ArxRotation, ArxVector3 } from '../types'
 import { ArxDLF } from './DLF'
 
 /** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L58 */
 export type ArxDlfHeader = {
-  version: number
-  identifier: string
   lastUser: string
   time: number
   posEdit: ArxVector3
   angleEdit: ArxRotation
-  hasScene: boolean
   numberOfInteractiveObjects: number
   numberOfNodes: number
   numberOfNodeLinks: number
@@ -28,14 +26,18 @@ export type ArxDlfHeader = {
 
 export class DlfHeader {
   static readFrom(binary: BinaryIO): ArxDlfHeader {
+    binary.readFloat32() // version - always 1.44
+
     const dataBlock1 = {
-      version: binary.readFloat32(),
-      identifier: binary.readString(16),
       lastUser: binary.readString(256),
       time: binary.readInt32(),
       posEdit: binary.readVector3(),
       angleEdit: binary.readRotation(),
-      hasScene: binary.readInt32() > 0,
+    }
+
+    binary.readInt32() // number of scenes - always 1
+
+    const dataBlock2 = {
       numberOfInteractiveObjects: binary.readInt32(),
       numberOfNodes: binary.readInt32(),
       numberOfNodeLinks: binary.readInt32(),
@@ -45,7 +47,7 @@ export class DlfHeader {
     binary.readInt32() // lighting - we don't parse it as it's 0 in all the levels
     binary.readInt32Array(256) // Bpad
 
-    const dataBlock2 = {
+    const dataBlock3 = {
       numberOfLights: binary.readInt32(),
       numberOfFogs: binary.readInt32(),
       numberOfBackgroundPolygons: binary.readInt32(),
@@ -56,7 +58,7 @@ export class DlfHeader {
 
     binary.readInt32Array(250) // pad
 
-    const dataBlock3 = {
+    const dataBlock4 = {
       offset: binary.readVector3(),
     }
 
@@ -68,6 +70,7 @@ export class DlfHeader {
       ...dataBlock1,
       ...dataBlock2,
       ...dataBlock3,
+      ...dataBlock4,
     }
   }
 
@@ -75,13 +78,13 @@ export class DlfHeader {
     const buffer = Buffer.alloc(DlfHeader.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
-    binary.writeFloat32(json.header.version)
-    binary.writeString(json.header.identifier, 16)
+    binary.writeFloat32(DANAE_VERSION)
+    binary.writeString('DANAE_FILE', 16)
     binary.writeString(json.header.lastUser, 256)
     binary.writeInt32(json.header.time)
     binary.writeVector3(json.header.posEdit)
     binary.writeRotation(json.header.angleEdit)
-    binary.writeInt32(typeof json.scene !== 'undefined' ? 1 : 0)
+    binary.writeInt32(1) // number of scenes
     binary.writeInt32(json.interactiveObjects.length)
     binary.writeInt32(json.header.numberOfNodes)
     binary.writeInt32(json.header.numberOfNodeLinks)
