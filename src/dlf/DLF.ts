@@ -16,7 +16,7 @@ export type ArxPath = {
 
 export type ArxDLF = {
   header: Omit<ArxDlfHeader, 'numberOfInteractiveObjects' | 'numberOfLights' | 'numberOfFogs' | 'numberOfPaths'>
-  scene?: ArxScene
+  scene: ArxScene
   interactiveObjects: ArxInteractiveObject[]
   lights: ArxLight[]
   fogs: ArxFog[]
@@ -55,7 +55,7 @@ export class DLF {
 
   static save(json: ArxDLF) {
     const header = DlfHeader.accumulateFrom(json)
-    const scene = typeof json.scene !== 'undefined' ? Scene.accumulateFrom(json.scene) : Buffer.from([])
+    const scene = Scene.accumulateFrom(json.scene)
     const interactiveObjects = Buffer.concat(json.interactiveObjects.map(InteractiveObject.accumulateFrom))
     const lights = Buffer.concat(json.lights.map(Light.accumulateFrom))
     const fogs = Buffer.concat(json.fogs.map(Fog.accumulateFrom))
