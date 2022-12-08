@@ -41,11 +41,11 @@ export class FtsHeader {
   }
 
   static pathToLevelIdx(path: string) {
-    return parseInt(path.replace('C:\\ARX\\Game\\Graph\\Levels\\Level', '').replace('\\', ''))
+    return parseInt(path.replace('C:\\ARX\\Game\\Graph\\Levels\\level', '').replace('\\', ''))
   }
 
   static levelIdxToPath(levelIdx: number) {
-    return `C:\\ARX\\Game\\Graph\\Levels\\Level${levelIdx}\\`
+    return `C:\\ARX\\Game\\Graph\\Levels\\level${levelIdx}\\`
   }
 
   static sizeOf() {
