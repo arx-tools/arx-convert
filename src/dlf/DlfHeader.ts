@@ -27,6 +27,7 @@ export type ArxDlfHeader = {
 export class DlfHeader {
   static readFrom(binary: BinaryIO): ArxDlfHeader {
     binary.readFloat32() // version - always 1.44
+    binary.readString(16) // identifier - always "DANAE_FILE"
 
     const dataBlock1 = {
       lastUser: binary.readString(256),
