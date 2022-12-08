@@ -21,7 +21,7 @@ export class SceneInfo {
     const binary = new BinaryIO(buffer.buffer)
 
     binary.writeInt32(cell.polygons.length)
-    binary.writeInt32(cell.anchors.length)
+    binary.writeInt32(cell.anchors?.length ?? 0)
 
     return buffer
   }
