@@ -1,0 +1,16 @@
+{
+  "header": {
+    "lastUser": "Arx Level Generator - version 0.17.0",
+    "time": 1670579145,
+    "numberOfShadowPolygons": 0,
+    "numberOfIgnoredPolygons": 0,
+    "numberOfBackgroundPolygons": 1
+  },
+  "lights": [],
+  "colors": [
+    { "r": 255, "g": 255, "b": 255, "a": 1 },
+    { "r": 255, "g": 255, "b": 255, "a": 1 },
+    { "r": 255, "g": 255, "b": 255, "a": 1 },
+    { "r": 255, "g": 255, "b": 255, "a": 1 }
+  ]
+}
