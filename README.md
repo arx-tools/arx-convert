@@ -34,32 +34,32 @@ and it can also a data format for the other side: `json` and `yaml`(can also be 
 ## examples
 
 ```sh
-# print out version
+# prints out version
 --version
 -v
 
-# convert an unpacked fts file to a json through piping
+# converts an unpacked fts file to a json through piping
 cat fast.fts.unpacked | arx-convert --from=fts --to=json --prettify > fast.fts.json
 
-# convert an unpacked dlf file to a minified json through files
+# converts an unpacked dlf file to a minified json through files
 arx-convert level8.dlf.unpacked --from=dlf --to=json --output=level8.dlf.min.json
 
-# convert a json to an unpacked dlf
+# converts a json to an unpacked dlf
 cat level8.dlf.min.json | arx-convert --from=json --to=dlf > level8.dlf.repacked
 
-# convert json to an unpacked fts
+# converts json to an unpacked fts
 arx-convert fast.fts.json --from=json --to=fts --output=fast.fts.repacked
 
-# convert an unpacked dlf to yaml
+# converts an unpacked dlf to yaml
 cat level8.dlf.unpacked | arx-convert --to=yaml --from=dlf > level8.dlf.yml
 
-# convert yaml to an unpacked dlf
+# converts yaml to an unpacked dlf
 cat level8.dlf.yml | arx-convert --from=yaml --to=dlf > level8.dlf.repacked
 ```
 
 ## Compression
 
-Arx Fatalis files are partially compressed with Pkware and you need a separate
+Arx Fatalis files are partially compressed with Stormlib Pkware and you need a separate
 tool for unpacking/repacking: [node-pkware](https://www.npmjs.com/package/node-pkware)
 
 Also, Arx Fatalis file headers are not constant in size, but there is a tool
@@ -74,7 +74,7 @@ npm i node-pkware arx-header-size -g
 ### Example for unpacking
 
 ```sh
-arx-header-size level3.dlf --ext=dlf # this will print out 8520
+arx-header-size level3.dlf --format=dlf # this will print out 8520
 explode level3.dlf --offset=8520 --output=level3.dlf.unpacked
 arx-convert level3.dlf.unpacked --from=dlf --to=yaml --output=level3.dlf.yml
 ```
