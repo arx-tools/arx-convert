@@ -33,7 +33,7 @@ export class Scene {
   }
 
   static pathToLevelIdx(path: string) {
-    return parseInt(path.replace('Graph\\Levels\\level', '').replace('\\', ''))
+    return parseInt(path.toLowerCase().replace('graph\\levels\\level', '').replace('\\', ''))
   }
 
   static levelIdxToPath(levelIdx: number) {
