@@ -4,7 +4,7 @@ import { BinaryIO } from '../common/BinaryIO'
 import { KEEP_ZERO_BYTES } from '../common/constants'
 import { ArxNewKeyFrame, NewKeyFrame } from './NewKeyFrame'
 import { ArxOldKeyFrame, OldKeyFrame } from './OldKeyFrame'
-import { ArxQuaternion, ArxVector3 } from '../types'
+import { ArxQuaternion, ArxVector3 } from '../common/types'
 
 export type ArxTEA = {
   header: Omit<ArxTeaHeader, 'numberOfKeyFrames' | 'numberOfGroups'>

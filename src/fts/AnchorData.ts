@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../common/BinaryIO'
-import { ArxVector3 } from '../types'
+import { ArxVector3 } from '../common/types'
 import { ArxAnchor } from './Anchor'
 
 /** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L117 */

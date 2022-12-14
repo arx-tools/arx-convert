@@ -1,7 +1,7 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../common/BinaryIO'
 import { repeat } from '../common/helpers'
-import { ArxVector3 } from '../types'
+import { ArxVector3 } from '../common/types'
 
 /** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L168 */
 export type ArxPathway = {
