@@ -36,7 +36,7 @@ const args: AppArgs = minimist(process.argv.slice(2), {
 ;(async () => {
   if (args.version) {
     const version = await getPackageVersion()
-    console.log(`arx-level-json-converter - version ${version}`)
+    console.log(`arx-convert - version ${version}`)
     process.exit(0)
   }
 

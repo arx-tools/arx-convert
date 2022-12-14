@@ -1,4 +1,4 @@
-# arx-level-json-converter
+# arx-convert
 
 Converts Arx Fatalis level data to JSON or YAML and vice versa.
 
@@ -6,11 +6,10 @@ Converts Arx Fatalis level data to JSON or YAML and vice versa.
 
 ## Installation
 
-`npm i arx-level-json-converter -g`
+`npm i arx-convert -g`
 
 This will give you access to the following commands, both do the same:
 
-- `arx-level-json-converter`
 - `arx-convert`
 
 ### Recommended requirements
@@ -73,7 +72,7 @@ The built js files come with sourcemaps, which you can use by running your nodej
 ```js
 const fs = require('node:fs')
 const path = require('node:path')
-const { FTS } = require('arx-level-json-converter')
+const { FTS } = require('arx-convert')
 
 ;(async () => {
   // reads an unpacked fts file into a buffer
@@ -95,8 +94,8 @@ const { FTS } = require('arx-level-json-converter')
 ```ts
 import fs from 'node:fs'
 import path from 'node:path'
-import { DLF } from 'arx-level-json-converter'
-import { ArxDLF } from 'arx-level-json-converter/dist/dlf/DLF'
+import { DLF } from 'arx-convert'
+import { ArxDLF } from 'arx-convert/dist/dlf/DLF'
 // types are currently scattered around the project,
 // but a good IDE, like vscode will find the types you're looking for with no issue
 ;(async () => {

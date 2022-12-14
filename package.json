@@ -1,5 +1,5 @@
 {
-  "name": "arx-level-json-converter",
+  "name": "arx-convert",
   "version": "4.6.2",
   "description": "Converts various Arx Fatalis formats to JSON or YAML and back",
   "main": "dist/index.js",
@@ -9,7 +9,6 @@
     "node": ">=18.0.0"
   },
   "bin": {
-    "arx-level-json-converter": "dist/bin/convert.js",
     "arx-convert": "dist/bin/convert.js"
   },
   "scripts": {
@@ -19,14 +18,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/meszaros-lajos-gyorgy/arx-level-json-converter.git"
+    "url": "git+https://github.com/meszaros-lajos-gyorgy/arx-convert.git"
   },
   "author": "Lajos Meszaros <m_lajos@hotmail.com>",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/meszaros-lajos-gyorgy/arx-level-json-converter/issues"
+    "url": "https://github.com/meszaros-lajos-gyorgy/arx-convert/issues"
   },
-  "homepage": "https://github.com/meszaros-lajos-gyorgy/arx-level-json-converter#readme",
+  "homepage": "https://github.com/meszaros-lajos-gyorgy/arx-convert#readme",
   "dependencies": {
     "minimist-lite": "^2.2.1",
     "yaml": "^2.1.3"
