@@ -4,7 +4,7 @@ Converts Arx Fatalis level data to JSON or YAML and vice versa.
 
 **IMPORTANT: Arx Fatalis files are partially compressed. See "compression" section for more info**
 
-## installation
+## Installation
 
 `npm i arx-level-json-converter -g`
 
@@ -13,11 +13,13 @@ This will give you access to the following commands, both do the same:
 - `arx-level-json-converter`
 - `arx-convert`
 
-### Requirements
+### Recommended requirements
 
 nodejs 18+ (because the lib uses prefix-only core modules)
 
-### format of the commands
+It might work with older versions of nodejs, but I haven't tested it there.
+
+## Command-line API
 
 `arx-convert <inputfile> --from=<format> --to=<format> --output=<outputfile> --prettify`
 
@@ -31,7 +33,7 @@ work in progress formats: `ftl` and `tea`
 
 and it can also a data format for the other side: `json` and `yaml`(can also be spelled as `yml`)
 
-## examples
+### Examples
 
 ```sh
 # prints out version
@@ -55,6 +57,62 @@ cat level8.dlf.unpacked | arx-convert --to=yaml --from=dlf > level8.dlf.yml
 
 # converts yaml to an unpacked dlf
 cat level8.dlf.yml | arx-convert --from=yaml --to=dlf > level8.dlf.repacked
+```
+
+## Javascript/Typescript API
+
+The package is published as a commonjs lib and the files can be found in the `dist` folder, but only if you
+install it via npm. If you downloaded the source files from github, then you need to transpile the typescript
+files yourself using the `npm run build` command.
+
+The built js files come with sourcemaps, which you can use by running your nodejs file with the
+[--enable-source-maps](https://nodejs.org/api/cli.html#--enable-source-maps) flag
+
+### Javascript example
+
+```js
+const fs = require('node:fs')
+const path = require('node:path')
+const { FTS } = require('arx-level-json-converter')
+
+;(async () => {
+  // reads an unpacked fts file into a buffer
+  const binary = await fs.promises.readFile(path.resolve(__dirname, './fast.fts.unpacked'))
+
+  // converts the buffer into a json using the FTS converter
+  const json = FTS.load(binary)
+
+  // save as a minified json
+  await fs.promises.writeFile(path.resolve(__dirname, './fast.fts.min.json'), JSON.stringify(json), 'utf-8')
+
+  // save as a formatted json
+  await fs.promises.writeFile(path.resolve(__dirname, './fast.fts.json'), JSON.stringify(json, null, 2), 'utf-8')
+})()
+```
+
+### Typescript example
+
+```ts
+import fs from 'node:fs'
+import path from 'node:path'
+import { DLF } from 'arx-level-json-converter'
+import { ArxDLF } from 'arx-level-json-converter/dist/dlf/DLF'
+// types are currently scattered around the project,
+// but a good IDE, like vscode will find the types you're looking for with no issue
+;(async () => {
+  // reads an unpacked dlf file into a buffer
+  const binary = await fs.promises.readFile(path.resolve(__dirname, './level1.dlf.unpacked'))
+
+  // converts the buffer into a json using the DLF converter
+  // optionally you can assign a type to the variable
+  const json: ArxDLF = DLF.load(binary)
+
+  // save as a minified json
+  await fs.promises.writeFile(path.resolve(__dirname, './level1.dlf.min.json'), JSON.stringify(json), 'utf-8')
+
+  // save as a formatted json
+  await fs.promises.writeFile(path.resolve(__dirname, './level1.dlf.json'), JSON.stringify(json, null, 2), 'utf-8')
+})()
 ```
 
 ## Compression
