@@ -1,20 +1,25 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../common/BinaryIO'
 
-/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L161 */
+/**
+ * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L161
+ */
 export type ArxEPData = {
-  px: number
-  py: number
-  idx: number
+  cellX: number
+  cellY: number
+  /**
+   * this number is a counter for polygons in the cell, it has no relation to the order of polygons globally
+   */
+  polygonIdx: number
 }
 
 export class EPData {
   static readFrom(binary: BinaryIO): ArxEPData {
     const [px, py, idx] = binary.readInt16Array(4)
-    return { px, py, idx }
+    return { cellX: px, cellY: py, polygonIdx: idx }
   }
 
-  static accumulateFrom({ px, py, idx }: ArxEPData) {
+  static accumulateFrom({ cellX: px, cellY: py, polygonIdx: idx }: ArxEPData) {
     const buffer = Buffer.alloc(EPData.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 

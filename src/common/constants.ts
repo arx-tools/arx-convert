@@ -1,4 +1,8 @@
-/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/GraphicsTypes.h#L88 */
+import { TripleOf } from './types'
+
+/**
+ * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/GraphicsTypes.h#L88
+ */
 export enum ArxPolygonFlags {
   None = 0,
   NoShadow = 1 << 0,
@@ -8,7 +12,8 @@ export enum ArxPolygonFlags {
   Glow = 1 << 4,
   Ignore = 1 << 5,
   Quad = 1 << 6,
-  Tiled = 1 << 7, // unused
+  /** unused */
+  Tiled = 1 << 7,
   Metal = 1 << 8,
   Hide = 1 << 9,
   Stone = 1 << 10,
@@ -22,16 +27,24 @@ export enum ArxPolygonFlags {
   NoPath = 1 << 18,
   NoDraw = 1 << 19,
   PrecisePath = 1 << 20,
-  NoClimb = 1 << 21, // unused
-  Angular = 1 << 22, // unused
-  AngularIdx0 = 1 << 23, // unused
-  AngularIdx1 = 1 << 24, // unused
-  AngularIdx2 = 1 << 25, // unused
-  AngularIdx3 = 1 << 26, // unused
+  /** unused */
+  NoClimb = 1 << 21,
+  /** unused */
+  Angular = 1 << 22,
+  /** unused */
+  AngularIdx0 = 1 << 23,
+  /** unused */
+  AngularIdx1 = 1 << 24,
+  /** unused */
+  AngularIdx2 = 1 << 25,
+  /** unused */
+  AngularIdx3 = 1 << 26,
   LateMip = 1 << 27,
 }
 
-/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/ai/Paths.h#L65 */
+/**
+ * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/ai/Paths.h#L65
+ */
 export enum ArxZoneFlags {
   None = 0,
   Ambiance = 1 << 1,
@@ -79,7 +92,7 @@ export enum ArxZoneFlags {
 // 0.9999967447916589,
 // 0.9999967447916731,
 
-export const COORDS_THAT_ROUND_UP: [number, number, number][] = [
+export const COORDS_THAT_ROUND_UP: TripleOf<number>[] = [
   [2550, 2600, 2649.999755859375],
   [2649.999755859375, 2700, 2749.999755859375],
   [3949.999755859375, 4000, 4050],

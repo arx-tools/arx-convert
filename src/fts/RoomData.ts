@@ -3,7 +3,9 @@ import { BinaryIO } from '../common/BinaryIO'
 import { repeat } from '../common/helpers'
 import { ArxRoom } from './Room'
 
-/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L178 */
+/**
+ * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L178
+ */
 export type ArxRoomData = {
   numberOfPortals: number
   numberOfPolygons: number

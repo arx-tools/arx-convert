@@ -1,19 +1,21 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../common/BinaryIO'
 import { times } from '../common/helpers'
-import { ArxVector3 } from '../common/types'
+import { ArxVector3, QuadrupleOf } from '../common/types'
 import { ArxTextureVertex, TextureVertex } from './TextureVertex'
 
-/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L136 */
+/**
+ * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L136
+ */
 export type ArxPortalPolygon = {
   type: number
   min: ArxVector3
   max: ArxVector3
   norm: ArxVector3
   norm2: ArxVector3
-  v: [ArxTextureVertex, ArxTextureVertex, ArxTextureVertex, ArxTextureVertex]
+  v: QuadrupleOf<ArxTextureVertex>
   unused: number[] // array holds 32*4 bytes of some data, but no idea what it is
-  nrml: [ArxVector3, ArxVector3, ArxVector3, ArxVector3]
+  nrml: QuadrupleOf<ArxVector3>
   tex: number
   center: ArxVector3
   transval: number
@@ -30,14 +32,9 @@ export class PortalPolygon {
       max: binary.readVector3(),
       norm: binary.readVector3(),
       norm2: binary.readVector3(),
-      v: times(() => TextureVertex.readFrom(binary), 4) as [
-        ArxTextureVertex,
-        ArxTextureVertex,
-        ArxTextureVertex,
-        ArxTextureVertex,
-      ],
+      v: times(() => TextureVertex.readFrom(binary), 4) as QuadrupleOf<ArxTextureVertex>,
       unused: binary.readUint8Array(32 * 4),
-      nrml: binary.readVector3Array(4) as [ArxVector3, ArxVector3, ArxVector3, ArxVector3],
+      nrml: binary.readVector3Array(4) as QuadrupleOf<ArxVector3>,
       tex: binary.readInt32(),
       center: binary.readVector3(),
       transval: binary.readFloat32(),
@@ -47,24 +44,24 @@ export class PortalPolygon {
     }
   }
 
-  static accumulateFrom(polygon: ArxPortalPolygon) {
+  static accumulateFrom(portalPolygon: ArxPortalPolygon) {
     const buffer = Buffer.alloc(PortalPolygon.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
-    binary.writeInt32(polygon.type)
-    binary.writeVector3(polygon.min)
-    binary.writeVector3(polygon.max)
-    binary.writeVector3(polygon.norm)
-    binary.writeVector3(polygon.norm2)
-    binary.writeBuffer(Buffer.concat(polygon.v.map(TextureVertex.accumulateFrom)))
-    binary.writeUint8Array(polygon.unused)
-    binary.writeVector3Array(polygon.nrml)
-    binary.writeInt32(polygon.tex)
-    binary.writeVector3(polygon.center)
-    binary.writeFloat32(polygon.transval)
-    binary.writeFloat32(polygon.area)
-    binary.writeInt16(polygon.room)
-    binary.writeInt16(polygon.misc)
+    binary.writeInt32(portalPolygon.type)
+    binary.writeVector3(portalPolygon.min)
+    binary.writeVector3(portalPolygon.max)
+    binary.writeVector3(portalPolygon.norm)
+    binary.writeVector3(portalPolygon.norm2)
+    binary.writeBuffer(Buffer.concat(portalPolygon.v.map(TextureVertex.accumulateFrom)))
+    binary.writeUint8Array(portalPolygon.unused)
+    binary.writeVector3Array(portalPolygon.nrml)
+    binary.writeInt32(portalPolygon.tex)
+    binary.writeVector3(portalPolygon.center)
+    binary.writeFloat32(portalPolygon.transval)
+    binary.writeFloat32(portalPolygon.area)
+    binary.writeInt16(portalPolygon.room)
+    binary.writeInt16(portalPolygon.misc)
 
     return buffer
   }

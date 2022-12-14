@@ -3,12 +3,20 @@ import { BinaryIO } from './BinaryIO'
 
 type ColorMode = 'bgra' | 'rgb' | 'abgr'
 
-/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/GraphicsFormat.h#L29 */
+/**
+ * Color containing red, green, blue and alpha channels
+ *
+ * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/GraphicsFormat.h#L29
+ */
 export type ArxColor = {
-  r: number // between 0 and 255
-  g: number // between 0 and 255
-  b: number // between 0 and 255
-  a: number // between 0.0 and 1.0
+  /** red channel, integer between 0 and 255 */
+  r: number
+  /** green channel, integer between 0 and 255 */
+  g: number
+  /** blue channel, integer between 0 and 255 */
+  b: number
+  /** alpha channel, float between 0.0 and 1.0 */
+  a: number
 }
 
 export class Color {

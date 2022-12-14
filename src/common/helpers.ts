@@ -1,6 +1,7 @@
 import { ArxPolygon } from '../fts/Polygon'
 import { ArxVertex } from '../fts/Vertex'
 import { COORDS_THAT_ROUND_UP } from './constants'
+import { QuadrupleOf } from './types'
 
 export const maxAll = (arr: number[]) => {
   let i = arr.length
@@ -17,7 +18,9 @@ export const isZeroVertex = ({ x, y, z }: { x: number; y: number; z: number }) =
   return Math.abs(x) < Number.EPSILON && Math.abs(y) < Number.EPSILON && Math.abs(z) < Number.EPSILON
 }
 
-/** @see https://stackoverflow.com/a/14438954/1806628 */
+/**
+ * @see https://stackoverflow.com/a/14438954/1806628
+ */
 export const uniq = <T>(values: T[]) => {
   return values.filter((value, index, self) => {
     return self.indexOf(value) === index
@@ -54,7 +57,7 @@ export const addLightIndex = (polygons: ArxPolygon[]) => {
   })
 }
 
-export const getCellCoords = ([a, b, c]: [ArxVertex, ArxVertex, ArxVertex, ArxVertex]) => {
+export const getCellCoords = ([a, b, c]: QuadrupleOf<ArxVertex>): [number, number] => {
   const x = (a.x + b.x + c.x) / 3
   const z = (a.z + b.z + c.z) / 3
 

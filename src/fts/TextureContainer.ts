@@ -1,19 +1,21 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../common/BinaryIO'
 
-/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L107 */
+/**
+ * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L107
+ */
 export type ArxTextureContainer = {
-  tc: number
+  id: number
   temp: number
-  fic: string
+  filename: string
 }
 
 export class TextureContainer {
   static readFrom(binary: BinaryIO): ArxTextureContainer {
     return {
-      tc: binary.readInt32(),
+      id: binary.readInt32(),
       temp: binary.readInt32(),
-      fic: binary.readString(256),
+      filename: binary.readString(256),
     }
   }
 
@@ -21,9 +23,9 @@ export class TextureContainer {
     const buffer = Buffer.alloc(TextureContainer.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
-    binary.writeInt32(textureContainer.tc)
+    binary.writeInt32(textureContainer.id)
     binary.writeInt32(textureContainer.temp)
-    binary.writeString(textureContainer.fic, 256)
+    binary.writeString(textureContainer.filename, 256)
 
     return buffer
   }

@@ -3,7 +3,9 @@ import { ArxColor, Color } from './Color'
 import { repeat } from './helpers'
 import { ArxVector3 } from './types'
 
-/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/Light.h#L80 */
+/**
+ * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/Light.h#L80
+ */
 export enum ArxLightFlags {
   None = 0,
   SemiDynamic = 1 << 0,
@@ -13,14 +15,18 @@ export enum ArxLightFlags {
   SpawnSmoke = 1 << 4,
   Off = 1 << 5,
   ColorLegacy = 1 << 6,
-  NoCasted = 1 << 7, // unused
+  /** unused */
+  NoCasted = 1 << 7,
   FixFlareSize = 1 << 8,
   Fireplace = 1 << 9,
-  NoIgnit = 1 << 10, // block reacting to player casting ignite spell, but douse will still work!
+  /** blocks reacting to player casting ignite spell, but douse will still work! */
+  NoIgnit = 1 << 10,
   Flare = 1 << 11,
 }
 
-/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L114 */
+/**
+ * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L114
+ */
 export type ArxLight = {
   pos: ArxVector3
   rgb: ArxColor

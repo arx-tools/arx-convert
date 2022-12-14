@@ -11,6 +11,20 @@
   "bin": {
     "arx-convert": "dist/bin/convert.js"
   },
+  "exports": {
+    ".": {
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./utils": {
+      "default": "./dist/utils.js",
+      "types": "./dist/utils.d.ts"
+    },
+    "./types": {
+      "default": "./dist/types.js",
+      "types": "./dist/types.d.ts"
+    }
+  },
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",

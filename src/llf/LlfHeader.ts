@@ -4,7 +4,9 @@ import { DANAE_VERSION } from '../common/constants'
 import { repeat } from '../common/helpers'
 import { ArxLLF } from './LLF'
 
-/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L178 */
+/**
+ * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L178
+ */
 export type ArxLlfHeader = {
   lastUser: string
   time: number

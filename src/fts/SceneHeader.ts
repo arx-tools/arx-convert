@@ -5,7 +5,9 @@ import { maxAll, uniq } from '../common/helpers'
 import { ArxVector3 } from '../common/types'
 import { ArxFTS } from './FTS'
 
-/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L94 */
+/**
+ * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L94
+ */
 export type ArxSceneHeader = {
   numberOfTextures: number
   numberOfAnchors: number

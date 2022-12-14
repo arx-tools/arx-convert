@@ -95,9 +95,7 @@ const { FTS } = require('arx-convert')
 import fs from 'node:fs'
 import path from 'node:path'
 import { DLF } from 'arx-convert'
-import { ArxDLF } from 'arx-convert/dist/dlf/DLF'
-// types are currently scattered around the project,
-// but a good IDE, like vscode will find the types you're looking for with no issue
+import { ArxDLF } from 'arx-convert/types'
 ;(async () => {
   // reads an unpacked dlf file into a buffer
   const binary = await fs.promises.readFile(path.resolve(__dirname, './level1.dlf.unpacked'))
