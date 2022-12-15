@@ -9,7 +9,7 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "moduleResolution": "node",
-    "allowJs": true,
+    "allowJs": false,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
