@@ -59,7 +59,7 @@ export const stringifyYAML = async (json: any) => {
 
 const sliceBuffer = (buffer: string | Buffer, start?: number, end?: number) => {
   if (buffer instanceof Buffer) {
-    return Uint8Array.prototype.slice.call(buffer, start, end)
+    return buffer.subarray(start, end)
   } else {
     return buffer.slice(start, end)
   }
