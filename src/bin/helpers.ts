@@ -20,7 +20,7 @@ export const getPackageVersion = async () => {
   }
 }
 
-export const fileExists = async (filename: string) => {
+const fileExists = async (filename: string) => {
   try {
     await fs.promises.access(filename, fs.constants.R_OK)
     return true

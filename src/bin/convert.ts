@@ -40,8 +40,8 @@ const args: AppArgs = minimist(process.argv.slice(2), {
     process.exit(0)
   }
 
-  let input
-  let output
+  let input: NodeJS.ReadableStream
+  let output: NodeJS.WritableStream
   try {
     if (typeof args.from === 'undefined' || args.from === '') {
       throw new Error('"from" argument is missing or empty')
