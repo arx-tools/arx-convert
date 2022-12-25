@@ -15,10 +15,9 @@ export type ArxPath = {
 }
 
 export type ArxDLF = {
-  header: Omit<ArxDlfHeader, 'numberOfInteractiveObjects' | 'numberOfLights' | 'numberOfFogs' | 'numberOfPaths'>
+  header: Omit<ArxDlfHeader, 'numberOfInteractiveObjects' | 'numberOfFogs' | 'numberOfPaths'>
   scene: ArxScene
   interactiveObjects: ArxInteractiveObject[]
-  lights: ArxLight[]
   fogs: ArxFog[]
   paths: ArxPath[]
 }
@@ -27,14 +26,12 @@ export class DLF {
   static load(decompressedFile: Buffer) {
     const file = new BinaryIO(decompressedFile.buffer)
 
-    const { numberOfInteractiveObjects, numberOfLights, numberOfFogs, numberOfPaths, ...header } =
-      DlfHeader.readFrom(file)
+    const { numberOfInteractiveObjects, numberOfFogs, numberOfPaths, ...header } = DlfHeader.readFrom(file)
 
     const data: ArxDLF = {
       header: header,
       scene: Scene.readFrom(file),
       interactiveObjects: times(() => InteractiveObject.readFrom(file), numberOfInteractiveObjects),
-      lights: times(() => Light.readFrom(file), numberOfLights),
       fogs: times(() => Fog.readFrom(file), numberOfFogs),
       paths: [],
     }
@@ -57,7 +54,6 @@ export class DLF {
     const header = DlfHeader.accumulateFrom(json)
     const scene = Scene.accumulateFrom(json.scene)
     const interactiveObjects = Buffer.concat(json.interactiveObjects.map(InteractiveObject.accumulateFrom))
-    const lights = Buffer.concat(json.lights.map(Light.accumulateFrom))
     const fogs = Buffer.concat(json.fogs.map(Fog.accumulateFrom))
     const nodes = Buffer.alloc(json.header.numberOfNodes * (204 + json.header.numberOfNodeLinks * 64))
     const paths = Buffer.concat(
@@ -68,6 +64,6 @@ export class DLF {
       }),
     )
 
-    return Buffer.concat([header, scene, interactiveObjects, lights, fogs, nodes, paths])
+    return Buffer.concat([header, scene, interactiveObjects, fogs, nodes, paths])
   }
 }

@@ -17,7 +17,6 @@ export type ArxDlfHeader = {
   numberOfNodes: number
   numberOfNodeLinks: number
   numberOfZones: number
-  numberOfLights: number
   numberOfFogs: number
   numberOfBackgroundPolygons: number
   numberOfIgnoredPolygons: number
@@ -49,9 +48,9 @@ export class DlfHeader {
 
     binary.readInt32() // lighting - we don't parse it as it's 0 in all the levels
     binary.readInt32Array(256) // Bpad
+    binary.readInt32() // number of lights - always 0 as lights are stored in LLF files
 
     const dataBlock3 = {
-      numberOfLights: binary.readInt32(),
       numberOfFogs: binary.readInt32(),
       numberOfBackgroundPolygons: binary.readInt32(),
       numberOfIgnoredPolygons: binary.readInt32(),
@@ -94,7 +93,7 @@ export class DlfHeader {
     binary.writeInt32(json.header.numberOfZones)
     binary.writeInt32(0) // lighting
     binary.writeInt32Array(repeat(0, 256))
-    binary.writeInt32(json.lights.length)
+    binary.writeInt32(0) // number of lights -> stored in LLF
     binary.writeInt32(json.fogs.length)
     binary.writeInt32(json.header.numberOfBackgroundPolygons)
     binary.writeInt32(json.header.numberOfIgnoredPolygons)
