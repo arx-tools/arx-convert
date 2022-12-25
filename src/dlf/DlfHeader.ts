@@ -22,7 +22,6 @@ export type ArxDlfHeader = {
   numberOfIgnoredPolygons: number
   numberOfChildPolygons: number
   numberOfPaths: number
-  offset: ArxVector3
 }
 
 export class DlfHeader {
@@ -59,11 +58,7 @@ export class DlfHeader {
     }
 
     binary.readInt32Array(250) // pad
-
-    const dataBlock4 = {
-      offset: binary.readVector3(),
-    }
-
+    binary.readVector3() // offset - always Vector3(0, 0, 0)
     binary.readFloat32Array(253) // fpad
     binary.readString(4096) // cpad
     binary.readInt32Array(256) // bpad
@@ -72,7 +67,6 @@ export class DlfHeader {
       ...dataBlock1,
       ...dataBlock2,
       ...dataBlock3,
-      ...dataBlock4,
     }
   }
 
@@ -100,7 +94,7 @@ export class DlfHeader {
     binary.writeInt32(json.header.numberOfChildPolygons)
     binary.writeInt32(json.paths.length)
     binary.writeInt32Array(repeat(0, 250))
-    binary.writeVector3(json.header.offset)
+    binary.writeVector3({ x: 0, y: 0, z: 0 }) // offset
     binary.writeFloat32Array(repeat(0, 253))
     binary.writeString('', 4096)
     binary.writeInt32Array(repeat(0, 256))
