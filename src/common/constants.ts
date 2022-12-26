@@ -12,8 +12,7 @@ export enum ArxPolygonFlags {
   Glow = 1 << 4,
   Ignore = 1 << 5,
   Quad = 1 << 6,
-  /** unused */
-  Tiled = 1 << 7,
+  // Tiled = 1 << 7, // unused
   Metal = 1 << 8,
   Hide = 1 << 9,
   Stone = 1 << 10,
@@ -27,18 +26,12 @@ export enum ArxPolygonFlags {
   NoPath = 1 << 18,
   NoDraw = 1 << 19,
   PrecisePath = 1 << 20,
-  /** unused */
-  NoClimb = 1 << 21,
-  /** unused */
-  Angular = 1 << 22,
-  /** unused */
-  AngularIdx0 = 1 << 23,
-  /** unused */
-  AngularIdx1 = 1 << 24,
-  /** unused */
-  AngularIdx2 = 1 << 25,
-  /** unused */
-  AngularIdx3 = 1 << 26,
+  // NoClimb = 1 << 21, // unused
+  // Angular = 1 << 22, // unused
+  // AngularIdx0 = 1 << 23, // unused
+  // AngularIdx1 = 1 << 24, // unused
+  // AngularIdx2 = 1 << 25, // unused
+  // AngularIdx3 = 1 << 26, // unused
   LateMip = 1 << 27,
 }
 
