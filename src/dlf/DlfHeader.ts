@@ -19,8 +19,6 @@ export type ArxDlfHeader = {
   numberOfZones: number
   numberOfFogs: number
   numberOfBackgroundPolygons: number
-  numberOfIgnoredPolygons: number
-  numberOfChildPolygons: number
   numberOfPaths: number
 }
 
@@ -52,8 +50,12 @@ export class DlfHeader {
     const dataBlock3 = {
       numberOfFogs: binary.readInt32(),
       numberOfBackgroundPolygons: binary.readInt32(),
-      numberOfIgnoredPolygons: binary.readInt32(),
-      numberOfChildPolygons: binary.readInt32(),
+    }
+
+    binary.readInt32() // number of ignored polygons - always 0
+    binary.readInt32() // number of child polygons - always 0
+
+    const dataBlock4 = {
       numberOfPaths: binary.readInt32(),
     }
 
@@ -67,6 +69,7 @@ export class DlfHeader {
       ...dataBlock1,
       ...dataBlock2,
       ...dataBlock3,
+      ...dataBlock4,
     }
   }
 
@@ -90,8 +93,8 @@ export class DlfHeader {
     binary.writeInt32(0) // number of lights -> stored in LLF
     binary.writeInt32(json.fogs.length)
     binary.writeInt32(json.header.numberOfBackgroundPolygons)
-    binary.writeInt32(json.header.numberOfIgnoredPolygons)
-    binary.writeInt32(json.header.numberOfChildPolygons)
+    binary.writeInt32(0) // numberOfIgnoredPolygons
+    binary.writeInt32(0) // numberOfChildPolygons
     binary.writeInt32(json.paths.length)
     binary.writeInt32Array(repeat(0, 250))
     binary.writeVector3({ x: 0, y: 0, z: 0 }) // offset
