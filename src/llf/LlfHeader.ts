@@ -11,31 +11,36 @@ export type ArxLlfHeader = {
   lastUser: string
   time: number
   numberOfLights: number
-  numberOfShadowPolygons: number
-  numberOfIgnoredPolygons: number
   numberOfBackgroundPolygons: number
 }
 
 export class LlfHeader {
-  static readFrom(binary: BinaryIO) {
+  static readFrom(binary: BinaryIO): ArxLlfHeader {
     binary.readFloat32() // version - always 1.44
     binary.readString(16) // identifier - always DANAE_LLH_FILE
 
-    const data: ArxLlfHeader = {
+    const dataBlock1 = {
       lastUser: binary.readString(256),
       time: binary.readInt32(),
       numberOfLights: binary.readInt32(),
-      numberOfShadowPolygons: binary.readInt32(),
-      numberOfIgnoredPolygons: binary.readInt32(),
+    }
+
+    binary.readInt32() // numberOfShadowPolygons - always 0
+    binary.readInt32() // numberOfIgnoredPolygons - always 0
+
+    const dataBlock2 = {
       numberOfBackgroundPolygons: binary.readInt32(),
     }
 
-    binary.readInt32Array(256) // pad
-    binary.readFloat32Array(256) // fpad
-    binary.readString(4096) // cpad
-    binary.readInt32Array(256) // bpad
+    binary.readInt32Array(256) // pad - ?
+    binary.readFloat32Array(256) // fpad - ?
+    binary.readString(4096) // cpad - ?
+    binary.readInt32Array(256) // bpad - ?
 
-    return data
+    return {
+      ...dataBlock1,
+      ...dataBlock2,
+    }
   }
 
   static accumulateFrom(json: ArxLLF) {
@@ -46,11 +51,9 @@ export class LlfHeader {
     binary.writeString('DANAE_LLH_FILE', 16)
     binary.writeString(json.header.lastUser, 256)
     binary.writeInt32(json.header.time)
-
     binary.writeInt32(json.lights.length)
-
-    binary.writeInt32(json.header.numberOfShadowPolygons)
-    binary.writeInt32(json.header.numberOfIgnoredPolygons)
+    binary.writeInt32(0) // numberOfShadowPolygons
+    binary.writeInt32(0) // numberOfIgnoredPolygons
     binary.writeInt32(json.header.numberOfBackgroundPolygons)
 
     binary.writeInt32Array(repeat(0, 256))
