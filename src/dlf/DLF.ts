@@ -35,7 +35,9 @@ export class DLF {
       paths: [],
     }
 
-    file.readInt8Array(header.numberOfNodes * (204 + header.numberOfNodeLinks * 64))
+    const numberOfNodes = 0
+    const numberOfNodeLinks = 12
+    file.readInt8Array(numberOfNodes * (204 + numberOfNodeLinks * 64))
 
     data.paths = times((): ArxPath => {
       const { numberOfPathways, ...pathHeader } = PathHeader.readFrom(file)
@@ -54,7 +56,9 @@ export class DLF {
     const scene = Scene.accumulateFrom(json.scene)
     const interactiveObjects = Buffer.concat(json.interactiveObjects.map(InteractiveObject.accumulateFrom))
     const fogs = Buffer.concat(json.fogs.map(Fog.accumulateFrom))
-    const nodes = Buffer.alloc(json.header.numberOfNodes * (204 + json.header.numberOfNodeLinks * 64))
+    const numberOfNodes = 0
+    const numberOfNodeLinks = 12
+    const nodes = Buffer.alloc(numberOfNodes * (204 + numberOfNodeLinks * 64))
     const paths = Buffer.concat(
       json.paths.map((path) => {
         const pathHeader = PathHeader.allocateFrom(path)

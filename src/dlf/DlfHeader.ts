@@ -14,8 +14,6 @@ export type ArxDlfHeader = {
   posEdit: ArxVector3
   angleEdit: ArxRotation
   numberOfInteractiveObjects: number
-  numberOfNodes: number
-  numberOfNodeLinks: number
   numberOfFogs: number
   numberOfBackgroundPolygons: number
   numberOfPaths: number
@@ -37,11 +35,11 @@ export class DlfHeader {
 
     const dataBlock2 = {
       numberOfInteractiveObjects: binary.readInt32(),
-      numberOfNodes: binary.readInt32(),
-      numberOfNodeLinks: binary.readInt32(),
     }
 
-    binary.readInt32() // numberOfZones - always 0, zones are stored in dlf.paths
+    binary.readInt32() // number of nodes - always 0
+    binary.readInt32() // number of node links - always 12
+    binary.readInt32() // number of zones - always 0, zones are stored in dlf.paths
     binary.readInt32() // lighting - we don't parse it as it's 0 in all the levels
     binary.readInt32Array(256) // Bpad
     binary.readInt32() // number of lights - always 0 as lights are stored in LLF files
@@ -84,16 +82,16 @@ export class DlfHeader {
     binary.writeRotation(json.header.angleEdit)
     binary.writeInt32(1) // number of scenes
     binary.writeInt32(json.interactiveObjects.length)
-    binary.writeInt32(json.header.numberOfNodes)
-    binary.writeInt32(json.header.numberOfNodeLinks)
+    binary.writeInt32(0) // number of nodes
+    binary.writeInt32(12) // number of node links
     binary.writeInt32(0) // numberOfZones
     binary.writeInt32(0) // lighting
     binary.writeInt32Array(repeat(0, 256))
     binary.writeInt32(0) // number of lights -> stored in LLF
     binary.writeInt32(json.fogs.length)
     binary.writeInt32(json.header.numberOfBackgroundPolygons)
-    binary.writeInt32(0) // numberOfIgnoredPolygons
-    binary.writeInt32(0) // numberOfChildPolygons
+    binary.writeInt32(0) // number of ignored polygons
+    binary.writeInt32(0) // number of child polygons
     binary.writeInt32(json.paths.length)
     binary.writeInt32Array(repeat(0, 250))
     binary.writeVector3({ x: 0, y: 0, z: 0 }) // offset
