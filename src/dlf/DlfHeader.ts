@@ -16,7 +16,6 @@ export type ArxDlfHeader = {
   numberOfInteractiveObjects: number
   numberOfNodes: number
   numberOfNodeLinks: number
-  numberOfZones: number
   numberOfFogs: number
   numberOfBackgroundPolygons: number
   numberOfPaths: number
@@ -40,9 +39,9 @@ export class DlfHeader {
       numberOfInteractiveObjects: binary.readInt32(),
       numberOfNodes: binary.readInt32(),
       numberOfNodeLinks: binary.readInt32(),
-      numberOfZones: binary.readInt32(),
     }
 
+    binary.readInt32() // numberOfZones - always 0, zones are stored in dlf.paths
     binary.readInt32() // lighting - we don't parse it as it's 0 in all the levels
     binary.readInt32Array(256) // Bpad
     binary.readInt32() // number of lights - always 0 as lights are stored in LLF files
@@ -87,7 +86,7 @@ export class DlfHeader {
     binary.writeInt32(json.interactiveObjects.length)
     binary.writeInt32(json.header.numberOfNodes)
     binary.writeInt32(json.header.numberOfNodeLinks)
-    binary.writeInt32(json.header.numberOfZones)
+    binary.writeInt32(0) // numberOfZones
     binary.writeInt32(0) // lighting
     binary.writeInt32Array(repeat(0, 256))
     binary.writeInt32(0) // number of lights -> stored in LLF
