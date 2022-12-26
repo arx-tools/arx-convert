@@ -2,6 +2,7 @@ import { BinaryIO } from '../common/BinaryIO'
 import { ArxColor, Color } from '../common/Color'
 import { repeat } from '../common/helpers'
 import { ArxVector3 } from '../common/types'
+import { ArxZoneFlags } from '../types'
 import { ArxPath } from './DLF'
 
 /**
@@ -10,7 +11,7 @@ import { ArxPath } from './DLF'
 export type ArxPathHeader = {
   name: string
   idx: number
-  flags: number
+  flags: ArxZoneFlags
   initPos: ArxVector3
   pos: ArxVector3
   numberOfPathways: number
