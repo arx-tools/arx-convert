@@ -1,7 +1,6 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../common/BinaryIO'
 import { times } from '../common/helpers'
-import { ArxLight, Light } from '../common/Light'
 import { ArxDlfHeader, DlfHeader } from './DlfHeader'
 import { ArxFog, Fog } from './Fog'
 import { ArxInteractiveObject, InteractiveObject } from './InteactiveObject'
