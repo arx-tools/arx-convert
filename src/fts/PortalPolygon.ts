@@ -33,9 +33,12 @@ export type ArxPortalPolygon = {
   max: ArxVector3
   norm: ArxVector3
   norm2: ArxVector3
-  v: QuadrupleOf<ArxTextureVertex>
-  nrml: QuadrupleOf<ArxVector3>
-  tex: number
+  vertices: QuadrupleOf<ArxTextureVertex>
+  normals: QuadrupleOf<ArxVector3>
+  /**
+   * reference to {@link ArxTextureContainer.id}
+   */
+  textureContainerId: number
   center: ArxVector3
   transval: number
   area: number
@@ -51,14 +54,14 @@ export class PortalPolygon {
       max: binary.readVector3(),
       norm: binary.readVector3(),
       norm2: binary.readVector3(),
-      v: times(() => TextureVertex.readFrom(binary), 4) as QuadrupleOf<ArxTextureVertex>,
+      vertices: times(() => TextureVertex.readFrom(binary), 4) as QuadrupleOf<ArxTextureVertex>,
     }
 
     binary.readUint8Array(32 * 4) // unused
 
     const dataBlock2 = {
-      nrml: binary.readVector3Array(4) as QuadrupleOf<ArxVector3>,
-      tex: binary.readInt32(),
+      normals: binary.readVector3Array(4) as QuadrupleOf<ArxVector3>,
+      textureContainerId: binary.readInt32(),
       center: binary.readVector3(),
       transval: binary.readFloat32(),
       area: binary.readFloat32(),
@@ -81,12 +84,12 @@ export class PortalPolygon {
     binary.writeVector3(portalPolygon.max)
     binary.writeVector3(portalPolygon.norm)
     binary.writeVector3(portalPolygon.norm2)
-    binary.writeBuffer(Buffer.concat(portalPolygon.v.map(TextureVertex.accumulateFrom)))
+    binary.writeBuffer(Buffer.concat(portalPolygon.vertices.map(TextureVertex.accumulateFrom)))
 
     binary.writeUint8Array(levelIdx < 10 ? UNUSED_DATA_TYPE1 : UNUSED_DATA_TYPE2)
 
-    binary.writeVector3Array(portalPolygon.nrml)
-    binary.writeInt32(portalPolygon.tex)
+    binary.writeVector3Array(portalPolygon.normals)
+    binary.writeInt32(portalPolygon.textureContainerId)
     binary.writeVector3(portalPolygon.center)
     binary.writeFloat32(portalPolygon.transval)
     binary.writeFloat32(portalPolygon.area)
