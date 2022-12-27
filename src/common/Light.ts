@@ -15,11 +15,10 @@ export enum ArxLightFlags {
   SpawnSmoke = 1 << 4,
   Off = 1 << 5,
   ColorLegacy = 1 << 6,
-  /** unused */
-  NoCasted = 1 << 7,
+  // NoCasted = 1 << 7, // unused
   FixFlareSize = 1 << 8,
   Fireplace = 1 << 9,
-  /** blocks reacting to player casting ignite spell, but douse will still work! */
+  /** blocks reacting to the player casting ignite spell, but douse will still work! */
   NoIgnit = 1 << 10,
   Flare = 1 << 11,
 }
@@ -29,9 +28,9 @@ export enum ArxLightFlags {
  */
 export type ArxLight = {
   pos: ArxVector3
-  rgb: ArxColor
-  fallstart: number
-  fallend: number
+  color: ArxColor
+  fallStart: number
+  fallEnd: number
   intensity: number
   i: number
   exFlicker: ArxColor
@@ -44,12 +43,12 @@ export type ArxLight = {
 }
 
 export class Light {
-  static readFrom(binary: BinaryIO) {
-    const data: ArxLight = {
+  static readFrom(binary: BinaryIO): ArxLight {
+    const dataBlock1 = {
       pos: binary.readVector3(),
-      rgb: Color.readFrom(binary, 'rgb'),
-      fallstart: binary.readFloat32(),
-      fallend: binary.readFloat32(),
+      color: Color.readFrom(binary, 'rgb'),
+      fallStart: binary.readFloat32(),
+      fallEnd: binary.readFloat32(),
       intensity: binary.readFloat32(),
       i: binary.readFloat32(),
       exFlicker: Color.readFrom(binary, 'rgb'),
@@ -58,16 +57,20 @@ export class Light {
       exSize: binary.readFloat32(),
       exSpeed: binary.readFloat32(),
       exFlareSize: binary.readFloat32(),
-      flags: ArxLightFlags.None,
     }
 
     binary.readFloat32Array(24) // fpad
 
-    data.flags = binary.readInt32()
+    const dataBlock2 = {
+      flags: binary.readInt32(),
+    }
 
     binary.readInt32Array(31) // lpad
 
-    return data
+    return {
+      ...dataBlock1,
+      ...dataBlock2,
+    }
   }
 
   static accumulateFrom(light: ArxLight) {
@@ -75,9 +78,9 @@ export class Light {
     const binary = new BinaryIO(buffer.buffer)
 
     binary.writeVector3(light.pos)
-    binary.writeBuffer(Color.accumulateFrom(light.rgb, 'rgb'))
-    binary.writeFloat32(light.fallstart)
-    binary.writeFloat32(light.fallend)
+    binary.writeBuffer(Color.accumulateFrom(light.color, 'rgb'))
+    binary.writeFloat32(light.fallStart)
+    binary.writeFloat32(light.fallEnd)
     binary.writeFloat32(light.intensity)
     binary.writeFloat32(light.i)
     binary.writeBuffer(Color.accumulateFrom(light.exFlicker, 'rgb'))
