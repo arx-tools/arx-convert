@@ -3,7 +3,7 @@
 // ----------------
 
 export type { ArxColor } from './common/Color'
-export type { ArxLight } from './common/Light'
+export type { ArxLight } from './llf/Light'
 export type { ArxVector3, ArxRotation, ArxQuaternion } from './common/types'
 
 export type { ArxPath, ArxDLF } from './dlf/DLF'
@@ -50,4 +50,4 @@ export type { ArxLlfHeader } from './llf/LlfHeader'
 // ----------------
 
 export { ArxPolygonFlags, ArxZoneFlags } from './common/constants'
-export { ArxLightFlags } from './common/Light'
+export { ArxLightFlags } from './llf/Light'
