@@ -41,7 +41,7 @@ export class DlfHeader {
     binary.readInt32() // number of node links - always 12
     binary.readInt32() // number of zones - always 0, zones are stored in dlf.paths
     binary.readInt32() // lighting - we don't parse it as it's 0 in all the levels
-    binary.readInt32Array(256) // Bpad
+    binary.readInt32Array(256) // Bpad - ?
     binary.readInt32() // number of lights - always 0 as lights are stored in LLF files
 
     const dataBlock3 = {
@@ -56,11 +56,11 @@ export class DlfHeader {
       numberOfPaths: binary.readInt32(),
     }
 
-    binary.readInt32Array(250) // pad
+    binary.readInt32Array(250) // pad - ?
     binary.readVector3() // offset - always Vector3(0, 0, 0)
-    binary.readFloat32Array(253) // fpad
-    binary.readString(4096) // cpad
-    binary.readInt32Array(256) // bpad
+    binary.readFloat32Array(253) // fpad - ?
+    binary.readString(4096) // cpad - ?
+    binary.readInt32Array(256) // bpad - ?
 
     return {
       ...dataBlock1,

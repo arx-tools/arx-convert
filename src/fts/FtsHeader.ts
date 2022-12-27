@@ -23,7 +23,7 @@ export class FtsHeader {
 
     binary.readFloat32() // version - always 0.14100000262260437
     binary.readInt32() // uncompressed size in bytes
-    binary.readUint32Array(3) // pad
+    binary.readUint32Array(3) // pad - ?
 
     return data
   }

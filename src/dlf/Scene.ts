@@ -17,8 +17,8 @@ export class Scene {
       levelIdx: Scene.pathToLevelIdx(name),
     }
 
-    binary.readInt32Array(16) // pad
-    binary.readFloat32Array(16) // fpad
+    binary.readInt32Array(16) // pad - ?
+    binary.readFloat32Array(16) // fpad - ?
 
     return data
   }

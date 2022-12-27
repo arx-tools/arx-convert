@@ -23,8 +23,8 @@ export class InteractiveObject {
     }
 
     binary.readInt32() // flags - always 0
-    binary.readInt32Array(14) // pad
-    binary.readFloat32Array(16) // fpad
+    binary.readInt32Array(14) // pad - ?
+    binary.readFloat32Array(16) // fpad - ?
 
     return data
   }

@@ -19,9 +19,9 @@ export class TextureVertex {
   static readFrom(binary: BinaryIO): ArxTextureVertex {
     return {
       pos: binary.readVector3(),
-      rhw: binary.readFloat32(), // portal bounds radius ?
+      rhw: binary.readFloat32(), // portal bounds radius - ?
       color: Color.readFrom(binary, 'abgr'),
-      specular: Color.readFrom(binary, 'abgr'), // unused btw...
+      specular: Color.readFrom(binary, 'abgr'), // unused
       tu: binary.readFloat32(),
       tv: binary.readFloat32(),
     }

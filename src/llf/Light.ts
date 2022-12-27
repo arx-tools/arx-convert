@@ -59,13 +59,13 @@ export class Light {
       exFlareSize: binary.readFloat32(),
     }
 
-    binary.readFloat32Array(24) // fpad
+    binary.readFloat32Array(24) // fpad - ?
 
     const dataBlock2 = {
       flags: binary.readInt32(),
     }
 
-    binary.readInt32Array(31) // lpad
+    binary.readInt32Array(31) // lpad - ?
 
     return {
       ...dataBlock1,

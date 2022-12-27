@@ -9,7 +9,7 @@ import { ArxRotation, ArxVector3 } from '../common/types'
  */
 export type ArxFog = {
   pos: ArxVector3
-  rgb: ArxColor
+  color: ArxColor
   size: number
   special: number
   scale: number
@@ -26,7 +26,7 @@ export class Fog {
   static readFrom(binary: BinaryIO) {
     const data: ArxFog = {
       pos: binary.readVector3(),
-      rgb: Color.readFrom(binary, 'rgb'),
+      color: Color.readFrom(binary, 'rgb'),
       size: binary.readFloat32(),
       special: binary.readInt32(),
       scale: binary.readFloat32(),
@@ -39,9 +39,9 @@ export class Fog {
       frequency: binary.readFloat32(),
     }
 
-    binary.readFloat32Array(32) // fpad
-    binary.readInt32Array(32) // lpad
-    binary.readString(256) // cpad
+    binary.readFloat32Array(32) // fpad - ?
+    binary.readInt32Array(32) // lpad - ?
+    binary.readString(256) // cpad - ?
 
     return data
   }
@@ -51,7 +51,7 @@ export class Fog {
     const binary = new BinaryIO(buffer.buffer)
 
     binary.writeVector3(fog.pos)
-    binary.writeBuffer(Color.accumulateFrom(fog.rgb, 'rgb'))
+    binary.writeBuffer(Color.accumulateFrom(fog.color, 'rgb'))
     binary.writeFloat32(fog.size)
     binary.writeInt32(fog.special)
     binary.writeFloat32(fog.scale)

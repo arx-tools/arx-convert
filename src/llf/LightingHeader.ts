@@ -11,9 +11,9 @@ export class LightingHeader {
       numberOfColors: binary.readInt32(),
     }
 
-    binary.readInt32() // viewMode (unused)
-    binary.readInt32() // modeLight (unused)
-    binary.readInt32() // lpad
+    binary.readInt32() // viewMode - unused
+    binary.readInt32() // modeLight - unused
+    binary.readInt32() // lpad - ?
 
     return data
   }

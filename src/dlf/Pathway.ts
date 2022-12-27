@@ -7,7 +7,7 @@ import { ArxVector3 } from '../common/types'
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L168
  */
 export type ArxPathway = {
-  rpos: ArxVector3
+  rPos: ArxVector3
   flag: number
   time: number
 }
@@ -15,14 +15,14 @@ export type ArxPathway = {
 export class Pathway {
   static readFrom(binary: BinaryIO) {
     const data: ArxPathway = {
-      rpos: binary.readVector3(),
+      rPos: binary.readVector3(),
       flag: binary.readInt32(),
       time: binary.readUint32(),
     }
 
-    binary.readFloat32Array(2) // fpad
-    binary.readInt32Array(2) // lpad
-    binary.readUint8Array(32) // cpad
+    binary.readFloat32Array(2) // fpad - ?
+    binary.readInt32Array(2) // lpad - ?
+    binary.readUint8Array(32) // cpad - ?
 
     return data
   }
@@ -31,7 +31,7 @@ export class Pathway {
     const buffer = Buffer.alloc(Pathway.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
-    binary.writeVector3(pathway.rpos)
+    binary.writeVector3(pathway.rPos)
     binary.writeInt32(pathway.flag)
     binary.writeUint32(pathway.time)
 

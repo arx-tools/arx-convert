@@ -15,7 +15,7 @@ export type ArxPathHeader = {
   initPos: ArxVector3
   pos: ArxVector3
   numberOfPathways: number
-  rgb: ArxColor
+  color: ArxColor
   farClip: number
   reverb: number
   ambianceMaxVolume: number
@@ -32,25 +32,25 @@ export class PathHeader {
       initPos: binary.readVector3(),
       pos: binary.readVector3(),
       numberOfPathways: binary.readInt32(),
-      rgb: Color.readFrom(binary, 'rgb'),
+      color: Color.readFrom(binary, 'rgb'),
       farClip: binary.readFloat32(),
       reverb: binary.readFloat32(),
       ambianceMaxVolume: binary.readFloat32(),
     }
 
-    binary.readFloat32Array(26) // fpad
+    binary.readFloat32Array(26) // fpad - ?
 
     const dataBlock2 = {
       height: binary.readInt32(),
     }
 
-    binary.readInt32Array(31) // lpad
+    binary.readInt32Array(31) // lpad - ?
 
     const dataBlock3 = {
       ambiance: binary.readString(128),
     }
 
-    binary.readString(128) // cpad
+    binary.readString(128) // cpad - ?
 
     return {
       ...dataBlock1,
@@ -69,7 +69,7 @@ export class PathHeader {
     binary.writeVector3(path.header.initPos)
     binary.writeVector3(path.header.pos)
     binary.writeInt32(path.pathways.length)
-    binary.writeBuffer(Color.accumulateFrom(path.header.rgb, 'rgb'))
+    binary.writeBuffer(Color.accumulateFrom(path.header.color, 'rgb'))
     binary.writeFloat32(path.header.farClip)
     binary.writeFloat32(path.header.reverb)
     binary.writeFloat32(path.header.ambianceMaxVolume)
