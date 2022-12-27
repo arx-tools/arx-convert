@@ -61,6 +61,8 @@ export class FTS {
   }
 
   static save(json: ArxFTS) {
+    const levelIdx = json.header.levelIdx
+
     const sceneHeader = SceneHeader.accumulateFrom(json)
 
     const recombinedCells = json.cells.map((cell): ArxCell => {
@@ -80,7 +82,7 @@ export class FTS {
     const textureContainers = Buffer.concat(json.textureContainers.map(TextureContainer.accumulateFrom))
     const cells = Buffer.concat(recombinedCells.map(Cell.accumulateFrom))
     const anchors = Buffer.concat(json.anchors.map(Anchor.accumulateFrom))
-    const portals = Buffer.concat(json.portals.map(Portal.accumulateFrom))
+    const portals = Buffer.concat(json.portals.map(Portal.accumulateFrom, levelIdx))
     const rooms = Buffer.concat(json.rooms.map(Room.accumulateFrom))
     const roomDistances = Buffer.concat(json.roomDistances.map(RoomDistance.accumulateFrom))
 
