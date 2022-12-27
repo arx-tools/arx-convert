@@ -6,16 +6,24 @@ import { BinaryIO } from '../common/BinaryIO'
  */
 export type ArxTextureContainer = {
   id: number
-  temp: number
   filename: string
 }
 
 export class TextureContainer {
   static readFrom(binary: BinaryIO): ArxTextureContainer {
-    return {
+    const dataBlock1 = {
       id: binary.readInt32(),
-      temp: binary.readInt32(),
+    }
+
+    binary.readInt32() // temp - always 0
+
+    const dataBlock2 = {
       filename: binary.readString(256),
+    }
+
+    return {
+      ...dataBlock1,
+      ...dataBlock2,
     }
   }
 
@@ -24,7 +32,7 @@ export class TextureContainer {
     const binary = new BinaryIO(buffer.buffer)
 
     binary.writeInt32(textureContainer.id)
-    binary.writeInt32(textureContainer.temp)
+    binary.writeInt32(0) // temp
     binary.writeString(textureContainer.filename, 256)
 
     return buffer
