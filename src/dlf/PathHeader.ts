@@ -12,7 +12,6 @@ export type ArxPathHeader = {
   name: string
   idx: number
   flags: ArxZoneFlags
-  initPos: ArxVector3
   pos: ArxVector3
   numberOfPathways: number
   color: ArxColor
@@ -29,7 +28,13 @@ export class PathHeader {
       name: binary.readString(64),
       idx: binary.readInt16(),
       flags: binary.readInt16(),
-      initPos: binary.readVector3(),
+    }
+
+    binary.readVector3() // initPos - the same as pos with only 1 instance of being different on level 6:
+    // initPos: { x: -2647.48486328125, y: -0.5400390625, z: 6539.69091796875 }
+    //     pos: { x: -2647.48486328125, y: -0.5400390625, z: 6539.6904296875 }
+
+    const dataBlock2 = {
       pos: binary.readVector3(),
       numberOfPathways: binary.readInt32(),
       color: Color.readFrom(binary, 'rgb'),
@@ -40,13 +45,13 @@ export class PathHeader {
 
     binary.readFloat32Array(26) // fpad - ?
 
-    const dataBlock2 = {
+    const dataBlock3 = {
       height: binary.readInt32(),
     }
 
     binary.readInt32Array(31) // lpad - ?
 
-    const dataBlock3 = {
+    const dataBlock4 = {
       ambiance: binary.readString(128),
     }
 
@@ -56,6 +61,7 @@ export class PathHeader {
       ...dataBlock1,
       ...dataBlock2,
       ...dataBlock3,
+      ...dataBlock4,
     }
   }
 
@@ -66,7 +72,7 @@ export class PathHeader {
     binary.writeString(path.header.name, 64)
     binary.writeInt16(path.header.idx)
     binary.writeInt16(path.header.flags)
-    binary.writeVector3(path.header.initPos)
+    binary.writeVector3(path.header.pos) // initPos
     binary.writeVector3(path.header.pos)
     binary.writeInt32(path.pathways.length)
     binary.writeBuffer(Color.accumulateFrom(path.header.color, 'rgb'))
