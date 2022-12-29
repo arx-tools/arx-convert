@@ -92,7 +92,7 @@ export class DlfHeader {
     binary.writeInt32(json.header.numberOfBackgroundPolygons)
     binary.writeInt32(0) // number of ignored polygons
     binary.writeInt32(0) // number of child polygons
-    binary.writeInt32(json.paths.length)
+    binary.writeInt32(json.zones.length)
     binary.writeInt32Array(repeat(0, 250))
     binary.writeVector3({ x: 0, y: 0, z: 0 }) // offset
     binary.writeFloat32Array(repeat(0, 253))

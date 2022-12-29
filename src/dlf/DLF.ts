@@ -18,7 +18,7 @@ export type ArxDLF = {
   scene: ArxScene
   interactiveObjects: ArxInteractiveObject[]
   fogs: ArxFog[]
-  paths: ArxPath[]
+  zones: ArxPath[]
 }
 
 export class DLF {
@@ -32,14 +32,14 @@ export class DLF {
       scene: Scene.readFrom(file),
       interactiveObjects: times(() => InteractiveObject.readFrom(file), numberOfInteractiveObjects),
       fogs: times(() => Fog.readFrom(file), numberOfFogs),
-      paths: [],
+      zones: [],
     }
 
     const numberOfNodes = 0
     const numberOfNodeLinks = 12
     file.readInt8Array(numberOfNodes * (204 + numberOfNodeLinks * 64))
 
-    data.paths = times((): ArxPath => {
+    data.zones = times((): ArxPath => {
       const { numberOfPathways, ...pathHeader } = PathHeader.readFrom(file)
 
       return {
@@ -60,7 +60,7 @@ export class DLF {
     const numberOfNodeLinks = 12
     const nodes = Buffer.alloc(numberOfNodes * (204 + numberOfNodeLinks * 64))
     const paths = Buffer.concat(
-      json.paths.map((path) => {
+      json.zones.map((path) => {
         const pathHeader = PathHeader.allocateFrom(path)
         const pathways = Buffer.concat(path.pathways.map(Pathway.allocateFrom))
         return Buffer.concat([pathHeader, pathways])
