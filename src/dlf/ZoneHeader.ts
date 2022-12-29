@@ -3,17 +3,17 @@ import { ArxColor, Color } from '../common/Color'
 import { repeat } from '../common/helpers'
 import { ArxVector3 } from '../common/types'
 import { ArxZoneFlags } from '../types'
-import { ArxPath } from './DLF'
+import { ArxZone } from './DLF'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L150
  */
-export type ArxPathHeader = {
+export type ArxZoneHeader = {
   name: string
   idx: number
   flags: ArxZoneFlags
   pos: ArxVector3
-  numberOfPathways: number
+  numberOfPoints: number
   color: ArxColor
   farClip: number
   reverb: number
@@ -22,8 +22,8 @@ export type ArxPathHeader = {
   ambiance: string
 }
 
-export class PathHeader {
-  static readFrom(binary: BinaryIO): ArxPathHeader {
+export class ZoneHeader {
+  static readFrom(binary: BinaryIO): ArxZoneHeader {
     const dataBlock1 = {
       name: binary.readString(64),
       idx: binary.readInt16(),
@@ -36,7 +36,7 @@ export class PathHeader {
 
     const dataBlock2 = {
       pos: binary.readVector3(),
-      numberOfPathways: binary.readInt32(),
+      numberOfPoints: binary.readInt32(),
       color: Color.readFrom(binary, 'rgb'),
       farClip: binary.readFloat32(),
       reverb: binary.readFloat32(),
@@ -65,28 +65,28 @@ export class PathHeader {
     }
   }
 
-  static allocateFrom(path: ArxPath) {
-    const buffer = Buffer.alloc(PathHeader.sizeOf())
+  static allocateFrom(path: ArxZone) {
+    const buffer = Buffer.alloc(ZoneHeader.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
-    binary.writeString(path.header.name, 64)
-    binary.writeInt16(path.header.idx)
-    binary.writeInt16(path.header.flags)
-    binary.writeVector3(path.header.pos) // initPos
-    binary.writeVector3(path.header.pos)
-    binary.writeInt32(path.pathways.length)
-    binary.writeBuffer(Color.accumulateFrom(path.header.color, 'rgb'))
-    binary.writeFloat32(path.header.farClip)
-    binary.writeFloat32(path.header.reverb)
-    binary.writeFloat32(path.header.ambianceMaxVolume)
+    binary.writeString(path.name, 64)
+    binary.writeInt16(path.idx)
+    binary.writeInt16(path.flags)
+    binary.writeVector3(path.pos) // initPos
+    binary.writeVector3(path.pos)
+    binary.writeInt32(path.points.length)
+    binary.writeBuffer(Color.accumulateFrom(path.color, 'rgb'))
+    binary.writeFloat32(path.farClip)
+    binary.writeFloat32(path.reverb)
+    binary.writeFloat32(path.ambianceMaxVolume)
 
     binary.writeFloat32Array(repeat(0, 26))
 
-    binary.writeInt32(path.header.height)
+    binary.writeInt32(path.height)
 
     binary.writeInt32Array(repeat(0, 31))
 
-    binary.writeString(path.header.ambiance, 128)
+    binary.writeString(path.ambiance, 128)
 
     binary.writeString('', 128)
 

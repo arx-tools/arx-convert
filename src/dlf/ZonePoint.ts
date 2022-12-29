@@ -2,20 +2,22 @@ import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../common/BinaryIO'
 import { repeat } from '../common/helpers'
 import { ArxVector3 } from '../common/types'
+import { ArxZoneHeader } from './ZoneHeader'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L168
  */
-export type ArxPathway = {
-  rPos: ArxVector3
+export type ArxZonePoint = {
+  /** relative compared to {@link ArxZoneHeader.pos} */
+  relativePos: ArxVector3
   flag: number
   time: number
 }
 
-export class Pathway {
+export class ZonePoint {
   static readFrom(binary: BinaryIO) {
-    const data: ArxPathway = {
-      rPos: binary.readVector3(),
+    const data: ArxZonePoint = {
+      relativePos: binary.readVector3(),
       flag: binary.readInt32(),
       time: binary.readUint32(),
     }
@@ -27,11 +29,11 @@ export class Pathway {
     return data
   }
 
-  static allocateFrom(pathway: ArxPathway) {
-    const buffer = Buffer.alloc(Pathway.sizeOf())
+  static allocateFrom(pathway: ArxZonePoint) {
+    const buffer = Buffer.alloc(ZonePoint.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
-    binary.writeVector3(pathway.rPos)
+    binary.writeVector3(pathway.relativePos)
     binary.writeInt32(pathway.flag)
     binary.writeUint32(pathway.time)
 

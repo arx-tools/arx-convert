@@ -4,28 +4,27 @@ import { times } from '../common/helpers'
 import { ArxDlfHeader, DlfHeader } from './DlfHeader'
 import { ArxFog, Fog } from './Fog'
 import { ArxInteractiveObject, InteractiveObject } from './InteactiveObject'
-import { ArxPathHeader, PathHeader } from './PathHeader'
-import { ArxPathway, Pathway } from './Pathway'
+import { ArxZoneHeader, ZoneHeader } from './ZoneHeader'
+import { ArxZonePoint, ZonePoint } from './ZonePoint'
 import { ArxScene, Scene } from './Scene'
 
-export type ArxPath = {
-  header: Omit<ArxPathHeader, 'numberOfPathways'>
-  pathways: ArxPathway[]
+export type ArxZone = Omit<ArxZoneHeader, 'numberOfPoints'> & {
+  points: ArxZonePoint[]
 }
 
 export type ArxDLF = {
-  header: Omit<ArxDlfHeader, 'numberOfInteractiveObjects' | 'numberOfFogs' | 'numberOfPaths'>
+  header: Omit<ArxDlfHeader, 'numberOfInteractiveObjects' | 'numberOfFogs' | 'numberOfZones'>
   scene: ArxScene
   interactiveObjects: ArxInteractiveObject[]
   fogs: ArxFog[]
-  zones: ArxPath[]
+  zones: ArxZone[]
 }
 
 export class DLF {
   static load(decompressedFile: Buffer) {
     const file = new BinaryIO(decompressedFile.buffer)
 
-    const { numberOfInteractiveObjects, numberOfFogs, numberOfPaths, ...header } = DlfHeader.readFrom(file)
+    const { numberOfInteractiveObjects, numberOfFogs, numberOfZones, ...header } = DlfHeader.readFrom(file)
 
     const data: ArxDLF = {
       header: header,
@@ -39,14 +38,14 @@ export class DLF {
     const numberOfNodeLinks = 12
     file.readInt8Array(numberOfNodes * (204 + numberOfNodeLinks * 64))
 
-    data.zones = times((): ArxPath => {
-      const { numberOfPathways, ...pathHeader } = PathHeader.readFrom(file)
+    data.zones = times((): ArxZone => {
+      const { numberOfPoints, ...zoneHeader } = ZoneHeader.readFrom(file)
 
       return {
-        header: pathHeader,
-        pathways: times(() => Pathway.readFrom(file), numberOfPathways),
+        ...zoneHeader,
+        points: times(() => ZonePoint.readFrom(file), numberOfPoints),
       }
-    }, numberOfPaths)
+    }, numberOfZones)
 
     return data
   }
@@ -59,14 +58,14 @@ export class DLF {
     const numberOfNodes = 0
     const numberOfNodeLinks = 12
     const nodes = Buffer.alloc(numberOfNodes * (204 + numberOfNodeLinks * 64))
-    const paths = Buffer.concat(
-      json.zones.map((path) => {
-        const pathHeader = PathHeader.allocateFrom(path)
-        const pathways = Buffer.concat(path.pathways.map(Pathway.allocateFrom))
-        return Buffer.concat([pathHeader, pathways])
+    const zones = Buffer.concat(
+      json.zones.map((zone) => {
+        const header = ZoneHeader.allocateFrom(zone)
+        const points = zone.points.map(ZonePoint.allocateFrom)
+        return Buffer.concat([header, ...points])
       }),
     )
 
-    return Buffer.concat([header, scene, interactiveObjects, fogs, nodes, paths])
+    return Buffer.concat([header, scene, interactiveObjects, fogs, nodes, zones])
   }
 }

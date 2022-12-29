@@ -16,7 +16,7 @@ export type ArxDlfHeader = {
   numberOfInteractiveObjects: number
   numberOfFogs: number
   numberOfBackgroundPolygons: number
-  numberOfPaths: number
+  numberOfZones: number
 }
 
 export class DlfHeader {
@@ -53,7 +53,7 @@ export class DlfHeader {
     binary.readInt32() // number of child polygons - always 0
 
     const dataBlock4 = {
-      numberOfPaths: binary.readInt32(),
+      numberOfZones: binary.readInt32(),
     }
 
     binary.readInt32Array(250) // pad - ?
