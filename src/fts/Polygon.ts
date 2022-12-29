@@ -12,7 +12,7 @@ export enum ArxPolygonFlags {
   None = 0,
   NoShadow = 1 << 0,
   DoubleSided = 1 << 1,
-  Trans = 1 << 2,
+  Transparent = 1 << 2,
   Water = 1 << 3,
   Glow = 1 << 4,
   Ignore = 1 << 5,
@@ -52,6 +52,16 @@ export type ArxPolygon = {
   norm: ArxVector3
   norm2: ArxVector3
   normals?: QuadrupleOf<ArxVector3>
+  /**
+   * Opacity type and amount when {@link ArxPolygon.flags} & {@link ArxPolygonFlags.Transparent}:
+   *
+   *   - greater or equal to 2 = multiplicative
+   *   - greater or equal to 1 = additive
+   *   - greater than 0 = normal
+   *   - less or equal to 0 = subtractive
+   *
+   * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/Mesh.cpp#L1102
+   */
   transval: number
   area: number
   flags: ArxPolygonFlags
