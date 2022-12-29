@@ -49,5 +49,7 @@ export type { ArxLlfHeader } from './llf/LlfHeader'
 //  enums
 // ----------------
 
-export { ArxPolygonFlags, ArxZoneFlags } from './common/constants'
+export { ArxZoneFlags } from './dlf/ZoneHeader'
+export { ArxZonePointType } from './dlf/ZonePoint'
+export { ArxPolygonFlags } from './fts/Polygon'
 export { ArxLightFlags } from './llf/Light'

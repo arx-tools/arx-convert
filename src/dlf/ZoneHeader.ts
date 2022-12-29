@@ -2,8 +2,17 @@ import { BinaryIO } from '../common/BinaryIO'
 import { ArxColor, Color } from '../common/Color'
 import { repeat } from '../common/helpers'
 import { ArxVector3 } from '../common/types'
-import { ArxZoneFlags } from '../types'
 import { ArxZone } from './DLF'
+
+/**
+ * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/ai/Paths.h#L65
+ */
+export enum ArxZoneFlags {
+  None = 0,
+  Ambiance = 1 << 1,
+  Rgb = 1 << 2,
+  FarClip = 1 << 3,
+}
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L150

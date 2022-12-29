@@ -28,9 +28,7 @@ export class LlfHeader {
     binary.readInt32() // numberOfShadowPolygons - always 0
     binary.readInt32() // numberOfIgnoredPolygons - always 0
 
-    const dataBlock2 = {
-      numberOfBackgroundPolygons: binary.readInt32(),
-    }
+    const numberOfBackgroundPolygons = binary.readInt32()
 
     binary.readInt32Array(256) // pad - ?
     binary.readFloat32Array(256) // fpad - ?
@@ -39,7 +37,7 @@ export class LlfHeader {
 
     return {
       ...dataBlock1,
-      ...dataBlock2,
+      numberOfBackgroundPolygons,
     }
   }
 

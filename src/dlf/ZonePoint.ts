@@ -3,25 +3,32 @@ import { BinaryIO } from '../common/BinaryIO'
 import { repeat } from '../common/helpers'
 import { ArxVector3 } from '../common/types'
 
+export enum ArxZonePointType {
+  Standard = 0,
+  Bezier = 1,
+  BezierControlPoint = 2,
+}
+
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L168
  */
 export type ArxZonePoint = {
   pos: ArxVector3
-  flag: number
+  type: ArxZonePointType
+  /** milliseconds */
   time: number
 }
 
 export class ZonePoint {
-  static readFrom(binary: BinaryIO, pos: ArxVector3) {
+  static readFrom(binary: BinaryIO, pos: ArxVector3): ArxZonePoint {
     const rpos = binary.readVector3()
-    const data: ArxZonePoint = {
+    const data = {
       pos: {
         x: rpos.x + pos.x,
         y: rpos.y + pos.y,
         z: rpos.z + pos.z,
       },
-      flag: binary.readInt32(),
+      type: binary.readInt32(),
       time: binary.readUint32(),
     }
 
@@ -43,7 +50,7 @@ export class ZonePoint {
     }
 
     binary.writeVector3(rpos)
-    binary.writeInt32(point.flag)
+    binary.writeInt32(point.type)
     binary.writeUint32(point.time)
 
     binary.writeFloat32Array(repeat(0, 2))

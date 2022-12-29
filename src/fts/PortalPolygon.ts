@@ -2,7 +2,7 @@ import { Buffer } from 'node:buffer'
 import { BinaryIO } from '../common/BinaryIO'
 import { times } from '../common/helpers'
 import { ArxVector3, QuadrupleOf } from '../common/types'
-import { ArxPolygonFlags } from '../types'
+import { ArxPolygonFlags } from './Polygon'
 import { ArxTextureVertex, TextureVertex } from './TextureVertex'
 
 // found in levels below 10

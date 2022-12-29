@@ -3,8 +3,42 @@ import { BinaryIO } from '../common/BinaryIO'
 import { ArxVertex, Vertex } from './Vertex'
 import { ArxVector3, QuadrupleOf } from '../common/types'
 import { times } from '../common/helpers'
-import { ArxPolygonFlags } from '../common/constants'
 import { ArxTextureContainer } from './TextureContainer'
+
+/**
+ * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/GraphicsTypes.h#L88
+ */
+export enum ArxPolygonFlags {
+  None = 0,
+  NoShadow = 1 << 0,
+  DoubleSided = 1 << 1,
+  Trans = 1 << 2,
+  Water = 1 << 3,
+  Glow = 1 << 4,
+  Ignore = 1 << 5,
+  Quad = 1 << 6,
+  // Tiled = 1 << 7, // unused
+  Metal = 1 << 8,
+  Hide = 1 << 9,
+  Stone = 1 << 10,
+  Wood = 1 << 11,
+  Gravel = 1 << 12,
+  Earth = 1 << 13,
+  NoCollision = 1 << 14,
+  Lava = 1 << 15,
+  Climbable = 1 << 16,
+  Falling = 1 << 17,
+  NoPath = 1 << 18,
+  NoDraw = 1 << 19,
+  PrecisePath = 1 << 20,
+  // NoClimb = 1 << 21, // unused
+  // Angular = 1 << 22, // unused
+  // AngularIdx0 = 1 << 23, // unused
+  // AngularIdx1 = 1 << 24, // unused
+  // AngularIdx2 = 1 << 25, // unused
+  // AngularIdx3 = 1 << 26, // unused
+  LateMip = 1 << 27,
+}
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L81
