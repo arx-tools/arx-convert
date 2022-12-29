@@ -16,6 +16,7 @@ export type ArxZoneHeader = {
   numberOfPoints: number
   color: ArxColor
   farClip: number
+  /** either 0.0 or 1.0 - ? */
   reverb: number
   ambianceMaxVolume: number
   height: number

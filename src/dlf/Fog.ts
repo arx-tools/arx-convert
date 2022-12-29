@@ -11,20 +11,22 @@ export type ArxFog = {
   pos: ArxVector3
   color: ArxColor
   size: number
+  /** either 0 or 1 - ? */
   special: number
   scale: number
+  /** a normal vector, all axis are between -1 and 1 */
   move: ArxVector3
   angle: ArxRotation
   speed: number
   rotateSpeed: number
+  /** milliseconds */
   toLive: number
-  blend: number
   frequency: number
 }
 
 export class Fog {
-  static readFrom(binary: BinaryIO) {
-    const data: ArxFog = {
+  static readFrom(binary: BinaryIO): ArxFog {
+    const dataBlock1 = {
       pos: binary.readVector3(),
       color: Color.readFrom(binary, 'rgb'),
       size: binary.readFloat32(),
@@ -35,15 +37,20 @@ export class Fog {
       speed: binary.readFloat32(),
       rotateSpeed: binary.readFloat32(),
       toLive: binary.readInt32(),
-      blend: binary.readInt32(),
-      frequency: binary.readFloat32(),
     }
+
+    binary.readInt32() // blend - always 0
+
+    const frequency = binary.readFloat32()
 
     binary.readFloat32Array(32) // fpad - ?
     binary.readInt32Array(32) // lpad - ?
     binary.readString(256) // cpad - ?
 
-    return data
+    return {
+      ...dataBlock1,
+      frequency,
+    }
   }
 
   static accumulateFrom(fog: ArxFog) {
@@ -61,12 +68,12 @@ export class Fog {
     binary.writeFloat32(fog.speed)
     binary.writeFloat32(fog.rotateSpeed)
     binary.writeInt32(fog.toLive)
-    binary.writeInt32(fog.blend)
+    binary.writeInt32(0) // blend
     binary.writeFloat32(fog.frequency)
 
-    binary.writeFloat32Array(repeat(0, 32))
-    binary.writeInt32Array(repeat(0, 32))
-    binary.writeString('', 256)
+    binary.writeFloat32Array(repeat(0, 32)) // fpad
+    binary.writeInt32Array(repeat(0, 32)) // lpad
+    binary.writeString('', 256) // cpad
 
     return buffer
   }
