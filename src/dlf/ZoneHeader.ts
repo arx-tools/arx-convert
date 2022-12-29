@@ -45,48 +45,46 @@ export class ZoneHeader {
 
     binary.readFloat32Array(26) // fpad - ?
 
-    const dataBlock3 = {
-      height: binary.readInt32(),
-    }
+    const height = binary.readInt32()
 
     binary.readInt32Array(31) // lpad - ?
 
-    const dataBlock4 = {
-      ambiance: binary.readString(128),
-    }
+    const ambiance = binary.readString(128)
 
     binary.readString(128) // cpad - ?
 
     return {
       ...dataBlock1,
       ...dataBlock2,
-      ...dataBlock3,
-      ...dataBlock4,
+      height,
+      ambiance,
     }
   }
 
-  static allocateFrom(path: ArxZone) {
+  static allocateFrom(zone: ArxZone) {
     const buffer = Buffer.alloc(ZoneHeader.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
-    binary.writeString(path.name, 64)
-    binary.writeInt16(path.idx)
-    binary.writeInt16(path.flags)
-    binary.writeVector3(path.pos) // initPos
-    binary.writeVector3(path.pos)
-    binary.writeInt32(path.points.length)
-    binary.writeBuffer(Color.accumulateFrom(path.color, 'rgb'))
-    binary.writeFloat32(path.farClip)
-    binary.writeFloat32(path.reverb)
-    binary.writeFloat32(path.ambianceMaxVolume)
+    const pos = zone.points[0].pos
+
+    binary.writeString(zone.name, 64)
+    binary.writeInt16(zone.idx)
+    binary.writeInt16(zone.flags)
+    binary.writeVector3(pos) // initPos
+    binary.writeVector3(pos)
+    binary.writeInt32(zone.points.length)
+    binary.writeBuffer(Color.accumulateFrom(zone.color, 'rgb'))
+    binary.writeFloat32(zone.farClip)
+    binary.writeFloat32(zone.reverb)
+    binary.writeFloat32(zone.ambianceMaxVolume)
 
     binary.writeFloat32Array(repeat(0, 26))
 
-    binary.writeInt32(path.height)
+    binary.writeInt32(zone.height)
 
     binary.writeInt32Array(repeat(0, 31))
 
-    binary.writeString(path.ambiance, 128)
+    binary.writeString(zone.ambiance, 128)
 
     binary.writeString('', 128)
 

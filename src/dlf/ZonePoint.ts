@@ -8,16 +8,20 @@ import { ArxZoneHeader } from './ZoneHeader'
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L168
  */
 export type ArxZonePoint = {
-  /** relative compared to {@link ArxZoneHeader.pos} */
-  relativePos: ArxVector3
+  pos: ArxVector3
   flag: number
   time: number
 }
 
 export class ZonePoint {
-  static readFrom(binary: BinaryIO) {
+  static readFrom(binary: BinaryIO, pos: ArxVector3) {
+    const rpos = binary.readVector3()
     const data: ArxZonePoint = {
-      relativePos: binary.readVector3(),
+      pos: {
+        x: rpos.x + pos.x,
+        y: rpos.y + pos.y,
+        z: rpos.z + pos.z,
+      },
       flag: binary.readInt32(),
       time: binary.readUint32(),
     }
@@ -29,13 +33,19 @@ export class ZonePoint {
     return data
   }
 
-  static allocateFrom(pathway: ArxZonePoint) {
+  static allocateFrom(point: ArxZonePoint, pos: ArxVector3) {
     const buffer = Buffer.alloc(ZonePoint.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
-    binary.writeVector3(pathway.relativePos)
-    binary.writeInt32(pathway.flag)
-    binary.writeUint32(pathway.time)
+    const rpos = {
+      x: point.pos.x - pos.x,
+      y: point.pos.y - pos.y,
+      z: point.pos.z - pos.z,
+    }
+
+    binary.writeVector3(rpos)
+    binary.writeInt32(point.flag)
+    binary.writeUint32(point.time)
 
     binary.writeFloat32Array(repeat(0, 2))
     binary.writeInt32Array(repeat(0, 2))

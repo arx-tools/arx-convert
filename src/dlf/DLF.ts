@@ -8,7 +8,7 @@ import { ArxZoneHeader, ZoneHeader } from './ZoneHeader'
 import { ArxZonePoint, ZonePoint } from './ZonePoint'
 import { ArxScene, Scene } from './Scene'
 
-export type ArxZone = Omit<ArxZoneHeader, 'numberOfPoints'> & {
+export type ArxZone = Omit<ArxZoneHeader, 'numberOfPoints' | 'pos'> & {
   points: ArxZonePoint[]
 }
 
@@ -39,11 +39,11 @@ export class DLF {
     file.readInt8Array(numberOfNodes * (204 + numberOfNodeLinks * 64))
 
     data.zones = times((): ArxZone => {
-      const { numberOfPoints, ...zoneHeader } = ZoneHeader.readFrom(file)
+      const { numberOfPoints, pos, ...zoneHeader } = ZoneHeader.readFrom(file)
 
       return {
         ...zoneHeader,
-        points: times(() => ZonePoint.readFrom(file), numberOfPoints),
+        points: times(() => ZonePoint.readFrom(file, pos), numberOfPoints),
       }
     }, numberOfZones)
 
@@ -59,10 +59,11 @@ export class DLF {
     const numberOfNodeLinks = 12
     const nodes = Buffer.alloc(numberOfNodes * (204 + numberOfNodeLinks * 64))
     const zones = Buffer.concat(
-      json.zones.map((zone) => {
+      json.zones.flatMap((zone) => {
         const header = ZoneHeader.allocateFrom(zone)
-        const points = zone.points.map(ZonePoint.allocateFrom)
-        return Buffer.concat([header, ...points])
+        const pos = zone.points[0].pos
+        const points = zone.points.map((point) => ZonePoint.allocateFrom(point, pos))
+        return [header, ...points]
       }),
     )
 
