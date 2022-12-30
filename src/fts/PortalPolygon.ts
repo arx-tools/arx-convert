@@ -34,11 +34,6 @@ export type ArxPortalPolygon = {
   norm: ArxVector3
   norm2: ArxVector3
   vertices: QuadrupleOf<ArxTextureVertex>
-  normals: QuadrupleOf<ArxVector3>
-  /**
-   * reference to {@link ArxTextureContainer.id}
-   */
-  textureContainerId: number
   center: ArxVector3
 }
 
@@ -54,13 +49,12 @@ export class PortalPolygon {
       vertices: times(() => TextureVertex.readFrom(binary), 4) as QuadrupleOf<ArxTextureVertex>,
     }
 
-    binary.readUint8Array(32 * 4) // unused
+    binary.readUint8Array(32 * 4) // unused - can be either HARDCODED_DATA_TYPE
 
-    const dataBlock2 = {
-      normals: binary.readVector3Array(4) as QuadrupleOf<ArxVector3>,
-      textureContainerId: binary.readInt32(),
-      center: binary.readVector3(),
-    }
+    binary.readVector3Array(4) as QuadrupleOf<ArxVector3> // normals - always 0/0/0 * 4
+    binary.readInt32() // textureContainerId - always 0
+
+    const center = binary.readVector3()
 
     binary.readFloat32() // transval - always 0
     binary.readFloat32() // area - always 0
@@ -69,7 +63,7 @@ export class PortalPolygon {
 
     return {
       ...dataBlock1,
-      ...dataBlock2,
+      center,
     }
   }
 
@@ -90,10 +84,16 @@ export class PortalPolygon {
       ),
     )
 
-    binary.writeUint8Array(levelIdx < 10 ? HARDCODED_DATA_TYPE1 : HARDCODED_DATA_TYPE2)
+    binary.writeUint8Array(levelIdx < 10 ? HARDCODED_DATA_TYPE1 : HARDCODED_DATA_TYPE2) // unused
 
-    binary.writeVector3Array(portalPolygon.normals)
-    binary.writeInt32(portalPolygon.textureContainerId)
+    binary.writeVector3Array([
+      // normals
+      { x: 0, y: 0, z: 0 },
+      { x: 0, y: 0, z: 0 },
+      { x: 0, y: 0, z: 0 },
+      { x: 0, y: 0, z: 0 },
+    ])
+    binary.writeInt32(0) // textureContainerId
     binary.writeVector3(portalPolygon.center)
     binary.writeFloat32(0) // transval
     binary.writeFloat32(0) // area
