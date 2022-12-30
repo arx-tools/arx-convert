@@ -13,39 +13,52 @@ export type ArxZone = Omit<ArxZoneHeader, 'numberOfPoints' | 'pos'> & {
 }
 
 export type ArxDLF = {
-  header: Omit<ArxDlfHeader, 'numberOfInteractiveObjects' | 'numberOfFogs' | 'numberOfZones'>
+  header: Omit<ArxDlfHeader, 'numberOfInteractiveObjects' | 'numberOfFogs' | 'numberOfZonesAndPaths'>
   scene: ArxScene
   interactiveObjects: ArxInteractiveObject[]
   fogs: ArxFog[]
   zones: ArxZone[]
+  paths: ArxPath[]
 }
 
 export class DLF {
   static load(decompressedFile: Buffer) {
     const file = new BinaryIO(decompressedFile.buffer)
 
-    const { numberOfInteractiveObjects, numberOfFogs, numberOfZones, ...header } = DlfHeader.readFrom(file)
+    const { numberOfInteractiveObjects, numberOfFogs, numberOfZonesAndPaths, ...header } = DlfHeader.readFrom(file)
 
     const data: ArxDLF = {
-      header: header,
+      header,
       scene: Scene.readFrom(file),
       interactiveObjects: times(() => InteractiveObject.readFrom(file), numberOfInteractiveObjects),
       fogs: times(() => Fog.readFrom(file), numberOfFogs),
       zones: [],
+      paths: [],
     }
 
     const numberOfNodes = 0
     const numberOfNodeLinks = 12
     file.readInt8Array(numberOfNodes * (204 + numberOfNodeLinks * 64))
 
-    data.zones = times((): ArxZone => {
+    times(() => {
       const { numberOfPoints, pos, ...zoneHeader } = ZoneHeader.readFrom(file)
 
-      return {
+      const zoneOrPath = {
         ...zoneHeader,
         points: times(() => ZonePoint.readFrom(file, pos), numberOfPoints),
       }
-    }, numberOfZones)
+
+      /**
+       * zones and paths are stored in the same place
+       *
+       * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LoadLevel.cpp#L407
+       */
+      if (zoneHeader.height === 0) {
+        data.paths.push(zoneOrPath)
+      } else {
+        data.zones.push(zoneOrPath)
+      }
+    }, numberOfZonesAndPaths)
 
     return data
   }

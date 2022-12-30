@@ -16,7 +16,7 @@ export type ArxDlfHeader = {
   numberOfInteractiveObjects: number
   numberOfFogs: number
   numberOfBackgroundPolygons: number
-  numberOfZones: number
+  numberOfZonesAndPaths: number
 }
 
 export class DlfHeader {
@@ -33,28 +33,22 @@ export class DlfHeader {
 
     binary.readInt32() // number of scenes - always 1
 
-    const dataBlock2 = {
-      numberOfInteractiveObjects: binary.readInt32(),
-    }
+    const numberOfInteractiveObjects = binary.readInt32()
 
     binary.readInt32() // number of nodes - always 0
     binary.readInt32() // number of node links - always 12
-    binary.readInt32() // number of zones - always 0, zones are stored in dlf.paths
+    binary.readInt32() // number of zones - always 0, zones are merged with paths, so we get this via numberOfZonesAndPaths
     binary.readInt32() // lighting - we don't parse it as it's 0 in all the levels
     binary.readInt32Array(256) // Bpad - ?
     binary.readInt32() // number of lights - always 0 as lights are stored in LLF files
 
-    const dataBlock3 = {
-      numberOfFogs: binary.readInt32(),
-      numberOfBackgroundPolygons: binary.readInt32(),
-    }
+    const numberOfFogs = binary.readInt32()
+    const numberOfBackgroundPolygons = binary.readInt32()
 
     binary.readInt32() // number of ignored polygons - always 0
     binary.readInt32() // number of child polygons - always 0
 
-    const dataBlock4 = {
-      numberOfZones: binary.readInt32(),
-    }
+    const numberOfZonesAndPaths = binary.readInt32()
 
     binary.readInt32Array(250) // pad - ?
     binary.readVector3() // offset - always Vector3(0, 0, 0)
@@ -64,9 +58,10 @@ export class DlfHeader {
 
     return {
       ...dataBlock1,
-      ...dataBlock2,
-      ...dataBlock3,
-      ...dataBlock4,
+      numberOfInteractiveObjects,
+      numberOfFogs,
+      numberOfBackgroundPolygons,
+      numberOfZonesAndPaths,
     }
   }
 
@@ -84,7 +79,7 @@ export class DlfHeader {
     binary.writeInt32(json.interactiveObjects.length)
     binary.writeInt32(0) // number of nodes
     binary.writeInt32(12) // number of node links
-    binary.writeInt32(0) // numberOfZones
+    binary.writeInt32(0) // number of zones
     binary.writeInt32(0) // lighting
     binary.writeInt32Array(repeat(0, 256))
     binary.writeInt32(0) // number of lights -> stored in LLF
