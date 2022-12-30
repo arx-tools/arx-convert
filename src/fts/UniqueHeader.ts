@@ -6,7 +6,10 @@ import { BinaryIO } from '../common/BinaryIO'
  */
 export type ArxUniqueHeader = {
   path: string
-  check: number[] // 512 bytes
+  /**
+   * 512 bytes
+   */
+  check: number[]
 }
 
 export class UniqueHeader {

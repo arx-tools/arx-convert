@@ -22,6 +22,9 @@ const HARDCODED_DATA_TYPE2 = {
  */
 export type ArxTextureVertex = {
   pos: ArxVector3
+  /**
+   * portal.bounds.radius - ?
+   */
   rhw: number
 }
 
@@ -29,7 +32,7 @@ export class TextureVertex {
   static readFrom(binary: BinaryIO): ArxTextureVertex {
     const data = {
       pos: binary.readVector3(),
-      rhw: binary.readFloat32(), // portal.bounds.radius
+      rhw: binary.readFloat32(),
     }
 
     Color.readFrom(binary, 'abgr') // color

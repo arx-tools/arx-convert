@@ -4,6 +4,14 @@ import { ArxVector3 } from '../common/types'
 import { ArxAnchor } from './Anchor'
 
 /**
+ * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L113
+ */
+export enum ArxAnchorFlags {
+  None = 0,
+  Blocked = 1 << 3,
+}
+
+/**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L117
  */
 export type ArxAnchorData = {
@@ -11,7 +19,7 @@ export type ArxAnchorData = {
   radius: number
   height: number
   numberOfLinkedAnchors: number
-  flags: number
+  flags: ArxAnchorFlags
 }
 
 export class AnchorData {
