@@ -12,7 +12,7 @@ export type ArxZone = Omit<ArxZoneAndPathHeader, 'numberOfPoints' | 'pos'> & {
   points: ArxZoneAndPathPoint[]
 }
 
-export type ArxPath = Omit<ArxZone, 'height'>
+export type ArxPath = Omit<ArxZone, 'height' | 'flags' | 'color' | 'ambiance' | 'ambianceMaxVolume'>
 
 export type ArxDLF = {
   header: Omit<ArxDlfHeader, 'numberOfInteractiveObjects' | 'numberOfFogs' | 'numberOfZonesAndPaths'>
@@ -43,7 +43,8 @@ export class DLF {
     file.readInt8Array(numberOfNodes * (204 + numberOfNodeLinks * 64))
 
     times(() => {
-      const { numberOfPoints, pos, height, ...zoneHeader } = ZoneAndPathHeader.readFrom(file)
+      const { numberOfPoints, pos, height, flags, color, ambiance, ambianceMaxVolume, ...zoneHeader } =
+        ZoneAndPathHeader.readFrom(file)
 
       const zoneOrPath = {
         ...zoneHeader,
@@ -56,9 +57,9 @@ export class DLF {
        * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LoadLevel.cpp#L407
        */
       if (height === 0) {
-        data.paths.push(zoneOrPath as ArxPath)
+        data.paths.push(zoneOrPath)
       } else {
-        data.zones.push({ ...zoneOrPath, height } as ArxZone)
+        data.zones.push({ ...zoneOrPath, height, flags, color, ambiance, ambianceMaxVolume })
       }
     }, numberOfZonesAndPaths)
 

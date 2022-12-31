@@ -6,12 +6,16 @@ import { ArxPath, ArxZone } from './DLF'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/ai/Paths.h#L65
+ * @see https://github.com/arx/ArxLibertatis/blob/ArxFatalis-1.21/Sources/Include/ARX_Paths.h#L128
  */
 export enum ArxZoneAndPathFlags {
   None = 0,
+  // Loop = 1 << 0, // have been removed from Arx Libertatis, no idea if it was implemented in vanilla Arx
+  // level7 "PATH_BLACK" and level8 "PATH1" are the only 2 paths where flag is set to this, but path flags are ignored
   Ambiance = 1 << 1,
   Rgb = 1 << 2,
   FarClip = 1 << 3,
+  // Reverb = 1 << 4, // have been removed from Arx Libertatis, no idea if it was implemented in vanilla Arx
 }
 
 /**
@@ -71,30 +75,32 @@ export class ZoneAndPathHeader {
     }
   }
 
-  static allocateFrom(zone: ArxZone | ArxPath) {
+  static allocateFrom(zoneOrPath: ArxZone | ArxPath) {
     const buffer = Buffer.alloc(ZoneAndPathHeader.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
-    const pos = zone.points[0].pos
+    const pos = zoneOrPath.points[0].pos
 
-    binary.writeString(zone.name, 64)
+    binary.writeString(zoneOrPath.name, 64)
     binary.writeInt16(0) // idx
-    binary.writeInt16(zone.flags)
+    binary.writeInt16('flags' in zoneOrPath ? zoneOrPath.flags : ArxZoneAndPathFlags.None)
     binary.writeVector3(pos) // initPos
     binary.writeVector3(pos)
-    binary.writeInt32(zone.points.length)
-    binary.writeBuffer(Color.accumulateFrom(zone.color, 'rgb'))
-    binary.writeFloat32(zone.farClip)
-    binary.writeFloat32(zone.reverb)
-    binary.writeFloat32(zone.ambianceMaxVolume)
+    binary.writeInt32(zoneOrPath.points.length)
+    binary.writeBuffer(
+      Color.accumulateFrom('color' in zoneOrPath ? zoneOrPath.color : { r: 0, g: 0, b: 0, a: 1 }, 'rgb'),
+    )
+    binary.writeFloat32(zoneOrPath.farClip)
+    binary.writeFloat32(zoneOrPath.reverb)
+    binary.writeFloat32('ambianceMaxVolume' in zoneOrPath ? zoneOrPath.ambianceMaxVolume : 100)
 
     binary.writeFloat32Array(repeat(0, 26)) // fpad
 
-    binary.writeInt32('height' in zone ? zone.height : 0)
+    binary.writeInt32('height' in zoneOrPath ? zoneOrPath.height : 0)
 
     binary.writeInt32Array(repeat(0, 31)) // lpad
 
-    binary.writeString(zone.ambiance, 128)
+    binary.writeString('ambiance' in zoneOrPath ? zoneOrPath.ambiance : 'NONE', 128)
 
     binary.writeString('', 128) // cpad
 
