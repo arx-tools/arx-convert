@@ -12,10 +12,10 @@ export enum ArxZoneAndPathFlags {
   None = 0,
   // Loop = 1 << 0, // have been removed from Arx Libertatis, no idea if it was implemented in vanilla Arx
   // level7 "PATH_BLACK" and level8 "PATH1" are the only 2 paths where flag is set to this, but path flags are ignored
-  Ambiance = 1 << 1,
-  Rgb = 1 << 2,
-  FarClip = 1 << 3,
-  // Reverb = 1 << 4, // have been removed from Arx Libertatis, no idea if it was implemented in vanilla Arx
+  SetAmbience = 1 << 1,
+  SetBackgroundColor = 1 << 2,
+  SetDrawDistance = 1 << 3,
+  // Reverb = 1 << 4, // have been removed from Arx Libertatis, wasn't implemented in vanilla Arx
 }
 
 /**
@@ -27,12 +27,10 @@ export type ArxZoneAndPathHeader = {
   pos: ArxVector3
   numberOfPoints: number
   color: ArxColor
-  farClip: number
-  /** either 0.0 or 1.0 - ? */
-  reverb: number
-  ambianceMaxVolume: number
+  drawDistance: number
+  ambienceMaxVolume: number
   height: number
-  ambiance: string
+  ambience: string
 }
 
 export class ZoneAndPathHeader {
@@ -51,10 +49,12 @@ export class ZoneAndPathHeader {
       pos: binary.readVector3(),
       numberOfPoints: binary.readInt32(),
       color: Color.readFrom(binary, 'rgb'),
-      farClip: binary.readFloat32(),
-      reverb: binary.readFloat32(),
-      ambianceMaxVolume: binary.readFloat32(),
+      drawDistance: binary.readFloat32(),
     }
+
+    binary.readFloat32() // reverb - not implemented, mostly 0, sometimes 1
+
+    const ambienceMaxVolume = binary.readFloat32()
 
     binary.readFloat32Array(26) // fpad - ?
 
@@ -62,7 +62,7 @@ export class ZoneAndPathHeader {
 
     binary.readInt32Array(31) // lpad - ?
 
-    const ambiance = binary.readString(128)
+    const ambience = binary.readString(128)
 
     binary.readString(128) // cpad - ?
 
@@ -70,8 +70,9 @@ export class ZoneAndPathHeader {
       name,
       flags,
       ...dataBlock,
+      ambienceMaxVolume,
       height,
-      ambiance,
+      ambience,
     }
   }
 
@@ -90,9 +91,9 @@ export class ZoneAndPathHeader {
     binary.writeBuffer(
       Color.accumulateFrom('color' in zoneOrPath ? zoneOrPath.color : { r: 0, g: 0, b: 0, a: 1 }, 'rgb'),
     )
-    binary.writeFloat32(zoneOrPath.farClip)
-    binary.writeFloat32(zoneOrPath.reverb)
-    binary.writeFloat32('ambianceMaxVolume' in zoneOrPath ? zoneOrPath.ambianceMaxVolume : 100)
+    binary.writeFloat32('drawDistance' in zoneOrPath ? zoneOrPath.drawDistance : 2800) // for paths it's 80% 2800, 20% 0
+    binary.writeFloat32(0) // reverb
+    binary.writeFloat32('ambienceMaxVolume' in zoneOrPath ? zoneOrPath.ambienceMaxVolume : 100)
 
     binary.writeFloat32Array(repeat(0, 26)) // fpad
 
@@ -100,7 +101,7 @@ export class ZoneAndPathHeader {
 
     binary.writeInt32Array(repeat(0, 31)) // lpad
 
-    binary.writeString('ambiance' in zoneOrPath ? zoneOrPath.ambiance : 'NONE', 128)
+    binary.writeString('ambience' in zoneOrPath ? zoneOrPath.ambience : 'NONE', 128)
 
     binary.writeString('', 128) // cpad
 
