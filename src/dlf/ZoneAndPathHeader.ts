@@ -26,10 +26,22 @@ export type ArxZoneAndPathHeader = {
   flags: ArxZoneAndPathFlags
   pos: ArxVector3
   numberOfPoints: number
+  /**
+   * known as 'rgb' in arx source code
+   */
   backgroundColor: ArxColor
+  /**
+   * known as 'farClip' in arx source code
+   */
   drawDistance: number
+  /**
+   * spelled as ambianceMaxVolume in arx source code
+   */
   ambienceMaxVolume: number
   height: number
+  /**
+   * spelled as ambiance in arx source code
+   */
   ambience: string
 }
 
