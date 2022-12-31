@@ -2,12 +2,12 @@ import { BinaryIO } from '../common/BinaryIO'
 import { ArxColor, Color } from '../common/Color'
 import { repeat } from '../common/helpers'
 import { ArxVector3 } from '../common/types'
-import { ArxZone } from './DLF'
+import { ArxPath, ArxZone } from './DLF'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/ai/Paths.h#L65
  */
-export enum ArxZoneFlags {
+export enum ArxZoneAndPathFlags {
   None = 0,
   Ambiance = 1 << 1,
   Rgb = 1 << 2,
@@ -17,10 +17,10 @@ export enum ArxZoneFlags {
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L150
  */
-export type ArxZoneHeader = {
+export type ArxZoneAndPathHeader = {
   name: string
   idx: number
-  flags: ArxZoneFlags
+  flags: ArxZoneAndPathFlags
   pos: ArxVector3
   numberOfPoints: number
   color: ArxColor
@@ -32,8 +32,8 @@ export type ArxZoneHeader = {
   ambiance: string
 }
 
-export class ZoneHeader {
-  static readFrom(binary: BinaryIO): ArxZoneHeader {
+export class ZoneAndPathHeader {
+  static readFrom(binary: BinaryIO): ArxZoneAndPathHeader {
     const dataBlock1 = {
       name: binary.readString(64),
       idx: binary.readInt16(),
@@ -71,8 +71,8 @@ export class ZoneHeader {
     }
   }
 
-  static allocateFrom(zone: ArxZone) {
-    const buffer = Buffer.alloc(ZoneHeader.sizeOf())
+  static allocateFrom(zone: ArxZone | ArxPath) {
+    const buffer = Buffer.alloc(ZoneAndPathHeader.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
     const pos = zone.points[0].pos
@@ -90,7 +90,7 @@ export class ZoneHeader {
 
     binary.writeFloat32Array(repeat(0, 26))
 
-    binary.writeInt32(zone.height)
+    binary.writeInt32('height' in zone ? zone.height : 0)
 
     binary.writeInt32Array(repeat(0, 31))
 

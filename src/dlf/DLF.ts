@@ -4,21 +4,23 @@ import { times } from '../common/helpers'
 import { ArxDlfHeader, DlfHeader } from './DlfHeader'
 import { ArxFog, Fog } from './Fog'
 import { ArxInteractiveObject, InteractiveObject } from './InteactiveObject'
-import { ArxZoneHeader, ZoneHeader } from './ZoneHeader'
-import { ArxZonePoint, ZonePoint } from './ZonePoint'
+import { ArxZoneAndPathHeader, ZoneAndPathHeader } from './ZoneAndPathHeader'
+import { ArxZoneAndPathPoint, ZoneAndPathPoint } from './ZoneAndPoint'
 import { ArxScene, Scene } from './Scene'
 
-export type ArxZone = Omit<ArxZoneHeader, 'numberOfPoints' | 'pos'> & {
-  points: ArxZonePoint[]
+export type ArxZone = Omit<ArxZoneAndPathHeader, 'numberOfPoints' | 'pos'> & {
+  points: ArxZoneAndPathPoint[]
 }
+
+export type ArxPath = Omit<ArxZone, 'height'>
 
 export type ArxDLF = {
   header: Omit<ArxDlfHeader, 'numberOfInteractiveObjects' | 'numberOfFogs' | 'numberOfZonesAndPaths'>
   scene: ArxScene
   interactiveObjects: ArxInteractiveObject[]
   fogs: ArxFog[]
-  zones: ArxZone[]
   paths: ArxPath[]
+  zones: ArxZone[]
 }
 
 export class DLF {
@@ -32,8 +34,8 @@ export class DLF {
       scene: Scene.readFrom(file),
       interactiveObjects: times(() => InteractiveObject.readFrom(file), numberOfInteractiveObjects),
       fogs: times(() => Fog.readFrom(file), numberOfFogs),
-      zones: [],
       paths: [],
+      zones: [],
     }
 
     const numberOfNodes = 0
@@ -41,11 +43,11 @@ export class DLF {
     file.readInt8Array(numberOfNodes * (204 + numberOfNodeLinks * 64))
 
     times(() => {
-      const { numberOfPoints, pos, ...zoneHeader } = ZoneHeader.readFrom(file)
+      const { numberOfPoints, pos, height, ...zoneHeader } = ZoneAndPathHeader.readFrom(file)
 
       const zoneOrPath = {
         ...zoneHeader,
-        points: times(() => ZonePoint.readFrom(file, pos), numberOfPoints),
+        points: times(() => ZoneAndPathPoint.readFrom(file, pos), numberOfPoints),
       }
 
       /**
@@ -53,10 +55,10 @@ export class DLF {
        *
        * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LoadLevel.cpp#L407
        */
-      if (zoneHeader.height === 0) {
-        data.paths.push(zoneOrPath)
+      if (height === 0) {
+        data.paths.push(zoneOrPath as ArxPath)
       } else {
-        data.zones.push(zoneOrPath)
+        data.zones.push({ ...zoneOrPath, height } as ArxZone)
       }
     }, numberOfZonesAndPaths)
 
@@ -71,15 +73,25 @@ export class DLF {
     const numberOfNodes = 0
     const numberOfNodeLinks = 12
     const nodes = Buffer.alloc(numberOfNodes * (204 + numberOfNodeLinks * 64))
-    const zones = Buffer.concat(
-      json.zones.flatMap((zone) => {
-        const header = ZoneHeader.allocateFrom(zone)
-        const pos = zone.points[0].pos
-        const points = zone.points.map((point) => ZonePoint.allocateFrom(point, pos))
+
+    const paths = Buffer.concat(
+      json.paths.flatMap((path) => {
+        const header = ZoneAndPathHeader.allocateFrom(path)
+        const pos = path.points[0].pos
+        const points = path.points.map((point) => ZoneAndPathPoint.allocateFrom(point, pos))
         return [header, ...points]
       }),
     )
 
-    return Buffer.concat([header, scene, interactiveObjects, fogs, nodes, zones])
+    const zones = Buffer.concat(
+      json.zones.flatMap((zone) => {
+        const header = ZoneAndPathHeader.allocateFrom(zone)
+        const pos = zone.points[0].pos
+        const points = zone.points.map((point) => ZoneAndPathPoint.allocateFrom(point, pos))
+        return [header, ...points]
+      }),
+    )
+
+    return Buffer.concat([header, scene, interactiveObjects, fogs, nodes, paths, zones])
   }
 }

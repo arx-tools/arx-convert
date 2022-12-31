@@ -6,12 +6,12 @@ export type { ArxColor } from './common/Color'
 export type { ArxLight } from './llf/Light'
 export type { ArxVector3, ArxRotation, ArxQuaternion } from './common/types'
 
-export type { ArxZone, ArxDLF } from './dlf/DLF'
+export type { ArxZone, ArxPath, ArxDLF } from './dlf/DLF'
 export type { ArxDlfHeader } from './dlf/DlfHeader'
 export type { ArxFog } from './dlf/Fog'
 export type { ArxInteractiveObject } from './dlf/InteactiveObject'
-export type { ArxZoneHeader } from './dlf/ZoneHeader'
-export type { ArxZonePoint } from './dlf/ZonePoint'
+export type { ArxZoneAndPathHeader } from './dlf/ZoneAndPathHeader'
+export type { ArxZoneAndPathPoint } from './dlf/ZoneAndPoint'
 export type { ArxScene } from './dlf/Scene'
 
 // export type { ArxFTL } from './ftl/FTL'
@@ -49,8 +49,8 @@ export type { ArxLlfHeader } from './llf/LlfHeader'
 //  enums
 // ----------------
 
-export { ArxZoneFlags } from './dlf/ZoneHeader'
-export { ArxZonePointType } from './dlf/ZonePoint'
+export { ArxZoneAndPathFlags } from './dlf/ZoneAndPathHeader'
+export { ArxZoneAndPathPointType } from './dlf/ZoneAndPoint'
 export { ArxAnchorFlags } from './fts/AnchorData'
 export { ArxPolygonFlags } from './fts/Polygon'
 export { ArxLightFlags } from './llf/Light'

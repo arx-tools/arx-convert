@@ -24,7 +24,7 @@ export class DlfHeader {
     binary.readFloat32() // version - always 1.44
     binary.readString(16) // identifier - always "DANAE_FILE"
 
-    const dataBlock1 = {
+    const dataBlock = {
       lastUser: binary.readString(256),
       time: binary.readInt32(),
       posEdit: binary.readVector3(),
@@ -57,7 +57,7 @@ export class DlfHeader {
     binary.readInt32Array(256) // bpad - ?
 
     return {
-      ...dataBlock1,
+      ...dataBlock,
       numberOfInteractiveObjects,
       numberOfFogs,
       numberOfBackgroundPolygons,
@@ -87,7 +87,7 @@ export class DlfHeader {
     binary.writeInt32(json.header.numberOfBackgroundPolygons)
     binary.writeInt32(0) // number of ignored polygons
     binary.writeInt32(0) // number of child polygons
-    binary.writeInt32(json.zones.length)
+    binary.writeInt32(json.paths.length + json.zones.length)
     binary.writeInt32Array(repeat(0, 250))
     binary.writeVector3({ x: 0, y: 0, z: 0 }) // offset
     binary.writeFloat32Array(repeat(0, 253))
