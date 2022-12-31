@@ -19,7 +19,6 @@ export enum ArxZoneAndPathFlags {
  */
 export type ArxZoneAndPathHeader = {
   name: string
-  idx: number
   flags: ArxZoneAndPathFlags
   pos: ArxVector3
   numberOfPoints: number
@@ -34,17 +33,17 @@ export type ArxZoneAndPathHeader = {
 
 export class ZoneAndPathHeader {
   static readFrom(binary: BinaryIO): ArxZoneAndPathHeader {
-    const dataBlock1 = {
-      name: binary.readString(64),
-      idx: binary.readInt16(),
-      flags: binary.readInt16(),
-    }
+    const name = binary.readString(64)
+
+    binary.readInt16() // idx - always 0
+
+    const flags = binary.readInt16()
 
     binary.readVector3() // initPos - the same as pos with only 1 instance of being different on level 6:
     // initPos: { x: -2647.48486328125, y: -0.5400390625, z: 6539.69091796875 }
     //     pos: { x: -2647.48486328125, y: -0.5400390625, z: 6539.6904296875 }
 
-    const dataBlock2 = {
+    const dataBlock = {
       pos: binary.readVector3(),
       numberOfPoints: binary.readInt32(),
       color: Color.readFrom(binary, 'rgb'),
@@ -64,8 +63,9 @@ export class ZoneAndPathHeader {
     binary.readString(128) // cpad - ?
 
     return {
-      ...dataBlock1,
-      ...dataBlock2,
+      name,
+      flags,
+      ...dataBlock,
       height,
       ambiance,
     }
@@ -78,7 +78,7 @@ export class ZoneAndPathHeader {
     const pos = zone.points[0].pos
 
     binary.writeString(zone.name, 64)
-    binary.writeInt16(zone.idx)
+    binary.writeInt16(0) // idx
     binary.writeInt16(zone.flags)
     binary.writeVector3(pos) // initPos
     binary.writeVector3(pos)
@@ -88,15 +88,15 @@ export class ZoneAndPathHeader {
     binary.writeFloat32(zone.reverb)
     binary.writeFloat32(zone.ambianceMaxVolume)
 
-    binary.writeFloat32Array(repeat(0, 26))
+    binary.writeFloat32Array(repeat(0, 26)) // fpad
 
     binary.writeInt32('height' in zone ? zone.height : 0)
 
-    binary.writeInt32Array(repeat(0, 31))
+    binary.writeInt32Array(repeat(0, 31)) // lpad
 
     binary.writeString(zone.ambiance, 128)
 
-    binary.writeString('', 128)
+    binary.writeString('', 128) // cpad
 
     return buffer
   }
