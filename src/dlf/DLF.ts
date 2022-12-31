@@ -4,15 +4,25 @@ import { times } from '../common/helpers'
 import { ArxDlfHeader, DlfHeader } from './DlfHeader'
 import { ArxFog, Fog } from './Fog'
 import { ArxInteractiveObject, InteractiveObject } from './InteactiveObject'
-import { ArxZoneAndPathHeader, ZoneAndPathHeader } from './ZoneAndPathHeader'
+import { ArxZoneAndPathFlags, ZoneAndPathHeader } from './ZoneAndPathHeader'
 import { ArxZoneAndPathPoint, ZoneAndPathPoint } from './ZoneAndPoint'
 import { ArxScene, Scene } from './Scene'
+import { ArxColor } from '../common/Color'
 
-export type ArxZone = Omit<ArxZoneAndPathHeader, 'numberOfPoints' | 'pos'> & {
+export type ArxZone = {
+  name: string
   points: ArxZoneAndPathPoint[]
+  height: number
+  backgroundColor?: ArxColor
+  drawDistance?: number
+  ambience?: string
+  ambienceMaxVolume?: number
 }
 
-export type ArxPath = Omit<ArxZone, 'height' | 'flags' | 'color' | 'ambience' | 'ambienceMaxVolume' | 'drawDistance'>
+export type ArxPath = {
+  name: string
+  points: ArxZoneAndPathPoint[]
+}
 
 export type ArxDLF = {
   header: Omit<ArxDlfHeader, 'numberOfInteractiveObjects' | 'numberOfFogs' | 'numberOfZonesAndPaths'>
@@ -43,7 +53,8 @@ export class DLF {
     file.readInt8Array(numberOfNodes * (204 + numberOfNodeLinks * 64))
 
     times(() => {
-      const { numberOfPoints, pos, height, name, ...header } = ZoneAndPathHeader.readFrom(file)
+      const { numberOfPoints, pos, height, name, backgroundColor, ambience, ambienceMaxVolume, drawDistance, flags } =
+        ZoneAndPathHeader.readFrom(file)
 
       const points = times(() => ZoneAndPathPoint.readFrom(file, pos), numberOfPoints)
 
@@ -55,7 +66,14 @@ export class DLF {
       if (height === 0) {
         data.paths.push({ name, points })
       } else {
-        data.zones.push({ name, points, height, ...header })
+        data.zones.push({
+          name,
+          points,
+          height,
+          ...(flags & ArxZoneAndPathFlags.SetAmbience ? { ambience, ambienceMaxVolume } : {}),
+          ...(flags & ArxZoneAndPathFlags.SetBackgroundColor ? { backgroundColor } : {}),
+          ...(flags & ArxZoneAndPathFlags.SetDrawDistance ? { drawDistance } : {}),
+        })
       }
     }, numberOfZonesAndPaths)
 

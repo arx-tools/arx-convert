@@ -26,7 +26,7 @@ export type ArxZoneAndPathHeader = {
   flags: ArxZoneAndPathFlags
   pos: ArxVector3
   numberOfPoints: number
-  color: ArxColor
+  backgroundColor: ArxColor
   drawDistance: number
   ambienceMaxVolume: number
   height: number
@@ -48,7 +48,7 @@ export class ZoneAndPathHeader {
     const dataBlock = {
       pos: binary.readVector3(),
       numberOfPoints: binary.readInt32(),
-      color: Color.readFrom(binary, 'rgb'),
+      backgroundColor: Color.readFrom(binary, 'rgb'),
       drawDistance: binary.readFloat32(),
     }
 
@@ -84,16 +84,33 @@ export class ZoneAndPathHeader {
 
     binary.writeString(zoneOrPath.name, 64)
     binary.writeInt16(0) // idx
-    binary.writeInt16('flags' in zoneOrPath ? zoneOrPath.flags : ArxZoneAndPathFlags.None)
+
+    let flags: ArxZoneAndPathFlags = ArxZoneAndPathFlags.None
+    if ('backgroundColor' in zoneOrPath) {
+      flags = flags | ArxZoneAndPathFlags.SetBackgroundColor
+    }
+    if ('drawDistance' in zoneOrPath) {
+      flags = flags | ArxZoneAndPathFlags.SetDrawDistance
+    }
+    if ('ambience' in zoneOrPath && 'ambienceMaxVolume' in zoneOrPath) {
+      flags = flags | ArxZoneAndPathFlags.SetAmbience
+    }
+
+    binary.writeInt16(flags)
     binary.writeVector3(pos) // initPos
     binary.writeVector3(pos)
     binary.writeInt32(zoneOrPath.points.length)
     binary.writeBuffer(
-      Color.accumulateFrom('color' in zoneOrPath ? zoneOrPath.color : { r: 0, g: 0, b: 0, a: 1 }, 'rgb'),
+      Color.accumulateFrom(
+        'backgroundColor' in zoneOrPath
+          ? zoneOrPath?.backgroundColor ?? { r: 0, g: 0, b: 0, a: 1 }
+          : { r: 0, g: 0, b: 0, a: 1 },
+        'rgb',
+      ),
     )
-    binary.writeFloat32('drawDistance' in zoneOrPath ? zoneOrPath.drawDistance : 2800) // for paths it's 80% 2800, 20% 0
+    binary.writeFloat32('drawDistance' in zoneOrPath ? zoneOrPath?.drawDistance ?? 2800 : 2800) // for paths it's 80% 2800, 20% 0
     binary.writeFloat32(0) // reverb
-    binary.writeFloat32('ambienceMaxVolume' in zoneOrPath ? zoneOrPath.ambienceMaxVolume : 100)
+    binary.writeFloat32('ambienceMaxVolume' in zoneOrPath ? zoneOrPath?.ambienceMaxVolume ?? 100 : 100)
 
     binary.writeFloat32Array(repeat(0, 26)) // fpad
 
@@ -101,7 +118,7 @@ export class ZoneAndPathHeader {
 
     binary.writeInt32Array(repeat(0, 31)) // lpad
 
-    binary.writeString('ambience' in zoneOrPath ? zoneOrPath.ambience : 'NONE', 128)
+    binary.writeString('ambience' in zoneOrPath ? zoneOrPath?.ambience ?? 'NONE' : 'NONE', 128)
 
     binary.writeString('', 128) // cpad
 

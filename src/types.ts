@@ -49,7 +49,6 @@ export type { ArxLlfHeader } from './llf/LlfHeader'
 //  enums
 // ----------------
 
-export { ArxZoneAndPathFlags } from './dlf/ZoneAndPathHeader'
 export { ArxZoneAndPathPointType } from './dlf/ZoneAndPoint'
 export { ArxAnchorFlags } from './fts/AnchorData'
 export { ArxPolygonFlags } from './fts/Polygon'
