@@ -1,5 +1,4 @@
-import { TextIO } from './TextIO'
-import { repeat } from './helpers'
+import { decodeText, encodeText, repeat } from './helpers'
 import { LITTLE_ENDIAN, TRUNCATE_ZERO_BYTES, KEEP_ZERO_BYTES, BYTE_OF_AN_UNKNOWN_CHAR } from './constants'
 import { ArxQuaternion, ArxRotation, ArxVector3 } from './types'
 
@@ -204,7 +203,7 @@ export class BinaryIO extends DataView {
       }
     }
 
-    return TextIO.decode(codes)
+    return decodeText(codes)
   }
 
   writeString(str: string, length: number) {
@@ -213,7 +212,7 @@ export class BinaryIO extends DataView {
       const charCodes = repeat(0, length)
 
       // replacing 0s in charCodes one by one from left to right
-      TextIO.encode(str).forEach((charCode, index) => {
+      encodeText(str).forEach((charCode, index) => {
         charCodes[index] = charCode
       })
 
@@ -222,7 +221,7 @@ export class BinaryIO extends DataView {
       })
     } else {
       // otherwise its a 0 terminated c string
-      TextIO.encode(str).forEach((charCode) => {
+      encodeText(str).forEach((charCode) => {
         this.writeUint8(charCode)
       })
       this.writeUint8(0)

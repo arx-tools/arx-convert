@@ -1,6 +1,6 @@
 import { ArxPolygon, ArxPolygonFlags } from '../fts/Polygon'
 import { ArxVertex } from '../fts/Vertex'
-import { COORDS_THAT_ROUND_UP } from './constants'
+import { BYTE_OF_AN_UNKNOWN_CHAR, CHARS, CHAR_OF_AN_UNKNOWN_BYTE, CODES, COORDS_THAT_ROUND_UP } from './constants'
 import { QuadrupleOf } from './types'
 
 export const maxAll = (arr: number[]) => {
@@ -64,4 +64,14 @@ export const getCellCoords = ([a, b, c]: QuadrupleOf<ArxVertex>): [number, numbe
   let cellY = doCoordsNeedToBeRoundedUp([a.z, b.z, c.z]) ? Math.ceil(z / 100) : Math.floor(z / 100)
 
   return [cellX, cellY]
+}
+
+export const decodeText = (bytes: number[]) => {
+  const chars = bytes.map((byte) => CHARS[byte] ?? CHAR_OF_AN_UNKNOWN_BYTE)
+  return chars.join('')
+}
+
+export const encodeText = (text: string) => {
+  const chars = text.split('')
+  return chars.map((char) => CODES[char] ?? BYTE_OF_AN_UNKNOWN_CHAR)
 }
