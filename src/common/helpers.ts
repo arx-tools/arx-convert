@@ -1,4 +1,4 @@
-import { ArxPolygon } from '../fts/Polygon'
+import { ArxPolygon, ArxPolygonFlags } from '../fts/Polygon'
 import { ArxVertex } from '../fts/Vertex'
 import { COORDS_THAT_ROUND_UP } from './constants'
 import { QuadrupleOf } from './types'
@@ -12,10 +12,6 @@ export const maxAll = (arr: number[]) => {
   }
 
   return max
-}
-
-export const isZeroVertex = ({ x, y, z }: { x: number; y: number; z: number }) => {
-  return Math.abs(x) < Number.EPSILON && Math.abs(y) < Number.EPSILON && Math.abs(z) < Number.EPSILON
 }
 
 /**
@@ -35,21 +31,24 @@ export const repeat = <T>(value: T, repetitions: number): T[] => {
   return Array(repetitions).fill(value)
 }
 
-export const doCoordsNeedToBeRoundedUp = (coords: [number, number, number]) => {
+const doCoordsNeedToBeRoundedUp = (coords: [number, number, number]) => {
   const [a, b, c] = coords.sort((a, b) => a - b)
   return COORDS_THAT_ROUND_UP.find(([x, y, z]) => a === x && b === y && c === z) !== undefined
+}
+
+const isQuad = (polygon: ArxPolygon) => {
+  return (polygon.flags & ArxPolygonFlags.Quad) > 0
 }
 
 export const addLightIndex = (polygons: ArxPolygon[]) => {
   let idx = 0
 
   return polygons.map((polygon) => {
-    const isQuad = !isZeroVertex(polygon.vertices[3])
-
     polygon.vertices[0].llfColorIdx = idx++
     polygon.vertices[1].llfColorIdx = idx++
     polygon.vertices[2].llfColorIdx = idx++
-    if (isQuad) {
+
+    if (isQuad(polygon)) {
       polygon.vertices[3].llfColorIdx = idx++
     }
 
