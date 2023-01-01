@@ -190,7 +190,7 @@ export class BinaryIO extends DataView {
 
     if (length !== undefined) {
       for (let i = 0; i < length; i++) {
-        let c = this.readUint8()
+        const c = this.readUint8()
         if (c !== 0 || truncateZeroBytes === KEEP_ZERO_BYTES) {
           codes.push(c === 0 ? BYTE_OF_AN_UNKNOWN_CHAR : c)
         }

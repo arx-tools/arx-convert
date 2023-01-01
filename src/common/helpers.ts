@@ -60,8 +60,8 @@ export const getCellCoords = ([a, b, c]: QuadrupleOf<ArxVertex>): [number, numbe
   const x = (a.x + b.x + c.x) / 3
   const z = (a.z + b.z + c.z) / 3
 
-  let cellX = doCoordsNeedToBeRoundedUp([a.x, b.x, c.x]) ? Math.ceil(x / 100) : Math.floor(x / 100)
-  let cellY = doCoordsNeedToBeRoundedUp([a.z, b.z, c.z]) ? Math.ceil(z / 100) : Math.floor(z / 100)
+  const cellX = doCoordsNeedToBeRoundedUp([a.x, b.x, c.x]) ? Math.ceil(x / 100) : Math.floor(x / 100)
+  const cellY = doCoordsNeedToBeRoundedUp([a.z, b.z, c.z]) ? Math.ceil(z / 100) : Math.floor(z / 100)
 
   return [cellX, cellY]
 }
