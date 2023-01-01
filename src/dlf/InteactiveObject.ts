@@ -37,10 +37,10 @@ export class InteractiveObject {
     binary.writeVector3(interactiveObject.pos)
     binary.writeRotation(interactiveObject.angle)
     binary.writeInt32(interactiveObject.identifier)
-    binary.writeInt32(0)
+    binary.writeInt32(0) // flags
 
-    binary.writeInt32Array(repeat(0, 14))
-    binary.writeFloat32Array(repeat(0, 16))
+    binary.writeInt32Array(repeat(0, 14)) // pad
+    binary.writeFloat32Array(repeat(0, 16)) // fpad
 
     return buffer
   }

@@ -18,7 +18,7 @@ export class RoomData {
       numberOfPolygons: binary.readInt32(),
     }
 
-    binary.readInt32Array(6)
+    binary.readInt32Array(6) // padd - ?
 
     return data
   }
@@ -29,7 +29,7 @@ export class RoomData {
 
     binary.writeInt32(room.portals.length)
     binary.writeInt32(room.polygons.length)
-    binary.writeInt32Array(repeat(0, 6))
+    binary.writeInt32Array(repeat(0, 6)) // padd
 
     return buffer
   }

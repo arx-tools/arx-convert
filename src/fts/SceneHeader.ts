@@ -24,7 +24,7 @@ export class SceneHeader {
 
     const numberOfTextures = binary.readInt32()
 
-    binary.readInt32() // number of polygons - we calculate that from cells
+    binary.readInt32() // number of polygons - we calculate that by summing cell.numberOfPolygon values
 
     const numberOfAnchors = binary.readInt32()
 

@@ -28,8 +28,8 @@ export class Scene {
     const binary = new BinaryIO(buffer.buffer)
 
     binary.writeString(Scene.levelIdxToPath(scene.levelIdx), 512)
-    binary.writeInt32Array(repeat(0, 16))
-    binary.writeFloat32Array(repeat(0, 16))
+    binary.writeInt32Array(repeat(0, 16)) // pad
+    binary.writeFloat32Array(repeat(0, 16)) // fpad
 
     return buffer
   }

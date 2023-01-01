@@ -9,28 +9,36 @@ export type ArxLightingHeader = {
 }
 
 export class LightingHeader {
-  static readFrom(binary: BinaryIO) {
-    const data: ArxLightingHeader = {
-      numberOfColors: binary.readInt32(),
-    }
+  static readFrom(binary: BinaryIO): ArxLightingHeader {
+    const numberOfColors = binary.readInt32()
 
-    binary.readInt32() // viewMode - unused
-    binary.readInt32() // modeLight - unused
+    binary.readInt32() // view mode - unused
+
+    binary.readInt32() // mode light - unused
+
     binary.readInt32() // lpad - ?
 
-    return data
+    return {
+      numberOfColors,
+    }
   }
 
   static accumulateFrom(colors: Color[]) {
     const buffer = Buffer.alloc(LightingHeader.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
-    binary.writeInt32Array([colors.length, 0, 63, 0])
+    binary.writeInt32(colors.length)
+
+    binary.writeInt32(0) // view mode
+
+    binary.writeInt32(63) // mode light
+
+    binary.writeInt32(0) // lpad
 
     return buffer
   }
 
   static sizeOf() {
-    return BinaryIO.sizeOfInt32Array(4)
+    return BinaryIO.sizeOfInt32() * 4
   }
 }

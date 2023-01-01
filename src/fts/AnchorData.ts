@@ -5,9 +5,13 @@ import { ArxAnchor } from './Anchor'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L113
+ * @see https://github.com/arx/ArxLibertatis/blob/ArxFatalis-1.21/Sources/Include/EERIEPoly.h#L149
  */
 export enum ArxAnchorFlags {
   None = 0,
+  // GreenDraw = 1 << 0, // removed in Arx Libertatis, never used in files
+  // ? = 1 << 1, // no info on this flag, was probably removed earlier by Arkane
+  // ? = 1 << 2, // no info on this flag, was probably removed earlier by Arkane
   Blocked = 1 << 3,
 }
 

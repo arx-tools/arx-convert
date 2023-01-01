@@ -17,16 +17,16 @@ export type ArxLlfHeader = {
 export class LlfHeader {
   static readFrom(binary: BinaryIO): ArxLlfHeader {
     binary.readFloat32() // version - always 1.44
-    binary.readString(16) // identifier - always DANAE_LLH_FILE
+    binary.readString(16) // identifier - always "DANAE_LLH_FILE"
 
-    const dataBlock1 = {
+    const dataBlock = {
       lastUser: binary.readString(256),
       time: binary.readInt32(),
       numberOfLights: binary.readInt32(),
     }
 
-    binary.readInt32() // numberOfShadowPolygons - always 0
-    binary.readInt32() // numberOfIgnoredPolygons - always 0
+    binary.readInt32() // number of shadow polygons - always 0
+    binary.readInt32() // number of ignored polygons - always 0
 
     const numberOfBackgroundPolygons = binary.readInt32()
 
@@ -36,7 +36,7 @@ export class LlfHeader {
     binary.readInt32Array(256) // bpad - ?
 
     return {
-      ...dataBlock1,
+      ...dataBlock,
       numberOfBackgroundPolygons,
     }
   }
@@ -50,14 +50,14 @@ export class LlfHeader {
     binary.writeString(json.header.lastUser, 256)
     binary.writeInt32(json.header.time)
     binary.writeInt32(json.lights.length)
-    binary.writeInt32(0) // numberOfShadowPolygons
-    binary.writeInt32(0) // numberOfIgnoredPolygons
+    binary.writeInt32(0) // number of shadow polygons
+    binary.writeInt32(0) // number of ignored polygons
     binary.writeInt32(json.header.numberOfBackgroundPolygons)
 
-    binary.writeInt32Array(repeat(0, 256))
-    binary.writeFloat32Array(repeat(0, 256))
-    binary.writeString('', 4096)
-    binary.writeInt32Array(repeat(0, 256))
+    binary.writeInt32Array(repeat(0, 256)) // pad
+    binary.writeFloat32Array(repeat(0, 256)) // fpad
+    binary.writeString('', 4096) // cpad
+    binary.writeInt32Array(repeat(0, 256)) // bpad
 
     return buffer
   }

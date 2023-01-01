@@ -41,7 +41,7 @@ export class PortalPolygon {
   static readFrom(binary: BinaryIO): ArxPortalPolygon {
     binary.readInt32() // type - in 2 occasions on level 2 it's 0, all other cases it's 64 (ArxPolygonFlags.Quad)
 
-    const dataBlock1 = {
+    const dataBlock = {
       min: binary.readVector3(),
       max: binary.readVector3(),
       norm: binary.readVector3(),
@@ -49,10 +49,9 @@ export class PortalPolygon {
       vertices: times(() => TextureVertex.readFrom(binary), 4) as QuadrupleOf<ArxTextureVertex>,
     }
 
-    binary.readUint8Array(32 * 4) // unused - can be either HARDCODED_DATA_TYPE
-
+    binary.readUint8Array(32 * 4) // "unused" - can be one of HARDCODED_DATA_TYPE variants
     binary.readVector3Array(4) as QuadrupleOf<ArxVector3> // normals - always 0/0/0 * 4
-    binary.readInt32() // textureContainerId - always 0
+    binary.readInt32() // texture container id - always 0
 
     const center = binary.readVector3()
 
@@ -62,7 +61,7 @@ export class PortalPolygon {
     binary.readInt16() // misc - always 0
 
     return {
-      ...dataBlock1,
+      ...dataBlock,
       center,
     }
   }
@@ -84,7 +83,7 @@ export class PortalPolygon {
       ),
     )
 
-    binary.writeUint8Array(levelIdx < 10 ? HARDCODED_DATA_TYPE1 : HARDCODED_DATA_TYPE2) // unused
+    binary.writeUint8Array(levelIdx < 10 ? HARDCODED_DATA_TYPE1 : HARDCODED_DATA_TYPE2) // "unused"
 
     binary.writeVector3Array([
       // normals

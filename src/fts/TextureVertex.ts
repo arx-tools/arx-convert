@@ -47,14 +47,17 @@ export class TextureVertex {
     const buffer = Buffer.alloc(TextureVertex.sizeOf())
     const binary = new BinaryIO(buffer.buffer)
 
+    const isFirstVertexOfPolygon = idx === 0
+    const isLastVertexOfPolygon = idx === 3
+
+    const { color, specular, tu, tv } = isLastVertexOfPolygon ? HARDCODED_DATA_TYPE2 : HARDCODED_DATA_TYPE1
+
     binary.writeVector3(vertex.pos)
-    binary.writeFloat32(idx === 0 ? vertex.rhw : 0)
-    binary.writeBuffer(Color.accumulateFrom(idx < 3 ? HARDCODED_DATA_TYPE1.color : HARDCODED_DATA_TYPE2.color, 'abgr'))
-    binary.writeBuffer(
-      Color.accumulateFrom(idx < 3 ? HARDCODED_DATA_TYPE1.specular : HARDCODED_DATA_TYPE2.specular, 'abgr'),
-    )
-    binary.writeFloat32(idx < 3 ? HARDCODED_DATA_TYPE1.tu : HARDCODED_DATA_TYPE2.tu)
-    binary.writeFloat32(idx < 3 ? HARDCODED_DATA_TYPE1.tv : HARDCODED_DATA_TYPE2.tv)
+    binary.writeFloat32(isFirstVertexOfPolygon ? vertex.rhw : 0)
+    binary.writeBuffer(Color.accumulateFrom(color, 'abgr'))
+    binary.writeBuffer(Color.accumulateFrom(specular, 'abgr'))
+    binary.writeFloat32(tu)
+    binary.writeFloat32(tv)
 
     return buffer
   }
