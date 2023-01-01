@@ -11,7 +11,6 @@ import { ArxFTS } from './FTS'
 export type ArxSceneHeader = {
   numberOfTextures: number
   numberOfAnchors: number
-  playerPosition: ArxVector3
   mScenePosition: ArxVector3
   numberOfPortals: number
   numberOfRooms: number
@@ -25,12 +24,15 @@ export class SceneHeader {
 
     const numberOfTextures = binary.readInt32()
 
-    binary.readInt32() // numberOfPolygons - we calculate that from cells
+    binary.readInt32() // number of polygons - we calculate that from cells
+
+    const numberOfAnchors = binary.readInt32()
+
+    binary.readVector3() // player position - doesn't seem to do anything
 
     return {
       numberOfTextures,
-      numberOfAnchors: binary.readInt32(),
-      playerPosition: binary.readVector3(),
+      numberOfAnchors,
       mScenePosition: binary.readVector3(),
       numberOfPortals: binary.readInt32(),
       numberOfRooms: binary.readInt32() + 1, // rooms are 1 indexed, because an empty room is reserved for room #0
@@ -49,7 +51,7 @@ export class SceneHeader {
     binary.writeInt32(json.textureContainers.length)
     binary.writeInt32(json.polygons.length)
     binary.writeInt32(json.anchors.length)
-    binary.writeVector3(json.sceneHeader.playerPosition)
+    binary.writeVector3({ x: 0, y: 0, z: 0 }) // player position
     binary.writeVector3(json.sceneHeader.mScenePosition)
     binary.writeInt32(json.portals.length)
     binary.writeInt32(numberOfRooms)
