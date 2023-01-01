@@ -50,6 +50,5 @@ export type { ArxLlfHeader } from './llf/LlfHeader'
 // ----------------
 
 export { ArxZoneAndPathPointType } from './dlf/ZoneAndPoint'
-export { ArxAnchorFlags } from './fts/AnchorData'
 export { ArxPolygonFlags } from './fts/Polygon'
 export { ArxLightFlags } from './llf/Light'

@@ -37,7 +37,7 @@ const doCoordsNeedToBeRoundedUp = (coords: [number, number, number]) => {
 }
 
 const isQuad = (polygon: ArxPolygon) => {
-  return (polygon.flags & ArxPolygonFlags.Quad) > 0
+  return (polygon.flags & ArxPolygonFlags.Quad) !== 0
 }
 
 export const addLightIndex = (polygons: ArxPolygon[]) => {

@@ -23,18 +23,26 @@ export type ArxAnchorData = {
   radius: number
   height: number
   numberOfLinkedAnchors: number
-  flags: ArxAnchorFlags
+  isBlocked: boolean
 }
 
 export class AnchorData {
-  static readFrom(binary: BinaryIO): ArxAnchorData {
-    return {
+  static readFrom(binary: BinaryIO) {
+    const data: ArxAnchorData = {
       pos: binary.readVector3(),
       radius: binary.readFloat32(),
       height: binary.readFloat32(),
       numberOfLinkedAnchors: binary.readInt16(),
-      flags: binary.readInt16(),
+      isBlocked: false,
     }
+
+    const flags = binary.readInt16()
+
+    if ((flags & ArxAnchorFlags.Blocked) !== 0) {
+      data.isBlocked = true
+    }
+
+    return data
   }
 
   static accumulateFrom(anchor: ArxAnchor) {
@@ -45,7 +53,13 @@ export class AnchorData {
     binary.writeFloat32(anchor.data.radius)
     binary.writeFloat32(anchor.data.height)
     binary.writeInt16(anchor.linkedAnchors.length)
-    binary.writeInt16(anchor.data.flags)
+
+    let flags = 0
+    if (anchor.data.isBlocked) {
+      flags = flags | ArxAnchorFlags.Blocked
+    }
+
+    binary.writeInt16(flags)
 
     return buffer
   }
