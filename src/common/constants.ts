@@ -1,13 +1,5 @@
 import { TripleOf } from './types'
 
-export const SUPPORTED_ARX_FORMATS = ['dlf', 'fts', 'llf', 'ftl', 'tea'] as const
-export const SUPPORTED_DATA_FORMATS = ['json', 'yaml', 'yml'] as const
-export const SUPPORTED_FORMATS = [...SUPPORTED_ARX_FORMATS, ...SUPPORTED_DATA_FORMATS] as const
-
-export type SupportedArxFormat = typeof SUPPORTED_ARX_FORMATS[number]
-export type SupportedDataFormat = typeof SUPPORTED_DATA_FORMATS[number]
-export type SupportedFormat = typeof SUPPORTED_FORMATS[number]
-
 export const FTL_VERSION = 0.83257
 export const FTS_VERSION = 0.14100000262260437
 export const DANAE_VERSION = 1.440000057220459

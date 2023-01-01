@@ -8,7 +8,7 @@ import {
   SUPPORTED_ARX_FORMATS,
   SUPPORTED_DATA_FORMATS,
   SUPPORTED_FORMATS,
-} from '../common/constants'
+} from './constants'
 
 export const getPackageVersion = async () => {
   try {
