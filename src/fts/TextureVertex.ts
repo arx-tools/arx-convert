@@ -19,11 +19,18 @@ const HARDCODED_DATA_TYPE2 = {
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/GraphicsFormat.h#L82
+ * @see https://learn.microsoft.com/en-us/previous-versions/ms896915(v=msdn.10)
  */
 export type ArxTextureVertex = {
+  /**
+   * sx, sy and sz of D3DTLVERTEX (screen coordinates)
+   */
   pos: ArxVector3
   /**
-   * portal.bounds.radius - ?
+   * portal bounds radius - used by ARX_PORTALS_Frustrum_ComputeRoom
+   *
+   * [r]eciprocal of [h]omogeneous [w] from homogeneous coordinates (x, y, z, w)
+   * @see https://learn.microsoft.com/en-us/previous-versions/ms896915(v=msdn.10)#members
    */
   rhw: number
 }
