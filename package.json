@@ -32,14 +32,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/meszaros-lajos-gyorgy/arx-convert.git"
+    "url": "git+https://github.com/arx-tools/arx-convert.git"
   },
   "author": "Lajos Meszaros <m_lajos@hotmail.com>",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/meszaros-lajos-gyorgy/arx-convert/issues"
+    "url": "https://github.com/arx-tools/arx-convert/issues"
   },
-  "homepage": "https://github.com/meszaros-lajos-gyorgy/arx-convert#readme",
+  "homepage": "https://github.com/arx-tools/arx-convert#readme",
   "dependencies": {
     "minimist-lite": "^2.2.1",
     "yaml": "^2.1.3"
