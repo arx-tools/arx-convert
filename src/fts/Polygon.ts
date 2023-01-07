@@ -17,7 +17,8 @@ export enum ArxPolygonFlags {
   Glow = 1 << 4,
   Ignore = 1 << 5,
   Quad = 1 << 6,
-  // Tiled = 1 << 7, // unused
+  /** unused by arx */
+  Tiled = 1 << 7,
   Metal = 1 << 8,
   Hide = 1 << 9,
   Stone = 1 << 10,
