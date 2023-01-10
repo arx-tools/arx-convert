@@ -32,7 +32,6 @@ export type ArxLight = {
   fallStart: number
   fallEnd: number
   intensity: number
-  i: number
   exFlicker: ArxColor
   exRadius: number
   exFrequency: number
@@ -44,13 +43,17 @@ export type ArxLight = {
 
 export class Light {
   static readFrom(binary: BinaryIO): ArxLight {
-    const dataBlock = {
+    const dataBlock1 = {
       pos: binary.readVector3(),
       color: Color.readFrom(binary, 'rgb'),
       fallStart: binary.readFloat32(),
       fallEnd: binary.readFloat32(),
       intensity: binary.readFloat32(),
-      i: binary.readFloat32(),
+    }
+
+    binary.readFloat32() // i - always 0
+
+    const dataBlock2 = {
       exFlicker: Color.readFrom(binary, 'rgb'),
       exRadius: binary.readFloat32(),
       exFrequency: binary.readFloat32(),
@@ -66,7 +69,8 @@ export class Light {
     binary.readInt32Array(31) // lpad - ?
 
     return {
-      ...dataBlock,
+      ...dataBlock1,
+      ...dataBlock2,
       flags,
     }
   }
@@ -80,7 +84,9 @@ export class Light {
     binary.writeFloat32(light.fallStart)
     binary.writeFloat32(light.fallEnd)
     binary.writeFloat32(light.intensity)
-    binary.writeFloat32(light.i)
+
+    binary.writeFloat32(0) // i
+
     binary.writeBuffer(Color.accumulateFrom(light.exFlicker, 'rgb'))
     binary.writeFloat32(light.exRadius)
     binary.writeFloat32(light.exFrequency)
