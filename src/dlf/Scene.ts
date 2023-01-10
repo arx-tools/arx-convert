@@ -10,17 +10,15 @@ export type ArxScene = {
 }
 
 export class Scene {
-  static readFrom(binary: BinaryIO) {
-    const name = binary.readString(512)
-
-    const data: ArxScene = {
-      levelIdx: Scene.pathToLevelIdx(name),
-    }
+  static readFrom(binary: BinaryIO): ArxScene {
+    const levelIdx = Scene.pathToLevelIdx(binary.readString(512))
 
     binary.readInt32Array(16) // pad - ?
     binary.readFloat32Array(16) // fpad - ?
 
-    return data
+    return {
+      levelIdx,
+    }
   }
 
   static accumulateFrom(scene: ArxScene) {
