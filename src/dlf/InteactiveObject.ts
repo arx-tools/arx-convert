@@ -19,7 +19,7 @@ export class InteractiveObject {
       name: binary.readString(512),
       pos: binary.readVector3(),
       angle: binary.readRotation(),
-      identifier: binary.readInt32(), // could also be a 4 byte string?
+      identifier: binary.readInt32(),
     }
 
     binary.readInt32() // flags - always 0
