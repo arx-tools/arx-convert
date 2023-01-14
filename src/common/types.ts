@@ -29,3 +29,18 @@ export type ArxQuaternion = {
 export type TripleOf<T> = [T, T, T]
 
 export type QuadrupleOf<T> = [T, T, T, T]
+
+/**
+ * Make the specified properties of a type optional
+ *
+ * @see https://stackoverflow.com/a/61108377/1806628
+ */
+export type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
+
+/**
+ * Forces vscode (and hopefully other IDEs too) to show the computed properties
+ * of the given type, which is helpful when chaining a lot of generics
+ *
+ * @see https://github.com/microsoft/vscode/issues/94679#issuecomment-755194161
+ */
+export type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never

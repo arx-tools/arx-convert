@@ -4,25 +4,21 @@ import { times } from '../common/helpers'
 import { ArxDlfHeader, DlfHeader } from './DlfHeader'
 import { ArxFog, Fog } from './Fog'
 import { ArxInteractiveObject, InteractiveObject } from './InteactiveObject'
-import { ArxZoneAndPathFlags, ZoneAndPathHeader } from './ZoneAndPathHeader'
+import { ArxZoneAndPathFlags, ArxZoneAndPathHeader, ZoneAndPathHeader } from './ZoneAndPathHeader'
 import { ArxZoneAndPathPoint, ZoneAndPathPoint } from './ZoneAndPathPoint'
 import { ArxScene, Scene } from './Scene'
-import { ArxColor } from '../common/Color'
+import { Expand, Optional } from '../common/types'
 
-export type ArxZone = {
-  name: string
-  points: ArxZoneAndPathPoint[]
-  height: number
-  backgroundColor?: ArxColor
-  drawDistance?: number
-  ambience?: string
-  ambienceMaxVolume?: number
-}
+export type ArxZone = Expand<
+  Optional<
+    Omit<ArxZoneAndPathHeader, 'numberOfPoints' | 'pos' | 'flags'>,
+    'backgroundColor' | 'ambience' | 'ambienceMaxVolume' | 'drawDistance'
+  > & {
+    points: ArxZoneAndPathPoint[]
+  }
+>
 
-export type ArxPath = {
-  name: string
-  points: ArxZoneAndPathPoint[]
-}
+export type ArxPath = Pick<ArxZone, 'name' | 'points'>
 
 export type ArxDLF = {
   header: Omit<ArxDlfHeader, 'numberOfInteractiveObjects' | 'numberOfFogs' | 'numberOfZonesAndPaths'>
