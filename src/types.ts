@@ -45,6 +45,11 @@ export type { ArxLlfHeader } from '@llf/LlfHeader'
 // export type { ArxKeyFrame, ArxTEA, ArxTheaSample } from '@tea/TEA'
 // export type { ArxTeaHeader } from '@tea/TeaHeader'
 
+export type { ArxAMB } from '@amb/AMB'
+export type { ArxTrack } from '@amb/Track'
+export type { ArxKey } from '@amb/Key'
+export type { ArxSetting } from '@amb/Setting'
+
 // ----------------
 //  enums
 // ----------------
@@ -52,3 +57,5 @@ export type { ArxLlfHeader } from '@llf/LlfHeader'
 export { ArxZoneAndPathPointType } from '@dlf/ZoneAndPathPoint'
 export { ArxPolygonFlags } from '@fts/Polygon'
 export { ArxLightFlags } from '@llf/Light'
+export { ArxTrackFlags } from '@amb/Track'
+export { ArxSettingFlag } from '@amb/Setting'

@@ -191,25 +191,25 @@ export class BinaryIO extends DataView {
   ) {
     const codes: number[] = []
 
-    if (length !== undefined) {
+    if (length === undefined) {
+      let c = this.readUint8()
+      while (c !== 0) {
+        codes.push(c)
+        c = this.readUint8()
+      }
+    } else {
       for (let i = 0; i < length; i++) {
         const c = this.readUint8()
         if (c !== 0 || truncateZeroBytes === KEEP_ZERO_BYTES) {
           codes.push(c === 0 ? BYTE_OF_AN_UNKNOWN_CHAR : c)
         }
       }
-    } else {
-      let c = this.readUint8()
-      while (c !== 0) {
-        codes.push(c)
-        c = this.readUint8()
-      }
     }
 
     return decodeText(codes)
   }
 
-  writeString(str: string, length: number) {
+  writeString(str: string, length?: number) {
     // if length is given we assume a fixed length string
     if (length !== undefined) {
       const charCodes = repeat(0, length)
@@ -334,6 +334,10 @@ export class BinaryIO extends DataView {
 
   static sizeOfString(length: number) {
     return length
+  }
+
+  static sizeOfNullTerminatedString(str: string) {
+    return str.length + 1
   }
 
   static sizeOfVector3() {

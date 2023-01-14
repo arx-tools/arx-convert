@@ -24,7 +24,8 @@
       "@fts/*": ["src/fts/*"],
       "@llf/*": ["src/llf/*"],
       "@ftl/*": ["src/ftl/*"],
-      "@tea/*": ["src/tea/*"]
+      "@tea/*": ["src/tea/*"],
+      "@amb/*": ["src/amb/*"]
     }
   },
   "include": ["src/**/*"],

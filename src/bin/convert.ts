@@ -13,7 +13,7 @@ import {
   isArxFormat,
   isDataFormat,
 } from '@bin/helpers'
-import { DLF, FTS, LLF, FTL, TEA } from '../index'
+import { DLF, FTS, LLF, FTL, TEA, AMB } from '../index'
 
 type AppArgs = {
   _: string[]
@@ -104,6 +104,9 @@ const args: AppArgs = minimist(process.argv.slice(2), {
     case 'tea':
       parsedIn = TEA.load(rawIn)
       break
+    case 'amb':
+      parsedIn = AMB.load(rawIn)
+      break
   }
 
   let rawOut: string | Buffer
@@ -129,6 +132,9 @@ const args: AppArgs = minimist(process.argv.slice(2), {
       break
     case 'tea':
       rawOut = TEA.save(parsedIn)
+      break
+    case 'amb':
+      rawOut = AMB.save(parsedIn)
       break
     default:
       rawOut = ''
