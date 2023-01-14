@@ -1,4 +1,4 @@
-export { getCellCoords } from '@common/helpers'
+export { getCellCoords } from '@fts/helpers'
 
 export type { TripleOf, QuadrupleOf, Optional, Expand } from '@common/types'
 

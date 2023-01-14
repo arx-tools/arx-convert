@@ -1,7 +1,7 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO'
 import { MAP_DEPTH_IN_CELLS, MAP_WIDTH_IN_CELLS } from '@common/constants'
-import { addLightIndex, getCellCoords, times } from '@common/helpers'
+import { times } from '@common/helpers'
 import { Anchor, ArxAnchor } from '@fts/Anchor'
 import { ArxCell, Cell } from '@fts/Cell'
 import { ArxFtsHeader, FtsHeader } from '@fts/FtsHeader'
@@ -12,6 +12,7 @@ import { ArxRoomDistance, RoomDistance } from '@fts/RoomDistance'
 import { ArxSceneHeader, SceneHeader } from '@fts/SceneHeader'
 import { ArxTextureContainer, TextureContainer } from '@fts/TextureContainer'
 import { ArxUniqueHeader, UniqueHeader } from '@fts/UniqueHeader'
+import { addLightIndex, getCellCoords } from './helpers'
 
 export type ArxFTS = {
   header: Omit<ArxFtsHeader, 'numberOfUniqueHeaders'>
