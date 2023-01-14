@@ -5,8 +5,8 @@ export const DANAE_VERSION = 1.440000057220459
 export const LITTLE_ENDIAN = true
 export const BIG_ENDIAN = false
 
-export const TRUNCATE_ZERO_BYTES = true
-export const KEEP_ZERO_BYTES = false
+export const TRUNCATE_ZERO_BYTES = 'truncate zero bytes'
+export const KEEP_ZERO_BYTES = 'keep zero bytes'
 
 export const MAP_WIDTH_IN_CELLS = 160
 export const MAP_DEPTH_IN_CELLS = 160

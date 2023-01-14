@@ -185,7 +185,10 @@ export class BinaryIO extends DataView {
     })
   }
 
-  readString(length?: number, truncateZeroBytes = TRUNCATE_ZERO_BYTES) {
+  readString(
+    length?: number,
+    truncateZeroBytes: typeof TRUNCATE_ZERO_BYTES | typeof KEEP_ZERO_BYTES = TRUNCATE_ZERO_BYTES,
+  ) {
     const codes: number[] = []
 
     if (length !== undefined) {
