@@ -5,7 +5,7 @@ import { ArxDlfHeader, DlfHeader } from './DlfHeader'
 import { ArxFog, Fog } from './Fog'
 import { ArxInteractiveObject, InteractiveObject } from './InteactiveObject'
 import { ArxZoneAndPathFlags, ZoneAndPathHeader } from './ZoneAndPathHeader'
-import { ArxZoneAndPathPoint, ZoneAndPathPoint } from './ZoneAndPoint'
+import { ArxZoneAndPathPoint, ZoneAndPathPoint } from './ZoneAndPathPoint'
 import { ArxScene, Scene } from './Scene'
 import { ArxColor } from '../common/Color'
 

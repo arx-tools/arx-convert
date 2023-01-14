@@ -11,7 +11,7 @@ export type { ArxDlfHeader } from './dlf/DlfHeader'
 export type { ArxFog } from './dlf/Fog'
 export type { ArxInteractiveObject } from './dlf/InteactiveObject'
 export type { ArxZoneAndPathHeader } from './dlf/ZoneAndPathHeader'
-export type { ArxZoneAndPathPoint } from './dlf/ZoneAndPoint'
+export type { ArxZoneAndPathPoint } from './dlf/ZoneAndPathPoint'
 export type { ArxScene } from './dlf/Scene'
 
 // export type { ArxFTL } from './ftl/FTL'
@@ -49,6 +49,6 @@ export type { ArxLlfHeader } from './llf/LlfHeader'
 //  enums
 // ----------------
 
-export { ArxZoneAndPathPointType } from './dlf/ZoneAndPoint'
+export { ArxZoneAndPathPointType } from './dlf/ZoneAndPathPoint'
 export { ArxPolygonFlags } from './fts/Polygon'
 export { ArxLightFlags } from './llf/Light'
