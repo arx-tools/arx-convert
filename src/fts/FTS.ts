@@ -12,7 +12,7 @@ import { ArxRoomDistance, RoomDistance } from '@fts/RoomDistance'
 import { ArxSceneHeader, SceneHeader } from '@fts/SceneHeader'
 import { ArxTextureContainer, TextureContainer } from '@fts/TextureContainer'
 import { ArxUniqueHeader, UniqueHeader } from '@fts/UniqueHeader'
-import { addLightIndex, getCellCoords } from './helpers'
+import { addLightIndex, getCellCoords } from '@fts/helpers'
 
 export type ArxFTS = {
   header: Omit<ArxFtsHeader, 'numberOfUniqueHeaders'>

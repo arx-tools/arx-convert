@@ -1,5 +1,7 @@
 import { TripleOf } from '@common/types'
 
+export const VERSION = 0.14100000262260437
+
 // for whatever reason the following coords create a polygon, which ends up in an incorrect cell
 // when I finish averaging them and rounding them down in an attempt to find which cell they should go in
 // probably some precision got lost when Theo Game Maker exported the FTS data

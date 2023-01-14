@@ -1,5 +1,3 @@
-export const FTL_VERSION = 0.83257
-export const FTS_VERSION = 0.14100000262260437
 export const DANAE_VERSION = 1.440000057220459
 
 export const LITTLE_ENDIAN = true

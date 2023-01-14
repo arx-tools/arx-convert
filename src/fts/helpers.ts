@@ -2,7 +2,7 @@ import { any } from '@common/helpers'
 import { QuadrupleOf } from '@common/types'
 import { ArxPolygon, ArxPolygonFlags } from '@fts/Polygon'
 import { ArxVertex } from '@fts/Vertex'
-import { COORDS_THAT_ROUND_UP } from './constants'
+import { COORDS_THAT_ROUND_UP } from '@fts/constants'
 
 const isQuad = (polygon: ArxPolygon) => {
   return (polygon.flags & ArxPolygonFlags.Quad) !== 0

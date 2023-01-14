@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO'
-import { FTS_VERSION } from '@common/constants'
+import { VERSION } from '@fts/constants'
 import { repeat } from '@common/helpers'
 import { ArxFTS } from '@fts/FTS'
 
@@ -39,7 +39,7 @@ export class FtsHeader {
 
     binary.writeString(FtsHeader.levelIdxToPath(json.header.levelIdx), 256)
     binary.writeInt32(json.uniqueHeaders.length)
-    binary.writeFloat32(FTS_VERSION)
+    binary.writeFloat32(VERSION)
     binary.writeInt32(uncompressedSize)
 
     binary.writeUint32Array(repeat(0, 3)) // pad
