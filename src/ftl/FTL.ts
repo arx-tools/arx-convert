@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '../common/BinaryIO'
-import { ArxFtlHeader, FtlHeader } from './FtlHeader'
+import { BinaryIO } from '@common/BinaryIO'
+import { ArxFtlHeader, FtlHeader } from '@ftl/FtlHeader'
 
 export type ArxFTL = {
   header: ArxFtlHeader

@@ -1,9 +1,9 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '../common/BinaryIO'
-import { FTS_VERSION, MAP_DEPTH_IN_CELLS, MAP_WIDTH_IN_CELLS } from '../common/constants'
-import { maxAll, uniq } from '../common/helpers'
-import { ArxVector3 } from '../common/types'
-import { ArxFTS } from './FTS'
+import { BinaryIO } from '@common/BinaryIO'
+import { FTS_VERSION, MAP_DEPTH_IN_CELLS, MAP_WIDTH_IN_CELLS } from '@common/constants'
+import { maxAll, uniq } from '@common/helpers'
+import { ArxVector3 } from '@common/types'
+import { ArxFTS } from '@fts/FTS'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L94

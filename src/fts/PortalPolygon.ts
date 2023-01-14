@@ -1,9 +1,9 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '../common/BinaryIO'
-import { times } from '../common/helpers'
-import { ArxVector3, QuadrupleOf } from '../common/types'
-import { ArxPolygonFlags } from './Polygon'
-import { ArxTextureVertex, TextureVertex } from './TextureVertex'
+import { BinaryIO } from '@common/BinaryIO'
+import { times } from '@common/helpers'
+import { ArxVector3, QuadrupleOf } from '@common/types'
+import { ArxPolygonFlags } from '@fts/Polygon'
+import { ArxTextureVertex, TextureVertex } from '@fts/TextureVertex'
 
 // found in levels below 10
 // prettier-ignore

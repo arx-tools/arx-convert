@@ -1,5 +1,5 @@
-import { BinaryIO } from '../common/BinaryIO'
-import { Color } from '../common/Color'
+import { BinaryIO } from '@common/BinaryIO'
+import { Color } from '@common/Color'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L94

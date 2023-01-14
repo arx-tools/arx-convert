@@ -1,10 +1,10 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '../common/BinaryIO'
-import { ArxColor, Color } from '../common/Color'
-import { times } from '../common/helpers'
-import { ArxLight, Light } from './Light'
-import { LightingHeader } from './LightingHeader'
-import { ArxLlfHeader, LlfHeader } from './LlfHeader'
+import { BinaryIO } from '@common/BinaryIO'
+import { ArxColor, Color } from '@common/Color'
+import { times } from '@common/helpers'
+import { ArxLight, Light } from '@llf/Light'
+import { LightingHeader } from '@llf/LightingHeader'
+import { ArxLlfHeader, LlfHeader } from '@llf/LlfHeader'
 
 export type ArxLLF = {
   header: Omit<ArxLlfHeader, 'numberOfLights'>

@@ -12,7 +12,7 @@ import {
   isValidFormat,
   isArxFormat,
   isDataFormat,
-} from './helpers'
+} from '@bin/helpers'
 import { DLF, FTS, LLF, FTL, TEA } from '../index'
 
 type AppArgs = {

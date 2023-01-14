@@ -1,7 +1,7 @@
-import { ArxPolygon, ArxPolygonFlags } from '../fts/Polygon'
-import { ArxVertex } from '../fts/Vertex'
-import { BYTE_OF_AN_UNKNOWN_CHAR, CHARS, CHAR_OF_AN_UNKNOWN_BYTE, CODES, COORDS_THAT_ROUND_UP } from './constants'
-import { QuadrupleOf } from './types'
+import { ArxPolygon, ArxPolygonFlags } from '@fts/Polygon'
+import { ArxVertex } from '@fts/Vertex'
+import { BYTE_OF_AN_UNKNOWN_CHAR, CHARS, CHAR_OF_AN_UNKNOWN_BYTE, CODES, COORDS_THAT_ROUND_UP } from '@common/constants'
+import { QuadrupleOf } from '@common/types'
 
 export const maxAll = (arr: number[]) => {
   let i = arr.length

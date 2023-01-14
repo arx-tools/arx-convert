@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '../common/BinaryIO'
-import { ArxPortalPolygon, PortalPolygon } from './PortalPolygon'
+import { BinaryIO } from '@common/BinaryIO'
+import { ArxPortalPolygon, PortalPolygon } from '@fts/PortalPolygon'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/GraphicsTypes.h#L268

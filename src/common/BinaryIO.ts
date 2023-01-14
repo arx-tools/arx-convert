@@ -1,6 +1,6 @@
-import { decodeText, encodeText, repeat } from './helpers'
-import { LITTLE_ENDIAN, TRUNCATE_ZERO_BYTES, KEEP_ZERO_BYTES, BYTE_OF_AN_UNKNOWN_CHAR } from './constants'
-import { ArxQuaternion, ArxRotation, ArxVector3 } from './types'
+import { decodeText, encodeText, repeat } from '@common/helpers'
+import { LITTLE_ENDIAN, TRUNCATE_ZERO_BYTES, KEEP_ZERO_BYTES, BYTE_OF_AN_UNKNOWN_CHAR } from '@common/constants'
+import { ArxQuaternion, ArxRotation, ArxVector3 } from '@common/types'
 
 export class BinaryIO extends DataView {
   public position: number // TODO: make this private - this needs to be public because of TEA

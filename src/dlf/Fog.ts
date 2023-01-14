@@ -1,8 +1,8 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '../common/BinaryIO'
-import { ArxColor, Color } from '../common/Color'
-import { repeat } from '../common/helpers'
-import { ArxRotation, ArxVector3 } from '../common/types'
+import { BinaryIO } from '@common/BinaryIO'
+import { ArxColor, Color } from '@common/Color'
+import { repeat } from '@common/helpers'
+import { ArxRotation, ArxVector3 } from '@common/types'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L132

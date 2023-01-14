@@ -1,4 +1,4 @@
-import { TripleOf } from './types'
+import { TripleOf } from '@common/types'
 
 export const FTL_VERSION = 0.83257
 export const FTS_VERSION = 0.14100000262260437

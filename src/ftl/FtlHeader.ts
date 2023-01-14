@@ -1,5 +1,5 @@
-import { BinaryIO } from '../common/BinaryIO'
-import { ArxFTL } from './FTL'
+import { BinaryIO } from '@common/BinaryIO'
+import { ArxFTL } from '@ftl/FTL'
 
 export type ArxFtlHeader = {
   ident: string

@@ -1,8 +1,8 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '../common/BinaryIO'
-import { FTS_VERSION } from '../common/constants'
-import { repeat } from '../common/helpers'
-import { ArxFTS } from './FTS'
+import { BinaryIO } from '@common/BinaryIO'
+import { FTS_VERSION } from '@common/constants'
+import { repeat } from '@common/helpers'
+import { ArxFTS } from '@fts/FTS'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L56

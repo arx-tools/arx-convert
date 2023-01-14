@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '../common/BinaryIO'
-import { ArxCell } from './Cell'
+import { BinaryIO } from '@common/BinaryIO'
+import { ArxCell } from '@fts/Cell'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L125

@@ -1,7 +1,7 @@
-import { KEEP_ZERO_BYTES } from '../common/constants'
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '../common/BinaryIO'
-import { ArxTEA } from './TEA'
+import { KEEP_ZERO_BYTES } from '@common/constants'
+import { BinaryIO } from '@common/BinaryIO'
+import { ArxTEA } from '@tea/TEA'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/animation/AnimationFormat.h#L82

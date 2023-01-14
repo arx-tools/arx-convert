@@ -1,7 +1,7 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '../common/BinaryIO'
-import { repeat } from '../common/helpers'
-import { ArxRoom } from './Room'
+import { BinaryIO } from '@common/BinaryIO'
+import { repeat } from '@common/helpers'
+import { ArxRoom } from '@fts/Room'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L178

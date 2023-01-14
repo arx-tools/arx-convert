@@ -1,7 +1,7 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '../common/BinaryIO'
-import { ArxColor, Color } from '../common/Color'
-import { ArxVector3 } from '../common/types'
+import { BinaryIO } from '@common/BinaryIO'
+import { ArxColor, Color } from '@common/Color'
+import { ArxVector3 } from '@common/types'
 
 const HARDCODED_DATA_TYPE1 = {
   color: { r: 0, g: 0, b: 0, a: 0 } as ArxColor,
