@@ -15,7 +15,17 @@
     "isolatedModules": true,
     "incremental": true,
     "allowSyntheticDefaultImports": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "baseUrl": "./",
+    "paths": {
+      "@bin/*": ["src/bin/*"],
+      "@common/*": ["src/common/*"],
+      "@dlf/*": ["src/dlf/*"],
+      "@fts/*": ["src/fts/*"],
+      "@llf/*": ["src/llf/*"],
+      "@ftl/*": ["src/ftl/*"],
+      "@tea/*": ["src/tea/*"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
