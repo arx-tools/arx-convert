@@ -5,7 +5,6 @@ import { ArxSetting, Setting } from '@amb/Setting'
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/audio/Ambiance.cpp#L168
  */
 export type ArxKey = {
-  flags: number
   /** milliseconds */
   start: number
   loop: number
@@ -26,8 +25,9 @@ export class Key {
    * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/audio/Ambiance.cpp#L187
    */
   static readFrom(binary: BinaryIO): ArxKey {
+    binary.readUint32() // flags - always 0
+
     return {
-      flags: binary.readUint32(),
       start: binary.readUint32(),
       loop: binary.readUint32() + 1,
       delayMin: binary.readUint32(),
@@ -46,7 +46,7 @@ export class Key {
     const buffer = Buffer.alloc(Key.sizeOf())
     const binary = new BinaryIO(buffer)
 
-    binary.writeUint32(key.flags)
+    binary.writeUint32(0) // flags
     binary.writeUint32(key.start)
     binary.writeUint32(key.loop - 1)
     binary.writeUint32(key.delayMin)
