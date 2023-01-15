@@ -35,7 +35,7 @@ export class Color {
 
   static accumulateFrom({ r, g, b, a }: ArxColor, mode: ColorMode) {
     const buffer = Buffer.alloc(Color.sizeOf(mode))
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     if (mode === 'bgra') {
       binary.writeUint8Array([b, g, r, a * 255])

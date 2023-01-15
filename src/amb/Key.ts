@@ -44,7 +44,7 @@ export class Key {
 
   static accumulateFrom(key: ArxKey) {
     const buffer = Buffer.alloc(Key.sizeOf())
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     binary.writeUint32(key.flags)
     binary.writeUint32(key.start)

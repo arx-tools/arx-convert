@@ -24,7 +24,7 @@ export class AmbHeader {
 
   static accumulateFrom(json: ArxAMB) {
     const buffer = Buffer.alloc(AmbHeader.sizeOf())
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     binary.writeString('GAMB', 4)
     binary.writeInt32(VERSION_1003)

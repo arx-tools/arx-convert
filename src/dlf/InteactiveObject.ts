@@ -31,7 +31,7 @@ export class InteractiveObject {
 
   static accumulateFrom(interactiveObject: ArxInteractiveObject) {
     const buffer = Buffer.alloc(InteractiveObject.sizeOf())
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     binary.writeString(InteractiveObject.toAbsolutePath(interactiveObject.name), 512)
     binary.writeVector3(interactiveObject.pos)

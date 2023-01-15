@@ -52,7 +52,7 @@ export class TextureVertex {
 
   static accumulateFrom(vertex: ArxTextureVertex, idx: number) {
     const buffer = Buffer.alloc(TextureVertex.sizeOf())
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     const isFirstVertexOfPolygon = idx === 0
     const isLastVertexOfPolygon = idx === 3

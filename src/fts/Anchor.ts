@@ -19,7 +19,7 @@ export class Anchor {
 
   static accumulateFrom(anchor: ArxAnchor) {
     const buffer = Buffer.alloc(AnchorData.sizeOf() + anchor.linkedAnchors.length * 4)
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     binary.writeBuffer(AnchorData.accumulateFrom(anchor))
     binary.writeInt32Array(anchor.linkedAnchors)

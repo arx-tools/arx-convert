@@ -77,7 +77,7 @@ export class Light {
 
   static accumulateFrom(light: ArxLight) {
     const buffer = Buffer.alloc(Light.sizeOf())
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     binary.writeVector3(light.pos)
     binary.writeBuffer(Color.accumulateFrom(light.color, 'rgb'))

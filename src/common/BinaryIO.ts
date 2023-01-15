@@ -5,8 +5,8 @@ import { ArxQuaternion, ArxRotation, ArxVector3 } from '@common/types'
 export class BinaryIO extends DataView {
   public position: number // TODO: make this private - this needs to be public because of TEA
 
-  constructor(buffer: ArrayBufferLike, byteOffset?: number, byteLength?: number) {
-    super(buffer, byteOffset, byteLength)
+  constructor(buffer: Buffer, byteOffset?: number, byteLength?: number) {
+    super(buffer.buffer, byteOffset, byteLength)
     this.position = 0
   }
 

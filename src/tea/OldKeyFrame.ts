@@ -32,7 +32,7 @@ export class OldKeyFrame {
 
   static accumulateFrom(json: ArxTEA) {
     const buffer = Buffer.alloc(OldKeyFrame.sizeOf())
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     // TODO
 

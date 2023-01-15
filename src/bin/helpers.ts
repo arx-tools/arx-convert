@@ -36,7 +36,7 @@ export const streamToBuffer = (input: NodeJS.ReadableStream): Promise<Buffer> =>
       chunks.push(chunk)
     })
     input.on('end', () => {
-      resolve(Buffer.concat(chunks))
+      resolve(Buffer.from(Buffer.concat(chunks), 0))
     })
     input.on('error', (e: unknown) => {
       reject(e)

@@ -55,7 +55,7 @@ export class Fog {
 
   static accumulateFrom(fog: ArxFog) {
     const buffer = Buffer.alloc(Fog.sizeOf())
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     binary.writeVector3(fog.pos)
     binary.writeBuffer(Color.accumulateFrom(fog.color, 'rgb'))

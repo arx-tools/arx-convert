@@ -22,7 +22,7 @@ export class RoomDistance {
 
   static accumulateFrom(roomDistance: ArxRoomDistance) {
     const buffer = Buffer.alloc(RoomDistance.sizeOf())
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     binary.writeFloat32(roomDistance.distance)
     binary.writeVector3(roomDistance.startPosition)

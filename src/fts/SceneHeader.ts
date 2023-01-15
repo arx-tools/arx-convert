@@ -44,7 +44,7 @@ export class SceneHeader {
     const numberOfRooms = maxAll(uniq(json.polygons.map(({ room }) => room)))
 
     const buffer = Buffer.alloc(SceneHeader.sizeOf())
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     binary.writeFloat32(VERSION)
     binary.writeInt32(MAP_WIDTH_IN_CELLS)

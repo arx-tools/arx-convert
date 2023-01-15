@@ -31,7 +31,7 @@ export type ArxDLF = {
 
 export class DLF {
   static load(decompressedFile: Buffer) {
-    const file = new BinaryIO(decompressedFile.buffer)
+    const file = new BinaryIO(decompressedFile)
 
     const { numberOfInteractiveObjects, numberOfFogs, numberOfZonesAndPaths, ...header } = DlfHeader.readFrom(file)
 

@@ -22,7 +22,7 @@ export class UniqueHeader {
 
   static accumulateFrom(uniqueHeader: ArxUniqueHeader) {
     const buffer = Buffer.alloc(UniqueHeader.sizeOf())
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     binary.writeString(uniqueHeader.path, 256)
     binary.writeUint8Array(uniqueHeader.check)

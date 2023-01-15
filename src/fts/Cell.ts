@@ -29,7 +29,7 @@ export class Cell {
     const buffer = Buffer.alloc(
       SceneInfo.sizeOf() + Polygon.sizeOf() * cell.polygons.length + BinaryIO.sizeOfInt32Array(anchors.length),
     )
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     binary.writeBuffer(SceneInfo.accumulateFrom(cell))
     binary.writeBuffer(Buffer.concat(cell.polygons.map(Polygon.accumulateFrom)))

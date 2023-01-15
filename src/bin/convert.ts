@@ -136,8 +136,6 @@ const args: AppArgs = minimist(process.argv.slice(2), {
     case 'amb':
       rawOut = AMB.save(parsedIn)
       break
-    default:
-      rawOut = ''
   }
 
   outputInChunks(rawOut, output)

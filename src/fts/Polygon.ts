@@ -88,7 +88,7 @@ export class Polygon {
 
   static accumulateFrom(polygon: ArxPolygon) {
     const buffer = Buffer.alloc(Polygon.sizeOf())
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     binary.writeBuffer(Buffer.concat(polygon.vertices.map(Vertex.accumulateFrom)))
     binary.writeInt32(polygon.textureContainerId)

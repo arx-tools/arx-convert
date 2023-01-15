@@ -14,7 +14,7 @@ export type ArxLLF = {
 
 export class LLF {
   static load(decompressedFile: Buffer): ArxLLF {
-    const file = new BinaryIO(decompressedFile.buffer)
+    const file = new BinaryIO(decompressedFile)
 
     const { numberOfLights, ...header } = LlfHeader.readFrom(file)
     const lights = times(() => Light.readFrom(file), numberOfLights)

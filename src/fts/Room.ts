@@ -23,7 +23,8 @@ export class Room {
     const roomData = RoomData.accumulateFrom(room)
 
     const portals = Buffer.alloc(room.portals.length * 4)
-    const binary = new BinaryIO(portals.buffer)
+    const binary = new BinaryIO(portals)
+
     binary.writeInt32Array(room.portals)
 
     const polygons = Buffer.concat(room.polygons.map(EPData.accumulateFrom))

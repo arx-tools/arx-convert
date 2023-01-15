@@ -17,7 +17,7 @@ export class FtlHeader {
 
   static accumulateFrom(json: ArxFTL, uncompressedSize: number) {
     const buffer = Buffer.alloc(FtlHeader.sizeOf())
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     // TODO
 

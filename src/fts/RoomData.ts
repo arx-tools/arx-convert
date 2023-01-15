@@ -25,7 +25,7 @@ export class RoomData {
 
   static accumulateFrom(room: ArxRoom) {
     const buffer = Buffer.alloc(RoomData.sizeOf())
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     binary.writeInt32(room.portals.length)
     binary.writeInt32(room.polygons.length)

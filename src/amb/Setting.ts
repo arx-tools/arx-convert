@@ -35,7 +35,7 @@ export class Setting {
 
   static accumulateFrom(setting: ArxSetting) {
     const buffer = Buffer.alloc(Setting.sizeOf())
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     binary.writeFloat32(setting.min)
     binary.writeFloat32(setting.max)

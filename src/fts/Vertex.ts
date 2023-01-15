@@ -22,7 +22,7 @@ export class Vertex {
 
   static accumulateFrom({ x, y, z, u, v }: ArxVertex) {
     const buffer = Buffer.alloc(Vertex.sizeOf())
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     binary.writeFloat32Array([y, x, z, u, v])
 

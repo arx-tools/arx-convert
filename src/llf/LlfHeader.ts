@@ -43,7 +43,7 @@ export class LlfHeader {
 
   static accumulateFrom(json: ArxLLF) {
     const buffer = Buffer.alloc(LlfHeader.sizeOf())
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     binary.writeFloat32(DANAE_VERSION)
     binary.writeString('DANAE_LLH_FILE', 16)

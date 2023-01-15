@@ -103,7 +103,7 @@ struct EERIE_OLD_VERTEX {
 
 export class FTL {
   static load(decompressedFile: Buffer) {
-    const file = new BinaryIO(decompressedFile.buffer)
+    const file = new BinaryIO(decompressedFile)
 
     const header = FtlHeader.readFrom(file)
 

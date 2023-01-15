@@ -90,7 +90,7 @@ export class ZoneAndPathHeader {
 
   static allocateFrom(zoneOrPath: ArxZone | ArxPath) {
     const buffer = Buffer.alloc(ZoneAndPathHeader.sizeOf())
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     const pos = zoneOrPath.points[0].pos
 

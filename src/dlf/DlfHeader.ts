@@ -67,7 +67,7 @@ export class DlfHeader {
 
   static accumulateFrom(json: ArxDLF) {
     const buffer = Buffer.alloc(DlfHeader.sizeOf())
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     binary.writeFloat32(DANAE_VERSION)
     binary.writeString('DANAE_FILE', 16)

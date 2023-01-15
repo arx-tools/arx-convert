@@ -41,7 +41,7 @@ export class ZoneAndPathPoint {
 
   static allocateFrom(point: ArxZoneAndPathPoint, pos: ArxVector3) {
     const buffer = Buffer.alloc(ZoneAndPathPoint.sizeOf())
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     const rpos = {
       x: point.pos.x - pos.x,

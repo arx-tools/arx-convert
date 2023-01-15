@@ -47,7 +47,7 @@ export class AnchorData {
 
   static accumulateFrom(anchor: ArxAnchor) {
     const buffer = Buffer.alloc(AnchorData.sizeOf())
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     binary.writeVector3(anchor.data.pos)
     binary.writeFloat32(anchor.data.radius)

@@ -49,7 +49,7 @@ export class Track {
 
   static accumulateFrom(track: ArxTrack) {
     const buffer = Buffer.alloc(Track.sizeOf(track))
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     binary.writeString(track.filename)
     binary.writeString('') // name

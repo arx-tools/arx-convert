@@ -26,7 +26,7 @@ export class Portal {
 
   static accumulateFrom(portal: ArxPortal, levelIdx: number) {
     const buffer = Buffer.alloc(Portal.sizeOf())
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     binary.writeBuffer(PortalPolygon.accumulateFrom(portal.polygon, levelIdx))
     binary.writeInt32(portal.room1)

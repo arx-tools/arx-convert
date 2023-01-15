@@ -28,7 +28,7 @@ export class NewKeyFrame {
 
   static accumulateFrom(json: ArxTEA) {
     const buffer = Buffer.alloc(NewKeyFrame.sizeOf())
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     // TODO
 

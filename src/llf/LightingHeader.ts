@@ -25,7 +25,7 @@ export class LightingHeader {
 
   static accumulateFrom(colors: Color[]) {
     const buffer = Buffer.alloc(LightingHeader.sizeOf())
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     binary.writeInt32(colors.length)
 

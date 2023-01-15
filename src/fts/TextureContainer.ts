@@ -25,7 +25,7 @@ export class TextureContainer {
 
   static accumulateFrom(textureContainer: ArxTextureContainer) {
     const buffer = Buffer.alloc(TextureContainer.sizeOf())
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     binary.writeInt32(textureContainer.id)
     binary.writeInt32(0) // temp

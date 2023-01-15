@@ -23,7 +23,7 @@ export class Scene {
 
   static accumulateFrom(scene: ArxScene) {
     const buffer = Buffer.alloc(Scene.sizeOf())
-    const binary = new BinaryIO(buffer.buffer)
+    const binary = new BinaryIO(buffer)
 
     binary.writeString(Scene.levelIdxToPath(scene.levelIdx), 512)
     binary.writeInt32Array(repeat(0, 16)) // pad
