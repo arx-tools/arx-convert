@@ -26,7 +26,7 @@ export class Track {
    * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/audio/Ambiance.cpp#L531
    */
   static readFrom(binary: BinaryIO, isNewerVersion: boolean): ArxTrack {
-    const filename = this.toRelativePath(binary.readString())
+    const filename = Track.toRelativePath(binary.readString())
 
     if (isNewerVersion) {
       binary.readString() // name - always ""
@@ -51,7 +51,7 @@ export class Track {
     const buffer = Buffer.alloc(Track.sizeOf(track))
     const binary = new BinaryIO(buffer)
 
-    binary.writeString(this.toAbsolutePath(track.filename))
+    binary.writeString(Track.toAbsolutePath(track.filename))
     binary.writeString('') // name
     binary.writeUint32(track.flags)
     binary.writeUint32(track.keys.length)
@@ -62,21 +62,24 @@ export class Track {
 
   /**
    * from: SFX\\AMBIANCE\\LOOP_GOBLIN_MAIN.WAV
-   *   to: loop_goblin_main.wav
+   *   to: sfx/ambiance/loop_goblin_main.wav
    *
    * from: SFX\\AMBIANCE\\FX_ADDON\\SCREAM3.WAV
-   *   to: fx_addon/scream3.wav
+   *   to: sfx/ambiance/fx_addon/scream3.wav
+   *
+   * from: Sfx\Strange_noise10c.wav
+   *   to: sfc/strange_noise10c.wav
    */
   static toRelativePath(filename: string) {
-    return filename.toLowerCase().replace(/\\/g, '/').replace('sfx/ambiance/', '')
+    return filename.toLowerCase().replace(/\\/g, '/')
   }
 
   /**
-   * from: loop_goblin_main.wav
+   * from: srx/ambiance/loop_goblin_main.wav
    *   to: sfx\\ambiance\\loop_goblin_main.wav
    */
   static toAbsolutePath(filename: string) {
-    return 'sfx\\ambiance\\' + filename.toLowerCase().replace(/\//g, '\\')
+    return filename.toLowerCase().replace(/\//g, '\\')
   }
 
   static sizeOf(track: ArxTrack) {
