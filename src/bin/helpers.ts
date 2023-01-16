@@ -29,6 +29,19 @@ const fileExists = async (filename: string) => {
   }
 }
 
+export const concatBuffersSafe = (buffers: Buffer[]) => {
+  const bufferSize = buffers.reduce((a, b) => a + b.length, 0)
+  const buffer = Buffer.alloc(bufferSize)
+
+  let offset = 0
+  buffers.forEach((buf) => {
+    buf.copy(buffer, offset)
+    offset += buf.byteLength
+  })
+
+  return buffer
+}
+
 export const streamToBuffer = (input: NodeJS.ReadableStream): Promise<Buffer> => {
   return new Promise((resolve, reject) => {
     const chunks: Buffer[] = []
@@ -36,7 +49,7 @@ export const streamToBuffer = (input: NodeJS.ReadableStream): Promise<Buffer> =>
       chunks.push(chunk)
     })
     input.on('end', () => {
-      resolve(Buffer.from(Buffer.concat(chunks), 0))
+      resolve(concatBuffersSafe(chunks))
     })
     input.on('error', (e: unknown) => {
       reject(e)
