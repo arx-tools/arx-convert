@@ -46,3 +46,7 @@ export const any = <T>(fn: (value: T) => boolean, values: T[]) => {
   }
   return false
 }
+
+export const last = <T>(values: T[]) => {
+  return values[values.length - 1]
+}

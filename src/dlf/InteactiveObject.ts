@@ -1,6 +1,7 @@
+import path from 'node:path'
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO'
-import { repeat } from '@common/helpers'
+import { last, repeat } from '@common/helpers'
 import { ArxRotation, ArxVector3 } from '@common/types'
 
 /**
@@ -46,27 +47,47 @@ export class InteractiveObject {
   }
 
   /**
-   * from: \\\\ARKANESERVER\\PUBLIC\\ARX\\GRAPH\\OBJ3D\\INTERACTIVE\\ITEMS\\PROVISIONS\\PIE\\PIE.teo
-   *   to: items/provisions/pie
+   * from: `\\\\ARKANESERVER\\PUBLIC\\ARX\\GRAPH\\OBJ3D\\INTERACTIVE\\ITEMS\\PROVISIONS\\PIE\\PIE.teo`
+   *   to: `items/provisions/pie`
    *
-   * from: C:\\ARX\\Graph\\Obj3D\\Interactive\\System\\Marker\\Marker.teo
-   *   to: system/marker
+   * from: `C:\\ARX\\Graph\\Obj3D\\Interactive\\System\\Marker\\Marker.teo`
+   *   to: `system/marker`
+   *
+   * If the last folder in the path and filename differs, like `...\\ITEMS\\PROVISIONS\\MUSHROOM\\FOOD_MUSHROOM.teo`
+   * then it should keep the full path, but change the extension to `.asl`
    */
-  static toRelativePath(name: string) {
-    return name
-      .toLowerCase()
-      .replace(/\\/g, '/')
-      .split('graph/obj3d/interactive/')[1]
-      .replace(/\/[^/]+$/, '')
+  static toRelativePath(filePath: string) {
+    // items/provisions/pie/pie.teo
+    // items/provisions/mushroom/food_mushroom.teo
+    filePath = filePath.toLowerCase().replace(/\\/g, '/').split('graph/obj3d/interactive/')[1]
+
+    const { dir, name } = path.parse(filePath)
+
+    if (last(dir.split('/')) !== name) {
+      return dir + '/' + name + '.asl'
+    } else {
+      return dir
+    }
   }
 
   /**
-   * from: items/provisions/pie
-   *   to: c:\\arx\\graph\\obj3d\\interactive\\items\\provisions\\pie\\pie.teo
+   * from: `items/provisions/pie`
+   *   to: `c:\\arx\\graph\\obj3d\\interactive\\items\\provisions\\pie\\pie.teo`
+   *
+   * If the path also has a file specified with extension, like `items/provisions/mushroom/food_mushroom.asl`
+   * then keep the file part too, but change the extension to `.teo`
    */
-  static toAbsolutePath(name: string) {
-    const filename = name.split('/').pop() + '.teo'
-    return 'c:\\arx\\graph\\obj3d\\interactive\\' + name.toLowerCase().replace(/\//g, '\\') + '\\' + filename
+  static toAbsolutePath(filePath: string) {
+    filePath = filePath.toLowerCase().replace(/\/$/, '')
+
+    if (filePath.endsWith('.asl')) {
+      const { dir, name } = path.parse(filePath)
+      return `c:\\arx\\graph\\obj3d\\interactive\\${dir.replace(/\//g, '\\')}\\${name}.teo`
+    } else {
+      const dir = filePath
+      const name = last(filePath.split('/'))
+      return `c:\\arx\\graph\\obj3d\\interactive\\${dir.replace(/\//g, '\\')}\\${name}.teo`
+    }
   }
 
   static sizeOf() {
