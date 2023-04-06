@@ -14,8 +14,9 @@ export type { ArxZoneAndPathHeader } from '@dlf/ZoneAndPathHeader'
 export type { ArxZoneAndPathPoint } from '@dlf/ZoneAndPathPoint'
 export type { ArxScene } from '@dlf/Scene'
 
-// export type { ArxFTL } from '@ftl/FTL'
-// export type { ArxFtlHeader } from '@ftl/FtlHeader'
+export type { ArxFTL } from '@ftl/FTL'
+export type { ArxFtlHeader } from '@ftl/FtlHeader'
+export type { ArxFtlVertex } from '@ftl/FtlVertex'
 
 export type { ArxAnchor } from '@fts/Anchor'
 export type { ArxAnchorData } from '@fts/AnchorData'

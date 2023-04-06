@@ -1,4 +1,4 @@
-export const DANAE_VERSION = 1.440000057220459
+export const DANAE_VERSION = 1.440000057220459 // 1.44f
 
 export const LITTLE_ENDIAN = true
 export const BIG_ENDIAN = false
