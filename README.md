@@ -20,17 +20,19 @@ It might work with older versions of nodejs, but I haven't tested it there.
 
 ## Command-line API
 
-`arx-convert <inputfile> --from=<format> --to=<format> --output=<outputfile> --prettify`
+`arx-convert <inputfile> --from=<format> --to=<format> --output=<outputfile> [--format] [--pretty] [--prettify]`
 
 the inputfile and --output parameters can be omitted and then the code can be used in pipelines
 
 `cat <inputfile> | arx-convert --from=<format> --to=<format> > <outputfile>`
 
-the format parameter can be one of the following arx formats: `dlf`, `llf`, `fts` or `amb`
+the `<format>` parameter can be one of the following arx formats: `dlf`, `llf`, `fts` or `amb`
 
 work in progress formats: `ftl` and `tea`
 
 and it can also a data format for the other side: `json` and `yaml`(can also be spelled as `yml`)
+
+prettifying the output can be done by using any of the 3 parameters: `--format`, `--pretty` or `--prettify`
 
 ### Examples
 

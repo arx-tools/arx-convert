@@ -19,6 +19,8 @@ type AppArgs = {
   _: string[]
   version: boolean
   v: boolean
+  format: boolean
+  pretty: boolean
   prettify: boolean
   output?: string
   from?: string
@@ -27,7 +29,7 @@ type AppArgs = {
 
 const args: AppArgs = minimist(process.argv.slice(2), {
   string: ['output', 'from', 'to'],
-  boolean: ['version', 'prettify'],
+  boolean: ['version', 'format', 'pretty', 'prettify'],
   alias: {
     v: 'version',
   },
@@ -112,7 +114,7 @@ const args: AppArgs = minimist(process.argv.slice(2), {
   let rawOut: string | Buffer
   switch (args.to) {
     case 'json':
-      rawOut = stringifyJSON(parsedIn, args.prettify)
+      rawOut = stringifyJSON(parsedIn, args.format || args.pretty || args.prettify)
       break
     case 'yml':
     case 'yaml':
