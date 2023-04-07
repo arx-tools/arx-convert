@@ -48,11 +48,34 @@ export class Face {
     const binary = new BinaryIO(buffer)
 
     binary.writeInt32(face.faceType)
+    binary.writeUint32Array(face.rgb)
+    binary.writeUint16Array(face.vid)
+    binary.writeInt16(face.texId)
+    binary.writeFloat32Array(face.u)
+    binary.writeFloat32Array(face.v)
+    binary.writeInt16Array(face.u)
+    binary.writeInt16Array(face.v)
+
+    binary.writeFloat32(face.transval)
+    binary.writeVector3(face.norm)
+    binary.writeVector3Array(face.normals)
+    binary.writeFloat32(face.temp)
 
     return buffer
   }
 
   static sizeOf() {
-    return BinaryIO.sizeOfInt32()
+    return (
+      BinaryIO.sizeOfInt32() +
+      BinaryIO.sizeOfUint32Array(3) +
+      BinaryIO.sizeOfUint16Array(3) +
+      BinaryIO.sizeOfInt16() +
+      2 * BinaryIO.sizeOfFloat32Array(3) +
+      2 * BinaryIO.sizeOfInt16Array(3) +
+      BinaryIO.sizeOfFloat32() +
+      BinaryIO.sizeOfVector3() +
+      BinaryIO.sizeOfVector3Array(3) +
+      BinaryIO.sizeOfFloat32()
+    )
   }
 }

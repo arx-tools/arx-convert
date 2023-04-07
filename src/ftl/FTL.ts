@@ -9,6 +9,7 @@ export type ArxFTL = {
   header: Omit<ArxFtlHeader, 'numberOfVertices' | 'numberOfFaces'>
   vertices: ArxFtlVertex[]
   faces: ArxFace[]
+  remainingBytes: number[]
 }
 
 /*
@@ -70,6 +71,7 @@ export class FTL {
       header,
       vertices: times(() => FtlVertex.readFrom(file), numberOfVertices),
       faces: times(() => Face.readFrom(file), numberOfFaces),
+      remainingBytes: file.readUint8Array(decompressedFile.byteLength - file.position),
     }
 
     return data
@@ -80,6 +82,8 @@ export class FTL {
     const vertices = Buffer.concat(json.vertices.map(FtlVertex.accumulateFrom))
     const faces = Buffer.concat(json.faces.map(Face.accumulateFrom))
 
-    return Buffer.concat([header, vertices])
+    const remainingBytes = Buffer.from(json.remainingBytes)
+
+    return Buffer.concat([header, vertices, faces, remainingBytes])
   }
 }
