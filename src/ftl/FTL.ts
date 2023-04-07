@@ -2,13 +2,15 @@ import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO'
 import { ArxFtlHeader, FtlHeader } from '@ftl/FtlHeader'
 import { ArxFtlVertex, FtlVertex } from '@ftl/FtlVertex'
+import { ArxFtlTextureContainer, FtlTextureContainer } from '@ftl/FtlTextureContainer'
 import { times } from '@common/helpers'
 import { ArxFace, Face } from '@ftl/Face'
 
 export type ArxFTL = {
-  header: Omit<ArxFtlHeader, 'numberOfVertices' | 'numberOfFaces'>
+  header: Omit<ArxFtlHeader, 'numberOfVertices' | 'numberOfFaces' | 'numberOfTextures'>
   vertices: ArxFtlVertex[]
   faces: ArxFace[]
+  textureContainers: ArxFtlTextureContainer[]
   remainingBytes: number[]
 }
 
@@ -50,12 +52,14 @@ export class FTL {
   static load(decompressedFile: Buffer) {
     const file = new BinaryIO(decompressedFile)
 
-    const { numberOfVertices, numberOfFaces, ...header } = FtlHeader.readFrom(file)
+    const { numberOfVertices, numberOfFaces, numberOfTextures, ...header } = FtlHeader.readFrom(file)
 
     const data: ArxFTL = {
       header,
       vertices: times(() => FtlVertex.readFrom(file), numberOfVertices),
       faces: times(() => Face.readFrom(file), numberOfFaces),
+      textureContainers: times(() => FtlTextureContainer.readFrom(file), numberOfTextures),
+
       remainingBytes: file.readUint8Array(decompressedFile.byteLength - file.position),
     }
 
@@ -66,9 +70,10 @@ export class FTL {
     const header = FtlHeader.accumulateFrom(json)
     const vertices = Buffer.concat(json.vertices.map(FtlVertex.accumulateFrom))
     const faces = Buffer.concat(json.faces.map(Face.accumulateFrom))
+    const textureContainers = Buffer.concat(json.textureContainers.map(FtlTextureContainer.accumulateFrom))
 
     const remainingBytes = Buffer.from(json.remainingBytes)
 
-    return Buffer.concat([header, vertices, faces, remainingBytes])
+    return Buffer.concat([header, vertices, faces, textureContainers, remainingBytes])
   }
 }

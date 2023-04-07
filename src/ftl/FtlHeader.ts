@@ -3,10 +3,11 @@ import { BinaryIO } from '@common/BinaryIO'
 import { ArxFTL } from '@ftl/FTL'
 import { VERSION } from '@ftl/constants'
 
+/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FTLFormat.h#L86 */
 export type ArxFtlHeader = {
   numberOfVertices: number
   numberOfFaces: number
-  numberOfMaps: number
+  numberOfTextures: number
   numberOfGroups: number
   numberOfActions: number
   numberOfSelections: number
@@ -29,7 +30,7 @@ export class FtlHeader {
     return {
       numberOfVertices: binary.readInt32(),
       numberOfFaces: binary.readInt32(),
-      numberOfMaps: binary.readInt32(),
+      numberOfTextures: binary.readInt32(),
       numberOfGroups: binary.readInt32(),
       numberOfActions: binary.readInt32(),
       numberOfSelections: binary.readInt32(),
@@ -53,7 +54,7 @@ export class FtlHeader {
     binary.writeInt32(-1) // physics box offset
     binary.writeInt32(json.vertices.length)
     binary.writeInt32(json.faces.length)
-    binary.writeInt32(json.header.numberOfMaps)
+    binary.writeInt32(json.textureContainers.length)
     binary.writeInt32(json.header.numberOfGroups)
     binary.writeInt32(json.header.numberOfActions)
     binary.writeInt32(json.header.numberOfSelections)

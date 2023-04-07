@@ -9,6 +9,7 @@ export enum ArxFaceType {
   DoubleSided = 2,
 }
 
+/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FTLFormat.h#L103 */
 export type ArxFace = {
   faceType: ArxFaceType
   vid: TripleOf<number>
