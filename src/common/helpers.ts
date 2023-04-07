@@ -28,16 +28,6 @@ export const repeat = <T>(value: T, repetitions: number): T[] => {
   return Array(repetitions).fill(value)
 }
 
-export const decodeText = (bytes: number[]) => {
-  const chars = bytes.map((byte) => CHARS[byte] ?? CHAR_OF_AN_UNKNOWN_BYTE)
-  return chars.join('')
-}
-
-export const encodeText = (text: string) => {
-  const chars = text.split('')
-  return chars.map((char) => CODES[char] ?? BYTE_OF_AN_UNKNOWN_CHAR)
-}
-
 export const any = <T>(fn: (value: T) => boolean, values: T[]) => {
   for (let value of values) {
     if (fn(value)) {
@@ -49,4 +39,14 @@ export const any = <T>(fn: (value: T) => boolean, values: T[]) => {
 
 export const last = <T>(values: T[]) => {
   return values[values.length - 1]
+}
+
+export const decodeText = (bytes: number[]) => {
+  const chars = bytes.map((byte) => CHARS[byte] ?? CHAR_OF_AN_UNKNOWN_BYTE)
+  return chars.join('')
+}
+
+export const encodeText = (text: string) => {
+  const chars = text.split('')
+  return chars.map((char) => CODES[char] ?? BYTE_OF_AN_UNKNOWN_CHAR)
 }

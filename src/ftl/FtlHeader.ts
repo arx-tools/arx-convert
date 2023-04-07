@@ -55,7 +55,7 @@ export class FtlHeader {
     binary.writeInt32(json.vertices.length)
     binary.writeInt32(json.faces.length)
     binary.writeInt32(json.textureContainers.length)
-    binary.writeInt32(json.header.numberOfGroups)
+    binary.writeInt32(json.groups.length)
     binary.writeInt32(json.header.numberOfActions)
     binary.writeInt32(json.header.numberOfSelections)
     binary.writeUint32(json.header.origin)
