@@ -11,7 +11,6 @@ export enum ArxFaceType {
 
 export type ArxFace = {
   faceType: ArxFaceType
-  rgb: TripleOf<number>
   vid: TripleOf<number>
   texId: number
   u: TripleOf<number>
@@ -26,9 +25,12 @@ export type ArxFace = {
 
 export class Face {
   static readFrom(binary: BinaryIO): ArxFace {
+    const faceType = binary.readInt32()
+
+    binary.readUint32Array(3) // rgb - always [0, 0, 0]
+
     return {
-      faceType: binary.readInt32(),
-      rgb: binary.readUint32Array(3) as TripleOf<number>, // TODO: convert it to ArxColor
+      faceType,
       vid: binary.readUint16Array(3) as TripleOf<number>,
       texId: binary.readInt16(),
       u: binary.readFloat32Array(3) as TripleOf<number>,
@@ -48,7 +50,7 @@ export class Face {
     const binary = new BinaryIO(buffer)
 
     binary.writeInt32(face.faceType)
-    binary.writeUint32Array(face.rgb)
+    binary.writeUint32Array([0, 0, 0]) // rgb
     binary.writeUint16Array(face.vid)
     binary.writeInt16(face.texId)
     binary.writeFloat32Array(face.u)

@@ -17,8 +17,6 @@ struct Texture_Container_FTL {
   char name[256];
 };
 
-const size_t IOPOLYVERT_FTL = 3;
-
 struct EERIE_GROUPLIST_FTL {
   char name[256];
   s32 origin; // TODO this is always positive use u32 ?
@@ -46,19 +44,6 @@ struct EERIE_SELECTIONS_FTL {
   s32 nb_selected;
   s32 selected;
 };
-
-struct EERIE_OLD_VERTEX {
-  char unused[32];
-  SavedVec3 v;
-  SavedVec3 norm;
-  
-  operator EERIE_VERTEX() const {
-    EERIE_VERTEX a;
-    a.v = v.toVec3(), a.norm = norm.toVec3();
-    return a;
-  }
-};
-
 */
 
 export class FTL {
