@@ -12,16 +12,13 @@ export enum ArxFaceType {
 /** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FTLFormat.h#L103 */
 export type ArxFace = {
   faceType: ArxFaceType
-  vid: TripleOf<number>
-  texId: number
+  vertexIdx: TripleOf<number>
+  textureIdx: number
   u: TripleOf<number>
   v: TripleOf<number>
-  ou: TripleOf<number>
-  ov: TripleOf<number>
   transval: number
   norm: ArxVector3
   normals: TripleOf<ArxVector3>
-  temp: number
 }
 
 export class Face {
@@ -30,19 +27,28 @@ export class Face {
 
     binary.readUint32Array(3) // rgb - always [0, 0, 0]
 
-    return {
+    const dataBlock1 = {
       faceType,
-      vid: binary.readUint16Array(3) as TripleOf<number>,
-      texId: binary.readInt16(),
+      vertexIdx: binary.readUint16Array(3) as TripleOf<number>,
+      textureIdx: binary.readInt16(),
       u: binary.readFloat32Array(3) as TripleOf<number>,
       v: binary.readFloat32Array(3) as TripleOf<number>,
-      ou: binary.readInt16Array(3) as TripleOf<number>,
-      ov: binary.readInt16Array(3) as TripleOf<number>,
+    }
 
-      transval: binary.readFloat32(), // is this the same as in polygons?
+    binary.readInt16Array(3) // ou - ignored by Arx
+    binary.readInt16Array(3) // ov - ignored by Arx
+
+    const dataBlock2 = {
+      transval: binary.readFloat32(),
       norm: binary.readVector3(),
       normals: binary.readVector3Array(3) as TripleOf<ArxVector3>,
-      temp: binary.readFloat32(),
+    }
+
+    binary.readFloat32() // temp - ignored by Arx
+
+    return {
+      ...dataBlock1,
+      ...dataBlock2,
     }
   }
 
@@ -52,17 +58,16 @@ export class Face {
 
     binary.writeInt32(face.faceType)
     binary.writeUint32Array([0, 0, 0]) // rgb
-    binary.writeUint16Array(face.vid)
-    binary.writeInt16(face.texId)
+    binary.writeUint16Array(face.vertexIdx)
+    binary.writeInt16(face.textureIdx)
     binary.writeFloat32Array(face.u)
     binary.writeFloat32Array(face.v)
-    binary.writeInt16Array(face.u)
-    binary.writeInt16Array(face.v)
-
+    binary.writeInt16Array([0, 0, 0]) // ou
+    binary.writeInt16Array([0, 0, 0]) // ov
     binary.writeFloat32(face.transval)
     binary.writeVector3(face.norm)
     binary.writeVector3Array(face.normals)
-    binary.writeFloat32(face.temp)
+    binary.writeFloat32(0) // temp
 
     return buffer
   }
