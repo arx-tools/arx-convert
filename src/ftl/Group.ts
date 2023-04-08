@@ -5,23 +5,24 @@ import { BinaryIO } from '@common/BinaryIO'
 export type ArxGroup = {
   name: string
   origin: number
-  numberOfIndices: number
+  indices: number[]
   blobShadowSize: number
 }
 
 export class Group {
-  static readFrom(binary: BinaryIO): ArxGroup {
+  static readFrom(binary: BinaryIO): ArxGroup & { numberOfIndices: number } {
     const data = {
       name: binary.readString(256),
       origin: binary.readUint32(),
       numberOfIndices: binary.readInt32(),
     }
 
-    binary.readInt32() // indexes - not read by Arx
+    binary.readInt32() // indexes - ignored by Arx
 
     return {
       ...data,
       blobShadowSize: binary.readFloat32(),
+      indices: [], // gonna get filled separately
     }
   }
 
@@ -31,7 +32,7 @@ export class Group {
 
     binary.writeString(group.name, 256)
     binary.writeUint32(group.origin)
-    binary.writeInt32(group.numberOfIndices)
+    binary.writeInt32(group.indices.length)
     binary.writeInt32(0) // indexes
     binary.writeFloat32(group.blobShadowSize)
 

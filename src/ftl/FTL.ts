@@ -3,59 +3,60 @@ import { BinaryIO } from '@common/BinaryIO'
 import { ArxFtlHeader, FtlHeader } from '@ftl/FtlHeader'
 import { ArxFtlVertex, FtlVertex } from '@ftl/FtlVertex'
 import { ArxFtlTextureContainer, FtlTextureContainer } from '@ftl/FtlTextureContainer'
-import { times } from '@common/helpers'
 import { ArxFace, Face } from '@ftl/Face'
 import { ArxGroup, Group } from '@ftl/Group'
+import { Action, ArxAction } from '@ftl/Action'
+import { ArxSelection, Selection } from '@ftl/Selections'
+import { times } from '@common/helpers'
 
 export type ArxFTL = {
-  header: Omit<ArxFtlHeader, 'numberOfVertices' | 'numberOfFaces' | 'numberOfTextures' | 'numberOfGroups'>
+  header: Omit<
+    ArxFtlHeader,
+    | 'numberOfVertices'
+    | 'numberOfFaces'
+    | 'numberOfTextures'
+    | 'numberOfGroups'
+    | 'numberOfActions'
+    | 'numberOfSelections'
+  >
   vertices: ArxFtlVertex[]
   faces: ArxFace[]
   textureContainers: ArxFtlTextureContainer[]
   groups: ArxGroup[]
-  remainingBytes: number[]
+  actions: ArxAction[]
+  selections: ArxSelection[]
 }
-
-/*
-struct Texture_Container_FTL {
-  char name[256];
-};
-
-struct EERIE_ACTIONLIST_FTL {
-  char name[256];
-  s32 idx; // index vertex;
-  s32 action;
-  s32 sfx;
-  
-  operator EERIE_ACTIONLIST() const {
-    EERIE_ACTIONLIST a;
-    a.name = util::toLowercase(util::loadString(name));
-    a.idx = ActionPoint(idx);
-    return a;
-  }
-};
-
-struct EERIE_SELECTIONS_FTL {
-  char name[64];
-  s32 nb_selected;
-  s32 selected;
-};
-*/
 
 export class FTL {
   static load(decompressedFile: Buffer) {
     const file = new BinaryIO(decompressedFile)
 
-    const { numberOfVertices, numberOfFaces, numberOfTextures, numberOfGroups, ...header } = FtlHeader.readFrom(file)
+    const {
+      numberOfVertices,
+      numberOfFaces,
+      numberOfTextures,
+      numberOfGroups,
+      numberOfActions,
+      numberOfSelections,
+      ...header
+    } = FtlHeader.readFrom(file)
 
     const data: ArxFTL = {
       header,
       vertices: times(() => FtlVertex.readFrom(file), numberOfVertices),
       faces: times(() => Face.readFrom(file), numberOfFaces),
       textureContainers: times(() => FtlTextureContainer.readFrom(file), numberOfTextures),
-      groups: times(() => Group.readFrom(file), numberOfGroups),
-
-      remainingBytes: file.readUint8Array(decompressedFile.byteLength - file.position),
+      groups: times(() => Group.readFrom(file), numberOfGroups).map(({ numberOfIndices, ...group }) => {
+        group.indices = file.readInt32Array(numberOfIndices)
+        return group
+      }),
+      actions: times(() => Action.readFrom(file), numberOfActions),
+      selections: times(() => Selection.readFrom(file), numberOfSelections).map(
+        ({ numberOfSelected, ...selection }) => {
+          selection.selected = file.readInt32Array(numberOfSelected)
+          return selection
+        },
+      ),
     }
 
     return data
@@ -67,9 +68,25 @@ export class FTL {
     const faces = Buffer.concat(json.faces.map(Face.accumulateFrom))
     const textureContainers = Buffer.concat(json.textureContainers.map(FtlTextureContainer.accumulateFrom))
     const groups = Buffer.concat(json.groups.map(Group.accumulateFrom))
+    const indices = Buffer.concat(
+      json.groups.map(({ indices }) => {
+        const buffer = Buffer.alloc(BinaryIO.sizeOfInt32Array(indices.length))
+        const binary = new BinaryIO(buffer)
+        binary.writeInt32Array(indices)
+        return buffer
+      }),
+    )
+    const actions = Buffer.concat(json.actions.map(Action.accumulateFrom))
+    const selections = Buffer.concat(json.selections.map(Selection.accumulateFrom))
+    const selected = Buffer.concat(
+      json.selections.map(({ selected }) => {
+        const buffer = Buffer.alloc(BinaryIO.sizeOfInt32Array(selected.length))
+        const binary = new BinaryIO(buffer)
+        binary.writeInt32Array(selected)
+        return buffer
+      }),
+    )
 
-    const remainingBytes = Buffer.from(json.remainingBytes)
-
-    return Buffer.concat([header, vertices, faces, textureContainers, groups, remainingBytes])
+    return Buffer.concat([header, vertices, faces, textureContainers, groups, indices, actions, selections, selected])
   }
 }
