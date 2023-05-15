@@ -1,5 +1,5 @@
 import { any } from '@common/helpers'
-import { QuadrupleOf } from '@common/types'
+import { QuadrupleOf, TripleOf } from '@common/types'
 import { ArxPolygon, ArxPolygonFlags } from '@fts/Polygon'
 import { ArxVertex } from '@fts/Vertex'
 import { COORDS_THAT_ROUND_UP } from '@fts/constants'
@@ -26,7 +26,7 @@ export const addLightIndex = (polygons: ArxPolygon[]) => {
   })
 }
 
-const doCoordsNeedToBeRoundedUp = (coords: [number, number, number]) => {
+const doCoordsNeedToBeRoundedUp = (coords: TripleOf<number>) => {
   const [a, b, c] = coords.sort((a, b) => a - b)
   return any(([x, y, z]) => a === x && b === y && c === z, COORDS_THAT_ROUND_UP)
 }
