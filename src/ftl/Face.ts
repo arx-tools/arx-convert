@@ -9,16 +9,19 @@ export enum ArxFaceType {
   DoubleSided = 2,
 }
 
-/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FTLFormat.h#L103 */
+/**
+ * the default value of transval is 0
+ *
+ * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FTLFormat.h#L103
+ */
 export type ArxFace = {
   faceType: ArxFaceType
   vertexIdx: TripleOf<number>
   textureIdx: number
   u: TripleOf<number>
   v: TripleOf<number>
-  transval: number
+  transval?: number
   norm: ArxVector3
-  normals: TripleOf<ArxVector3>
 }
 
 export class Face {
@@ -41,9 +44,9 @@ export class Face {
     const dataBlock2 = {
       transval: binary.readFloat32(),
       norm: binary.readVector3(),
-      normals: binary.readVector3Array(3) as TripleOf<ArxVector3>,
     }
 
+    binary.readVector3Array(3) // normals - ignored by Arx
     binary.readFloat32() // temp - ignored by Arx
 
     return {
@@ -64,9 +67,14 @@ export class Face {
     binary.writeFloat32Array(face.v)
     binary.writeInt16Array([0, 0, 0]) // ou
     binary.writeInt16Array([0, 0, 0]) // ov
-    binary.writeFloat32(face.transval)
+    binary.writeFloat32(face.transval ?? 0)
     binary.writeVector3(face.norm)
-    binary.writeVector3Array(face.normals)
+    binary.writeVector3Array([
+      // normals
+      { x: 0, y: 0, z: 0 },
+      { x: 0, y: 0, z: 0 },
+      { x: 0, y: 0, z: 0 },
+    ])
     binary.writeFloat32(0) // temp
 
     return buffer
