@@ -22,7 +22,7 @@ export class Group {
     return {
       ...data,
       blobShadowSize: binary.readFloat32(),
-      indices: [], // gonna get filled separately
+      indices: [], // will get filled separately
     }
   }
 

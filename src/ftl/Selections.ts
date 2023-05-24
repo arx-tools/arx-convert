@@ -12,7 +12,7 @@ export class Selection {
     const data = {
       name: binary.readString(64),
       numberOfSelected: binary.readInt32(),
-      selected: [], // gonna get filled separately
+      selected: [], // will get filled separately
     }
 
     binary.readInt32() // selected - ignored by Arx
