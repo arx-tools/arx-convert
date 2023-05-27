@@ -3,7 +3,6 @@
 // ----------------
 
 export type { ArxColor } from '@common/Color'
-export type { ArxLight } from '@llf/Light'
 export type { ArxVector3, ArxRotation, ArxQuaternion } from '@common/types'
 
 export type { ArxZone, ArxPath, ArxDLF } from '@dlf/DLF'
@@ -15,8 +14,13 @@ export type { ArxZoneAndPathPoint } from '@dlf/ZoneAndPathPoint'
 export type { ArxScene } from '@dlf/Scene'
 
 export type { ArxFTL } from '@ftl/FTL'
+export type { ArxAction } from '@ftl/Action'
 export type { ArxFtlHeader } from '@ftl/FtlHeader'
 export type { ArxFtlVertex } from '@ftl/FtlVertex'
+export type { ArxSelection } from '@ftl/Selections'
+export type { ArxGroup } from '@ftl/Group'
+export type { ArxFtlTextureContainer } from '@ftl/FtlTextureContainer'
+export type { ArxFace } from '@ftl/Face'
 
 export type { ArxAnchor } from '@fts/Anchor'
 export type { ArxAnchorData } from '@fts/AnchorData'
@@ -40,6 +44,7 @@ export type { ArxVertex } from '@fts/Vertex'
 export type { ArxLLF } from '@llf/LLF'
 export type { ArxLightingHeader } from '@llf/LightingHeader'
 export type { ArxLlfHeader } from '@llf/LlfHeader'
+export type { ArxLight } from '@llf/Light'
 
 // export type { ArxNewKeyFrame } from '@tea/NewKeyFrame'
 // export type { ArxOldKeyFrame } from '@tea/OldKeyFrame'
@@ -47,6 +52,7 @@ export type { ArxLlfHeader } from '@llf/LlfHeader'
 // export type { ArxTeaHeader } from '@tea/TeaHeader'
 
 export type { ArxAMB } from '@amb/AMB'
+export type { ArxAmbHeader } from '@amb/AmbHeader'
 export type { ArxTrack } from '@amb/Track'
 export type { ArxKey } from '@amb/Key'
 export type { ArxSetting } from '@amb/Setting'
@@ -60,3 +66,4 @@ export { ArxPolygonFlags } from '@fts/Polygon'
 export { ArxLightFlags } from '@llf/Light'
 export { ArxTrackFlags } from '@amb/Track'
 export { ArxSettingFlag } from '@amb/Setting'
+export { ArxFaceType } from '@ftl/Face'
