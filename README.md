@@ -1,6 +1,6 @@
-# arx-convert
+# Arx Fatalis converter
 
-Converts Arx Fatalis level data to JSON or YAML and vice versa.
+Converts various Arx Fatalis formats (DLF, FTS, LLF, AMB and FTL) to JSON/YAML and back
 
 **IMPORTANT: Arx Fatalis files are partially compressed. See "compression" section for more info**
 
