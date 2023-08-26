@@ -98,13 +98,18 @@ export class ZoneAndPathHeader {
     binary.writeInt16(0) // idx
 
     let flags: ArxZoneAndPathFlags = ArxZoneAndPathFlags.None
-    if ('backgroundColor' in zoneOrPath) {
+    if ('backgroundColor' in zoneOrPath && typeof zoneOrPath.backgroundColor !== 'undefined') {
       flags = flags | ArxZoneAndPathFlags.SetBackgroundColor
     }
-    if ('drawDistance' in zoneOrPath) {
+    if ('drawDistance' in zoneOrPath && typeof zoneOrPath.drawDistance !== 'undefined') {
       flags = flags | ArxZoneAndPathFlags.SetDrawDistance
     }
-    if ('ambience' in zoneOrPath && 'ambienceMaxVolume' in zoneOrPath) {
+    if (
+      'ambience' in zoneOrPath &&
+      typeof zoneOrPath.ambience !== 'undefined' &&
+      'ambienceMaxVolume' in zoneOrPath &&
+      typeof zoneOrPath.ambienceMaxVolume !== 'undefined'
+    ) {
       flags = flags | ArxZoneAndPathFlags.SetAmbience
     }
 
