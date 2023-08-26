@@ -119,9 +119,7 @@ export class ZoneAndPathHeader {
     binary.writeInt32(zoneOrPath.points.length)
     binary.writeBuffer(
       Color.accumulateFrom(
-        'backgroundColor' in zoneOrPath
-          ? zoneOrPath?.backgroundColor ?? { r: 0, g: 0, b: 0, a: 1 }
-          : { r: 0, g: 0, b: 0, a: 1 },
+        'backgroundColor' in zoneOrPath ? zoneOrPath?.backgroundColor ?? Color.black : Color.black,
         'rgb',
       ),
     )

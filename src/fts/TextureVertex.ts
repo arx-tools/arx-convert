@@ -4,8 +4,8 @@ import { ArxColor, Color } from '@common/Color'
 import { ArxVector3 } from '@common/types'
 
 const HARDCODED_DATA_TYPE1 = {
-  color: { r: 0, g: 0, b: 0, a: 0 } as ArxColor,
-  specular: { r: 0, g: 0, b: 0, a: 0 } as ArxColor,
+  color: Color.transparent as ArxColor,
+  specular: Color.transparent as ArxColor,
   tu: 0,
   tv: 0,
 }

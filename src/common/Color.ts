@@ -55,4 +55,12 @@ export class Color {
       return BinaryIO.sizeOfUint8Array(4)
     }
   }
+
+  static get black(): ArxColor {
+    return { r: 0, g: 0, b: 0, a: 1 }
+  }
+
+  static get transparent(): ArxColor {
+    return { r: 0, g: 0, b: 0, a: 0 }
+  }
 }
