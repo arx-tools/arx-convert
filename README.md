@@ -143,14 +143,16 @@ arx-convert level3.dlf.yml --from=yaml --to=dlf --output=level3.dlf.repacked
 implode level3.dlf.repacked --offset=8520 --binary --large --output=level3.dlf
 ```
 
-### Example for detecting whether the file needs unpacking or not (save it as unpack.sh)
+### General scripts with detection to whether the input needs decompression or not
+
+#### unpack.sh
 
 ```sh
 #!/bin/bash
 
 #
 # usage: unpack.sh goblin_lord.ftl
-#        unpack.sh ../goblin_lord/goblin_lord.ftl
+#        unpack.sh ../goblin_lord/goblin_lord.ftl json
 #
 
 # try reading the 1st argument from the command line
@@ -165,8 +167,9 @@ INPUT=$1
 # get the extension of the input file's name and make it lowercase
 INPUT_FORMAT=$( \
   echo $INPUT \
-  | sed 's/.*\.//' \
   | tr '[:upper:]' '[:lower:]' \
+  | tr '.' '\n' \
+  | tail -1 \
 )
 
 # if a 2nd argument exists, then read it, otherwise set yaml as the output format
@@ -183,5 +186,54 @@ if [[ $OFFSET == "not compressed" ]]; then
   arx-convert $INPUT --from=$INPUT_FORMAT --to=$OUTPUT_FORMAT --pretty --output="$INPUT.$OUTPUT_FORMAT"
 else
   explode $INPUT --offset=$OFFSET | arx-convert --from=$INPUT_FORMAT --to=$OUTPUT_FORMAT --pretty --output="$INPUT.$OUTPUT_FORMAT"
+fi
+```
+
+#### repack.sh
+
+```sh
+#!/bin/bash
+
+#
+# usage: repack.sh level3.dlf.json
+#        repack.sh ../level3/level3.dlf.json
+#
+
+# try reading the 1st argument from the command line
+if [ $# -lt 1 ]; then
+  echo "missing filename, expected format: $0 <filename>"
+  exit 1
+fi
+
+# read the 1st argument
+INPUT=$1
+
+# something.ftl.json -> json
+INPUT_FORMAT=$( \
+  echo $INPUT \
+  | tr '[:upper:]' '[:lower:]' \
+  | tr '.' '\n' \
+  | tail -1 \
+)
+
+# something.ftl.json -> ftl
+OUTPUT_FORMAT=$( \
+  echo $INPUT \
+  | tr '[:upper:]' '[:lower:]' \
+  | tr '.' '\n' \
+  | tail -2 \
+  | head -1 \
+)
+
+arx-convert $INPUT --from=$INPUT_FORMAT --to=$OUTPUT_FORMAT --pretty --output="$INPUT.$OUTPUT_FORMAT.tmp"
+
+# get the offset in bytes, might also get back "not compressed"
+OFFSET=$(arx-header-size $INPUT --format=$OUTPUT_FORMAT)
+
+if [[ $OFFSET == "not compressed" ]]; then
+  mv "$INPUT.$OUTPUT_FORMAT.tmp" "$INPUT.$OUTPUT_FORMAT"
+else
+  implode "$INPUT.$OUTPUT_FORMAT.tmp" --offset=$OFFSET --binary --large --output="$INPUT.$OUTPUT_FORMAT"
+  rm "$INPUT.$OUTPUT_FORMAT.tmp"
 fi
 ```
