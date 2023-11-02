@@ -116,7 +116,7 @@ import { ArxDLF } from 'arx-convert/types'
 
 ## Compression
 
-Arx Fatalis files are partially compressed with Stormlib Pkware and you need a separate
+Some Arx Fatalis files are partially compressed with Stormlib Pkware and you need a separate
 tool for unpacking/repacking: [node-pkware](https://www.npmjs.com/package/node-pkware)
 
 Also, Arx Fatalis file headers are not constant in size, but there is a tool
@@ -128,7 +128,7 @@ Install these tools by running
 npm i node-pkware arx-header-size -g
 ```
 
-### Example for unpacking
+### Example for unpacking a compressed file
 
 ```sh
 arx-header-size level3.dlf --format=dlf # this will print out 8520
@@ -136,9 +136,52 @@ explode level3.dlf --offset=8520 --output=level3.dlf.unpacked
 arx-convert level3.dlf.unpacked --from=dlf --to=yaml --output=level3.dlf.yml
 ```
 
-### Example for repacking
+### Example for repacking a file that needs compression
 
 ```sh
 arx-convert level3.dlf.yml --from=yaml --to=dlf --output=level3.dlf.repacked
 implode level3.dlf.repacked --offset=8520 --binary --large --output=level3.dlf
+```
+
+### Example for detecting whether the file needs unpacking or not (save it as unpack.sh)
+
+```sh
+#!/bin/bash
+
+#
+# usage: unpack.sh goblin_lord.ftl
+#        unpack.sh ../goblin_lord/goblin_lord.ftl
+#
+
+# try reading the 1st argument from the command line
+if [ $# -lt 1 ]; then
+  echo "missing filename, expected format: $0 <filename>"
+  exit 1
+fi
+
+# read the 1st argument
+INPUT=$1
+
+# get the extension of the input file's name and make it lowercase
+INPUT_FORMAT=$( \
+  echo $INPUT \
+  | sed 's/.*\.//' \
+  | tr '[:upper:]' '[:lower:]' \
+)
+
+# if a 2nd argument exists, then read it, otherwise set yaml as the output format
+if [ $# -lt 2 ]; then
+  OUTPUT_FORMAT=yml
+else
+  OUTPUT_FORMAT=$2
+fi
+
+# get the offset in bytes, might also get back "not compressed"
+OFFSET=$(arx-header-size $INPUT --format=$INPUT_FORMAT)
+
+if [[ $OFFSET == "not compressed" ]]; then
+  arx-convert $INPUT --from=$INPUT_FORMAT --to=$OUTPUT_FORMAT --pretty --output="$INPUT.$OUTPUT_FORMAT"
+else
+  explode $INPUT --offset=$OFFSET | arx-convert --from=$INPUT_FORMAT --to=$OUTPUT_FORMAT --pretty --output="$INPUT.$OUTPUT_FORMAT"
+fi
 ```
