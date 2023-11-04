@@ -1,8 +1,8 @@
 import { Buffer } from 'node:buffer'
-import { KEEP_ZERO_BYTES } from '@common/constants'
-import { BinaryIO } from '@common/BinaryIO'
-import { ArxTEA } from '@tea/TEA'
-import { ArxOldKeyFrame, OldKeyFrame } from '@tea/OldKeyFrame'
+import { KEEP_ZERO_BYTES } from '@common/constants.js'
+import { BinaryIO } from '@common/BinaryIO.js'
+import { ArxTEA } from '@tea/TEA.js'
+import { ArxOldKeyFrame, OldKeyFrame } from '@tea/OldKeyFrame.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/animation/AnimationFormat.h#L102

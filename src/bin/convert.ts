@@ -12,8 +12,8 @@ import {
   isValidFormat,
   isArxFormat,
   isDataFormat,
-} from '@bin/helpers'
-import { DLF, FTS, LLF, FTL, TEA, AMB } from '../index'
+} from '@bin/helpers.js'
+import { DLF, FTS, LLF, FTL, TEA, AMB } from '@src/index.js'
 
 type AppArgs = {
   _: string[]

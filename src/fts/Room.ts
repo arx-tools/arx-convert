@@ -1,8 +1,8 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '@common/BinaryIO'
-import { times } from '@common/helpers'
-import { ArxEPData, EPData } from '@fts/EPData'
-import { RoomData } from '@fts/RoomData'
+import { BinaryIO } from '@common/BinaryIO.js'
+import { times } from '@common/helpers.js'
+import { ArxEPData, EPData } from '@fts/EPData.js'
+import { RoomData } from '@fts/RoomData.js'
 
 export type ArxRoom = {
   portals: number[]

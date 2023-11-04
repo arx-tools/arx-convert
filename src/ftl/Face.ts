@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '@common/BinaryIO'
-import { ArxVector3, TripleOf } from '@common/types'
+import { BinaryIO } from '@common/BinaryIO.js'
+import { ArxVector3, TripleOf } from '@common/types.js'
 
 /** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FTLFormat.h#L105 */
 export enum ArxFaceType {

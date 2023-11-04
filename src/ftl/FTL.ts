@@ -1,13 +1,13 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '@common/BinaryIO'
-import { ArxFtlHeader, FtlHeader } from '@ftl/FtlHeader'
-import { ArxFtlVertex, FtlVertex } from '@ftl/FtlVertex'
-import { ArxFtlTextureContainer, FtlTextureContainer } from '@ftl/FtlTextureContainer'
-import { ArxFace, Face } from '@ftl/Face'
-import { ArxGroup, Group } from '@ftl/Group'
-import { Action, ArxAction } from '@ftl/Action'
-import { ArxSelection, Selection } from '@ftl/Selections'
-import { times } from '@common/helpers'
+import { BinaryIO } from '@common/BinaryIO.js'
+import { ArxFtlHeader, FtlHeader } from '@ftl/FtlHeader.js'
+import { ArxFtlVertex, FtlVertex } from '@ftl/FtlVertex.js'
+import { ArxFtlTextureContainer, FtlTextureContainer } from '@ftl/FtlTextureContainer.js'
+import { ArxFace, Face } from '@ftl/Face.js'
+import { ArxGroup, Group } from '@ftl/Group.js'
+import { Action, ArxAction } from '@ftl/Action.js'
+import { ArxSelection, Selection } from '@ftl/Selections.js'
+import { times } from '@common/helpers.js'
 
 export type ArxFTL = {
   header: Omit<

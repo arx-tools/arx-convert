@@ -1,10 +1,10 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '@common/BinaryIO'
-import { KEEP_ZERO_BYTES } from '@common/constants'
-import { ArxQuaternion, ArxVector3 } from '@common/types'
-import { ArxTeaHeader, TeaHeader } from '@tea/TeaHeader'
-import { ArxNewKeyFrame, NewKeyFrame } from '@tea/NewKeyFrame'
-import { ArxOldKeyFrame, OldKeyFrame } from '@tea/OldKeyFrame'
+import { BinaryIO } from '@common/BinaryIO.js'
+import { KEEP_ZERO_BYTES } from '@common/constants.js'
+import { ArxQuaternion, ArxVector3 } from '@common/types.js'
+import { ArxTeaHeader, TeaHeader } from '@tea/TeaHeader.js'
+import { ArxNewKeyFrame, NewKeyFrame } from '@tea/NewKeyFrame.js'
+import { ArxOldKeyFrame, OldKeyFrame } from '@tea/OldKeyFrame.js'
 
 export type ArxTEA = {
   header: Omit<ArxTeaHeader, 'numberOfKeyFrames' | 'numberOfGroups'>

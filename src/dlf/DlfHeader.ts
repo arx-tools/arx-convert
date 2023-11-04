@@ -1,9 +1,9 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '@common/BinaryIO'
-import { DANAE_VERSION } from '@common/constants'
-import { repeat } from '@common/helpers'
-import { ArxRotation, ArxVector3 } from '@common/types'
-import { ArxDLF } from '@dlf/DLF'
+import { BinaryIO } from '@common/BinaryIO.js'
+import { DANAE_VERSION } from '@common/constants.js'
+import { repeat } from '@common/helpers.js'
+import { ArxRotation, ArxVector3 } from '@common/types.js'
+import { ArxDLF } from '@dlf/DLF.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L58

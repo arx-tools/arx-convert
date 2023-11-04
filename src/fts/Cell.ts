@@ -1,8 +1,8 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '@common/BinaryIO'
-import { times } from '@common/helpers'
-import { ArxPolygon, Polygon } from '@fts/Polygon'
-import { SceneInfo } from '@fts/SceneInfo'
+import { BinaryIO } from '@common/BinaryIO.js'
+import { times } from '@common/helpers.js'
+import { ArxPolygon, Polygon } from '@fts/Polygon.js'
+import { SceneInfo } from '@fts/SceneInfo.js'
 
 export type ArxCell = {
   polygons: ArxPolygon[]

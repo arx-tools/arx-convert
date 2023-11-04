@@ -1,8 +1,8 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '@common/BinaryIO'
-import { times } from '@common/helpers'
-import { AmbHeader } from '@amb/AmbHeader'
-import { Track, ArxTrack } from '@amb/Track'
+import { BinaryIO } from '@common/BinaryIO.js'
+import { times } from '@common/helpers.js'
+import { AmbHeader } from '@amb/AmbHeader.js'
+import { Track, ArxTrack } from '@amb/Track.js'
 
 export type ArxAMB = {
   tracks: ArxTrack[]

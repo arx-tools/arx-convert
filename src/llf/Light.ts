@@ -1,7 +1,7 @@
-import { BinaryIO } from '@common/BinaryIO'
-import { ArxColor, Color } from '@common/Color'
-import { repeat } from '@common/helpers'
-import { ArxVector3 } from '@common/types'
+import { BinaryIO } from '@common/BinaryIO.js'
+import { ArxColor, Color } from '@common/Color.js'
+import { repeat } from '@common/helpers.js'
+import { ArxVector3 } from '@common/types.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/Light.h#L80

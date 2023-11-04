@@ -1,9 +1,9 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '@common/BinaryIO'
-import { ArxVertex, Vertex } from '@fts/Vertex'
-import { ArxVector3, QuadrupleOf } from '@common/types'
-import { times } from '@common/helpers'
-import { ArxTextureContainer } from '@fts/TextureContainer'
+import { BinaryIO } from '@common/BinaryIO.js'
+import { ArxVertex, Vertex } from '@fts/Vertex.js'
+import { ArxVector3, QuadrupleOf } from '@common/types.js'
+import { times } from '@common/helpers.js'
+import { ArxTextureContainer } from '@fts/TextureContainer.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/GraphicsTypes.h#L88

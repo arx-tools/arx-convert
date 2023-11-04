@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '@common/BinaryIO'
-import { TextureContainer } from '@fts/TextureContainer'
+import { BinaryIO } from '@common/BinaryIO.js'
+import { TextureContainer } from '@fts/TextureContainer.js'
 
 /** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FTLFormat.h#L97 */
 export type ArxFtlTextureContainer = {

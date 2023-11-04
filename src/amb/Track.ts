@@ -1,6 +1,6 @@
-import { BinaryIO } from '@common/BinaryIO'
-import { times } from '@common/helpers'
-import { ArxKey, Key } from '@amb/Key'
+import { BinaryIO } from '@common/BinaryIO.js'
+import { times } from '@common/helpers.js'
+import { ArxKey, Key } from '@amb/Key.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/audio/Ambiance.cpp#L230

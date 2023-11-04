@@ -1,7 +1,7 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '@common/BinaryIO'
-import { ArxColor, Color } from '@common/Color'
-import { ArxVector3 } from '@common/types'
+import { BinaryIO } from '@common/BinaryIO.js'
+import { ArxColor, Color } from '@common/Color.js'
+import { ArxVector3 } from '@common/types.js'
 
 const HARDCODED_DATA_TYPE1 = {
   color: Color.transparent as ArxColor,

@@ -1,13 +1,13 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '@common/BinaryIO'
-import { times } from '@common/helpers'
-import { ArxDlfHeader, DlfHeader } from '@dlf/DlfHeader'
-import { ArxFog, Fog } from '@dlf/Fog'
-import { ArxInteractiveObject, InteractiveObject } from '@dlf/InteactiveObject'
-import { ArxZoneAndPathFlags, ArxZoneAndPathHeader, ZoneAndPathHeader } from '@dlf/ZoneAndPathHeader'
-import { ArxZoneAndPathPoint, ZoneAndPathPoint } from '@dlf/ZoneAndPathPoint'
-import { ArxScene, Scene } from '@dlf/Scene'
-import { Expand, Optional } from '@common/types'
+import { BinaryIO } from '@common/BinaryIO.js'
+import { times } from '@common/helpers.js'
+import { ArxDlfHeader, DlfHeader } from '@dlf/DlfHeader.js'
+import { ArxFog, Fog } from '@dlf/Fog.js'
+import { ArxInteractiveObject, InteractiveObject } from '@dlf/InteactiveObject.js'
+import { ArxZoneAndPathFlags, ArxZoneAndPathHeader, ZoneAndPathHeader } from '@dlf/ZoneAndPathHeader.js'
+import { ArxZoneAndPathPoint, ZoneAndPathPoint } from '@dlf/ZoneAndPathPoint.js'
+import { ArxScene, Scene } from '@dlf/Scene.js'
+import { Expand, Optional } from '@common/types.js'
 
 export type ArxZone = Expand<
   Optional<

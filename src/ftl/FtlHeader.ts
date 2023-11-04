@@ -1,7 +1,7 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '@common/BinaryIO'
-import { ArxFTL } from '@ftl/FTL'
-import { VERSION } from '@ftl/constants'
+import { BinaryIO } from '@common/BinaryIO.js'
+import { ArxFTL } from '@ftl/FTL.js'
+import { VERSION } from '@ftl/constants.js'
 
 /** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FTLFormat.h#L86 */
 export type ArxFtlHeader = {

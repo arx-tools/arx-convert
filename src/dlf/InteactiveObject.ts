@@ -1,8 +1,8 @@
 import path from 'node:path'
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '@common/BinaryIO'
-import { last, repeat } from '@common/helpers'
-import { ArxRotation, ArxVector3 } from '@common/types'
+import { BinaryIO } from '@common/BinaryIO.js'
+import { last, repeat } from '@common/helpers.js'
+import { ArxRotation, ArxVector3 } from '@common/types.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L193

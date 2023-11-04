@@ -1,8 +1,8 @@
-import { any } from '@common/helpers'
-import { QuadrupleOf, TripleOf } from '@common/types'
-import { ArxPolygon, ArxPolygonFlags } from '@fts/Polygon'
-import { ArxVertex } from '@fts/Vertex'
-import { COORDS_THAT_ROUND_UP } from '@fts/constants'
+import { any } from '@common/helpers.js'
+import { QuadrupleOf, TripleOf } from '@common/types.js'
+import { ArxPolygon, ArxPolygonFlags } from '@fts/Polygon.js'
+import { ArxVertex } from '@fts/Vertex.js'
+import { COORDS_THAT_ROUND_UP } from '@fts/constants.js'
 
 const isQuad = (polygon: ArxPolygon) => {
   return (polygon.flags & ArxPolygonFlags.Quad) !== 0

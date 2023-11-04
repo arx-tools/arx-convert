@@ -1,5 +1,5 @@
 import { Buffer } from 'node:buffer'
-import { BinaryIO } from '@common/BinaryIO'
+import { BinaryIO } from '@common/BinaryIO.js'
 
 type ColorMode = 'bgra' | 'rgb' | 'abgr'
 
