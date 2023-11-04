@@ -4,6 +4,7 @@
   "description": "Converts various Arx Fatalis formats to JSON or YAML and back",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "module",
   "engines": {
     "npm": ">=8.0.0",
     "node": ">=18.0.0"
