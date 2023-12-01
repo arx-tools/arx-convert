@@ -1,5 +1,5 @@
 import { any } from '@common/helpers.js'
-import { QuadrupleOf, TripleOf } from '@common/types.js'
+import { DoubleOf, QuadrupleOf, TripleOf } from '@common/types.js'
 import { ArxPolygon, ArxPolygonFlags } from '@fts/Polygon.js'
 import { ArxVertex } from '@fts/Vertex.js'
 import { COORDS_THAT_ROUND_UP } from '@fts/constants.js'
@@ -31,7 +31,7 @@ const doCoordsNeedToBeRoundedUp = (coords: TripleOf<number>) => {
   return any(([x, y, z]) => a === x && b === y && c === z, COORDS_THAT_ROUND_UP)
 }
 
-export const getCellCoords = ([a, b, c]: QuadrupleOf<ArxVertex>): [number, number] => {
+export const getCellCoords = ([a, b, c]: QuadrupleOf<ArxVertex>): DoubleOf<number> => {
   const x = (a.x + b.x + c.x) / 3
   const z = (a.z + b.z + c.z) / 3
 

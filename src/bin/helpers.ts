@@ -9,6 +9,7 @@ import {
   SUPPORTED_DATA_FORMATS,
   SUPPORTED_FORMATS,
 } from '@bin/constants.js'
+import { DoubleOf } from '@common/types.js'
 
 export const getPackageVersion = async () => {
   try {
@@ -78,7 +79,7 @@ const sliceBuffer = (buffer: string | Buffer, start?: number, end?: number) => {
   }
 }
 
-export const evenAndRemainder = (divisor: number, n: number): [number, number] => {
+export const evenAndRemainder = (divisor: number, n: number): DoubleOf<number> => {
   return [Math.floor(n / divisor), n % divisor]
 }
 

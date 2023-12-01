@@ -26,6 +26,8 @@ export type ArxQuaternion = {
   w: number
 }
 
+export type DoubleOf<T> = [T, T]
+
 export type TripleOf<T> = [T, T, T]
 
 export type QuadrupleOf<T> = [T, T, T, T]
