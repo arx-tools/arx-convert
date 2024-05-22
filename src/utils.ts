@@ -1,4 +1,4 @@
-export { getCellCoords } from '@fts/helpers.js'
+export { getCellCoords, isQuad, isTiled } from '@fts/helpers.js'
 
 export type { DoubleOf, TripleOf, QuadrupleOf, Optional, Expand, RecursiveExpand } from '@common/types.js'
 

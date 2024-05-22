@@ -4,8 +4,12 @@ import { ArxPolygon, ArxPolygonFlags } from '@fts/Polygon.js'
 import { ArxVertex } from '@fts/Vertex.js'
 import { COORDS_THAT_ROUND_UP } from '@fts/constants.js'
 
-const isQuad = (polygon: ArxPolygon) => {
-  return (polygon.flags & ArxPolygonFlags.Quad) !== 0
+export const isQuad = ({ flags }: { flags: ArxPolygonFlags }) => {
+  return (flags & ArxPolygonFlags.Quad) !== 0
+}
+
+export const isTiled = ({ flags }: { flags: ArxPolygonFlags }) => {
+  return (flags & ArxPolygonFlags.Tiled) !== 0
 }
 
 export const addLightIndex = (polygons: ArxPolygon[]) => {
