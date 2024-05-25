@@ -237,3 +237,11 @@ else
   rm "$INPUT.$OUTPUT_FORMAT.tmp"
 fi
 ```
+
+### Uncompressed FTS files in Arx Libertatis 1.3
+
+`FTS.save()` now takes a 2nd parameter to control whether the given fts data should be marked as compressed
+or uncompressed
+
+- `FTS.save(ftsData, true)` -> fts files get compressed (true can be omitted as it is the **default** value)
+- `FTS.save(ftsData, false)` -> marks the fts file as uncompressed, no pkware compression is required afterwards
