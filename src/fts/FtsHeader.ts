@@ -22,12 +22,7 @@ export class FtsHeader {
     }
 
     binary.readFloat32() // version - always 0.14100000262260437
-
     binary.readInt32() // uncompressed size in bytes
-    // TODO: future Arx Libertatis feature: setting uncompressed size in bytes to 0 will be
-    // interpreted as the file being uncompressed
-    // (source: https://arx-libertatis.org/irclogs/2023/%23arx.2023-01-01.log)
-
     binary.readUint32Array(3) // pad - ?
 
     return data
