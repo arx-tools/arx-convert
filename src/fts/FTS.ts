@@ -27,6 +27,14 @@ export type ArxFTS = {
   roomDistances: ArxRoomDistance[]
 }
 
+/**
+ * Arx Libertatis feature: setting the uncompressed bytes' size in the header to 0 gets
+ * interpreted as the file being uncompressed
+ *
+ * source of discussion: https://arx-libertatis.org/irclogs/2023/%23arx.2023-01-01.log
+ *
+ * implemented in: https://github.com/arx/ArxLibertatis/commit/2d2226929780b6202f54982bacc79ddf75dbec53
+ */
 const IS_AN_UNCOMPRESSED_FTS = 0
 
 export class FTS {
@@ -99,11 +107,7 @@ export class FTS {
       roomDistances,
     ])
 
-    // Arx Libertatis feature: setting uncompressed size in bytes to 0 gets
-    // interpreted as the file being uncompressed
-    // source of discussion: https://arx-libertatis.org/irclogs/2023/%23arx.2023-01-01.log
-    // implemented in: https://github.com/arx/ArxLibertatis/commit/2d2226929780b6202f54982bacc79ddf75dbec53
-    const header = FtsHeader.accumulateFrom(json, isCompressed ? dataWithoutHeader.length : 0)
+    const header = FtsHeader.accumulateFrom(json, isCompressed ? dataWithoutHeader.length : IS_AN_UNCOMPRESSED_FTS)
     const uniqueHeaders = Buffer.concat(json.uniqueHeaders.map(UniqueHeader.accumulateFrom))
 
     return Buffer.concat([header, uniqueHeaders, dataWithoutHeader])
