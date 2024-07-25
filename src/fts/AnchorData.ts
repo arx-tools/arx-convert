@@ -1,7 +1,7 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
-import { ArxVector3 } from '@common/types.js'
-import { ArxAnchor } from '@fts/Anchor.js'
+import { type ArxVector3 } from '@common/types.js'
+import { type ArxAnchor } from '@fts/Anchor.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L113
@@ -56,7 +56,7 @@ export class AnchorData {
 
     let flags = 0
     if (anchor.data.isBlocked) {
-      flags = flags | ArxAnchorFlags.Blocked
+      flags |= ArxAnchorFlags.Blocked
     }
 
     binary.writeInt16(flags)

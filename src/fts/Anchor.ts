@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
-import { ArxAnchorData, AnchorData } from '@fts/AnchorData.js'
+import { type ArxAnchorData, AnchorData } from '@fts/AnchorData.js'
 
 export type ArxAnchor = {
   data: Omit<ArxAnchorData, 'numberOfLinkedAnchors'>

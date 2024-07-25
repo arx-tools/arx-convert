@@ -1,10 +1,10 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
-import { ArxColor, Color } from '@common/Color.js'
+import { type ArxColor, Color } from '@common/Color.js'
 import { times } from '@common/helpers.js'
-import { ArxLight, Light } from '@llf/Light.js'
+import { type ArxLight, Light } from '@llf/Light.js'
 import { LightingHeader } from '@llf/LightingHeader.js'
-import { ArxLlfHeader, LlfHeader } from '@llf/LlfHeader.js'
+import { type ArxLlfHeader, LlfHeader } from '@llf/LlfHeader.js'
 
 export type ArxLLF = {
   header: Omit<ArxLlfHeader, 'numberOfLights'>

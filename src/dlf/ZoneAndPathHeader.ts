@@ -1,8 +1,8 @@
 import { BinaryIO } from '@common/BinaryIO.js'
-import { ArxColor, Color } from '@common/Color.js'
+import { type ArxColor, Color } from '@common/Color.js'
 import { repeat } from '@common/helpers.js'
-import { ArxVector3 } from '@common/types.js'
-import { ArxPath, ArxZone } from '@dlf/DLF.js'
+import { type ArxVector3 } from '@common/types.js'
+import { type ArxPath, type ArxZone } from '@dlf/DLF.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/ai/Paths.h#L65
@@ -92,25 +92,27 @@ export class ZoneAndPathHeader {
     const buffer = Buffer.alloc(ZoneAndPathHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
-    const pos = zoneOrPath.points[0].pos
+    const { pos } = zoneOrPath.points[0]
 
     binary.writeString(zoneOrPath.name, 64)
     binary.writeInt16(0) // idx
 
     let flags: ArxZoneAndPathFlags = ArxZoneAndPathFlags.None
-    if ('backgroundColor' in zoneOrPath && typeof zoneOrPath.backgroundColor !== 'undefined') {
-      flags = flags | ArxZoneAndPathFlags.SetBackgroundColor
+    if ('backgroundColor' in zoneOrPath && zoneOrPath.backgroundColor !== undefined) {
+      flags |= ArxZoneAndPathFlags.SetBackgroundColor
     }
-    if ('drawDistance' in zoneOrPath && typeof zoneOrPath.drawDistance !== 'undefined') {
-      flags = flags | ArxZoneAndPathFlags.SetDrawDistance
+
+    if ('drawDistance' in zoneOrPath && zoneOrPath.drawDistance !== undefined) {
+      flags |= ArxZoneAndPathFlags.SetDrawDistance
     }
+
     if (
       'ambience' in zoneOrPath &&
-      typeof zoneOrPath.ambience !== 'undefined' &&
+      zoneOrPath.ambience !== undefined &&
       'ambienceMaxVolume' in zoneOrPath &&
-      typeof zoneOrPath.ambienceMaxVolume !== 'undefined'
+      zoneOrPath.ambienceMaxVolume !== undefined
     ) {
-      flags = flags | ArxZoneAndPathFlags.SetAmbience
+      flags |= ArxZoneAndPathFlags.SetAmbience
     }
 
     binary.writeInt16(flags)
@@ -119,13 +121,13 @@ export class ZoneAndPathHeader {
     binary.writeInt32(zoneOrPath.points.length)
     binary.writeBuffer(
       Color.accumulateFrom(
-        'backgroundColor' in zoneOrPath ? zoneOrPath?.backgroundColor ?? Color.black : Color.black,
+        'backgroundColor' in zoneOrPath ? (zoneOrPath?.backgroundColor ?? Color.black) : Color.black,
         'rgb',
       ),
     )
-    binary.writeFloat32('drawDistance' in zoneOrPath ? zoneOrPath?.drawDistance ?? 2800 : 2800) // for paths it's 80% 2800, 20% 0
+    binary.writeFloat32('drawDistance' in zoneOrPath ? (zoneOrPath?.drawDistance ?? 2800) : 2800) // for paths it's 80% 2800, 20% 0
     binary.writeFloat32(0) // reverb
-    binary.writeFloat32('ambienceMaxVolume' in zoneOrPath ? zoneOrPath?.ambienceMaxVolume ?? 100 : 100)
+    binary.writeFloat32('ambienceMaxVolume' in zoneOrPath ? (zoneOrPath?.ambienceMaxVolume ?? 100) : 100)
 
     binary.writeFloat32Array(repeat(0, 26)) // fpad
 
@@ -133,7 +135,7 @@ export class ZoneAndPathHeader {
 
     binary.writeInt32Array(repeat(0, 31)) // lpad
 
-    binary.writeString('ambience' in zoneOrPath ? zoneOrPath?.ambience ?? 'NONE' : 'NONE', 128)
+    binary.writeString('ambience' in zoneOrPath ? (zoneOrPath?.ambience ?? 'NONE') : 'NONE', 128)
 
     binary.writeString('', 128) // cpad
 

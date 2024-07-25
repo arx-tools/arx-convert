@@ -1,9 +1,9 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { times } from '@common/helpers.js'
-import { ArxVector3, QuadrupleOf } from '@common/types.js'
+import { type ArxVector3, type QuadrupleOf } from '@common/types.js'
 import { ArxPolygonFlags } from '@fts/Polygon.js'
-import { ArxTextureVertex, TextureVertex } from '@fts/TextureVertex.js'
+import { type ArxTextureVertex, TextureVertex } from '@fts/TextureVertex.js'
 
 // found in levels below 10
 // prettier-ignore
@@ -19,7 +19,7 @@ const HARDCODED_DATA_TYPE1 = [
 ]
 
 // found in levels at or above 10
-const HARDCODED_DATA_TYPE2 = HARDCODED_DATA_TYPE1.slice(0)
+const HARDCODED_DATA_TYPE2 = [...HARDCODED_DATA_TYPE1]
 HARDCODED_DATA_TYPE2[0x4c] -= 1
 HARDCODED_DATA_TYPE2[0x5c] += 1
 HARDCODED_DATA_TYPE2[0x68] += 1

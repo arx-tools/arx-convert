@@ -1,13 +1,13 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { times } from '@common/helpers.js'
-import { ArxDlfHeader, DlfHeader } from '@dlf/DlfHeader.js'
-import { ArxFog, Fog } from '@dlf/Fog.js'
-import { ArxInteractiveObject, InteractiveObject } from '@dlf/InteactiveObject.js'
-import { ArxZoneAndPathFlags, ArxZoneAndPathHeader, ZoneAndPathHeader } from '@dlf/ZoneAndPathHeader.js'
-import { ArxZoneAndPathPoint, ZoneAndPathPoint } from '@dlf/ZoneAndPathPoint.js'
-import { ArxScene, Scene } from '@dlf/Scene.js'
-import { Expand, Optional } from '@common/types.js'
+import { type ArxDlfHeader, DlfHeader } from '@dlf/DlfHeader.js'
+import { type ArxFog, Fog } from '@dlf/Fog.js'
+import { type ArxInteractiveObject, InteractiveObject } from '@dlf/InteactiveObject.js'
+import { ArxZoneAndPathFlags, type ArxZoneAndPathHeader, ZoneAndPathHeader } from '@dlf/ZoneAndPathHeader.js'
+import { type ArxZoneAndPathPoint, ZoneAndPathPoint } from '@dlf/ZoneAndPathPoint.js'
+import { type ArxScene, Scene } from '@dlf/Scene.js'
+import { type Expand, type Optional } from '@common/types.js'
 
 export type ArxZone = Expand<
   Optional<
@@ -88,7 +88,7 @@ export class DLF {
     const paths = Buffer.concat(
       json.paths.flatMap((path) => {
         const header = ZoneAndPathHeader.allocateFrom(path)
-        const pos = path.points[0].pos
+        const { pos } = path.points[0]
         const points = path.points.map((point) => ZoneAndPathPoint.allocateFrom(point, pos))
         return [header, ...points]
       }),
@@ -97,7 +97,7 @@ export class DLF {
     const zones = Buffer.concat(
       json.zones.flatMap((zone) => {
         const header = ZoneAndPathHeader.allocateFrom(zone)
-        const pos = zone.points[0].pos
+        const { pos } = zone.points[0]
         const points = zone.points.map((point) => ZoneAndPathPoint.allocateFrom(point, pos))
         return [header, ...points]
       }),

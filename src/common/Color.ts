@@ -24,13 +24,15 @@ export class Color {
     if (mode === 'bgra') {
       const [b, g, r, a] = binary.readUint8Array(4)
       return { r, g, b, a: a / 255 }
-    } else if (mode === 'abgr') {
+    }
+
+    if (mode === 'abgr') {
       const [a, b, g, r] = binary.readUint8Array(4)
       return { r, g, b, a: a / 255 }
-    } else {
-      const [r, g, b] = binary.readFloat32Array(3)
-      return { r: r * 255, g: g * 255, b: b * 255, a: 1 }
     }
+
+    const [r, g, b] = binary.readFloat32Array(3)
+    return { r: r * 255, g: g * 255, b: b * 255, a: 1 }
   }
 
   static accumulateFrom({ r, g, b, a }: ArxColor, mode: ColorMode) {
@@ -51,9 +53,9 @@ export class Color {
   static sizeOf(mode: ColorMode) {
     if (mode === 'rgb') {
       return BinaryIO.sizeOfFloat32Array(3)
-    } else {
-      return BinaryIO.sizeOfUint8Array(4)
     }
+
+    return BinaryIO.sizeOfUint8Array(4)
   }
 
   static get black(): ArxColor {

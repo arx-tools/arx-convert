@@ -1,6 +1,6 @@
 import { BinaryIO } from '@common/BinaryIO.js'
 import { times } from '@common/helpers.js'
-import { ArxKey, Key } from '@amb/Key.js'
+import { type ArxKey, Key } from '@amb/Key.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/audio/Ambiance.cpp#L230
@@ -71,7 +71,7 @@ export class Track {
    *   to: sfc/strange_noise10c.wav
    */
   static toRelativePath(filename: string) {
-    return filename.toLowerCase().replace(/\\/g, '/')
+    return filename.toLowerCase().replaceAll('\\', '/')
   }
 
   /**
@@ -79,7 +79,7 @@ export class Track {
    *   to: sfx\\ambiance\\loop_goblin_main.wav
    */
   static toAbsolutePath(filename: string) {
-    return filename.toLowerCase().replace(/\//g, '\\')
+    return filename.toLowerCase().replaceAll('/', '\\')
   }
 
   static sizeOf(track: ArxTrack) {

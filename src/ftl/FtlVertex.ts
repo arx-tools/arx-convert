@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
-import { ArxVector3 } from '@common/types.js'
+import { type ArxVector3 } from '@common/types.js'
 import { repeat } from '@common/helpers.js'
 
 export type ArxFtlVertex = {

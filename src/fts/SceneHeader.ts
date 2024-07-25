@@ -2,8 +2,8 @@ import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { MAP_DEPTH_IN_CELLS, MAP_WIDTH_IN_CELLS } from '@common/constants.js'
 import { maxAll, uniq } from '@common/helpers.js'
-import { ArxVector3 } from '@common/types.js'
-import { ArxFTS } from '@fts/FTS.js'
+import { type ArxVector3 } from '@common/types.js'
+import { type ArxFTS } from '@fts/FTS.js'
 import { VERSION } from '@fts/constants.js'
 
 /**

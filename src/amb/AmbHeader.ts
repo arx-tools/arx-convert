@@ -1,5 +1,5 @@
 import { BinaryIO } from '@common/BinaryIO.js'
-import { ArxAMB } from '@amb/AMB.js'
+import { type ArxAMB } from '@amb/AMB.js'
 import { VERSION_1003, VERSION_1002 } from '@amb/constants.js'
 
 export type ArxAmbHeader = {

@@ -1,7 +1,7 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
-import { ArxVertex, Vertex } from '@fts/Vertex.js'
-import { ArxVector3, QuadrupleOf } from '@common/types.js'
+import { type ArxVertex, Vertex } from '@fts/Vertex.js'
+import { type ArxVector3, type QuadrupleOf } from '@common/types.js'
 import { times } from '@common/helpers.js'
 import { ArxTextureContainer } from '@fts/TextureContainer.js'
 

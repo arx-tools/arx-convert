@@ -4,7 +4,7 @@
  *
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/audio/Ambiance.cpp#L78
  */
-export const VERSION_1003 = 16777219
+export const VERSION_1003 = 16_777_219
 
 /**
  * 0x02 0x00 0x00 0x01
@@ -12,7 +12,7 @@ export const VERSION_1003 = 16777219
  *
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/audio/Ambiance.cpp#L77
  */
-export const VERSION_1002 = 16777218
+export const VERSION_1002 = 16_777_218
 
 // There exists an even older version: 16777218
 // 0x01 0x00 0x00 0x01

@@ -1,7 +1,7 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { times } from '@common/helpers.js'
-import { ArxEPData, EPData } from '@fts/EPData.js'
+import { type ArxEPData, EPData } from '@fts/EPData.js'
 import { RoomData } from '@fts/RoomData.js'
 
 export type ArxRoom = {

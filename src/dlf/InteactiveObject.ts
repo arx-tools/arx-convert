@@ -2,7 +2,7 @@ import path from 'node:path'
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { last, repeat } from '@common/helpers.js'
-import { ArxRotation, ArxVector3 } from '@common/types.js'
+import { type ArxRotation, type ArxVector3 } from '@common/types.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L193
@@ -59,15 +59,15 @@ export class InteractiveObject {
   static toRelativePath(filePath: string) {
     // items/provisions/pie/pie.teo
     // items/provisions/mushroom/food_mushroom.teo
-    filePath = filePath.toLowerCase().replace(/\\/g, '/').split('graph/obj3d/interactive/')[1]
+    filePath = filePath.toLowerCase().replaceAll('\\', '/').split('graph/obj3d/interactive/')[1]
 
     const { dir, name } = path.parse(filePath)
 
     if (last(dir.split('/')) !== name) {
       return dir + '/' + name + '.asl'
-    } else {
-      return dir
     }
+
+    return dir
   }
 
   /**
@@ -82,12 +82,12 @@ export class InteractiveObject {
 
     if (filePath.endsWith('.asl')) {
       const { dir, name } = path.parse(filePath)
-      return `c:\\arx\\graph\\obj3d\\interactive\\${dir.replace(/\//g, '\\')}\\${name}.teo`
-    } else {
-      const dir = filePath
-      const name = last(filePath.split('/'))
-      return `c:\\arx\\graph\\obj3d\\interactive\\${dir.replace(/\//g, '\\')}\\${name}.teo`
+      return `c:\\arx\\graph\\obj3d\\interactive\\${dir.replaceAll('/', '\\')}\\${name}.teo`
     }
+
+    const dir = filePath
+    const name = last(filePath.split('/'))
+    return `c:\\arx\\graph\\obj3d\\interactive\\${dir.replaceAll('/', '\\')}\\${name}.teo`
   }
 
   static sizeOf() {

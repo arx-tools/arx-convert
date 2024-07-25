@@ -1,8 +1,8 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
-import { ArxColor, Color } from '@common/Color.js'
+import { type ArxColor, Color } from '@common/Color.js'
 import { repeat } from '@common/helpers.js'
-import { ArxRotation, ArxVector3 } from '@common/types.js'
+import { type ArxRotation, type ArxVector3 } from '@common/types.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L132

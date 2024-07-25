@@ -1,6 +1,6 @@
 import { decodeText, encodeText, repeat } from '@common/helpers.js'
 import { LITTLE_ENDIAN, TRUNCATE_ZERO_BYTES, KEEP_ZERO_BYTES, BYTE_OF_AN_UNKNOWN_CHAR } from '@common/constants.js'
-import { ArxQuaternion, ArxRotation, ArxVector3 } from '@common/types.js'
+import { type ArxQuaternion, type ArxRotation, type ArxVector3 } from '@common/types.js'
 
 export class BinaryIO extends DataView {
   public position: number // TODO: make this private - this needs to be public because of TEA
@@ -21,6 +21,7 @@ export class BinaryIO extends DataView {
     for (let i = 0; i < length; i++) {
       arr.push(this.readFloat32())
     }
+
     return arr
   }
 
@@ -35,6 +36,7 @@ export class BinaryIO extends DataView {
     for (let i = 0; i < length; i++) {
       arr.push(this.readInt8())
     }
+
     return arr
   }
 
@@ -49,6 +51,7 @@ export class BinaryIO extends DataView {
     for (let i = 0; i < length; i++) {
       arr.push(this.readInt16())
     }
+
     return arr
   }
 
@@ -63,6 +66,7 @@ export class BinaryIO extends DataView {
     for (let i = 0; i < length; i++) {
       arr.push(this.readInt32())
     }
+
     return arr
   }
 
@@ -77,6 +81,7 @@ export class BinaryIO extends DataView {
     for (let i = 0; i < length; i++) {
       arr.push(this.readUint8())
     }
+
     return arr
   }
 
@@ -91,6 +96,7 @@ export class BinaryIO extends DataView {
     for (let i = 0; i < length; i++) {
       arr.push(this.readUint16())
     }
+
     return arr
   }
 
@@ -105,6 +111,7 @@ export class BinaryIO extends DataView {
     for (let i = 0; i < length; i++) {
       arr.push(this.readUint32())
     }
+
     return arr
   }
 
@@ -220,7 +227,13 @@ export class BinaryIO extends DataView {
 
   writeString(str: string, length?: number) {
     // if length is given we assume a fixed length string
-    if (length !== undefined) {
+    if (length === undefined) {
+      // otherwise its a 0 terminated c string
+      encodeText(str).forEach((charCode) => {
+        this.writeUint8(charCode)
+      })
+      this.writeUint8(0)
+    } else {
       const charCodes = repeat(0, length)
 
       // replacing 0s in charCodes one by one from left to right
@@ -231,12 +244,6 @@ export class BinaryIO extends DataView {
       charCodes.forEach((charCode) => {
         this.writeUint8(charCode)
       })
-    } else {
-      // otherwise its a 0 terminated c string
-      encodeText(str).forEach((charCode) => {
-        this.writeUint8(charCode)
-      })
-      this.writeUint8(0)
     }
   }
 
@@ -250,6 +257,7 @@ export class BinaryIO extends DataView {
     for (let i = 0; i < length; i++) {
       arr.push(this.readVector3())
     }
+
     return arr
   }
 

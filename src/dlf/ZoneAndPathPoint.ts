@@ -1,7 +1,7 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { repeat } from '@common/helpers.js'
-import { ArxVector3 } from '@common/types.js'
+import { type ArxVector3 } from '@common/types.js'
 
 export enum ArxZoneAndPathPointType {
   Standard = 0,

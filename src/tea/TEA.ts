@@ -1,10 +1,10 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { KEEP_ZERO_BYTES } from '@common/constants.js'
-import { ArxQuaternion, ArxVector3 } from '@common/types.js'
-import { ArxTeaHeader, TeaHeader } from '@tea/TeaHeader.js'
-import { ArxNewKeyFrame, NewKeyFrame } from '@tea/NewKeyFrame.js'
-import { ArxOldKeyFrame, OldKeyFrame } from '@tea/OldKeyFrame.js'
+import { type ArxQuaternion, type ArxVector3 } from '@common/types.js'
+import { type ArxTeaHeader, TeaHeader } from '@tea/TeaHeader.js'
+import { type ArxNewKeyFrame, NewKeyFrame } from '@tea/NewKeyFrame.js'
+import { type ArxOldKeyFrame, OldKeyFrame } from '@tea/OldKeyFrame.js'
 
 export type ArxTEA = {
   header: Omit<ArxTeaHeader, 'numberOfKeyFrames' | 'numberOfGroups'>
@@ -36,18 +36,14 @@ export class TEA {
     }
 
     const data: ArxTEA = {
-      header: header,
+      header,
       keyframes: [],
     }
 
     for (let i = 0; i < numberOfKeyFrames; i++) {
       console.log(i, file.position)
       let keyframe: ArxKeyFrame
-      if (header.version >= 2015) {
-        keyframe = NewKeyFrame.readFrom(file)
-      } else {
-        keyframe = OldKeyFrame.readFrom(file)
-      }
+      keyframe = header.version >= 2015 ? NewKeyFrame.readFrom(file) : OldKeyFrame.readFrom(file)
       data.keyframes.push(keyframe)
 
       if (keyframe.key_move) {

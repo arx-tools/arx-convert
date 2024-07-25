@@ -1,20 +1,20 @@
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
-import { ArxColor, Color } from '@common/Color.js'
-import { ArxVector3 } from '@common/types.js'
+import { type ArxColor, Color } from '@common/Color.js'
+import { type ArxVector3 } from '@common/types.js'
 
 const HARDCODED_DATA_TYPE1 = {
-  color: Color.transparent as ArxColor,
-  specular: Color.transparent as ArxColor,
+  color: Color.transparent,
+  specular: Color.transparent,
   tu: 0,
   tv: 0,
 }
 
 const HARDCODED_DATA_TYPE2 = {
-  color: { r: 1, g: 22, b: 242, a: 0.2980392156862745 } as ArxColor,
-  specular: { r: 0, g: 92, b: 200, a: 0.49411764705882355 } as ArxColor,
-  tu: 1.5694542800437951e-43,
-  tv: 2.772455559201393e-38,
+  color: { r: 1, g: 22, b: 242, a: 0.298_039_215_686_274_5 } as ArxColor,
+  specular: { r: 0, g: 92, b: 200, a: 0.494_117_647_058_823_55 } as ArxColor,
+  tu: 1.569_454_280_043_795_1e-43,
+  tv: 2.772_455_559_201_393e-38,
 }
 
 /**

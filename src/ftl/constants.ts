@@ -1,1 +1,1 @@
-export const VERSION = 0.8325700163841248 // 0.83257f
+export const VERSION = 0.832_570_016_384_124_8 // 0.83257f

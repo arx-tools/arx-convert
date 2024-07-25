@@ -1,7 +1,7 @@
 import { any } from '@common/helpers.js'
-import { DoubleOf, QuadrupleOf, TripleOf } from '@common/types.js'
-import { ArxPolygon, ArxPolygonFlags } from '@fts/Polygon.js'
-import { ArxVertex } from '@fts/Vertex.js'
+import { type DoubleOf, type QuadrupleOf, type TripleOf } from '@common/types.js'
+import { type ArxPolygon, ArxPolygonFlags } from '@fts/Polygon.js'
+import { type ArxVertex } from '@fts/Vertex.js'
 import { COORDS_THAT_ROUND_UP } from '@fts/constants.js'
 
 export const isQuad = ({ flags }: { flags: ArxPolygonFlags }) => {

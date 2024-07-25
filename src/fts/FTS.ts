@@ -2,16 +2,16 @@ import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { MAP_DEPTH_IN_CELLS, MAP_WIDTH_IN_CELLS } from '@common/constants.js'
 import { times } from '@common/helpers.js'
-import { Anchor, ArxAnchor } from '@fts/Anchor.js'
-import { ArxCell, Cell } from '@fts/Cell.js'
-import { ArxFtsHeader, FtsHeader } from '@fts/FtsHeader.js'
-import { ArxPolygon } from '@fts/Polygon.js'
-import { ArxPortal, Portal } from '@fts/Portal.js'
-import { ArxRoom, Room } from '@fts/Room.js'
-import { ArxRoomDistance, RoomDistance } from '@fts/RoomDistance.js'
-import { ArxSceneHeader, SceneHeader } from '@fts/SceneHeader.js'
-import { ArxTextureContainer, TextureContainer } from '@fts/TextureContainer.js'
-import { ArxUniqueHeader, UniqueHeader } from '@fts/UniqueHeader.js'
+import { Anchor, type ArxAnchor } from '@fts/Anchor.js'
+import { type ArxCell, Cell } from '@fts/Cell.js'
+import { type ArxFtsHeader, FtsHeader } from '@fts/FtsHeader.js'
+import { type ArxPolygon } from '@fts/Polygon.js'
+import { type ArxPortal, Portal } from '@fts/Portal.js'
+import { type ArxRoom, Room } from '@fts/Room.js'
+import { type ArxRoomDistance, RoomDistance } from '@fts/RoomDistance.js'
+import { type ArxSceneHeader, SceneHeader } from '@fts/SceneHeader.js'
+import { type ArxTextureContainer, TextureContainer } from '@fts/TextureContainer.js'
+import { type ArxUniqueHeader, UniqueHeader } from '@fts/UniqueHeader.js'
 import { addLightIndex, getCellCoords } from '@fts/helpers.js'
 
 export type ArxFTS = {
@@ -72,7 +72,7 @@ export class FTS {
   }
 
   static save(json: ArxFTS, isCompressed = true) {
-    const levelIdx = json.header.levelIdx
+    const { levelIdx } = json.header
 
     const sceneHeader = SceneHeader.accumulateFrom(json)
 
