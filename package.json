@@ -28,7 +28,8 @@
   },
   "scripts": {
     "build": "tsc && tsc-alias",
-    "prepublishOnly": "rm -rf dist && npm run build"
+    "prepublishOnly": "rm -rf dist && npm run build",
+    "lint": "xo"
   },
   "repository": {
     "type": "git",
@@ -47,7 +48,8 @@
   "devDependencies": {
     "@types/node": "^20.8.10",
     "tsc-alias": "^1.8.8",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "xo": "^0.59.2"
   },
   "keywords": [
     "arx-fatalis"
