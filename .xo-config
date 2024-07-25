@@ -10,8 +10,10 @@
     "no-bitwise": "off",
     "no-warning-comments": "off",
     "@typescript-eslint/no-extraneous-class": "off",
+    "unicorn/no-array-for-each": "off",
     "unicorn/no-static-only-class": "off",
     "unicorn/prefer-math-trunc": "off",
+    "unicorn/prevent-abbreviations": "off",
     "curly": [
       "error",
       "all"
@@ -58,14 +60,6 @@
         "cases": {
           "camelCase": true,
           "pascalCase": true
-        }
-      }
-    ],
-    "unicorn/prevent-abbreviations": [
-      "error",
-      {
-        "allowList": {
-          "idx": true
         }
       }
     ]
