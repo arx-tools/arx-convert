@@ -21,7 +21,7 @@ export class Scene {
     }
   }
 
-  static accumulateFrom(scene: ArxScene) {
+  static accumulateFrom(scene: ArxScene): Buffer {
     const buffer = Buffer.alloc(Scene.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -32,15 +32,15 @@ export class Scene {
     return buffer
   }
 
-  static pathToLevelIdx(path: string) {
-    return Number.parseInt(path.toLowerCase().replace('graph\\levels\\level', '').replace('\\', ''))
+  static pathToLevelIdx(path: string): number {
+    return Number.parseInt(path.toLowerCase().replace('graph\\levels\\level', '').replace('\\', ''), 10)
   }
 
-  static levelIdxToPath(levelIdx: number) {
+  static levelIdxToPath(levelIdx: number): string {
     return `Graph\\Levels\\level${levelIdx}\\`
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return BinaryIO.sizeOfString(512) + BinaryIO.sizeOfInt32Array(16) + BinaryIO.sizeOfFloat32Array(16)
   }
 }

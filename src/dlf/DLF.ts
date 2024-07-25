@@ -30,7 +30,7 @@ export type ArxDLF = {
 }
 
 export class DLF {
-  static load(decompressedFile: Buffer) {
+  static load(decompressedFile: Buffer): ArxDLF {
     const file = new BinaryIO(decompressedFile)
 
     const { numberOfInteractiveObjects, numberOfFogs, numberOfZonesAndPaths, ...header } = DlfHeader.readFrom(file)
@@ -76,7 +76,7 @@ export class DLF {
     return data
   }
 
-  static save(json: ArxDLF) {
+  static save(json: ArxDLF): Buffer {
     const header = DlfHeader.accumulateFrom(json)
     const scene = Scene.accumulateFrom(json.scene)
     const interactiveObjects = Buffer.concat(json.interactiveObjects.map(InteractiveObject.accumulateFrom))

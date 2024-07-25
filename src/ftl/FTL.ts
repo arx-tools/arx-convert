@@ -28,7 +28,7 @@ export type ArxFTL = {
 }
 
 export class FTL {
-  static load(decompressedFile: Buffer) {
+  static load(decompressedFile: Buffer): ArxFTL {
     const file = new BinaryIO(decompressedFile)
 
     const {
@@ -41,7 +41,7 @@ export class FTL {
       ...header
     } = FtlHeader.readFrom(file)
 
-    const data: ArxFTL = {
+    return {
       header,
       vertices: times(() => FtlVertex.readFrom(file), numberOfVertices),
       faces: times(() => Face.readFrom(file), numberOfFaces),
@@ -58,11 +58,9 @@ export class FTL {
         },
       ),
     }
-
-    return data
   }
 
-  static save(json: ArxFTL) {
+  static save(json: ArxFTL): Buffer {
     const header = FtlHeader.accumulateFrom(json)
     const vertices = Buffer.concat(json.vertices.map(FtlVertex.accumulateFrom))
     const faces = Buffer.concat(json.faces.map(Face.accumulateFrom))

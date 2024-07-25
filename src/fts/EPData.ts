@@ -19,7 +19,7 @@ export class EPData {
     return { cellX: px, cellY: py, polygonIdx: idx }
   }
 
-  static accumulateFrom({ cellX: px, cellY: py, polygonIdx: idx }: ArxEPData) {
+  static accumulateFrom({ cellX: px, cellY: py, polygonIdx: idx }: ArxEPData): Buffer {
     const buffer = Buffer.alloc(EPData.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -28,7 +28,7 @@ export class EPData {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return BinaryIO.sizeOfInt16Array(4)
   }
 }

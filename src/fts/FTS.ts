@@ -71,7 +71,7 @@ export class FTS {
     }
   }
 
-  static save(json: ArxFTS, isCompressed = true) {
+  static save(json: ArxFTS, isCompressed = true): Buffer {
     const { levelIdx } = json.header
 
     const sceneHeader = SceneHeader.accumulateFrom(json)

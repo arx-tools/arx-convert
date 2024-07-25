@@ -27,7 +27,7 @@ export type ArxAnchorData = {
 }
 
 export class AnchorData {
-  static readFrom(binary: BinaryIO) {
+  static readFrom(binary: BinaryIO): ArxAnchorData {
     const data: ArxAnchorData = {
       pos: binary.readVector3(),
       radius: binary.readFloat32(),
@@ -45,7 +45,7 @@ export class AnchorData {
     return data
   }
 
-  static accumulateFrom(anchor: ArxAnchor) {
+  static accumulateFrom(anchor: ArxAnchor): Buffer {
     const buffer = Buffer.alloc(AnchorData.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -64,7 +64,7 @@ export class AnchorData {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return BinaryIO.sizeOfVector3() + BinaryIO.sizeOfFloat32Array(2) + BinaryIO.sizeOfInt16Array(2)
   }
 }

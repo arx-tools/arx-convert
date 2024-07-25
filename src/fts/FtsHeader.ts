@@ -13,7 +13,7 @@ export type ArxFtsHeader = {
 }
 
 export class FtsHeader {
-  static readFrom(binary: BinaryIO) {
+  static readFrom(binary: BinaryIO): ArxFtsHeader {
     const path = binary.readString(256)
 
     const data: ArxFtsHeader = {
@@ -28,7 +28,7 @@ export class FtsHeader {
     return data
   }
 
-  static accumulateFrom(json: ArxFTS, uncompressedSize: number) {
+  static accumulateFrom(json: ArxFTS, uncompressedSize: number): Buffer {
     const buffer = Buffer.alloc(FtsHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -42,15 +42,15 @@ export class FtsHeader {
     return buffer
   }
 
-  static pathToLevelIdx(path: string) {
-    return Number.parseInt(path.toLowerCase().replace('c:\\arx\\game\\graph\\levels\\level', '').replace('\\', ''))
+  static pathToLevelIdx(path: string): number {
+    return Number.parseInt(path.toLowerCase().replace('c:\\arx\\game\\graph\\levels\\level', '').replace('\\', ''), 10)
   }
 
-  static levelIdxToPath(levelIdx: number) {
+  static levelIdxToPath(levelIdx: number): string {
     return `C:\\ARX\\Game\\Graph\\Levels\\level${levelIdx}\\`
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return (
       BinaryIO.sizeOfString(256) +
       BinaryIO.sizeOfInt32() +

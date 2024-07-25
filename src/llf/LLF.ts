@@ -29,7 +29,7 @@ export class LLF {
     }
   }
 
-  static save(json: ArxLLF) {
+  static save(json: ArxLLF): Buffer {
     const header = LlfHeader.accumulateFrom(json)
 
     const lights = Buffer.concat(json.lights.map(Light.accumulateFrom))

@@ -12,7 +12,7 @@ export type ArxRoomData = {
 }
 
 export class RoomData {
-  static readFrom(binary: BinaryIO) {
+  static readFrom(binary: BinaryIO): ArxRoomData {
     const data: ArxRoomData = {
       numberOfPortals: binary.readInt32(),
       numberOfPolygons: binary.readInt32(),
@@ -23,7 +23,7 @@ export class RoomData {
     return data
   }
 
-  static accumulateFrom(room: ArxRoom) {
+  static accumulateFrom(room: ArxRoom): Buffer {
     const buffer = Buffer.alloc(RoomData.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -34,7 +34,7 @@ export class RoomData {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return BinaryIO.sizeOfInt32Array(1 + 1 + 6)
   }
 }

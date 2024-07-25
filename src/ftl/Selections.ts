@@ -20,7 +20,7 @@ export class Selection {
     return data
   }
 
-  static accumulateFrom(selection: ArxSelection) {
+  static accumulateFrom(selection: ArxSelection): Buffer {
     const buffer = Buffer.alloc(Selection.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -31,7 +31,7 @@ export class Selection {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return BinaryIO.sizeOfString(64) + 2 * BinaryIO.sizeOfInt32()
   }
 }

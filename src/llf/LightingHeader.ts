@@ -23,7 +23,7 @@ export class LightingHeader {
     }
   }
 
-  static accumulateFrom(colors: Color[]) {
+  static accumulateFrom(colors: Color[]): Buffer {
     const buffer = Buffer.alloc(LightingHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -38,7 +38,7 @@ export class LightingHeader {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return BinaryIO.sizeOfInt32() * 4
   }
 }

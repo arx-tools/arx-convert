@@ -20,7 +20,7 @@ export class Vertex {
     return { x, y, z, u, v }
   }
 
-  static accumulateFrom({ x, y, z, u, v }: ArxVertex) {
+  static accumulateFrom({ x, y, z, u, v }: ArxVertex): Buffer {
     const buffer = Buffer.alloc(Vertex.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -29,7 +29,7 @@ export class Vertex {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return BinaryIO.sizeOfFloat32Array(5)
   }
 }

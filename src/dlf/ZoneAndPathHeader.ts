@@ -88,7 +88,7 @@ export class ZoneAndPathHeader {
     }
   }
 
-  static allocateFrom(zoneOrPath: ArxZone | ArxPath) {
+  static allocateFrom(zoneOrPath: ArxZone | ArxPath): Buffer {
     const buffer = Buffer.alloc(ZoneAndPathHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -142,7 +142,7 @@ export class ZoneAndPathHeader {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return (
       BinaryIO.sizeOfString(64) +
       BinaryIO.sizeOfInt16Array(2) +

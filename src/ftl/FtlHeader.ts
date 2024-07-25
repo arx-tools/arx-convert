@@ -39,7 +39,7 @@ export class FtlHeader {
     }
   }
 
-  static accumulateFrom(json: ArxFTL) {
+  static accumulateFrom(json: ArxFTL): Buffer {
     const buffer = Buffer.alloc(FtlHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -64,7 +64,7 @@ export class FtlHeader {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return (
       BinaryIO.sizeOfString(4) +
       BinaryIO.sizeOfFloat32() +

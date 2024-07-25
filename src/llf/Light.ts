@@ -75,7 +75,7 @@ export class Light {
     }
   }
 
-  static accumulateFrom(light: ArxLight) {
+  static accumulateFrom(light: ArxLight): Buffer {
     const buffer = Buffer.alloc(Light.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -103,7 +103,7 @@ export class Light {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return (
       BinaryIO.sizeOfVector3() +
       Color.sizeOf('rgb') * 2 +

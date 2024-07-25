@@ -19,7 +19,7 @@ export class Room {
     }
   }
 
-  static accumulateFrom(room: ArxRoom) {
+  static accumulateFrom(room: ArxRoom): Buffer {
     const roomData = RoomData.accumulateFrom(room)
 
     const portals = Buffer.alloc(room.portals.length * 4)

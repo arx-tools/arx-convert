@@ -50,7 +50,7 @@ export class TextureVertex {
     return data
   }
 
-  static accumulateFrom(vertex: ArxTextureVertex, idx: number) {
+  static accumulateFrom(vertex: ArxTextureVertex, idx: number): Buffer {
     const buffer = Buffer.alloc(TextureVertex.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -69,7 +69,7 @@ export class TextureVertex {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return (
       BinaryIO.sizeOfVector3() + BinaryIO.sizeOfFloat32() + Color.sizeOf('abgr') * 2 + BinaryIO.sizeOfFloat32Array(2)
     )

@@ -53,7 +53,7 @@ export class Fog {
     }
   }
 
-  static accumulateFrom(fog: ArxFog) {
+  static accumulateFrom(fog: ArxFog): Buffer {
     const buffer = Buffer.alloc(Fog.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -78,7 +78,7 @@ export class Fog {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return (
       BinaryIO.sizeOfVector3() +
       Color.sizeOf('rgb') +

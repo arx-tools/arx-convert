@@ -47,7 +47,7 @@ export class Track {
     }
   }
 
-  static accumulateFrom(track: ArxTrack) {
+  static accumulateFrom(track: ArxTrack): Buffer {
     const buffer = Buffer.alloc(Track.sizeOf(track))
     const binary = new BinaryIO(buffer)
 
@@ -70,7 +70,7 @@ export class Track {
    * from: Sfx\Strange_noise10c.wav
    *   to: sfc/strange_noise10c.wav
    */
-  static toRelativePath(filename: string) {
+  static toRelativePath(filename: string): string {
     return filename.toLowerCase().replaceAll('\\', '/')
   }
 
@@ -78,11 +78,11 @@ export class Track {
    * from: srx/ambiance/loop_goblin_main.wav
    *   to: sfx\\ambiance\\loop_goblin_main.wav
    */
-  static toAbsolutePath(filename: string) {
+  static toAbsolutePath(filename: string): string {
     return filename.toLowerCase().replaceAll('/', '\\')
   }
 
-  static sizeOf(track: ArxTrack) {
+  static sizeOf(track: ArxTrack): number {
     return (
       BinaryIO.sizeOfNullTerminatedString(track.filename) +
       BinaryIO.sizeOfNullTerminatedString('') +

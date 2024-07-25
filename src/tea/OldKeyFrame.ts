@@ -30,7 +30,7 @@ export class OldKeyFrame {
     }
   }
 
-  static accumulateFrom(json: ArxTEA) {
+  static accumulateFrom(json: ArxTEA): Buffer {
     const buffer = Buffer.alloc(OldKeyFrame.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -39,7 +39,7 @@ export class OldKeyFrame {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return BinaryIO.sizeOfInt32Array(8)
   }
 }

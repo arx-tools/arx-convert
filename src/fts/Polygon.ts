@@ -86,7 +86,7 @@ export class Polygon {
     }
   }
 
-  static accumulateFrom(polygon: ArxPolygon) {
+  static accumulateFrom(polygon: ArxPolygon): Buffer {
     const buffer = Buffer.alloc(Polygon.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -104,7 +104,7 @@ export class Polygon {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return (
       Vertex.sizeOf() * 4 +
       BinaryIO.sizeOfInt32() +

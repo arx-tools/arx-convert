@@ -23,7 +23,7 @@ export class TextureContainer {
     }
   }
 
-  static accumulateFrom(textureContainer: ArxTextureContainer) {
+  static accumulateFrom(textureContainer: ArxTextureContainer): Buffer {
     const buffer = Buffer.alloc(TextureContainer.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -38,7 +38,7 @@ export class TextureContainer {
    * from: GRAPH\\OBJ3D\\TEXTURES\\[STONE]_HUMAN_GROUND_WET.BMP
    *   to: [stone]_human_ground_wet.bmp
    */
-  static toRelativePath(filename: string) {
+  static toRelativePath(filename: string): string {
     return filename.toLowerCase().replace('graph\\obj3d\\textures\\', '')
   }
 
@@ -46,11 +46,11 @@ export class TextureContainer {
    * from: [stone]_human_ground_wet.bmp
    *   to: graph\\obj3d\\textures\\[stone]_human_ground_wet.bmp
    */
-  static toAbsolutePath(filename: string) {
+  static toAbsolutePath(filename: string): string {
     return 'graph\\obj3d\\textures\\' + filename.toLowerCase()
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return BinaryIO.sizeOfInt32Array(2) + BinaryIO.sizeOfString(256)
   }
 }

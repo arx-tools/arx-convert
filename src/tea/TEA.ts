@@ -26,7 +26,7 @@ export type ArxKeyFrame = (ArxNewKeyFrame | ArxOldKeyFrame) & {
 }
 
 export class TEA {
-  static load(decompressedFile: Buffer) {
+  static load(decompressedFile: Buffer): ArxTEA {
     const file = new BinaryIO(decompressedFile)
 
     const { numberOfKeyFrames, numberOfGroups, ...header } = TeaHeader.readFrom(file)
@@ -90,7 +90,7 @@ export class TEA {
     return data
   }
 
-  static save(json: ArxTEA) {
+  static save(json: ArxTEA): Buffer {
     return Buffer.concat([])
   }
 }

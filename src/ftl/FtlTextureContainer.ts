@@ -14,7 +14,7 @@ export class FtlTextureContainer {
     }
   }
 
-  static accumulateFrom(textureContainer: ArxFtlTextureContainer) {
+  static accumulateFrom(textureContainer: ArxFtlTextureContainer): Buffer {
     const buffer = Buffer.alloc(FtlTextureContainer.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -23,7 +23,7 @@ export class FtlTextureContainer {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return BinaryIO.sizeOfString(256)
   }
 }

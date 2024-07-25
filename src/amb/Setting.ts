@@ -33,7 +33,7 @@ export class Setting {
     }
   }
 
-  static accumulateFrom(setting: ArxSetting) {
+  static accumulateFrom(setting: ArxSetting): Buffer {
     const buffer = Buffer.alloc(Setting.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -45,7 +45,7 @@ export class Setting {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return BinaryIO.sizeOfFloat32() * 2 + BinaryIO.sizeOfInt32() * 2
   }
 }

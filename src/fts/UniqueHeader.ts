@@ -20,7 +20,7 @@ export class UniqueHeader {
     }
   }
 
-  static accumulateFrom(uniqueHeader: ArxUniqueHeader) {
+  static accumulateFrom(uniqueHeader: ArxUniqueHeader): Buffer {
     const buffer = Buffer.alloc(UniqueHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -30,7 +30,7 @@ export class UniqueHeader {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return BinaryIO.sizeOfString(256) + BinaryIO.sizeOfUint8Array(512)
   }
 }

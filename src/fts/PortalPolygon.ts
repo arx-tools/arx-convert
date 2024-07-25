@@ -66,7 +66,7 @@ export class PortalPolygon {
     }
   }
 
-  static accumulateFrom(portalPolygon: ArxPortalPolygon, levelIdx: number) {
+  static accumulateFrom(portalPolygon: ArxPortalPolygon, levelIdx: number): Buffer {
     const buffer = Buffer.alloc(PortalPolygon.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -102,7 +102,7 @@ export class PortalPolygon {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return (
       BinaryIO.sizeOfInt32() +
       BinaryIO.sizeOfVector3Array(4) +

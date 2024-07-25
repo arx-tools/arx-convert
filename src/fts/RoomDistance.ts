@@ -20,7 +20,7 @@ export class RoomDistance {
     }
   }
 
-  static accumulateFrom(roomDistance: ArxRoomDistance) {
+  static accumulateFrom(roomDistance: ArxRoomDistance): Buffer {
     const buffer = Buffer.alloc(RoomDistance.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -31,7 +31,7 @@ export class RoomDistance {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return BinaryIO.sizeOfFloat32() + BinaryIO.sizeOfVector3Array(2)
   }
 }

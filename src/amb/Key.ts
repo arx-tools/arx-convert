@@ -42,7 +42,7 @@ export class Key {
     }
   }
 
-  static accumulateFrom(key: ArxKey) {
+  static accumulateFrom(key: ArxKey): Buffer {
     const buffer = Buffer.alloc(Key.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -62,7 +62,7 @@ export class Key {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return BinaryIO.sizeOfInt32() * 5 + Setting.sizeOf() * 6
   }
 }

@@ -3,6 +3,86 @@ import { LITTLE_ENDIAN, TRUNCATE_ZERO_BYTES, KEEP_ZERO_BYTES, BYTE_OF_AN_UNKNOWN
 import { type ArxQuaternion, type ArxRotation, type ArxVector3 } from '@common/types.js'
 
 export class BinaryIO extends DataView {
+  static sizeOfFloat32(): 4 {
+    return 4 as const
+  }
+
+  static sizeOfFloat32Array(length: number): number {
+    return length * BinaryIO.sizeOfFloat32()
+  }
+
+  static sizeOfInt8(): 1 {
+    return 1 as const
+  }
+
+  static sizeOfInt8Array(length: number): number {
+    return length * BinaryIO.sizeOfInt8()
+  }
+
+  static sizeOfInt16(): 2 {
+    return 2 as const
+  }
+
+  static sizeOfInt16Array(length: number): number {
+    return length * BinaryIO.sizeOfInt16()
+  }
+
+  static sizeOfInt32(): 4 {
+    return 4 as const
+  }
+
+  static sizeOfInt32Array(length: number): number {
+    return length * BinaryIO.sizeOfInt32()
+  }
+
+  static sizeOfUint8(): 1 {
+    return 1 as const
+  }
+
+  static sizeOfUint8Array(length: number): number {
+    return length * BinaryIO.sizeOfUint8()
+  }
+
+  static sizeOfUint16(): 2 {
+    return 2 as const
+  }
+
+  static sizeOfUint16Array(length: number): number {
+    return length * BinaryIO.sizeOfUint16()
+  }
+
+  static sizeOfUint32(): 4 {
+    return 4 as const
+  }
+
+  static sizeOfUint32Array(length: number): number {
+    return length * BinaryIO.sizeOfUint32()
+  }
+
+  static sizeOfString(length: number): number {
+    return length
+  }
+
+  static sizeOfNullTerminatedString(str: string): number {
+    return str.length + 1
+  }
+
+  static sizeOfVector3(): number {
+    return BinaryIO.sizeOfFloat32Array(3)
+  }
+
+  static sizeOfVector3Array(length: number): number {
+    return length * BinaryIO.sizeOfVector3()
+  }
+
+  static sizeOfRotation(): number {
+    return BinaryIO.sizeOfFloat32Array(3)
+  }
+
+  static sizeOfQuat(): number {
+    return BinaryIO.sizeOfFloat32Array(4)
+  }
+
   public position: number // TODO: make this private - this needs to be public because of TEA
 
   constructor(buffer: Buffer, byteOffset?: number, byteLength?: number) {
@@ -10,14 +90,14 @@ export class BinaryIO extends DataView {
     this.position = 0
   }
 
-  readFloat32() {
+  readFloat32(): number {
     const val = this.getFloat32(this.position, LITTLE_ENDIAN)
     this.position += BinaryIO.sizeOfFloat32()
     return val
   }
 
-  readFloat32Array(length: number) {
-    const arr: number[] = []
+  readFloat32Array(length: number): number[] {
+    const arr = []
     for (let i = 0; i < length; i++) {
       arr.push(this.readFloat32())
     }
@@ -25,14 +105,14 @@ export class BinaryIO extends DataView {
     return arr
   }
 
-  readInt8() {
+  readInt8(): number {
     const val = this.getInt8(this.position)
     this.position += BinaryIO.sizeOfInt8()
     return val
   }
 
-  readInt8Array(length: number) {
-    const arr: number[] = []
+  readInt8Array(length: number): number[] {
+    const arr = []
     for (let i = 0; i < length; i++) {
       arr.push(this.readInt8())
     }
@@ -40,14 +120,14 @@ export class BinaryIO extends DataView {
     return arr
   }
 
-  readInt16() {
+  readInt16(): number {
     const val = this.getInt16(this.position, LITTLE_ENDIAN)
     this.position += BinaryIO.sizeOfInt16()
     return val
   }
 
-  readInt16Array(length: number) {
-    const arr: number[] = []
+  readInt16Array(length: number): number[] {
+    const arr = []
     for (let i = 0; i < length; i++) {
       arr.push(this.readInt16())
     }
@@ -55,14 +135,14 @@ export class BinaryIO extends DataView {
     return arr
   }
 
-  readInt32() {
+  readInt32(): number {
     const val = this.getInt32(this.position, LITTLE_ENDIAN)
     this.position += BinaryIO.sizeOfInt32()
     return val
   }
 
-  readInt32Array(length: number) {
-    const arr: number[] = []
+  readInt32Array(length: number): number[] {
+    const arr = []
     for (let i = 0; i < length; i++) {
       arr.push(this.readInt32())
     }
@@ -70,14 +150,14 @@ export class BinaryIO extends DataView {
     return arr
   }
 
-  readUint8() {
+  readUint8(): number {
     const val = this.getUint8(this.position)
     this.position += BinaryIO.sizeOfUint8()
     return val
   }
 
-  readUint8Array(length: number) {
-    const arr: number[] = []
+  readUint8Array(length: number): number[] {
+    const arr = []
     for (let i = 0; i < length; i++) {
       arr.push(this.readUint8())
     }
@@ -85,14 +165,14 @@ export class BinaryIO extends DataView {
     return arr
   }
 
-  readUint16() {
+  readUint16(): number {
     const val = this.getUint16(this.position, LITTLE_ENDIAN)
     this.position += BinaryIO.sizeOfUint16()
     return val
   }
 
-  readUint16Array(length: number) {
-    const arr: number[] = []
+  readUint16Array(length: number): number[] {
+    const arr = []
     for (let i = 0; i < length; i++) {
       arr.push(this.readUint16())
     }
@@ -100,14 +180,14 @@ export class BinaryIO extends DataView {
     return arr
   }
 
-  readUint32() {
+  readUint32(): number {
     const val = this.getUint32(this.position, LITTLE_ENDIAN)
     this.position += BinaryIO.sizeOfUint32()
     return val
   }
 
-  readUint32Array(length: number) {
-    const arr: number[] = []
+  readUint32Array(length: number): number[] {
+    const arr = []
     for (let i = 0; i < length; i++) {
       arr.push(this.readUint32())
     }
@@ -115,78 +195,78 @@ export class BinaryIO extends DataView {
     return arr
   }
 
-  writeFloat32(value: number) {
+  writeFloat32(value: number): void {
     this.setFloat32(this.position, value, LITTLE_ENDIAN)
     this.position += BinaryIO.sizeOfFloat32()
   }
 
-  writeFloat32Array(values: number[]) {
+  writeFloat32Array(values: number[]): void {
     values.forEach((value) => {
       this.writeFloat32(value)
     })
   }
 
-  writeInt8(value: number) {
+  writeInt8(value: number): void {
     this.setInt8(this.position, value)
     this.position += BinaryIO.sizeOfInt8()
   }
 
-  writeInt8Array(values: number[]) {
+  writeInt8Array(values: number[]): void {
     values.forEach((value) => {
       this.writeInt8(value)
     })
   }
 
-  writeInt16(value: number) {
+  writeInt16(value: number): void {
     this.setInt16(this.position, value, LITTLE_ENDIAN)
     this.position += BinaryIO.sizeOfInt16()
   }
 
-  writeInt16Array(values: number[]) {
+  writeInt16Array(values: number[]): void {
     values.forEach((value) => {
       this.writeInt16(value)
     })
   }
 
-  writeInt32(value: number) {
+  writeInt32(value: number): void {
     this.setInt32(this.position, value, LITTLE_ENDIAN)
     this.position += BinaryIO.sizeOfInt32()
   }
 
-  writeInt32Array(values: number[]) {
+  writeInt32Array(values: number[]): void {
     values.forEach((value) => {
       this.writeInt32(value)
     })
   }
 
-  writeUint8(value: number) {
+  writeUint8(value: number): void {
     this.setUint8(this.position, value)
     this.position += BinaryIO.sizeOfUint8()
   }
 
-  writeUint8Array(values: number[] | Uint8Array) {
+  writeUint8Array(values: number[] | Uint8Array): void {
     values.forEach((value) => {
       this.writeUint8(value)
     })
   }
 
-  writeUint16(value: number) {
+  writeUint16(value: number): void {
     this.setUint16(this.position, value, LITTLE_ENDIAN)
     this.position += BinaryIO.sizeOfUint16()
   }
 
-  writeUint16Array(values: number[]) {
+  writeUint16Array(values: number[]): void {
     values.forEach((value) => {
       this.writeUint16(value)
     })
   }
 
-  writeUint32(value: number) {
+  writeUint32(value: number): void {
     this.setUint32(this.position, value, LITTLE_ENDIAN)
     this.position += BinaryIO.sizeOfUint32()
   }
 
-  writeUint32Array(values: number[]) {
+  writeUint32Array(values: number[]): void {
     values.forEach((value) => {
       this.writeUint32(value)
     })
@@ -195,7 +275,7 @@ export class BinaryIO extends DataView {
   readString(
     length?: number,
     truncateZeroBytes: typeof TRUNCATE_ZERO_BYTES | typeof KEEP_ZERO_BYTES = TRUNCATE_ZERO_BYTES,
-  ) {
+  ): string {
     const codes: number[] = []
 
     if (length === undefined) {
@@ -225,7 +305,7 @@ export class BinaryIO extends DataView {
     return decodeText(codes)
   }
 
-  writeString(str: string, length?: number) {
+  writeString(str: string, length?: number): void {
     // if length is given we assume a fixed length string
     if (length === undefined) {
       // otherwise its a 0 terminated c string
@@ -252,8 +332,8 @@ export class BinaryIO extends DataView {
     return { x, y, z }
   }
 
-  readVector3Array(length: number) {
-    const arr: ArxVector3[] = []
+  readVector3Array(length: number): ArxVector3[] {
+    const arr = []
     for (let i = 0; i < length; i++) {
       arr.push(this.readVector3())
     }
@@ -261,11 +341,11 @@ export class BinaryIO extends DataView {
     return arr
   }
 
-  writeVector3({ x, y, z }: ArxVector3) {
+  writeVector3({ x, y, z }: ArxVector3): void {
     this.writeFloat32Array([x, y, z])
   }
 
-  writeVector3Array(values: ArxVector3[]) {
+  writeVector3Array(values: ArxVector3[]): void {
     values.forEach((value) => {
       this.writeVector3(value)
     })
@@ -276,7 +356,7 @@ export class BinaryIO extends DataView {
     return { a, b, g }
   }
 
-  writeRotation({ a, b, g }: ArxRotation) {
+  writeRotation({ a, b, g }: ArxRotation): void {
     this.writeFloat32Array([a, b, g])
   }
 
@@ -285,91 +365,11 @@ export class BinaryIO extends DataView {
     return { x, y, z, w }
   }
 
-  writeQuat({ x, y, z, w }: ArxQuaternion) {
+  writeQuat({ x, y, z, w }: ArxQuaternion): void {
     this.writeFloat32Array([w, x, y, z])
   }
 
-  writeBuffer(buffer: Buffer) {
+  writeBuffer(buffer: Buffer): void {
     this.writeUint8Array(buffer)
-  }
-
-  static sizeOfFloat32() {
-    return 4 as const
-  }
-
-  static sizeOfFloat32Array(length: number) {
-    return length * BinaryIO.sizeOfFloat32()
-  }
-
-  static sizeOfInt8() {
-    return 1 as const
-  }
-
-  static sizeOfInt8Array(length: number) {
-    return length * BinaryIO.sizeOfInt8()
-  }
-
-  static sizeOfInt16() {
-    return 2 as const
-  }
-
-  static sizeOfInt16Array(length: number) {
-    return length * BinaryIO.sizeOfInt16()
-  }
-
-  static sizeOfInt32() {
-    return 4 as const
-  }
-
-  static sizeOfInt32Array(length: number) {
-    return length * BinaryIO.sizeOfInt32()
-  }
-
-  static sizeOfUint8() {
-    return 1 as const
-  }
-
-  static sizeOfUint8Array(length: number) {
-    return length * BinaryIO.sizeOfUint8()
-  }
-
-  static sizeOfUint16() {
-    return 2 as const
-  }
-
-  static sizeOfUint16Array(length: number) {
-    return length * BinaryIO.sizeOfUint16()
-  }
-
-  static sizeOfUint32() {
-    return 4 as const
-  }
-
-  static sizeOfUint32Array(length: number) {
-    return length * BinaryIO.sizeOfUint32()
-  }
-
-  static sizeOfString(length: number) {
-    return length
-  }
-
-  static sizeOfNullTerminatedString(str: string) {
-    return str.length + 1
-  }
-
-  static sizeOfVector3() {
-    return BinaryIO.sizeOfFloat32Array(3)
-  }
-
-  static sizeOfVector3Array(length: number) {
-    return length * BinaryIO.sizeOfVector3()
-  }
-
-  static sizeOfRotation() {
-    return BinaryIO.sizeOfFloat32Array(3)
-  }
-
-  static sizeOfQuat() {
-    return BinaryIO.sizeOfFloat32Array(4)
   }
 }

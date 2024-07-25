@@ -15,7 +15,7 @@ export type ArxInteractiveObject = {
 }
 
 export class InteractiveObject {
-  static readFrom(binary: BinaryIO) {
+  static readFrom(binary: BinaryIO): ArxInteractiveObject {
     const data: ArxInteractiveObject = {
       name: InteractiveObject.toRelativePath(binary.readString(512)),
       pos: binary.readVector3(),
@@ -30,7 +30,7 @@ export class InteractiveObject {
     return data
   }
 
-  static accumulateFrom(interactiveObject: ArxInteractiveObject) {
+  static accumulateFrom(interactiveObject: ArxInteractiveObject): Buffer {
     const buffer = Buffer.alloc(InteractiveObject.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -56,7 +56,7 @@ export class InteractiveObject {
    * If the last folder in the path and filename differs, like `...\\ITEMS\\PROVISIONS\\MUSHROOM\\FOOD_MUSHROOM.teo`
    * then it should keep the full path, but change the extension to `.asl`
    */
-  static toRelativePath(filePath: string) {
+  static toRelativePath(filePath: string): string {
     // items/provisions/pie/pie.teo
     // items/provisions/mushroom/food_mushroom.teo
     filePath = filePath.toLowerCase().replaceAll('\\', '/').split('graph/obj3d/interactive/')[1]
@@ -77,7 +77,7 @@ export class InteractiveObject {
    * If the path also has a file specified with extension, like `items/provisions/mushroom/food_mushroom.asl`
    * then keep the file part too, but change the extension to `.teo`
    */
-  static toAbsolutePath(filePath: string) {
+  static toAbsolutePath(filePath: string): string {
     filePath = filePath.toLowerCase().replace(/\/$/, '')
 
     if (filePath.endsWith('.asl')) {
@@ -90,7 +90,7 @@ export class InteractiveObject {
     return `c:\\arx\\graph\\obj3d\\interactive\\${dir.replaceAll('/', '\\')}\\${name}.teo`
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return (
       BinaryIO.sizeOfString(512) +
       BinaryIO.sizeOfVector3() +

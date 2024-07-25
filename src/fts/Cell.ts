@@ -10,7 +10,7 @@ export type ArxCell = {
 }
 
 export class Cell {
-  static readFrom(binary: BinaryIO) {
+  static readFrom(binary: BinaryIO): ArxCell {
     const { numberOfPolygons, numberOfAnchors } = SceneInfo.readFrom(binary)
 
     const data: ArxCell = {
@@ -24,7 +24,7 @@ export class Cell {
     return data
   }
 
-  static accumulateFrom(cell: ArxCell) {
+  static accumulateFrom(cell: ArxCell): Buffer {
     const anchors = cell.anchors ?? []
     const buffer = Buffer.alloc(
       SceneInfo.sizeOf() + Polygon.sizeOf() * cell.polygons.length + BinaryIO.sizeOfInt32Array(anchors.length),

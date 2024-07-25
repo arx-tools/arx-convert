@@ -26,7 +26,7 @@ export class Group {
     }
   }
 
-  static accumulateFrom(group: ArxGroup) {
+  static accumulateFrom(group: ArxGroup): Buffer {
     const buffer = Buffer.alloc(Group.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -39,7 +39,7 @@ export class Group {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return BinaryIO.sizeOfString(256) + BinaryIO.sizeOfUint32() + 2 * BinaryIO.sizeOfInt32() + BinaryIO.sizeOfFloat32()
   }
 }

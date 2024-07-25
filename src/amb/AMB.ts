@@ -9,19 +9,17 @@ export type ArxAMB = {
 }
 
 export class AMB {
-  static load(decompressedFile: Buffer) {
+  static load(decompressedFile: Buffer): ArxAMB {
     const file = new BinaryIO(decompressedFile)
 
     const { numberOfTracks, isNewerVersion } = AmbHeader.readFrom(file)
 
-    const data: ArxAMB = {
+    return {
       tracks: times(() => Track.readFrom(file, isNewerVersion), numberOfTracks),
     }
-
-    return data
   }
 
-  static save(json: ArxAMB) {
+  static save(json: ArxAMB): Buffer {
     const header = AmbHeader.accumulateFrom(json)
     const tracks = Buffer.concat(json.tracks.map(Track.accumulateFrom))
 

@@ -41,7 +41,7 @@ export class LlfHeader {
     }
   }
 
-  static accumulateFrom(json: ArxLLF) {
+  static accumulateFrom(json: ArxLLF): Buffer {
     const buffer = Buffer.alloc(LlfHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -62,7 +62,7 @@ export class LlfHeader {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return (
       BinaryIO.sizeOfFloat32() +
       BinaryIO.sizeOfString(16 + 256) +

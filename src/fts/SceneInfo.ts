@@ -18,7 +18,7 @@ export class SceneInfo {
     }
   }
 
-  static accumulateFrom(cell: ArxCell) {
+  static accumulateFrom(cell: ArxCell): Buffer {
     const buffer = Buffer.alloc(SceneInfo.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -28,7 +28,7 @@ export class SceneInfo {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return BinaryIO.sizeOfInt32Array(2)
   }
 }

@@ -22,7 +22,7 @@ export class AmbHeader {
     }
   }
 
-  static accumulateFrom(json: ArxAMB) {
+  static accumulateFrom(json: ArxAMB): Buffer {
     const buffer = Buffer.alloc(AmbHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -33,7 +33,7 @@ export class AmbHeader {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return BinaryIO.sizeOfString(4) + BinaryIO.sizeOfInt32() * 2
   }
 }

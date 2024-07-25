@@ -35,7 +35,7 @@ export class Color {
     return { r: r * 255, g: g * 255, b: b * 255, a: 1 }
   }
 
-  static accumulateFrom({ r, g, b, a }: ArxColor, mode: ColorMode) {
+  static accumulateFrom({ r, g, b, a }: ArxColor, mode: ColorMode): Buffer {
     const buffer = Buffer.alloc(Color.sizeOf(mode))
     const binary = new BinaryIO(buffer)
 
@@ -50,7 +50,7 @@ export class Color {
     return buffer
   }
 
-  static sizeOf(mode: ColorMode) {
+  static sizeOf(mode: ColorMode): number {
     if (mode === 'rgb') {
       return BinaryIO.sizeOfFloat32Array(3)
     }

@@ -19,7 +19,7 @@ export class Action {
     }
   }
 
-  static accumulateFrom(action: ArxAction) {
+  static accumulateFrom(action: ArxAction): Buffer {
     const buffer = Buffer.alloc(Action.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -31,7 +31,7 @@ export class Action {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return BinaryIO.sizeOfString(256) + 3 * BinaryIO.sizeOfInt32()
   }
 }

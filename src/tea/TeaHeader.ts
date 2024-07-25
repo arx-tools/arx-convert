@@ -27,7 +27,7 @@ export class TeaHeader {
     }
   }
 
-  static accumulateFrom(json: ArxTEA, uncompressedSize: number) {
+  static accumulateFrom(json: ArxTEA, uncompressedSize: number): Buffer {
     const buffer = Buffer.alloc(TeaHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -36,7 +36,7 @@ export class TeaHeader {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return (
       BinaryIO.sizeOfString(20) + BinaryIO.sizeOfUint32() + BinaryIO.sizeOfString(256) + BinaryIO.sizeOfInt32Array(3)
     )

@@ -17,7 +17,7 @@ export class Anchor {
     }
   }
 
-  static accumulateFrom(anchor: ArxAnchor) {
+  static accumulateFrom(anchor: ArxAnchor): Buffer {
     const buffer = Buffer.alloc(AnchorData.sizeOf() + anchor.linkedAnchors.length * 4)
     const binary = new BinaryIO(buffer)
 

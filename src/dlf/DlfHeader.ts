@@ -65,7 +65,7 @@ export class DlfHeader {
     }
   }
 
-  static accumulateFrom(json: ArxDLF) {
+  static accumulateFrom(json: ArxDLF): Buffer {
     const buffer = Buffer.alloc(DlfHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -97,7 +97,7 @@ export class DlfHeader {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return (
       BinaryIO.sizeOfFloat32() +
       BinaryIO.sizeOfString(16 + 256) +

@@ -55,7 +55,7 @@ export class Face {
     }
   }
 
-  static accumulateFrom(face: ArxFace) {
+  static accumulateFrom(face: ArxFace): Buffer {
     const buffer = Buffer.alloc(Face.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -80,7 +80,7 @@ export class Face {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return (
       BinaryIO.sizeOfInt32() +
       BinaryIO.sizeOfUint32Array(3) +

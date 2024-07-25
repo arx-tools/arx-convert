@@ -18,7 +18,7 @@ export class FtlVertex {
     }
   }
 
-  static accumulateFrom({ vector, norm }: ArxFtlVertex) {
+  static accumulateFrom({ vector, norm }: ArxFtlVertex): Buffer {
     const buffer = Buffer.alloc(FtlVertex.sizeOf())
     const binary = new BinaryIO(buffer)
 
@@ -29,7 +29,7 @@ export class FtlVertex {
     return buffer
   }
 
-  static sizeOf() {
+  static sizeOf(): number {
     return BinaryIO.sizeOfUint8Array(32) + 2 * BinaryIO.sizeOfVector3()
   }
 }
