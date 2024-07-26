@@ -3,16 +3,33 @@ import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxColor, Color } from '@common/Color.js'
 import { type ArxVector3 } from '@common/types.js'
 
-const HARDCODED_DATA_TYPE1 = {
+type HardcodedDataType = {
+  color: ArxColor
+  specular: ArxColor
+  tu: number
+  tv: number
+}
+
+const HARDCODED_DATA_TYPE1: HardcodedDataType = {
   color: Color.transparent,
   specular: Color.transparent,
   tu: 0,
   tv: 0,
 }
 
-const HARDCODED_DATA_TYPE2 = {
-  color: { r: 1, g: 22, b: 242, a: 0.298_039_215_686_274_5 } as ArxColor,
-  specular: { r: 0, g: 92, b: 200, a: 0.494_117_647_058_823_55 } as ArxColor,
+const HARDCODED_DATA_TYPE2: HardcodedDataType = {
+  color: {
+    r: 1,
+    g: 22,
+    b: 242,
+    a: 0.298_039_215_686_274_5,
+  },
+  specular: {
+    r: 0,
+    g: 92,
+    b: 200,
+    a: 0.494_117_647_058_823_55,
+  },
   tu: 1.569_454_280_043_795_1e-43,
   tv: 2.772_455_559_201_393e-38,
 }
