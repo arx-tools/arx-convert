@@ -1,18 +1,17 @@
-import { any } from '@common/helpers.js'
 import { type DoubleOf, type QuadrupleOf, type TripleOf } from '@common/types.js'
 import { type ArxPolygon, ArxPolygonFlags } from '@fts/Polygon.js'
 import { type ArxVertex } from '@fts/Vertex.js'
 import { COORDS_THAT_ROUND_UP } from '@fts/constants.js'
 
-export const isQuad = ({ flags }: { flags: ArxPolygonFlags }) => {
+export function isQuad({ flags }: { flags: ArxPolygonFlags }): boolean {
   return (flags & ArxPolygonFlags.Quad) !== 0
 }
 
-export const isTiled = ({ flags }: { flags: ArxPolygonFlags }) => {
+export function isTiled({ flags }: { flags: ArxPolygonFlags }): boolean {
   return (flags & ArxPolygonFlags.Tiled) !== 0
 }
 
-export const addLightIndex = (polygons: ArxPolygon[]) => {
+export function addLightIndex(polygons: ArxPolygon[]): ArxPolygon[] {
   let idx = 0
 
   return polygons.map((polygon) => {
@@ -30,12 +29,12 @@ export const addLightIndex = (polygons: ArxPolygon[]) => {
   })
 }
 
-const doCoordsNeedToBeRoundedUp = (coords: TripleOf<number>) => {
+function doCoordsNeedToBeRoundedUp(coords: TripleOf<number>): boolean {
   const [a, b, c] = coords.sort((a, b) => a - b)
-  return any(([x, y, z]) => a === x && b === y && c === z, COORDS_THAT_ROUND_UP)
+  return COORDS_THAT_ROUND_UP.some(([x, y, z]) => a === x && b === y && c === z)
 }
 
-export const getCellCoords = ([a, b, c]: QuadrupleOf<ArxVertex>): DoubleOf<number> => {
+export function getCellCoords([a, b, c]: QuadrupleOf<ArxVertex>): DoubleOf<number> {
   const x = (a.x + b.x + c.x) / 3
   const z = (a.z + b.z + c.z) / 3
 

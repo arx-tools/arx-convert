@@ -28,15 +28,6 @@ export const repeat = <T>(value: T, repetitions: number): T[] => {
   return Array(repetitions).fill(value)
 }
 
-export const any = <T>(fn: (value: T) => boolean, values: T[]) => {
-  for (let value of values) {
-    if (fn(value)) {
-      return true
-    }
-  }
-  return false
-}
-
 export const last = <T>(values: T[]) => {
   return values[values.length - 1]
 }
