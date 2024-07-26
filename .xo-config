@@ -16,6 +16,7 @@
     "unicorn/no-static-only-class": "off",
     "unicorn/prefer-math-trunc": "off",
     "unicorn/prevent-abbreviations": "off",
+    "unicorn/no-array-callback-reference": "off",
     "curly": [
       "error",
       "all"
