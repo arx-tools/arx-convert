@@ -2,6 +2,7 @@
 
 import process from 'node:process'
 import minimist from 'minimist-lite'
+import YAML from 'yaml'
 import {
   getPackageVersion,
   streamToBuffer,
@@ -85,17 +86,13 @@ const rawIn = await streamToBuffer(input)
 let parsedIn
 switch (args.from) {
   case 'json': {
-    parsedIn = JSON.parse(rawIn.toString('utf-8'))
+    parsedIn = JSON.parse(rawIn.toString('utf8'))
     break
   }
 
   case 'yml':
   case 'yaml': {
-    {
-      const YAML = await import('yaml')
-      parsedIn = YAML.parse(rawIn.toString('utf-8'))
-    }
-
+    parsedIn = YAML.parse(rawIn.toString('utf8'))
     break
   }
 
