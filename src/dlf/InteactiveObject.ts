@@ -1,7 +1,7 @@
 import path from 'node:path'
 import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
-import { last, repeat } from '@common/helpers.js'
+import { repeat } from '@common/helpers.js'
 import { type ArxRotation, type ArxVector3 } from '@common/types.js'
 
 /**
@@ -63,7 +63,7 @@ export class InteractiveObject {
 
     const { dir, name } = path.parse(filePath)
 
-    if (last(dir.split('/')) !== name) {
+    if (dir.split('/').at(-1) !== name) {
       return dir + '/' + name + '.asl'
     }
 
@@ -86,7 +86,7 @@ export class InteractiveObject {
     }
 
     const dir = filePath
-    const name = last(filePath.split('/'))
+    const name = filePath.split('/').at(-1)
     return `c:\\arx\\graph\\obj3d\\interactive\\${dir.replaceAll('/', '\\')}\\${name}.teo`
   }
 

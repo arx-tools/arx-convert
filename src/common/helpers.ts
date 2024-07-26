@@ -28,10 +28,6 @@ export const repeat = <T>(value: T, repetitions: number): T[] => {
   return Array(repetitions).fill(value)
 }
 
-export const last = <T>(values: T[]) => {
-  return values[values.length - 1]
-}
-
 export const decodeText = (bytes: number[]) => {
   const chars = bytes.map((byte) => CHARS[byte] ?? CHAR_OF_AN_UNKNOWN_BYTE)
   return chars.join('')
