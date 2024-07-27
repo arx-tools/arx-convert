@@ -12,11 +12,12 @@
     "@typescript-eslint/no-extraneous-class": "off",
     "@typescript-eslint/ban-types": "off",
     "unicorn/filename-case": "off",
+    "unicorn/no-array-callback-reference": "off",
     "unicorn/no-array-for-each": "off",
     "unicorn/no-static-only-class": "off",
     "unicorn/prefer-math-trunc": "off",
+    "unicorn/prefer-module": "off",
     "unicorn/prevent-abbreviations": "off",
-    "unicorn/no-array-callback-reference": "off",
     "curly": [
       "error",
       "all"
