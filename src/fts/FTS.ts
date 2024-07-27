@@ -93,7 +93,7 @@ export class FTS {
     const textureContainers = Buffer.concat(json.textureContainers.map(TextureContainer.accumulateFrom))
     const cells = Buffer.concat(recombinedCells.map(Cell.accumulateFrom))
     const anchors = Buffer.concat(json.anchors.map(Anchor.accumulateFrom))
-    const portals = Buffer.concat(json.portals.map(Portal.accumulateFrom, levelIdx))
+    const portals = Buffer.concat(json.portals.map((portal) => Portal.accumulateFrom(portal, levelIdx)))
     const rooms = Buffer.concat(json.rooms.map(Room.accumulateFrom))
     const roomDistances = Buffer.concat(json.roomDistances.map(RoomDistance.accumulateFrom))
 
