@@ -54,7 +54,11 @@ export async function streamToBuffer(input: NodeJS.ReadableStream): Promise<Buff
       resolve(concatBuffersSafe(chunks))
     })
     input.on('error', (e: unknown) => {
-      reject(e)
+      if (e instanceof Error) {
+        reject(e)
+      } else {
+        reject(new Error('unknown error happened while converting stream to buffer'))
+      }
     })
   })
 }
