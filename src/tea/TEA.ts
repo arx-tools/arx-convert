@@ -6,11 +6,6 @@ import { type ArxTeaHeader, TeaHeader } from '@tea/TeaHeader.js'
 import { type ArxNewKeyFrame, NewKeyFrame } from '@tea/NewKeyFrame.js'
 import { type ArxOldKeyFrame, OldKeyFrame } from '@tea/OldKeyFrame.js'
 
-export type ArxTEA = {
-  header: Omit<ArxTeaHeader, 'numberOfKeyFrames' | 'numberOfGroups'>
-  keyframes: ArxKeyFrame[]
-}
-
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/animation/AnimationFormat.h#L124
  */
@@ -23,6 +18,11 @@ export type ArxKeyFrame = (ArxNewKeyFrame | ArxOldKeyFrame) & {
   translate?: ArxVector3
   quat?: ArxQuaternion
   sample?: ArxTheaSample
+}
+
+export type ArxTEA = {
+  header: Omit<ArxTeaHeader, 'numberOfKeyFrames' | 'numberOfGroups'>
+  keyframes: ArxKeyFrame[]
 }
 
 export class TEA {
@@ -42,8 +42,7 @@ export class TEA {
 
     for (let i = 0; i < numberOfKeyFrames; i++) {
       console.log(i, file.position)
-      let keyframe: ArxKeyFrame
-      keyframe = header.version >= 2015 ? NewKeyFrame.readFrom(file) : OldKeyFrame.readFrom(file)
+      const keyframe: ArxKeyFrame = header.version >= 2015 ? NewKeyFrame.readFrom(file) : OldKeyFrame.readFrom(file)
       data.keyframes.push(keyframe)
 
       if (keyframe.key_move) {
