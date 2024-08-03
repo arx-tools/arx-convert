@@ -28,8 +28,8 @@
   },
   "scripts": {
     "build": "tsc && tsc-alias",
-    "prepublishOnly": "rm -rf dist && npm run build",
-    "lint": "xo"
+    "lint": "xo",
+    "prepublishOnly": "npm run lint && rm -rf dist && npm run build"
   },
   "repository": {
     "type": "git",
