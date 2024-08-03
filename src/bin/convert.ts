@@ -86,12 +86,14 @@ const rawIn = await streamToBuffer(input)
 let parsedIn
 switch (args.from) {
   case 'json': {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     parsedIn = JSON.parse(rawIn.toString('utf8'))
     break
   }
 
   case 'yml':
   case 'yaml': {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     parsedIn = YAML.parse(rawIn.toString('utf8'))
     break
   }
@@ -141,31 +143,37 @@ switch (args.to) {
   }
 
   case 'dlf': {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     rawOut = DLF.save(parsedIn)
     break
   }
 
   case 'fts': {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     rawOut = FTS.save(parsedIn)
     break
   }
 
   case 'llf': {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     rawOut = LLF.save(parsedIn)
     break
   }
 
   case 'ftl': {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     rawOut = FTL.save(parsedIn)
     break
   }
 
   case 'tea': {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     rawOut = TEA.save(parsedIn)
     break
   }
 
   case 'amb': {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     rawOut = AMB.save(parsedIn)
     break
   }
