@@ -1,6 +1,6 @@
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxColor, Color } from '@common/Color.js'
-import { repeat } from '@common/helpers.js'
+import { clamp, repeat } from '@common/helpers.js'
 import { type ArxVector3 } from '@common/types.js'
 
 /**
@@ -47,13 +47,27 @@ export enum ArxLightFlags {
   SpawnSmoke = 1 << 4,
   /**
    * ?
+   *
+   * Not used by any of the lights on the existing arx levels.
+   * Also there is no code associated to it, not in DANAE, not in AF 1.21, nor in Arx Libertatis
    */
   Off = 1 << 5,
   /**
-   * ?
+   * If set then the fire/smoke particles will take on the color from `ArxLight.color`, otherwise
+   * they are white.
+   * If `SpawnFire` is set, then the flames will take on the colors, but the smoke particles will
+   * remain white.
    */
   ColorLegacy = 1 << 6,
-  // NoCasted = 1 << 7, // unused
+  /**
+   * Only used by DANAE. Arx Fatalis 1.21 and Arx Libertatis ignores it.
+   *
+   * It supposed to have been used to control whether a shadow casting should be taken into consideration
+   * when calculating vertex lighting.
+   *
+   * @see https://github.com/arx/ArxLibertatis/blob/ArxFatalis-1.21/Sources/EERIE/EERIELight.cpp#L504
+   */
+  NoCasted = 1 << 7,
   /**
    * Normally the flare will keep its size relative to the game's window.
    * This flag allows to break from that and have the flare size be tied to the world.
@@ -72,7 +86,8 @@ export enum ArxLightFlags {
    */
   NoIgnit = 1 << 10,
   /**
-   * ?
+   * This makes that a light source has a halo around it. If `SpawnFire` is set, then this
+   * flag automatically gets set as you can't have fire without a flare.
    */
   Flare = 1 << 11,
 }
@@ -181,7 +196,7 @@ export class Light {
     binary.writeFloat32(light.exRadius)
     binary.writeFloat32(light.exFrequency)
     binary.writeFloat32(light.exSize)
-    binary.writeFloat32(light.exSpeed)
+    binary.writeFloat32(clamp(0, Number.MAX_SAFE_INTEGER, light.exSpeed))
     binary.writeFloat32(light.exFlareSize)
 
     binary.writeFloat32Array(repeat(0, 24)) // fpad

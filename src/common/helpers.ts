@@ -42,3 +42,15 @@ export function encodeText(text: string): number[] {
   const chars = [...text]
   return chars.map((char) => CODES[char] ?? BYTE_OF_AN_UNKNOWN_CHAR)
 }
+
+export function clamp(min: number, max: number, n: number): number {
+  if (n < min) {
+    return min
+  }
+
+  if (n > max) {
+    return max
+  }
+
+  return n
+}
