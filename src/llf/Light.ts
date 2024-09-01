@@ -46,10 +46,9 @@ export enum ArxLightFlags {
    */
   SpawnSmoke = 1 << 4,
   /**
-   * ?
+   * Unused
    *
-   * Not used by any of the lights on the existing arx levels.
-   * Also there is no code associated to it, not in DANAE, not in AF 1.21, nor in Arx Libertatis
+   * Not used by any of the lights on the existing arx levels, nor is it used in Danae, AF or AL.
    */
   Off = 1 << 5,
   /**
@@ -74,7 +73,12 @@ export enum ArxLightFlags {
    */
   FixFlareSize = 1 << 8,
   /**
-   * ?
+   * When the halo/flare size is automatically set then this flag makes it slightly larger.
+   *
+   * Unless `Flare` is explicitly set the halo's size is 80, but if `Fireplace` is also set,
+   * then it becomes 95.
+   *
+   * @see https://github.com/arx/ArxLibertatis/blob/ArxFatalis-1.21/Sources/DANAE/DanaeSaveLoad.cpp#L1618
    */
   Fireplace = 1 << 9,
   /**
@@ -87,7 +91,12 @@ export enum ArxLightFlags {
   NoIgnit = 1 << 10,
   /**
    * This makes that a light source has a halo around it. If `SpawnFire` is set, then this
-   * flag automatically gets set as you can't have fire without a flare.
+   * flag automatically/implicitly gets set as you can't have fire without a flare.
+   *
+   * When this flag is explicitly set the size of the halo can be changed with `ArxLight.exFlareSize`.
+   * Otherwise the halo's size is 80, but if `Fireplace` flag is set, then it's 95.
+   *
+   * @see https://github.com/arx/ArxLibertatis/blob/ArxFatalis-1.21/Sources/DANAE/DanaeSaveLoad.cpp#L1618
    */
   Flare = 1 << 11,
 }
@@ -106,6 +115,9 @@ export type ArxLight = {
    * The radius of a sphere around `ArxLight.pos` where the light's intensity gradually fades to 0.
    */
   fallEnd: number
+  /**
+   * How bright the light is.
+   */
   intensity: number
   /**
    * This color periodically overrides `ArxLight.color`. The frequency of the flicker cannot be changed.
@@ -116,6 +128,18 @@ export type ArxLight = {
    * a negative color.
    */
   exFlicker: ArxColor
+  /**
+   * Determines the spread of the smoke and fire particles: creates a circle around the center of the
+   * light with a radius of `exRadius`.
+   *
+   * When `SpawnFire` is set, then it also sets the radius of the spheare around the light's center which
+   * harms the NPCs and the player with fire damage when getting in contact.
+   *
+   * BUG: Surprisingly the spread is not even, particles to the left of the light (negative on the X axis)
+   * don't spawn, only to the right.
+   *
+   * @see https://imgur.com/a/cN3if0A
+   */
   exRadius: number
   /**
    * How frequently should the light source spawn a flame particle when `ArxLight.flags` has `ArxLightFlags.SpawnFire`
@@ -138,7 +162,8 @@ export type ArxLight = {
    */
   exSpeed: number
   /**
-   * The radius of the flare/halo when `ArxLight.flags` has `ArxLightFlags.SpawnFire` set.
+   * The radius of the flare/halo when `ArxLightFlags.Flare` is set.
+   * The value of exFlareSize is ignored when `ArxLightFlags.FixFlareSize` is set.
    *
    * Danae only allows setting it to a maximum of 200, but there isn't any limitiations in the code
    */
