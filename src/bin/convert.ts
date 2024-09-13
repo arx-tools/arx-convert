@@ -39,6 +39,7 @@ const args: AppArgs = minimist(process.argv.slice(2), {
   },
   unknown: (arg) => {
     if (arg.startsWith('-') || arg.startsWith('--')) {
+      unknownArgs.push(arg)
       return false
     }
 
