@@ -74,6 +74,21 @@ try {
     throw new Error('"from" and "to" are both referencing data types, expected one of them to be an arx format')
   }
 
+  if (args._.length > 1) {
+    const unknownArgs = args._.slice(1)
+    if (unknownArgs.length === 1) {
+      throw new Error(`unkown argument: "${unknownArgs[0]}"`)
+    } else {
+      const stringifiedUnknownArgs = unknownArgs
+        .map((arg) => {
+          return `"${arg}"`
+        })
+        .join(', ')
+
+      throw new Error(`unknown arguments: ${stringifiedUnknownArgs}`)
+    }
+  }
+
   input = await getInputStream(args._[0])
   output = await getOutputStream(args.output)
 } catch (error_: unknown) {
