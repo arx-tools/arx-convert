@@ -2,10 +2,13 @@ import { BYTE_OF_AN_UNKNOWN_CHAR, CHARS, CHAR_OF_AN_UNKNOWN_BYTE, CODES } from '
 
 export function maxAll(arr: number[]): number {
   let i = arr.length
-  let max = -Infinity
+  let max = Number.NEGATIVE_INFINITY
 
-  while (i-- > 0) {
-    max = arr[i] > max ? arr[i] : max
+  while (i > 0) {
+    i = i - 1
+    if (arr[i] > max) {
+      max = arr[i]
+    }
   }
 
   return max
@@ -21,7 +24,9 @@ export function uniq<T>(values: T[]): T[] {
 }
 
 export function times<T>(fn: (index: number) => T, repetitions: number): T[] {
-  return Array.from({ length: repetitions }).map((value, index) => fn(index))
+  return Array.from({ length: repetitions }).map((value, index) => {
+    return fn(index)
+  })
 }
 
 export function repeat<T>(value: T, repetitions: number): T[] {
@@ -34,13 +39,17 @@ export function repeat<T>(value: T, repetitions: number): T[] {
 }
 
 export function decodeText(bytes: number[]): string {
-  const chars = bytes.map((byte) => CHARS[byte] ?? CHAR_OF_AN_UNKNOWN_BYTE)
+  const chars = bytes.map((byte) => {
+    return CHARS[byte] ?? CHAR_OF_AN_UNKNOWN_BYTE
+  })
   return chars.join('')
 }
 
 export function encodeText(text: string): number[] {
   const chars = [...text]
-  return chars.map((char) => CODES[char] ?? BYTE_OF_AN_UNKNOWN_CHAR)
+  return chars.map((char) => {
+    return CODES[char] ?? BYTE_OF_AN_UNKNOWN_CHAR
+  })
 }
 
 export function clamp(min: number, max: number, n: number): number {

@@ -56,7 +56,7 @@ export class AnchorData {
 
     let flags = 0
     if (anchor.data.isBlocked) {
-      flags |= ArxAnchorFlags.Blocked
+      flags = flags | ArxAnchorFlags.Blocked
     }
 
     binary.writeInt16(flags)

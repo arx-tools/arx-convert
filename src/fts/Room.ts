@@ -14,8 +14,12 @@ export class Room {
     const { numberOfPortals, numberOfPolygons } = RoomData.readFrom(binary)
 
     return {
-      portals: times(() => binary.readInt32(), numberOfPortals),
-      polygons: times(() => EPData.readFrom(binary), numberOfPolygons),
+      portals: times(() => {
+        return binary.readInt32()
+      }, numberOfPortals),
+      polygons: times(() => {
+        return EPData.readFrom(binary)
+      }, numberOfPolygons),
     }
   }
 

@@ -14,7 +14,9 @@ export class Cell {
     const { numberOfPolygons, numberOfAnchors } = SceneInfo.readFrom(binary)
 
     const data: ArxCell = {
-      polygons: times(() => Polygon.readFrom(binary), numberOfPolygons),
+      polygons: times(() => {
+        return Polygon.readFrom(binary)
+      }, numberOfPolygons),
     }
 
     if (numberOfAnchors > 0) {

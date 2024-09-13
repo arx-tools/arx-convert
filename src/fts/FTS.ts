@@ -31,9 +31,12 @@ export type ArxFTS = {
  * Arx Libertatis feature: setting the uncompressed bytes' size in the header to 0 gets
  * interpreted as the file being uncompressed
  *
- * source of discussion: https://arx-libertatis.org/irclogs/2023/%23arx.2023-01-01.log
+ * source of discussion: https://arx-libertatis.org/irclogs/2022/%23arx.2022-09-06.log
+ * and https://arx-libertatis.org/irclogs/2022/%23arx.2022-09-07.log
  *
  * implemented in: https://github.com/arx/ArxLibertatis/commit/2d2226929780b6202f54982bacc79ddf75dbec53
+ *
+ * available in Arx Libertatis 1.3 snapshots that came after `2022-09-17` in https://arx-libertatis.org/files/snapshots/
  */
 const IS_AN_UNCOMPRESSED_FTS = 0
 
@@ -43,12 +46,16 @@ export class FTS {
 
     const { numberOfUniqueHeaders, ...header } = FtsHeader.readFrom(file)
 
-    const uniqueHeaders = times(() => UniqueHeader.readFrom(file), numberOfUniqueHeaders)
+    const uniqueHeaders = times(() => {
+      return UniqueHeader.readFrom(file)
+    }, numberOfUniqueHeaders)
 
     const { numberOfTextures, numberOfAnchors, numberOfPortals, numberOfRooms, ...sceneHeader } =
       SceneHeader.readFrom(file)
 
-    const textureContainers = times(() => TextureContainer.readFrom(file), numberOfTextures)
+    const textureContainers = times(() => {
+      return TextureContainer.readFrom(file)
+    }, numberOfTextures)
 
     const combinedCells: ArxCell[] = []
     for (let z = 0; z < MAP_DEPTH_IN_CELLS; z++) {
@@ -62,12 +69,26 @@ export class FTS {
       uniqueHeaders,
       sceneHeader,
       textureContainers,
-      cells: combinedCells.map(({ polygons, ...cell }) => cell),
-      polygons: addLightIndex(combinedCells.flatMap(({ polygons }) => polygons)),
-      anchors: times(() => Anchor.readFrom(file), numberOfAnchors),
-      portals: times(() => Portal.readFrom(file), numberOfPortals),
-      rooms: times(() => Room.readFrom(file), numberOfRooms),
-      roomDistances: times(() => RoomDistance.readFrom(file), numberOfRooms ** 2),
+      cells: combinedCells.map(({ polygons, ...cell }) => {
+        return cell
+      }),
+      polygons: addLightIndex(
+        combinedCells.flatMap(({ polygons }) => {
+          return polygons
+        }),
+      ),
+      anchors: times(() => {
+        return Anchor.readFrom(file)
+      }, numberOfAnchors),
+      portals: times(() => {
+        return Portal.readFrom(file)
+      }, numberOfPortals),
+      rooms: times(() => {
+        return Room.readFrom(file)
+      }, numberOfRooms),
+      roomDistances: times(() => {
+        return RoomDistance.readFrom(file)
+      }, numberOfRooms ** 2),
     }
   }
 
@@ -93,7 +114,11 @@ export class FTS {
     const textureContainers = Buffer.concat(json.textureContainers.map(TextureContainer.accumulateFrom))
     const cells = Buffer.concat(recombinedCells.map(Cell.accumulateFrom))
     const anchors = Buffer.concat(json.anchors.map(Anchor.accumulateFrom))
-    const portals = Buffer.concat(json.portals.map((portal) => Portal.accumulateFrom(portal, levelIdx)))
+    const portals = Buffer.concat(
+      json.portals.map((portal) => {
+        return Portal.accumulateFrom(portal, levelIdx)
+      }),
+    )
     const rooms = Buffer.concat(json.rooms.map(Room.accumulateFrom))
     const roomDistances = Buffer.concat(json.roomDistances.map(RoomDistance.accumulateFrom))
 
@@ -107,7 +132,13 @@ export class FTS {
       roomDistances,
     ])
 
-    const header = FtsHeader.accumulateFrom(json, isCompressed ? dataWithoutHeader.length : IS_AN_UNCOMPRESSED_FTS)
+    let header: Buffer
+    if (isCompressed) {
+      header = FtsHeader.accumulateFrom(json, dataWithoutHeader.length)
+    } else {
+      header = FtsHeader.accumulateFrom(json, IS_AN_UNCOMPRESSED_FTS)
+    }
+
     const uniqueHeaders = Buffer.concat(json.uniqueHeaders.map(UniqueHeader.accumulateFrom))
 
     return Buffer.concat([header, uniqueHeaders, dataWithoutHeader])

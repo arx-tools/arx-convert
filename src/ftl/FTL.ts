@@ -43,20 +43,30 @@ export class FTL {
 
     return {
       header,
-      vertices: times(() => FtlVertex.readFrom(file), numberOfVertices),
-      faces: times(() => Face.readFrom(file), numberOfFaces),
-      textureContainers: times(() => FtlTextureContainer.readFrom(file), numberOfTextures),
-      groups: times(() => Group.readFrom(file), numberOfGroups).map(({ numberOfIndices, ...group }) => {
+      vertices: times(() => {
+        return FtlVertex.readFrom(file)
+      }, numberOfVertices),
+      faces: times(() => {
+        return Face.readFrom(file)
+      }, numberOfFaces),
+      textureContainers: times(() => {
+        return FtlTextureContainer.readFrom(file)
+      }, numberOfTextures),
+      groups: times(() => {
+        return Group.readFrom(file)
+      }, numberOfGroups).map(({ numberOfIndices, ...group }) => {
         group.indices = file.readInt32Array(numberOfIndices)
         return group
       }),
-      actions: times(() => Action.readFrom(file), numberOfActions),
-      selections: times(() => Selection.readFrom(file), numberOfSelections).map(
-        ({ numberOfSelected, ...selection }) => {
-          selection.selected = file.readInt32Array(numberOfSelected)
-          return selection
-        },
-      ),
+      actions: times(() => {
+        return Action.readFrom(file)
+      }, numberOfActions),
+      selections: times(() => {
+        return Selection.readFrom(file)
+      }, numberOfSelections).map(({ numberOfSelected, ...selection }) => {
+        selection.selected = file.readInt32Array(numberOfSelected)
+        return selection
+      }),
     }
   }
 

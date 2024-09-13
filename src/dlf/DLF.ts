@@ -38,8 +38,12 @@ export class DLF {
     const data: ArxDLF = {
       header,
       scene: Scene.readFrom(file),
-      interactiveObjects: times(() => InteractiveObject.readFrom(file), numberOfInteractiveObjects),
-      fogs: times(() => Fog.readFrom(file), numberOfFogs),
+      interactiveObjects: times(() => {
+        return InteractiveObject.readFrom(file)
+      }, numberOfInteractiveObjects),
+      fogs: times(() => {
+        return Fog.readFrom(file)
+      }, numberOfFogs),
       paths: [],
       zones: [],
     }
@@ -52,24 +56,35 @@ export class DLF {
       const { numberOfPoints, pos, height, name, backgroundColor, ambience, ambienceMaxVolume, drawDistance, flags } =
         ZoneAndPathHeader.readFrom(file)
 
-      const points = times(() => ZoneAndPathPoint.readFrom(file, pos), numberOfPoints)
+      const points = times(() => {
+        return ZoneAndPathPoint.readFrom(file, pos)
+      }, numberOfPoints)
 
       /**
-       * zones and paths are the same, the only difference is whether the height is equal to 0
+       * zones and paths are the same, the only difference is if height = 0 then it's a path, otherwise a zone
        *
        * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LoadLevel.cpp#L407
        */
       if (height === 0) {
-        data.paths.push({ name, points })
+        const path: ArxPath = { name, points }
+        data.paths.push(path)
       } else {
-        data.zones.push({
-          name,
-          points,
-          height,
-          ...(flags & ArxZoneAndPathFlags.SetAmbience ? { ambience, ambienceMaxVolume } : {}),
-          ...(flags & ArxZoneAndPathFlags.SetBackgroundColor ? { backgroundColor } : {}),
-          ...(flags & ArxZoneAndPathFlags.SetDrawDistance ? { drawDistance } : {}),
-        })
+        const zone: ArxZone = { name, points, height }
+
+        if (flags & ArxZoneAndPathFlags.SetAmbience) {
+          zone.ambience = ambience
+          zone.ambienceMaxVolume = ambienceMaxVolume
+        }
+
+        if (flags & ArxZoneAndPathFlags.SetBackgroundColor) {
+          zone.backgroundColor = backgroundColor
+        }
+
+        if (flags & ArxZoneAndPathFlags.SetDrawDistance) {
+          zone.drawDistance = drawDistance
+        }
+
+        data.zones.push(zone)
       }
     }, numberOfZonesAndPaths)
 
@@ -89,7 +104,10 @@ export class DLF {
       json.paths.flatMap((path) => {
         const header = ZoneAndPathHeader.allocateFrom(path)
         const { pos } = path.points[0]
-        const points = path.points.map((point) => ZoneAndPathPoint.allocateFrom(point, pos))
+        const points = path.points.map((point) => {
+          return ZoneAndPathPoint.allocateFrom(point, pos)
+        })
+
         return [header, ...points]
       }),
     )
@@ -98,7 +116,10 @@ export class DLF {
       json.zones.flatMap((zone) => {
         const header = ZoneAndPathHeader.allocateFrom(zone)
         const { pos } = zone.points[0]
-        const points = zone.points.map((point) => ZoneAndPathPoint.allocateFrom(point, pos))
+        const points = zone.points.map((point) => {
+          return ZoneAndPathPoint.allocateFrom(point, pos)
+        })
+
         return [header, ...points]
       }),
     )

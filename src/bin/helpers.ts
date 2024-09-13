@@ -32,13 +32,15 @@ async function fileExists(filename: string): Promise<boolean> {
 }
 
 export function concatBuffersSafe(buffers: Buffer[]): Buffer {
-  const bufferSize = buffers.reduce((a, b) => a + b.length, 0)
+  const bufferSize = buffers.reduce((sum, buffer) => {
+    return sum + buffer.length
+  }, 0)
   const buffer = Buffer.alloc(bufferSize)
 
   let offset = 0
   buffers.forEach((buf) => {
     buf.copy(buffer, offset)
-    offset += buf.byteLength
+    offset = offset + buf.byteLength
   })
 
   return buffer

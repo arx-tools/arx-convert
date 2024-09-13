@@ -17,10 +17,14 @@ export class LLF {
     const file = new BinaryIO(decompressedFile)
 
     const { numberOfLights, ...header } = LlfHeader.readFrom(file)
-    const lights = times(() => Light.readFrom(file), numberOfLights)
+    const lights = times(() => {
+      return Light.readFrom(file)
+    }, numberOfLights)
 
     const { numberOfColors } = LightingHeader.readFrom(file)
-    const colors = times(() => Color.readFrom(file, 'bgra'), numberOfColors)
+    const colors = times(() => {
+      return Color.readFrom(file, 'bgra')
+    }, numberOfColors)
 
     return {
       header,
@@ -36,7 +40,11 @@ export class LLF {
 
     const lightingHeader = LightingHeader.accumulateFrom(json.colors)
 
-    const colors = Buffer.concat(json.colors.map((color) => Color.accumulateFrom(color, 'bgra')))
+    const colors = Buffer.concat(
+      json.colors.map((color) => {
+        return Color.accumulateFrom(color, 'bgra')
+      }),
+    )
 
     return Buffer.concat([header, lights, lightingHeader, colors])
   }

@@ -35,7 +35,10 @@ export class Track {
     const flags = binary.readUint32()
     const numberOfKeys = binary.readUint32()
 
-    const keys = times(() => Key.readFrom(binary), numberOfKeys)
+    const keys = times(() => {
+      return Key.readFrom(binary)
+    }, numberOfKeys)
+
     if (isNewerVersion) {
       keys.reverse()
     }

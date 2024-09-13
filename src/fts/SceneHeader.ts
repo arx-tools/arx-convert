@@ -41,7 +41,11 @@ export class SceneHeader {
   }
 
   static accumulateFrom(json: ArxFTS): Buffer {
-    const numberOfRooms = maxAll(uniq(json.polygons.map(({ room }) => room)))
+    const roomIds = json.polygons.map(({ room }) => {
+      return room
+    })
+
+    const numberOfRooms = maxAll(uniq(roomIds))
 
     const buffer = Buffer.alloc(SceneHeader.sizeOf())
     const binary = new BinaryIO(buffer)

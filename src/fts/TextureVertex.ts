@@ -74,10 +74,23 @@ export class TextureVertex {
     const isFirstVertexOfPolygon = idx === 0
     const isLastVertexOfPolygon = idx === 3
 
-    const { color, specular, tu, tv } = isLastVertexOfPolygon ? HARDCODED_DATA_TYPE2 : HARDCODED_DATA_TYPE1
+    let data: HardcodedDataType
+    if (isLastVertexOfPolygon) {
+      data = HARDCODED_DATA_TYPE2
+    } else {
+      data = HARDCODED_DATA_TYPE1
+    }
+
+    const { color, specular, tu, tv } = data
 
     binary.writeVector3(vertex.pos)
-    binary.writeFloat32(isFirstVertexOfPolygon ? vertex.rhw : 0)
+
+    if (isFirstVertexOfPolygon) {
+      binary.writeFloat32(vertex.rhw)
+    } else {
+      binary.writeFloat32(0)
+    }
+
     binary.writeBuffer(Color.accumulateFrom(color, 'abgr'))
     binary.writeBuffer(Color.accumulateFrom(specular, 'abgr'))
     binary.writeFloat32(tu)

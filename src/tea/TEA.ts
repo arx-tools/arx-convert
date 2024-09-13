@@ -42,7 +42,13 @@ export class TEA {
 
     for (let i = 0; i < numberOfKeyFrames; i++) {
       console.log(i, file.position)
-      const keyframe: ArxKeyFrame = header.version >= 2015 ? NewKeyFrame.readFrom(file) : OldKeyFrame.readFrom(file)
+      let keyframe: ArxKeyFrame
+      if (header.version >= 2015) {
+        keyframe = NewKeyFrame.readFrom(file)
+      } else {
+        keyframe = OldKeyFrame.readFrom(file)
+      }
+
       data.keyframes.push(keyframe)
 
       if (keyframe.key_move) {
@@ -50,12 +56,12 @@ export class TEA {
       }
 
       if (keyframe.key_orient) {
-        file.position += 8 // theo angle
+        file.position = file.position + 8 // theo angle
         keyframe.quat = file.readQuat()
       }
 
       if (keyframe.key_morph) {
-        file.position += 16 // thea morph
+        file.position = file.position + 16 // thea morph
       }
 
       for (let j = 0; j < numberOfGroups; j++) {
@@ -78,13 +84,13 @@ export class TEA {
           size: file.readInt32(),
         }
         keyframe.sample = sample
-        file.position += sample.size
+        file.position = file.position + sample.size
       }
 
       console.log(keyframe)
     }
 
-    file.position += 4 // num_sfx?
+    file.position = file.position + 4 // num_sfx?
 
     return data
   }

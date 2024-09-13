@@ -3,6 +3,7 @@ import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxVertex, Vertex } from '@fts/Vertex.js'
 import { type ArxVector3, type QuadrupleOf } from '@common/types.js'
 import { times } from '@common/helpers.js'
+// eslint-disable-next-line unused-imports/no-unused-imports -- it is used in jsdoc block
 import { ArxTextureContainer } from '@fts/TextureContainer.js'
 
 /**
@@ -73,11 +74,15 @@ export type ArxPolygon = {
 export class Polygon {
   static readFrom(binary: BinaryIO): ArxPolygon {
     return {
-      vertices: times(() => Vertex.readFrom(binary), 4) as QuadrupleOf<ArxVertex>,
+      vertices: times(() => {
+        return Vertex.readFrom(binary)
+      }, 4) as QuadrupleOf<ArxVertex>,
       textureContainerId: binary.readInt32(),
       norm: binary.readVector3(),
       norm2: binary.readVector3(),
-      normals: times(() => binary.readVector3(), 4) as QuadrupleOf<ArxVector3>,
+      normals: times(() => {
+        return binary.readVector3()
+      }, 4) as QuadrupleOf<ArxVector3>,
       transval: binary.readFloat32(),
       area: binary.readFloat32(),
       flags: binary.readInt32(),

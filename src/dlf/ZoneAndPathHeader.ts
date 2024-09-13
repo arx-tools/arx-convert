@@ -99,11 +99,11 @@ export class ZoneAndPathHeader {
 
     let flags: ArxZoneAndPathFlags = ArxZoneAndPathFlags.None
     if ('backgroundColor' in zoneOrPath && zoneOrPath.backgroundColor !== undefined) {
-      flags |= ArxZoneAndPathFlags.SetBackgroundColor
+      flags = flags | ArxZoneAndPathFlags.SetBackgroundColor
     }
 
     if ('drawDistance' in zoneOrPath && zoneOrPath.drawDistance !== undefined) {
-      flags |= ArxZoneAndPathFlags.SetDrawDistance
+      flags = flags | ArxZoneAndPathFlags.SetDrawDistance
     }
 
     if (
@@ -112,30 +112,50 @@ export class ZoneAndPathHeader {
       'ambienceMaxVolume' in zoneOrPath &&
       zoneOrPath.ambienceMaxVolume !== undefined
     ) {
-      flags |= ArxZoneAndPathFlags.SetAmbience
+      flags = flags | ArxZoneAndPathFlags.SetAmbience
     }
 
     binary.writeInt16(flags)
     binary.writeVector3(pos) // initPos
     binary.writeVector3(pos)
     binary.writeInt32(zoneOrPath.points.length)
-    binary.writeBuffer(
-      Color.accumulateFrom(
-        'backgroundColor' in zoneOrPath ? (zoneOrPath?.backgroundColor ?? Color.black) : Color.black,
-        'rgb',
-      ),
-    )
-    binary.writeFloat32('drawDistance' in zoneOrPath ? (zoneOrPath?.drawDistance ?? 2800) : 2800) // for paths it's 80% 2800, 20% 0
+
+    if ('backgroundColor' in zoneOrPath) {
+      binary.writeBuffer(Color.accumulateFrom(zoneOrPath?.backgroundColor ?? Color.black, 'rgb'))
+    } else {
+      binary.writeBuffer(Color.accumulateFrom(Color.black, 'rgb'))
+    }
+
+    // draw distance of paths in the original arx levels is 2800 in 80% of the time, otherwise 0
+    if ('drawDistance' in zoneOrPath) {
+      binary.writeFloat32(zoneOrPath?.drawDistance ?? 2800)
+    } else {
+      binary.writeFloat32(2800)
+    }
+
     binary.writeFloat32(0) // reverb
-    binary.writeFloat32('ambienceMaxVolume' in zoneOrPath ? (zoneOrPath?.ambienceMaxVolume ?? 100) : 100)
+
+    if ('ambienceMaxVolume' in zoneOrPath) {
+      binary.writeFloat32(zoneOrPath?.ambienceMaxVolume ?? 100)
+    } else {
+      binary.writeFloat32(100)
+    }
 
     binary.writeFloat32Array(repeat(0, 26)) // fpad
 
-    binary.writeInt32('height' in zoneOrPath ? zoneOrPath.height : 0)
+    if ('height' in zoneOrPath) {
+      binary.writeInt32(zoneOrPath.height)
+    } else {
+      binary.writeInt32(0)
+    }
 
     binary.writeInt32Array(repeat(0, 31)) // lpad
 
-    binary.writeString('ambience' in zoneOrPath ? (zoneOrPath?.ambience ?? 'NONE') : 'NONE', 128)
+    if ('ambience' in zoneOrPath) {
+      binary.writeString(zoneOrPath?.ambience ?? 'NONE', 128)
+    } else {
+      binary.writeString('NONE', 128)
+    }
 
     binary.writeString('', 128) // cpad
 

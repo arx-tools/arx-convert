@@ -18,11 +18,11 @@ export function addLightIndex(polygons: ArxPolygon[]): ArxPolygon[] {
     polygon.vertices[0].llfColorIdx = idx
     polygon.vertices[1].llfColorIdx = idx + 1
     polygon.vertices[2].llfColorIdx = idx + 2
-    idx += 3
+    idx = idx + 3
 
     if (isQuad(polygon)) {
       polygon.vertices[3].llfColorIdx = idx
-      idx += 1
+      idx = idx + 1
     }
 
     return polygon
@@ -30,16 +30,32 @@ export function addLightIndex(polygons: ArxPolygon[]): ArxPolygon[] {
 }
 
 function doCoordsNeedToBeRoundedUp(coords: TripleOf<number>): boolean {
-  const [a, b, c] = coords.sort((a, b) => a - b)
-  return COORDS_THAT_ROUND_UP.some(([x, y, z]) => a === x && b === y && c === z)
+  const [a, b, c] = coords.sort((a, b) => {
+    return a - b
+  })
+
+  return COORDS_THAT_ROUND_UP.some(([x, y, z]) => {
+    return a === x && b === y && c === z
+  })
 }
 
 export function getCellCoords([a, b, c]: QuadrupleOf<ArxVertex>): DoubleOf<number> {
   const x = (a.x + b.x + c.x) / 3
   const z = (a.z + b.z + c.z) / 3
 
-  const cellX = doCoordsNeedToBeRoundedUp([a.x, b.x, c.x]) ? Math.ceil(x / 100) : Math.floor(x / 100)
-  const cellY = doCoordsNeedToBeRoundedUp([a.z, b.z, c.z]) ? Math.ceil(z / 100) : Math.floor(z / 100)
+  let cellX: number
+  if (doCoordsNeedToBeRoundedUp([a.x, b.x, c.x])) {
+    cellX = Math.ceil(x / 100)
+  } else {
+    cellX = Math.floor(x / 100)
+  }
+
+  let cellY: number
+  if (doCoordsNeedToBeRoundedUp([a.z, b.z, c.z])) {
+    cellY = Math.ceil(z / 100)
+  } else {
+    cellY = Math.floor(z / 100)
+  }
 
   return [cellX, cellY]
 }

@@ -15,7 +15,9 @@ export class AMB {
     const { numberOfTracks, isNewerVersion } = AmbHeader.readFrom(file)
 
     return {
-      tracks: times(() => Track.readFrom(file, isNewerVersion), numberOfTracks),
+      tracks: times(() => {
+        return Track.readFrom(file, isNewerVersion)
+      }, numberOfTracks),
     }
   }
 
