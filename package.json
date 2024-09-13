@@ -30,7 +30,7 @@
     "build": "tsc && tsc-alias",
     "lint": "xo",
     "lint:watch": "nodemon --watch src --exec \"npm run lint\" --ext ts",
-    "prepublishOnly": "npm run lint && rm -rf dist && mkdir dist && npm run build"
+    "prepublishOnly": "npm run lint && rm -rf dist && rm tsconfig.tsbuildinfo && npm run build"
   },
   "repository": {
     "type": "git",
