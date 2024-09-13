@@ -5,6 +5,9 @@
   "space": true,
   "semicolon": false,
   "prettier": true,
+  "plugins": [
+    "eslint-plugin-unused-imports"
+  ],
   "rules": {
     "capitalized-comments": "off",
     "no-bitwise": "off",
@@ -40,10 +43,15 @@
       {
         "selector": "variable",
         "format": [
-          "strictCamelCase",
-          "UPPER_CASE"
+          "camelCase",
+          "UPPER_CASE",
+          "PascalCase"
         ]
       }
+    ],
+    "@typescript-eslint/class-literal-property-style": [
+      "error",
+      "fields"
     ],
     "@typescript-eslint/prefer-literal-enum-member": [
       "error",
@@ -69,6 +77,43 @@
       {
         "prefer": "class-property"
       }
-    ]
+    ],
+    "operator-assignment": [
+      "error",
+      "never"
+    ],
+    "logical-assignment-operators": [
+      "error",
+      "never"
+    ],
+    "@typescript-eslint/no-inferrable-types": [
+      "error",
+      {
+        "ignoreParameters": true,
+        "ignoreProperties": true
+      }
+    ],
+    "@typescript-eslint/no-unnecessary-boolean-literal-compare": "off",
+    "unicorn/prefer-ternary": "off",
+    "no-ternary": "error",
+    "no-await-in-loop": "off",
+    "@typescript-eslint/consistent-type-definitions": "off",
+    "@typescript-eslint/non-nullable-type-assertion-style": "off",
+    "unicorn/prefer-number-properties": [
+      "error",
+      {
+        "checkInfinity": true,
+        "checkNaN": true
+      }
+    ],
+    "unused-imports/no-unused-imports": "error",
+    "guard-for-in": "off",
+    "arrow-body-style": [
+      "error",
+      "always"
+    ],
+    "@typescript-eslint/unified-signatures": "off",
+    "unicorn/no-for-loop": "off",
+    "@typescript-eslint/no-unsafe-argument": "off"
   }
 }
