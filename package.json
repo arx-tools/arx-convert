@@ -1,6 +1,6 @@
 {
   "name": "arx-convert",
-  "version": "10.1.0-alpha.5",
+  "version": "10.1.0",
   "description": "Converts various Arx Fatalis formats to JSON or YAML and back",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
