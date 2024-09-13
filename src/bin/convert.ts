@@ -29,11 +29,20 @@ type AppArgs = {
   to?: string
 }
 
+const unknownArgs: string[] = []
+
 const args: AppArgs = minimist(process.argv.slice(2), {
   string: ['output', 'from', 'to'],
   boolean: ['version', 'format', 'pretty', 'prettify'],
   alias: {
     v: 'version',
+  },
+  unknown: (arg) => {
+    if (arg.startsWith('-') || arg.startsWith('--')) {
+      return false
+    }
+
+    return true
   },
 })
 
@@ -47,46 +56,51 @@ let input: NodeJS.ReadableStream
 let output: NodeJS.WritableStream
 try {
   if (args.from === undefined || args.from === '') {
-    throw new Error('"from" argument is missing or empty')
+    throw new Error('"--from" argument is missing or empty')
   }
 
   if (args.to === undefined || args.to === '') {
-    throw new Error('"to" argument is missing or empty')
+    throw new Error('"--to" argument is missing or empty')
   }
 
   if (!isValidFormat(args.from)) {
-    throw new Error(`unknown format '${args.from}' in "from"`)
+    throw new Error(`unknown format '${args.from}' in "--from"`)
   }
 
   if (!isValidFormat(args.to)) {
-    throw new Error(`unknown format '${args.to}' in "to"`)
+    throw new Error(`unknown format '${args.to}' in "--to"`)
   }
 
   if (args.from === args.to) {
-    throw new Error('"from" and "to" have the same format')
+    throw new Error('"--from" and "--to" have the same format')
   }
 
   if (isArxFormat(args.from) && isArxFormat(args.to)) {
-    throw new Error('"from" and "to" are both referencing arx formats, expected one of them to be a data type')
+    throw new Error(
+      '"--from" and "--to" are both referencing arx formats, expected one of them to be a data type (like json, or yaml)',
+    )
   }
 
   if (isDataFormat(args.from) && isDataFormat(args.to)) {
-    throw new Error('"from" and "to" are both referencing data types, expected one of them to be an arx format')
+    throw new Error(
+      '"--from" and "--to" are both referencing data types, expected one of them to be an arx format (like ftl, or dlf)',
+    )
   }
 
   if (args._.length > 1) {
-    const unknownArgs = args._.slice(1)
-    if (unknownArgs.length === 1) {
-      throw new Error(`unkown argument: "${unknownArgs[0]}"`)
-    } else {
-      const stringifiedUnknownArgs = unknownArgs
-        .map((arg) => {
-          return `"${arg}"`
-        })
-        .join(', ')
+    unknownArgs.push(...args._.slice(1))
+  }
 
-      throw new Error(`unknown arguments: ${stringifiedUnknownArgs}`)
-    }
+  if (unknownArgs.length === 1) {
+    throw new Error(`unkown argument: "${unknownArgs[0]}"`)
+  }
+
+  if (unknownArgs.length > 1) {
+    const stringifiedUnknownArgs = unknownArgs.map((arg) => {
+      return `"${arg}"`
+    })
+
+    throw new Error(`unknown arguments: ${stringifiedUnknownArgs.join(', ')}`)
   }
 
   input = await getInputStream(args._[0])
