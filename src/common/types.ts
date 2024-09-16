@@ -35,7 +35,23 @@ export type QuadrupleOf<T> = [T, T, T, T]
 /**
  * Make the specified properties of a type optional
  *
+ * @example
+ *
+ * ```ts
+ * type PointWithColor = { x: number, y: number, color: string }
+ *
+ * // make 'color' optional:
+ * type NotYetColoredPoint = Optional<PointWithColor, 'color'>
+ *
+ * // same as:
+ * type NotYetColoredPoint = { x: number, y: number, color?: string }
+ * ```
+ *
  * @see https://stackoverflow.com/a/61108377/1806628
+ *
+ * The built-in typescript utility type
+ * {@link https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype Partial} is similar,
+ * but that makes all fields optional
  */
 export type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
