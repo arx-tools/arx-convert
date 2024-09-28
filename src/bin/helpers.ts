@@ -11,7 +11,6 @@ import {
   SUPPORTED_DATA_FORMATS,
   SUPPORTED_FORMATS,
 } from '@bin/constants.js'
-import { type DoubleOf } from '@common/types.js'
 
 function pathToPackageJson(): string {
   const filename = fileURLToPath(import.meta.url)
@@ -94,12 +93,18 @@ function sliceBuffer(buffer: string | Buffer, start?: number, end?: number): str
   return buffer.slice(start, end)
 }
 
-export function evenAndRemainder(divisor: number, n: number): DoubleOf<number> {
-  return [Math.floor(n / divisor), n % divisor]
+/**
+ * @example
+ * ```js
+ * quotientAndRemainder(20, 3) -> [6, 2]
+ * ```
+ */
+export function quotientAndRemainder(dividend: number, divisor: number): [number, number] {
+  return [Math.floor(dividend / divisor), dividend % divisor]
 }
 
 export function outputInChunks(buffer: string | Buffer, stream: NodeJS.WritableStream, chunkSize = 1024): void {
-  const [numberOfWholeChunks, leftoverChunkSize] = evenAndRemainder(buffer.length, chunkSize)
+  const [numberOfWholeChunks, leftoverChunkSize] = quotientAndRemainder(chunkSize, buffer.length)
 
   for (let i = 0; i < numberOfWholeChunks; i++) {
     stream.write(sliceBuffer(buffer, i * chunkSize, (i + 1) * chunkSize))
