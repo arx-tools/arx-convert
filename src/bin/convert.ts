@@ -1,5 +1,6 @@
 #!/usr/bin/env -S node --enable-source-maps
 
+import { type Buffer } from 'node:buffer'
 import process from 'node:process'
 import minimist from 'minimist-lite'
 import YAML from 'yaml'

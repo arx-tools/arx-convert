@@ -1,3 +1,4 @@
+import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxAMB } from '@amb/AMB.js'
 import { VERSION_1003, VERSION_1002 } from '@amb/constants.js'

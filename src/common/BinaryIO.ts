@@ -1,3 +1,4 @@
+import { type Buffer } from 'node:buffer'
 import { decodeText, encodeText, repeat } from '@common/helpers.js'
 import { LITTLE_ENDIAN, TRUNCATE_ZERO_BYTES, KEEP_ZERO_BYTES, BYTE_OF_AN_UNKNOWN_CHAR } from '@common/constants.js'
 import { type ArxQuaternion, type ArxRotation, type ArxVector3 } from '@common/types.js'

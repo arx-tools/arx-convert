@@ -1,3 +1,4 @@
+import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxSetting, Setting } from '@amb/Setting.js'
 

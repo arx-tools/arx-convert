@@ -1,3 +1,4 @@
+import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { times } from '@common/helpers.js'
 import { type ArxKey, Key } from '@amb/Key.js'

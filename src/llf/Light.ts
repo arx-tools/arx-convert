@@ -1,3 +1,4 @@
+import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxColor, Color } from '@common/Color.js'
 import { clamp, repeat } from '@common/helpers.js'
