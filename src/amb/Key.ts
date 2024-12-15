@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxSetting, Setting } from '@amb/Setting.js'
 
@@ -43,8 +42,8 @@ export class Key {
     }
   }
 
-  static accumulateFrom(key: ArxKey): Buffer {
-    const buffer = Buffer.alloc(Key.sizeOf())
+  static accumulateFrom(key: ArxKey): Uint8Array {
+    const buffer = new Uint8Array(Key.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeUint32(0) // flags

@@ -1,4 +1,3 @@
-import { type Buffer } from 'node:buffer'
 import { decodeText, encodeText, repeat } from '@common/helpers.js'
 import { LITTLE_ENDIAN, TRUNCATE_ZERO_BYTES, KEEP_ZERO_BYTES, BYTE_OF_AN_UNKNOWN_CHAR } from '@common/constants.js'
 import { type ArxQuaternion, type ArxRotation, type ArxVector3 } from '@common/types.js'
@@ -86,7 +85,7 @@ export class BinaryIO extends DataView {
 
   public position: number // TODO: make this private - this needs to be public because of TEA
 
-  constructor(buffer: Buffer, byteOffset?: number, byteLength?: number) {
+  constructor(buffer: Uint8Array, byteOffset?: number, byteLength?: number) {
     super(buffer.buffer, byteOffset, byteLength)
     this.position = 0
   }
@@ -374,7 +373,7 @@ export class BinaryIO extends DataView {
     this.writeFloat32Array([w, x, y, z])
   }
 
-  writeBuffer(buffer: Buffer): void {
+  writeBuffer(buffer: Uint8Array): void {
     this.writeUint8Array(buffer)
   }
 }

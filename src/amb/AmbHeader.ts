@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxAMB } from '@amb/AMB.js'
 import { VERSION_1003, VERSION_1002 } from '@amb/constants.js'
@@ -23,8 +22,8 @@ export class AmbHeader {
     }
   }
 
-  static accumulateFrom(json: ArxAMB): Buffer {
-    const buffer = Buffer.alloc(AmbHeader.sizeOf())
+  static accumulateFrom(json: ArxAMB): Uint8Array {
+    const buffer = new Uint8Array(AmbHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeString('GAMB', 4)

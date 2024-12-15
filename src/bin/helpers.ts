@@ -38,6 +38,9 @@ async function fileExists(filename: string): Promise<boolean> {
   }
 }
 
+/**
+ * @deprecated This is the same as common/helpers.ts > concatUint8Arrays
+ */
 function concatBuffersSafe(buffers: Buffer[]): Buffer {
   const bufferSize = buffers.reduce((sum, buffer) => {
     return sum + buffer.length

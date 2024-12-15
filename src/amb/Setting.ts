@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 
 /**
@@ -34,8 +33,8 @@ export class Setting {
     }
   }
 
-  static accumulateFrom(setting: ArxSetting): Buffer {
-    const buffer = Buffer.alloc(Setting.sizeOf())
+  static accumulateFrom(setting: ArxSetting): Uint8Array {
+    const buffer = new Uint8Array(Setting.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeFloat32(setting.min)
