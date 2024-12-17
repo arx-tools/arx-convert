@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxColor, Color } from '@common/Color.js'
 import { type ArxVector3 } from '@common/types.js'
@@ -67,8 +66,8 @@ export class TextureVertex {
     return data
   }
 
-  static accumulateFrom(vertex: ArxTextureVertex, idx: number): Buffer {
-    const buffer = Buffer.alloc(TextureVertex.sizeOf())
+  static accumulateFrom(vertex: ArxTextureVertex, idx: number): Uint8Array {
+    const buffer = new Uint8Array(TextureVertex.sizeOf())
     const binary = new BinaryIO(buffer)
 
     const isFirstVertexOfPolygon = idx === 0

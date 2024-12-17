@@ -1,6 +1,5 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
-import { times } from '@common/helpers.js'
+import { concatUint8Arrays, times } from '@common/helpers.js'
 import { type ArxEPData, EPData } from '@fts/EPData.js'
 import { RoomData } from '@fts/RoomData.js'
 
@@ -23,16 +22,16 @@ export class Room {
     }
   }
 
-  static accumulateFrom(room: ArxRoom): Buffer {
+  static accumulateFrom(room: ArxRoom): Uint8Array {
     const roomData = RoomData.accumulateFrom(room)
 
-    const portals = Buffer.alloc(room.portals.length * 4)
+    const portals = new Uint8Array(room.portals.length * 4)
     const binary = new BinaryIO(portals)
 
     binary.writeInt32Array(room.portals)
 
-    const polygons = Buffer.concat(room.polygons.map(EPData.accumulateFrom))
+    const polygons = concatUint8Arrays(room.polygons.map(EPData.accumulateFrom))
 
-    return Buffer.concat([roomData, portals, polygons])
+    return concatUint8Arrays([roomData, portals, polygons])
   }
 }

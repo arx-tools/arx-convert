@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { repeat } from '@common/helpers.js'
 import { type ArxVector3 } from '@common/types.js'
@@ -39,8 +38,8 @@ export class ZoneAndPathPoint {
     return data
   }
 
-  static allocateFrom(point: ArxZoneAndPathPoint, pos: ArxVector3): Buffer {
-    const buffer = Buffer.alloc(ZoneAndPathPoint.sizeOf())
+  static allocateFrom(point: ArxZoneAndPathPoint, pos: ArxVector3): Uint8Array {
+    const buffer = new Uint8Array(ZoneAndPathPoint.sizeOf())
     const binary = new BinaryIO(buffer)
 
     const rpos = {

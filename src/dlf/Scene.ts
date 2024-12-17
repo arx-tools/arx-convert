@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { repeat } from '@common/helpers.js'
 
@@ -21,8 +20,8 @@ export class Scene {
     }
   }
 
-  static accumulateFrom(scene: ArxScene): Buffer {
-    const buffer = Buffer.alloc(Scene.sizeOf())
+  static accumulateFrom(scene: ArxScene): Uint8Array {
+    const buffer = new Uint8Array(Scene.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeString(Scene.levelIdxToPath(scene.levelIdx), 512)

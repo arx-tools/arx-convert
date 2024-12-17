@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxVector3, type TripleOf } from '@common/types.js'
 
@@ -55,8 +54,8 @@ export class Face {
     }
   }
 
-  static accumulateFrom(face: ArxFace): Buffer {
-    const buffer = Buffer.alloc(Face.sizeOf())
+  static accumulateFrom(face: ArxFace): Uint8Array {
+    const buffer = new Uint8Array(Face.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeInt32(face.faceType)

@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import fs from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
@@ -11,6 +10,7 @@ import {
   SUPPORTED_DATA_FORMATS,
   SUPPORTED_FORMATS,
 } from '@bin/constants.js'
+import { concatUint8Arrays } from '@common/helpers.js'
 
 function pathToPackageJson(): string {
   const filename = fileURLToPath(import.meta.url)
@@ -38,33 +38,21 @@ async function fileExists(filename: string): Promise<boolean> {
   }
 }
 
-/**
- * @deprecated This is the same as common/helpers.ts > concatUint8Arrays
- */
-function concatBuffersSafe(buffers: Buffer[]): Buffer {
-  const bufferSize = buffers.reduce((sum, buffer) => {
-    return sum + buffer.length
-  }, 0)
-  const buffer = Buffer.alloc(bufferSize)
-
-  let offset = 0
-  buffers.forEach((buf) => {
-    buf.copy(buffer, offset)
-    offset = offset + buf.byteLength
-  })
-
-  return buffer
-}
-
-export async function streamToBuffer(input: NodeJS.ReadableStream): Promise<Buffer> {
+export async function streamToBuffer(input: NodeJS.ReadableStream): Promise<Uint8Array> {
   return new Promise((resolve, reject) => {
-    const chunks: Buffer[] = []
-    input.on('data', (chunk: Buffer) => {
+    const chunks: Uint8Array[] = []
+
+    // chunk is techincally a Buffer, but:
+    // "The Buffer class is a subclass of JavaScript's Uint8Array class and extends it"
+    // source: https://nodejs.org/api/buffer.html#buffer
+    input.on('data', (chunk: Uint8Array) => {
       chunks.push(chunk)
     })
+
     input.on('end', () => {
-      resolve(concatBuffersSafe(chunks))
+      resolve(concatUint8Arrays(chunks))
     })
+
     input.on('error', (e: unknown) => {
       if (e instanceof Error) {
         reject(e)
@@ -88,8 +76,8 @@ export async function stringifyYAML(json: any): Promise<string> {
   return YAML.stringify(json)
 }
 
-function sliceBuffer(buffer: string | Buffer, start?: number, end?: number): string | Buffer {
-  if (buffer instanceof Buffer) {
+function sliceBuffer(buffer: string | Uint8Array, start?: number, end?: number): string | Uint8Array {
+  if (buffer instanceof Uint8Array) {
     return buffer.subarray(start, end)
   }
 
@@ -106,7 +94,7 @@ export function quotientAndRemainder(dividend: number, divisor: number): [number
   return [Math.floor(dividend / divisor), dividend % divisor]
 }
 
-export function outputInChunks(buffer: string | Buffer, stream: NodeJS.WritableStream, chunkSize = 1024): void {
+export function outputInChunks(buffer: string | Uint8Array, stream: NodeJS.WritableStream, chunkSize = 1024): void {
   const [numberOfWholeChunks, leftoverChunkSize] = quotientAndRemainder(chunkSize, buffer.length)
 
   for (let i = 0; i < numberOfWholeChunks; i++) {

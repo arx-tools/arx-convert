@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxVector3 } from '@common/types.js'
 import { type ArxAnchor } from '@fts/Anchor.js'
@@ -45,8 +44,8 @@ export class AnchorData {
     return data
   }
 
-  static accumulateFrom(anchor: ArxAnchor): Buffer {
-    const buffer = Buffer.alloc(AnchorData.sizeOf())
+  static accumulateFrom(anchor: ArxAnchor): Uint8Array {
+    const buffer = new Uint8Array(AnchorData.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeVector3(anchor.data.pos)

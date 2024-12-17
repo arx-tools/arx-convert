@@ -1,5 +1,4 @@
 import path from 'node:path'
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { repeat } from '@common/helpers.js'
 import { type ArxRotation, type ArxVector3 } from '@common/types.js'
@@ -30,8 +29,8 @@ export class InteractiveObject {
     return data
   }
 
-  static accumulateFrom(interactiveObject: ArxInteractiveObject): Buffer {
-    const buffer = Buffer.alloc(InteractiveObject.sizeOf())
+  static accumulateFrom(interactiveObject: ArxInteractiveObject): Uint8Array {
+    const buffer = new Uint8Array(InteractiveObject.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeString(InteractiveObject.toAbsolutePath(interactiveObject.name), 512)

@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { KEEP_ZERO_BYTES } from '@common/constants.js'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxTEA } from '@tea/TEA.js'
@@ -27,8 +26,8 @@ export class TeaHeader {
     }
   }
 
-  static accumulateFrom(json: ArxTEA, uncompressedSize: number): Buffer {
-    const buffer = Buffer.alloc(TeaHeader.sizeOf())
+  static accumulateFrom(json: ArxTEA, uncompressedSize: number): Uint8Array {
+    const buffer = new Uint8Array(TeaHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
     // TODO

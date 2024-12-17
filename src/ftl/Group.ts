@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 
 /** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FTLFormat.h#L122 */
@@ -26,8 +25,8 @@ export class Group {
     }
   }
 
-  static accumulateFrom(group: ArxGroup): Buffer {
-    const buffer = Buffer.alloc(Group.sizeOf())
+  static accumulateFrom(group: ArxGroup): Uint8Array {
+    const buffer = new Uint8Array(Group.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeString(group.name, 256)

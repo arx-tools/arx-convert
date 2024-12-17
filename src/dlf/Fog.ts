@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxColor, Color } from '@common/Color.js'
 import { repeat } from '@common/helpers.js'
@@ -53,8 +52,8 @@ export class Fog {
     }
   }
 
-  static accumulateFrom(fog: ArxFog): Buffer {
-    const buffer = Buffer.alloc(Fog.sizeOf())
+  static accumulateFrom(fog: ArxFog): Uint8Array {
+    const buffer = new Uint8Array(Fog.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeVector3(fog.pos)

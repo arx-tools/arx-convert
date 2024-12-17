@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { TextureContainer } from '@fts/TextureContainer.js'
 
@@ -14,8 +13,8 @@ export class FtlTextureContainer {
     }
   }
 
-  static accumulateFrom(textureContainer: ArxFtlTextureContainer): Buffer {
-    const buffer = Buffer.alloc(FtlTextureContainer.sizeOf())
+  static accumulateFrom(textureContainer: ArxFtlTextureContainer): Uint8Array {
+    const buffer = new Uint8Array(FtlTextureContainer.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeString(TextureContainer.toAbsolutePath(textureContainer.filename), 256)

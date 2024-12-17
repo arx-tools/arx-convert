@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 
 /** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FTLFormat.h#L148 */
@@ -20,8 +19,8 @@ export class Selection {
     return data
   }
 
-  static accumulateFrom(selection: ArxSelection): Buffer {
-    const buffer = Buffer.alloc(Selection.sizeOf())
+  static accumulateFrom(selection: ArxSelection): Uint8Array {
+    const buffer = new Uint8Array(Selection.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeString(selection.name, 64)

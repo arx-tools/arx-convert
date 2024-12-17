@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxColor, Color } from '@common/Color.js'
 import { repeat } from '@common/helpers.js'
@@ -89,8 +88,8 @@ export class ZoneAndPathHeader {
     }
   }
 
-  static allocateFrom(zoneOrPath: ArxZone | ArxPath): Buffer {
-    const buffer = Buffer.alloc(ZoneAndPathHeader.sizeOf())
+  static allocateFrom(zoneOrPath: ArxZone | ArxPath): Uint8Array {
+    const buffer = new Uint8Array(ZoneAndPathHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
     const { pos } = zoneOrPath.points[0]

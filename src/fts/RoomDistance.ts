@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxVector3 } from '@common/types.js'
 
@@ -20,8 +19,8 @@ export class RoomDistance {
     }
   }
 
-  static accumulateFrom(roomDistance: ArxRoomDistance): Buffer {
-    const buffer = Buffer.alloc(RoomDistance.sizeOf())
+  static accumulateFrom(roomDistance: ArxRoomDistance): Uint8Array {
+    const buffer = new Uint8Array(RoomDistance.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeFloat32(roomDistance.distance)

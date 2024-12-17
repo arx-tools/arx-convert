@@ -1,6 +1,5 @@
 #!/usr/bin/env -S node --enable-source-maps
 
-import { type Buffer } from 'node:buffer'
 import process from 'node:process'
 import minimist from 'minimist-lite'
 import YAML from 'yaml'
@@ -117,15 +116,17 @@ const rawIn = await streamToBuffer(input)
 let parsedIn
 switch (args.from) {
   case 'json': {
+    const decoder = new TextDecoder('utf8')
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- because JSON.parse returns any
-    parsedIn = JSON.parse(rawIn.toString('utf8'))
+    parsedIn = JSON.parse(decoder.decode(rawIn))
     break
   }
 
   case 'yml':
   case 'yaml': {
+    const decoder = new TextDecoder('utf8')
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- because JSON.parse returns any
-    parsedIn = YAML.parse(rawIn.toString('utf8'))
+    parsedIn = YAML.parse(decoder.decode(rawIn))
     break
   }
 
@@ -160,7 +161,7 @@ switch (args.from) {
   }
 }
 
-let rawOut: string | Buffer
+let rawOut: string | Uint8Array
 switch (args.to) {
   case 'json': {
     rawOut = stringifyJSON(parsedIn, args.format || args.pretty || args.prettify)

@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type Color } from '@common/Color.js'
 
@@ -24,8 +23,8 @@ export class LightingHeader {
     }
   }
 
-  static accumulateFrom(colors: Color[]): Buffer {
-    const buffer = Buffer.alloc(LightingHeader.sizeOf())
+  static accumulateFrom(colors: Color[]): Uint8Array {
+    const buffer = new Uint8Array(LightingHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeInt32(colors.length)

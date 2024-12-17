@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 
 /**
@@ -23,8 +22,8 @@ export class TextureContainer {
     }
   }
 
-  static accumulateFrom(textureContainer: ArxTextureContainer): Buffer {
-    const buffer = Buffer.alloc(TextureContainer.sizeOf())
+  static accumulateFrom(textureContainer: ArxTextureContainer): Uint8Array {
+    const buffer = new Uint8Array(TextureContainer.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeInt32(textureContainer.id)

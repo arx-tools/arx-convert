@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { MAP_DEPTH_IN_CELLS, MAP_WIDTH_IN_CELLS } from '@common/constants.js'
 import { maxAll, uniq } from '@common/helpers.js'
@@ -40,14 +39,14 @@ export class SceneHeader {
     }
   }
 
-  static accumulateFrom(json: ArxFTS): Buffer {
+  static accumulateFrom(json: ArxFTS): Uint8Array {
     const roomIds = json.polygons.map(({ room }) => {
       return room
     })
 
     const numberOfRooms = maxAll(uniq(roomIds))
 
-    const buffer = Buffer.alloc(SceneHeader.sizeOf())
+    const buffer = new Uint8Array(SceneHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeFloat32(VERSION)

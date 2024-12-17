@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { VERSION } from '@fts/constants.js'
 import { repeat } from '@common/helpers.js'
@@ -28,8 +27,8 @@ export class FtsHeader {
     return data
   }
 
-  static accumulateFrom(json: ArxFTS, uncompressedSize: number): Buffer {
-    const buffer = Buffer.alloc(FtsHeader.sizeOf())
+  static accumulateFrom(json: ArxFTS, uncompressedSize: number): Uint8Array {
+    const buffer = new Uint8Array(FtsHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeString(FtsHeader.levelIdxToPath(json.header.levelIdx), 256)

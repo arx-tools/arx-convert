@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxCell } from '@fts/Cell.js'
 
@@ -18,8 +17,8 @@ export class SceneInfo {
     }
   }
 
-  static accumulateFrom(cell: ArxCell): Buffer {
-    const buffer = Buffer.alloc(SceneInfo.sizeOf())
+  static accumulateFrom(cell: ArxCell): Uint8Array {
+    const buffer = new Uint8Array(SceneInfo.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeInt32(cell.polygons.length)

@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxFTL } from '@ftl/FTL.js'
 import { VERSION } from '@ftl/constants.js'
@@ -39,8 +38,8 @@ export class FtlHeader {
     }
   }
 
-  static accumulateFrom(json: ArxFTL): Buffer {
-    const buffer = Buffer.alloc(FtlHeader.sizeOf())
+  static accumulateFrom(json: ArxFTL): Uint8Array {
+    const buffer = new Uint8Array(FtlHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeString('FTL', 4)

@@ -1,7 +1,6 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxColor, Color } from '@common/Color.js'
-import { times } from '@common/helpers.js'
+import { concatUint8Arrays, times } from '@common/helpers.js'
 import { type ArxLight, Light } from '@llf/Light.js'
 import { LightingHeader } from '@llf/LightingHeader.js'
 import { type ArxLlfHeader, LlfHeader } from '@llf/LlfHeader.js'
@@ -13,7 +12,7 @@ export type ArxLLF = {
 }
 
 export class LLF {
-  static load(decompressedFile: Buffer): ArxLLF {
+  static load(decompressedFile: Uint8Array): ArxLLF {
     const file = new BinaryIO(decompressedFile)
 
     const { numberOfLights, ...header } = LlfHeader.readFrom(file)
@@ -33,19 +32,19 @@ export class LLF {
     }
   }
 
-  static save(json: ArxLLF): Buffer {
+  static save(json: ArxLLF): Uint8Array {
     const header = LlfHeader.accumulateFrom(json)
 
-    const lights = Buffer.concat(json.lights.map(Light.accumulateFrom))
+    const lights = concatUint8Arrays(json.lights.map(Light.accumulateFrom))
 
     const lightingHeader = LightingHeader.accumulateFrom(json.colors)
 
-    const colors = Buffer.concat(
+    const colors = concatUint8Arrays(
       json.colors.map((color) => {
         return Color.accumulateFrom(color, 'bgra')
       }),
     )
 
-    return Buffer.concat([header, lights, lightingHeader, colors])
+    return concatUint8Arrays([header, lights, lightingHeader, colors])
   }
 }

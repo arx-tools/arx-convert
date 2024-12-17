@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxColor, Color } from '@common/Color.js'
 import { clamp, repeat } from '@common/helpers.js'
@@ -206,8 +205,8 @@ export class Light {
     }
   }
 
-  static accumulateFrom(light: ArxLight): Buffer {
-    const buffer = Buffer.alloc(Light.sizeOf())
+  static accumulateFrom(light: ArxLight): Uint8Array {
+    const buffer = new Uint8Array(Light.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeVector3(light.pos)

@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { repeat } from '@common/helpers.js'
 import { type ArxRoom } from '@fts/Room.js'
@@ -23,8 +22,8 @@ export class RoomData {
     return data
   }
 
-  static accumulateFrom(room: ArxRoom): Buffer {
-    const buffer = Buffer.alloc(RoomData.sizeOf())
+  static accumulateFrom(room: ArxRoom): Uint8Array {
+    const buffer = new Uint8Array(RoomData.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeInt32(room.portals.length)

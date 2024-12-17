@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { DANAE_VERSION } from '@common/constants.js'
 import { repeat } from '@common/helpers.js'
@@ -41,8 +40,8 @@ export class LlfHeader {
     }
   }
 
-  static accumulateFrom(json: ArxLLF): Buffer {
-    const buffer = Buffer.alloc(LlfHeader.sizeOf())
+  static accumulateFrom(json: ArxLLF): Uint8Array {
+    const buffer = new Uint8Array(LlfHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeFloat32(DANAE_VERSION)

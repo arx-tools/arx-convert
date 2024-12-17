@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 
 /**
@@ -20,8 +19,8 @@ export class Vertex {
     return { x, y, z, u, v }
   }
 
-  static accumulateFrom({ x, y, z, u, v }: ArxVertex): Buffer {
-    const buffer = Buffer.alloc(Vertex.sizeOf())
+  static accumulateFrom({ x, y, z, u, v }: ArxVertex): Uint8Array {
+    const buffer = new Uint8Array(Vertex.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeFloat32Array([y, x, z, u, v])

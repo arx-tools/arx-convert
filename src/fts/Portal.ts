@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxPortalPolygon, PortalPolygon } from '@fts/PortalPolygon.js'
 
@@ -24,8 +23,8 @@ export class Portal {
     }
   }
 
-  static accumulateFrom(portal: ArxPortal, levelIdx: number): Buffer {
-    const buffer = Buffer.alloc(Portal.sizeOf())
+  static accumulateFrom(portal: ArxPortal, levelIdx: number): Uint8Array {
+    const buffer = new Uint8Array(Portal.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeBuffer(PortalPolygon.accumulateFrom(portal.polygon, levelIdx))

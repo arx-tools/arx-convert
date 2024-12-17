@@ -1,6 +1,5 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
-import { times } from '@common/helpers.js'
+import { concatUint8Arrays, times } from '@common/helpers.js'
 import { type ArxVector3, type QuadrupleOf } from '@common/types.js'
 import { ArxPolygonFlags } from '@fts/Polygon.js'
 import { type ArxTextureVertex, TextureVertex } from '@fts/TextureVertex.js'
@@ -68,8 +67,8 @@ export class PortalPolygon {
     }
   }
 
-  static accumulateFrom(portalPolygon: ArxPortalPolygon, levelIdx: number): Buffer {
-    const buffer = Buffer.alloc(PortalPolygon.sizeOf())
+  static accumulateFrom(portalPolygon: ArxPortalPolygon, levelIdx: number): Uint8Array {
+    const buffer = new Uint8Array(PortalPolygon.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeInt32(ArxPolygonFlags.Quad)
@@ -78,7 +77,7 @@ export class PortalPolygon {
     binary.writeVector3(portalPolygon.norm)
     binary.writeVector3(portalPolygon.norm2)
     binary.writeBuffer(
-      Buffer.concat(
+      concatUint8Arrays(
         portalPolygon.vertices.map((vertex, idx) => {
           return TextureVertex.accumulateFrom(vertex, idx)
         }),

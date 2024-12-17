@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 
 /**
@@ -20,8 +19,8 @@ export class UniqueHeader {
     }
   }
 
-  static accumulateFrom(uniqueHeader: ArxUniqueHeader): Buffer {
-    const buffer = Buffer.alloc(UniqueHeader.sizeOf())
+  static accumulateFrom(uniqueHeader: ArxUniqueHeader): Uint8Array {
+    const buffer = new Uint8Array(UniqueHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeString(uniqueHeader.path, 256)

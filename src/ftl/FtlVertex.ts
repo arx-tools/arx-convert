@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxVector3 } from '@common/types.js'
 import { repeat } from '@common/helpers.js'
@@ -18,8 +17,8 @@ export class FtlVertex {
     }
   }
 
-  static accumulateFrom({ vector, norm }: ArxFtlVertex): Buffer {
-    const buffer = Buffer.alloc(FtlVertex.sizeOf())
+  static accumulateFrom({ vector, norm }: ArxFtlVertex): Uint8Array {
+    const buffer = new Uint8Array(FtlVertex.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeUint8Array(repeat(0, 32))

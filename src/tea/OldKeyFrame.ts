@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxTEA } from '@tea/TEA.js'
 
@@ -30,8 +29,8 @@ export class OldKeyFrame {
     }
   }
 
-  static accumulateFrom(json: ArxTEA): Buffer {
-    const buffer = Buffer.alloc(OldKeyFrame.sizeOf())
+  static accumulateFrom(json: ArxTEA): Uint8Array {
+    const buffer = new Uint8Array(OldKeyFrame.sizeOf())
     const binary = new BinaryIO(buffer)
 
     // TODO
