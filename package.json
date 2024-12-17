@@ -51,6 +51,7 @@
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/node": "^20.8.10",
     "eslint-plugin-unused-imports": "^4.1.4",
+    "nodemon": "^3.1.9",
     "tsc-alias": "^1.8.8",
     "typescript": "^5.2.2",
     "xo": "^0.59.2"
