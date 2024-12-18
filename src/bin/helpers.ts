@@ -140,7 +140,8 @@ export function isDataFormat(arg: SupportedFormat): arg is SupportedDataFormat {
 
 export async function getInputStream(filename?: string): Promise<NodeJS.ReadableStream> {
   if (filename === undefined) {
-    return process.openStdin()
+    process.stdin.resume()
+    return process.stdin
   }
 
   if (await fileExists(filename)) {
