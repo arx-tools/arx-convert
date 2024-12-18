@@ -26,11 +26,11 @@ export type ArxQuaternion = {
   w: number
 }
 
-export type DoubleOf<T> = [T, T]
+export type DoubleOf<T> = [x: T, y: T]
 
-export type TripleOf<T> = [T, T, T]
+export type TripleOf<T> = [x: T, y: T, z: T]
 
-export type QuadrupleOf<T> = [T, T, T, T]
+export type QuadrupleOf<T> = [x: T, y: T, z: T, w: T]
 
 /**
  * Make the specified properties of a type optional
