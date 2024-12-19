@@ -79,9 +79,7 @@ export class Polygon {
       textureContainerId: binary.readInt32(),
       norm: binary.readVector3(),
       norm2: binary.readVector3(),
-      normals: times(() => {
-        return binary.readVector3()
-      }, 4) as QuadrupleOf<ArxVector3>,
+      normals: binary.readVector3Array(4) as QuadrupleOf<ArxVector3>,
       transval: binary.readFloat32(),
       area: binary.readFloat32(),
       flags: binary.readInt32(),
