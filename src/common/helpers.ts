@@ -31,11 +31,22 @@ export function times<T>(fn: (index: number) => T, repetitions: number): T[] {
 
 export function repeat<T>(value: T, repetitions: number): T[] {
   const values = []
+
   for (let i = 0; i < repetitions; i++) {
     values.push(value)
   }
 
   return values
+}
+
+export function invert(values: string[]): Record<string, number> {
+  const obj: Record<string, number> = {}
+
+  values.forEach((value, index) => {
+    obj[value] = index
+  })
+
+  return obj
 }
 
 export function decodeText(bytes: number[]): string {

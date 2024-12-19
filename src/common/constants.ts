@@ -1,3 +1,5 @@
+import { invert } from './helpers.js'
+
 export const DANAE_VERSION = 1.440_000_057_220_459 // 1.44f
 
 export const LITTLE_ENDIAN = true
@@ -13,7 +15,7 @@ export const MAP_DEPTH_IN_CELLS = 160
 // source: https://mathiasbynens.be/notes/javascript-escapes
 
 // prettier-ignore
-export const CHARS = [
+export const CHARS: readonly string[] = [
   '\0', '\u0001', '\u0002', '\u0003', '\u0004', '\u0005', '\u0006', '\u0007', '\b', '\t', '\n', '\v', '\f', '\r', '\u000E', '\u000F',
   '\0x10', '\0x11', '\0x12', '\0x13', '\0x14', '\0x15', '\0x16', '\0x17', '\0x18', '\0x19', '\0x1a', '\0x1b', '\0x1c', '\0x1d', '\0x1e', '\0x1f',
   ' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/',
@@ -32,11 +34,8 @@ export const CHARS = [
   'ð', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', '÷', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'þ', 'ÿ'
 ]
 
-export const CODES: Record<string, number> = {}
-CHARS.forEach((value, idx) => {
-  CODES[value] = idx
-})
+export const CODES = /* @__PURE__ */ invert(CHARS as string[])
 
-export const BYTE_OF_AN_UNKNOWN_CHAR = CODES[' ']
+export const BYTE_OF_AN_UNKNOWN_CHAR = /* @__PURE__ */ CHARS.indexOf(' ')
 
 export const CHAR_OF_AN_UNKNOWN_BYTE = ' '
