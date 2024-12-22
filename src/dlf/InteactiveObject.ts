@@ -1,4 +1,3 @@
-import path from 'node:path'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { repeat } from '@common/helpers.js'
 import { type ArxRotation, type ArxVector3 } from '@common/types.js'
@@ -60,7 +59,16 @@ export class InteractiveObject {
     // items/provisions/mushroom/food_mushroom.teo
     filePath = filePath.toLowerCase().replaceAll('\\', '/').split('graph/obj3d/interactive/')[1]
 
-    const { dir, name } = path.parse(filePath)
+    // browser compatible version of `const { dir, name } = path.parse(filePath)`
+    const filePathParts = filePath.split('/')
+    const fileName = filePathParts.pop() as string
+    const fileNameParts = fileName.split('.')
+    if (fileNameParts.length > 1) {
+      fileNameParts.pop()
+    }
+
+    const dir = filePathParts.join('/')
+    const name = fileNameParts.join('.')
 
     if (dir.split('/').at(-1) !== name) {
       return dir + '/' + name + '.asl'
@@ -80,7 +88,17 @@ export class InteractiveObject {
     filePath = filePath.toLowerCase().replace(/\/$/, '')
 
     if (filePath.endsWith('.asl')) {
-      const { dir, name } = path.parse(filePath)
+      // browser compatible version of `const { dir, name } = path.parse(filePath)`
+      const filePathParts = filePath.split('/')
+      const fileName = filePathParts.pop() as string
+      const fileNameParts = fileName.split('.')
+      if (fileNameParts.length > 1) {
+        fileNameParts.pop()
+      }
+
+      const dir = filePathParts.join('/')
+      const name = fileNameParts.join('.')
+
       return `c:\\arx\\graph\\obj3d\\interactive\\${dir.replaceAll('/', '\\')}\\${name}.teo`
     }
 
