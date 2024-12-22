@@ -2,21 +2,23 @@
   "header": {
     "lastUser": "Arx Level Generator - version 0.17.0",
     "time": 1670579145,
-    "posEdit": { "x": 0, "y": 0, "z": 0 },
-    "angleEdit": { "a": 0, "b": 0, "g": 0 },
-    "numberOfNodes": 0,
-    "numberOfNodeLinks": 0,
-    "numberOfZones": 0,
-    "numberOfBackgroundPolygons": 1,
-    "numberOfIgnoredPolygons": 0,
-    "numberOfChildPolygons": 0,
-    "offset": { "x": 0, "y": 0, "z": 0 }
+    "posEdit": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "angleEdit": {
+      "a": 0,
+      "b": 0,
+      "g": 0
+    },
+    "numberOfBackgroundPolygons": 1
   },
   "scene": {
     "levelIdx": 1
   },
   "interactiveObjects": [],
-  "lights": [],
   "fogs": [],
-  "paths": []
+  "paths": [],
+  "zones": []
 }
