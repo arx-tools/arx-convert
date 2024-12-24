@@ -19,8 +19,8 @@ export class Selection {
     return data
   }
 
-  static accumulateFrom(selection: ArxSelection): Uint8Array {
-    const buffer = new Uint8Array(Selection.sizeOf())
+  static accumulateFrom(selection: ArxSelection): ArrayBuffer {
+    const buffer = new ArrayBuffer(Selection.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeString(selection.name, 64)

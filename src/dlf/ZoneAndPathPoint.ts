@@ -38,8 +38,8 @@ export class ZoneAndPathPoint {
     return data
   }
 
-  static allocateFrom(point: ArxZoneAndPathPoint, pos: ArxVector3): Uint8Array {
-    const buffer = new Uint8Array(ZoneAndPathPoint.sizeOf())
+  static allocateFrom(point: ArxZoneAndPathPoint, pos: ArxVector3): ArrayBuffer {
+    const buffer = new ArrayBuffer(ZoneAndPathPoint.sizeOf())
     const binary = new BinaryIO(buffer)
 
     const rpos = {

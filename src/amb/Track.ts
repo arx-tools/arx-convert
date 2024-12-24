@@ -1,5 +1,5 @@
 import { BinaryIO } from '@common/BinaryIO.js'
-import { concatUint8Arrays, times } from '@common/helpers.js'
+import { concatArrayBuffers, times } from '@common/helpers.js'
 import { type ArxKey, Key } from '@amb/Key.js'
 
 /**
@@ -50,15 +50,15 @@ export class Track {
     }
   }
 
-  static accumulateFrom(track: ArxTrack): Uint8Array {
-    const buffer = new Uint8Array(Track.sizeOf(track))
+  static accumulateFrom(track: ArxTrack): ArrayBuffer {
+    const buffer = new ArrayBuffer(Track.sizeOf(track))
     const binary = new BinaryIO(buffer)
 
     binary.writeString(Track.toAbsolutePath(track.filename))
     binary.writeString('') // name
     binary.writeUint32(track.flags)
     binary.writeUint32(track.keys.length)
-    binary.writeBuffer(concatUint8Arrays(track.keys.reverse().map(Key.accumulateFrom)))
+    binary.writeBuffer(concatArrayBuffers(track.keys.reverse().map(Key.accumulateFrom)))
 
     return buffer
   }

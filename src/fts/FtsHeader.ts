@@ -27,8 +27,8 @@ export class FtsHeader {
     return data
   }
 
-  static accumulateFrom(json: ArxFTS, uncompressedSize: number): Uint8Array {
-    const buffer = new Uint8Array(FtsHeader.sizeOf())
+  static accumulateFrom(json: ArxFTS, uncompressedSize: number): ArrayBuffer {
+    const buffer = new ArrayBuffer(FtsHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeString(FtsHeader.levelIdxToPath(json.header.levelIdx), 256)

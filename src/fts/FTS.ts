@@ -1,6 +1,6 @@
 import { BinaryIO } from '@common/BinaryIO.js'
 import { MAP_DEPTH_IN_CELLS, MAP_WIDTH_IN_CELLS } from '@common/constants.js'
-import { concatUint8Arrays, times } from '@common/helpers.js'
+import { concatArrayBuffers, times } from '@common/helpers.js'
 import { Anchor, type ArxAnchor } from '@fts/Anchor.js'
 import { type ArxCell, Cell } from '@fts/Cell.js'
 import { type ArxFtsHeader, FtsHeader } from '@fts/FtsHeader.js'
@@ -40,7 +40,7 @@ export type ArxFTS = {
 const IS_AN_UNCOMPRESSED_FTS = 0
 
 export class FTS {
-  static load(decompressedFile: Uint8Array): ArxFTS {
+  static load(decompressedFile: ArrayBuffer): ArxFTS {
     const file = new BinaryIO(decompressedFile)
 
     const { numberOfUniqueHeaders, ...header } = FtsHeader.readFrom(file)
@@ -91,7 +91,7 @@ export class FTS {
     }
   }
 
-  static save(json: ArxFTS, isCompressed = true): Uint8Array {
+  static save(json: ArxFTS, isCompressed = true): ArrayBuffer {
     const { levelIdx } = json.header
 
     const sceneHeader = SceneHeader.accumulateFrom(json)
@@ -110,18 +110,18 @@ export class FTS {
       recombinedCells[cellIndex].polygons.push(polygon)
     })
 
-    const textureContainers = concatUint8Arrays(json.textureContainers.map(TextureContainer.accumulateFrom))
-    const cells = concatUint8Arrays(recombinedCells.map(Cell.accumulateFrom))
-    const anchors = concatUint8Arrays(json.anchors.map(Anchor.accumulateFrom))
-    const portals = concatUint8Arrays(
+    const textureContainers = concatArrayBuffers(json.textureContainers.map(TextureContainer.accumulateFrom))
+    const cells = concatArrayBuffers(recombinedCells.map(Cell.accumulateFrom))
+    const anchors = concatArrayBuffers(json.anchors.map(Anchor.accumulateFrom))
+    const portals = concatArrayBuffers(
       json.portals.map((portal) => {
         return Portal.accumulateFrom(portal, levelIdx)
       }),
     )
-    const rooms = concatUint8Arrays(json.rooms.map(Room.accumulateFrom))
-    const roomDistances = concatUint8Arrays(json.roomDistances.map(RoomDistance.accumulateFrom))
+    const rooms = concatArrayBuffers(json.rooms.map(Room.accumulateFrom))
+    const roomDistances = concatArrayBuffers(json.roomDistances.map(RoomDistance.accumulateFrom))
 
-    const dataWithoutHeader = concatUint8Arrays([
+    const dataWithoutHeader = concatArrayBuffers([
       sceneHeader,
       textureContainers,
       cells,
@@ -131,15 +131,15 @@ export class FTS {
       roomDistances,
     ])
 
-    let header: Uint8Array
+    let header: ArrayBuffer
     if (isCompressed) {
-      header = FtsHeader.accumulateFrom(json, dataWithoutHeader.length)
+      header = FtsHeader.accumulateFrom(json, dataWithoutHeader.byteLength)
     } else {
       header = FtsHeader.accumulateFrom(json, IS_AN_UNCOMPRESSED_FTS)
     }
 
-    const uniqueHeaders = concatUint8Arrays(json.uniqueHeaders.map(UniqueHeader.accumulateFrom))
+    const uniqueHeaders = concatArrayBuffers(json.uniqueHeaders.map(UniqueHeader.accumulateFrom))
 
-    return concatUint8Arrays([header, uniqueHeaders, dataWithoutHeader])
+    return concatArrayBuffers([header, uniqueHeaders, dataWithoutHeader])
   }
 }

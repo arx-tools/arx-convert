@@ -26,8 +26,8 @@ export class TeaHeader {
     }
   }
 
-  static accumulateFrom(json: ArxTEA, uncompressedSize: number): Uint8Array {
-    const buffer = new Uint8Array(TeaHeader.sizeOf())
+  static accumulateFrom(json: ArxTEA, uncompressedSize: number): ArrayBuffer {
+    const buffer = new ArrayBuffer(TeaHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
     // TODO

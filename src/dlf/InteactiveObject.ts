@@ -28,8 +28,8 @@ export class InteractiveObject {
     return data
   }
 
-  static accumulateFrom(interactiveObject: ArxInteractiveObject): Uint8Array {
-    const buffer = new Uint8Array(InteractiveObject.sizeOf())
+  static accumulateFrom(interactiveObject: ArxInteractiveObject): ArrayBuffer {
+    const buffer = new ArrayBuffer(InteractiveObject.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeString(InteractiveObject.toAbsolutePath(interactiveObject.name), 512)

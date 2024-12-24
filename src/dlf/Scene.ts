@@ -20,8 +20,8 @@ export class Scene {
     }
   }
 
-  static accumulateFrom(scene: ArxScene): Uint8Array {
-    const buffer = new Uint8Array(Scene.sizeOf())
+  static accumulateFrom(scene: ArxScene): ArrayBuffer {
+    const buffer = new ArrayBuffer(Scene.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeString(Scene.levelIdxToPath(scene.levelIdx), 512)

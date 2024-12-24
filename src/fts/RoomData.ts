@@ -22,8 +22,8 @@ export class RoomData {
     return data
   }
 
-  static accumulateFrom(room: ArxRoom): Uint8Array {
-    const buffer = new Uint8Array(RoomData.sizeOf())
+  static accumulateFrom(room: ArxRoom): ArrayBuffer {
+    const buffer = new ArrayBuffer(RoomData.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeInt32(room.portals.length)

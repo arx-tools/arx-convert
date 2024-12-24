@@ -1,5 +1,5 @@
 import { BinaryIO } from '@common/BinaryIO.js'
-import { concatUint8Arrays, times } from '@common/helpers.js'
+import { concatArrayBuffers, times } from '@common/helpers.js'
 import { type ArxDlfHeader, DlfHeader } from '@dlf/DlfHeader.js'
 import { type ArxFog, Fog } from '@dlf/Fog.js'
 import { type ArxInteractiveObject, InteractiveObject } from '@dlf/InteactiveObject.js'
@@ -29,7 +29,7 @@ export type ArxDLF = {
 }
 
 export class DLF {
-  static load(decompressedFile: Uint8Array): ArxDLF {
+  static load(decompressedFile: ArrayBuffer): ArxDLF {
     const file = new BinaryIO(decompressedFile)
 
     const { numberOfInteractiveObjects, numberOfFogs, numberOfZonesAndPaths, ...header } = DlfHeader.readFrom(file)
@@ -90,16 +90,16 @@ export class DLF {
     return data
   }
 
-  static save(json: ArxDLF): Uint8Array {
+  static save(json: ArxDLF): ArrayBuffer {
     const header = DlfHeader.accumulateFrom(json)
     const scene = Scene.accumulateFrom(json.scene)
-    const interactiveObjects = concatUint8Arrays(json.interactiveObjects.map(InteractiveObject.accumulateFrom))
-    const fogs = concatUint8Arrays(json.fogs.map(Fog.accumulateFrom))
+    const interactiveObjects = concatArrayBuffers(json.interactiveObjects.map(InteractiveObject.accumulateFrom))
+    const fogs = concatArrayBuffers(json.fogs.map(Fog.accumulateFrom))
     const numberOfNodes = 0
     const numberOfNodeLinks = 12
-    const nodes = new Uint8Array(numberOfNodes * (204 + numberOfNodeLinks * 64))
+    const nodes = new ArrayBuffer(numberOfNodes * (204 + numberOfNodeLinks * 64))
 
-    const paths = concatUint8Arrays(
+    const paths = concatArrayBuffers(
       json.paths.flatMap((path) => {
         const header = ZoneAndPathHeader.allocateFrom(path)
         const { pos } = path.points[0]
@@ -111,7 +111,7 @@ export class DLF {
       }),
     )
 
-    const zones = concatUint8Arrays(
+    const zones = concatArrayBuffers(
       json.zones.flatMap((zone) => {
         const header = ZoneAndPathHeader.allocateFrom(zone)
         const { pos } = zone.points[0]
@@ -123,6 +123,6 @@ export class DLF {
       }),
     )
 
-    return concatUint8Arrays([header, scene, interactiveObjects, fogs, nodes, paths, zones])
+    return concatArrayBuffers([header, scene, interactiveObjects, fogs, nodes, paths, zones])
   }
 }

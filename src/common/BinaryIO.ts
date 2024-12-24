@@ -85,8 +85,8 @@ export class BinaryIO extends DataView {
 
   public position: number // TODO: make this private - this needs to be public because of TEA
 
-  constructor(buffer: Uint8Array, byteOffset?: number, byteLength?: number) {
-    super(buffer.buffer, byteOffset, byteLength)
+  constructor(buffer: ArrayBuffer, byteOffset?: number, byteLength?: number) {
+    super(buffer, byteOffset, byteLength)
     this.position = 0
   }
 
@@ -244,10 +244,16 @@ export class BinaryIO extends DataView {
     this.position = this.position + BinaryIO.sizeOfUint8()
   }
 
-  writeUint8Array(values: number[] | Uint8Array): void {
-    values.forEach((value) => {
-      this.writeUint8(value)
-    })
+  writeUint8Array(values: number[] | ArrayBuffer): void {
+    if (values instanceof ArrayBuffer) {
+      new Uint8Array(values).forEach((value) => {
+        this.writeUint8(value)
+      })
+    } else {
+      values.forEach((value) => {
+        this.writeUint8(value)
+      })
+    }
   }
 
   writeUint16(value: number): void {
@@ -373,7 +379,7 @@ export class BinaryIO extends DataView {
     this.writeFloat32Array([w, x, y, z])
   }
 
-  writeBuffer(buffer: Uint8Array): void {
+  writeBuffer(buffer: ArrayBuffer): void {
     this.writeUint8Array(buffer)
   }
 }

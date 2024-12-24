@@ -17,8 +17,8 @@ export class FtlVertex {
     }
   }
 
-  static accumulateFrom({ vector, norm }: ArxFtlVertex): Uint8Array {
-    const buffer = new Uint8Array(FtlVertex.sizeOf())
+  static accumulateFrom({ vector, norm }: ArxFtlVertex): ArrayBuffer {
+    const buffer = new ArrayBuffer(FtlVertex.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeUint8Array(repeat(0, 32))

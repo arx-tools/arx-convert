@@ -19,8 +19,8 @@ export class Vertex {
     return { x, y, z, u, v }
   }
 
-  static accumulateFrom({ x, y, z, u, v }: ArxVertex): Uint8Array {
-    const buffer = new Uint8Array(Vertex.sizeOf())
+  static accumulateFrom({ x, y, z, u, v }: ArxVertex): ArrayBuffer {
+    const buffer = new ArrayBuffer(Vertex.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeFloat32Array([y, x, z, u, v])

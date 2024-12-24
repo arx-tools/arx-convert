@@ -22,8 +22,8 @@ export class TextureContainer {
     }
   }
 
-  static accumulateFrom(textureContainer: ArxTextureContainer): Uint8Array {
-    const buffer = new Uint8Array(TextureContainer.sizeOf())
+  static accumulateFrom(textureContainer: ArxTextureContainer): ArrayBuffer {
+    const buffer = new ArrayBuffer(TextureContainer.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeInt32(textureContainer.id)

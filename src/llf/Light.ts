@@ -205,8 +205,8 @@ export class Light {
     }
   }
 
-  static accumulateFrom(light: ArxLight): Uint8Array {
-    const buffer = new Uint8Array(Light.sizeOf())
+  static accumulateFrom(light: ArxLight): ArrayBuffer {
+    const buffer = new ArrayBuffer(Light.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeVector3(light.pos)

@@ -19,8 +19,8 @@ export class RoomDistance {
     }
   }
 
-  static accumulateFrom(roomDistance: ArxRoomDistance): Uint8Array {
-    const buffer = new Uint8Array(RoomDistance.sizeOf())
+  static accumulateFrom(roomDistance: ArxRoomDistance): ArrayBuffer {
+    const buffer = new ArrayBuffer(RoomDistance.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeFloat32(roomDistance.distance)

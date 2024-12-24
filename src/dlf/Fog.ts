@@ -52,8 +52,8 @@ export class Fog {
     }
   }
 
-  static accumulateFrom(fog: ArxFog): Uint8Array {
-    const buffer = new Uint8Array(Fog.sizeOf())
+  static accumulateFrom(fog: ArxFog): ArrayBuffer {
+    const buffer = new ArrayBuffer(Fog.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeVector3(fog.pos)

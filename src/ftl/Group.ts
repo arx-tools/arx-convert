@@ -25,8 +25,8 @@ export class Group {
     }
   }
 
-  static accumulateFrom(group: ArxGroup): Uint8Array {
-    const buffer = new Uint8Array(Group.sizeOf())
+  static accumulateFrom(group: ArxGroup): ArrayBuffer {
+    const buffer = new ArrayBuffer(Group.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeString(group.name, 256)

@@ -161,7 +161,7 @@ switch (args.from) {
   }
 }
 
-let rawOut: string | Uint8Array
+let rawOut: string | ArrayBuffer
 switch (args.to) {
   case 'json': {
     rawOut = stringifyJSON(parsedIn, args.format || args.pretty || args.prettify)

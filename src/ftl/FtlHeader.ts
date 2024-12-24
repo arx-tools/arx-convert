@@ -38,8 +38,8 @@ export class FtlHeader {
     }
   }
 
-  static accumulateFrom(json: ArxFTL): Uint8Array {
-    const buffer = new Uint8Array(FtlHeader.sizeOf())
+  static accumulateFrom(json: ArxFTL): ArrayBuffer {
+    const buffer = new ArrayBuffer(FtlHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeString('FTL', 4)

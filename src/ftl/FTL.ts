@@ -6,7 +6,7 @@ import { type ArxFace, Face } from '@ftl/Face.js'
 import { type ArxGroup, Group } from '@ftl/Group.js'
 import { Action, type ArxAction } from '@ftl/Action.js'
 import { type ArxSelection, Selection } from '@ftl/Selections.js'
-import { concatUint8Arrays, times } from '@common/helpers.js'
+import { concatArrayBuffers, times } from '@common/helpers.js'
 
 export type ArxFTL = {
   header: Omit<
@@ -27,7 +27,7 @@ export type ArxFTL = {
 }
 
 export class FTL {
-  static load(decompressedFile: Uint8Array): ArxFTL {
+  static load(decompressedFile: ArrayBuffer): ArxFTL {
     const file = new BinaryIO(decompressedFile)
 
     const {
@@ -69,13 +69,13 @@ export class FTL {
     }
   }
 
-  static save(json: ArxFTL): Uint8Array {
+  static save(json: ArxFTL): ArrayBuffer {
     const header = FtlHeader.accumulateFrom(json)
-    const vertices = concatUint8Arrays(json.vertices.map(FtlVertex.accumulateFrom))
-    const faces = concatUint8Arrays(json.faces.map(Face.accumulateFrom))
-    const textureContainers = concatUint8Arrays(json.textureContainers.map(FtlTextureContainer.accumulateFrom))
-    const groups = concatUint8Arrays(json.groups.map(Group.accumulateFrom))
-    const indices = concatUint8Arrays(
+    const vertices = concatArrayBuffers(json.vertices.map(FtlVertex.accumulateFrom))
+    const faces = concatArrayBuffers(json.faces.map(Face.accumulateFrom))
+    const textureContainers = concatArrayBuffers(json.textureContainers.map(FtlTextureContainer.accumulateFrom))
+    const groups = concatArrayBuffers(json.groups.map(Group.accumulateFrom))
+    const indices = concatArrayBuffers(
       json.groups.map(({ indices }) => {
         const buffer = new Uint8Array(BinaryIO.sizeOfInt32Array(indices.length))
         const binary = new BinaryIO(buffer)
@@ -83,18 +83,18 @@ export class FTL {
         return buffer
       }),
     )
-    const actions = concatUint8Arrays(json.actions.map(Action.accumulateFrom))
-    const selections = concatUint8Arrays(json.selections.map(Selection.accumulateFrom))
-    const selected = concatUint8Arrays(
+    const actions = concatArrayBuffers(json.actions.map(Action.accumulateFrom))
+    const selections = concatArrayBuffers(json.selections.map(Selection.accumulateFrom))
+    const selected = concatArrayBuffers(
       json.selections.map(({ selected }) => {
-        const buffer = new Uint8Array(BinaryIO.sizeOfInt32Array(selected.length))
+        const buffer = new ArrayBuffer(BinaryIO.sizeOfInt32Array(selected.length))
         const binary = new BinaryIO(buffer)
         binary.writeInt32Array(selected)
         return buffer
       }),
     )
 
-    return concatUint8Arrays([
+    return concatArrayBuffers([
       header,
       vertices,
       faces,

@@ -29,8 +29,8 @@ export class OldKeyFrame {
     }
   }
 
-  static accumulateFrom(json: ArxTEA): Uint8Array {
-    const buffer = new Uint8Array(OldKeyFrame.sizeOf())
+  static accumulateFrom(json: ArxTEA): ArrayBuffer {
+    const buffer = new ArrayBuffer(OldKeyFrame.sizeOf())
     const binary = new BinaryIO(buffer)
 
     // TODO

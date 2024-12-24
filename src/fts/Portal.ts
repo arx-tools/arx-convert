@@ -23,8 +23,8 @@ export class Portal {
     }
   }
 
-  static accumulateFrom(portal: ArxPortal, levelIdx: number): Uint8Array {
-    const buffer = new Uint8Array(Portal.sizeOf())
+  static accumulateFrom(portal: ArxPortal, levelIdx: number): ArrayBuffer {
+    const buffer = new ArrayBuffer(Portal.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeBuffer(PortalPolygon.accumulateFrom(portal.polygon, levelIdx))

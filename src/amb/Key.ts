@@ -42,8 +42,8 @@ export class Key {
     }
   }
 
-  static accumulateFrom(key: ArxKey): Uint8Array {
-    const buffer = new Uint8Array(Key.sizeOf())
+  static accumulateFrom(key: ArxKey): ArrayBuffer {
+    const buffer = new ArrayBuffer(Key.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeUint32(0) // flags

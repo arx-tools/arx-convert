@@ -22,8 +22,8 @@ export class AmbHeader {
     }
   }
 
-  static accumulateFrom(json: ArxAMB): Uint8Array {
-    const buffer = new Uint8Array(AmbHeader.sizeOf())
+  static accumulateFrom(json: ArxAMB): ArrayBuffer {
+    const buffer = new ArrayBuffer(AmbHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeString('GAMB', 4)

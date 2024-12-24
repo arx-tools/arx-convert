@@ -19,8 +19,8 @@ export class UniqueHeader {
     }
   }
 
-  static accumulateFrom(uniqueHeader: ArxUniqueHeader): Uint8Array {
-    const buffer = new Uint8Array(UniqueHeader.sizeOf())
+  static accumulateFrom(uniqueHeader: ArxUniqueHeader): ArrayBuffer {
+    const buffer = new ArrayBuffer(UniqueHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeString(uniqueHeader.path, 256)

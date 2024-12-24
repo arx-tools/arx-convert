@@ -77,30 +77,6 @@ export function clamp(min: number, max: number, n: number): number {
 
 /**
  * @see https://stackoverflow.com/a/49129872/1806628
- * @deprecated This will be superceeded by concatArrayBuffers
- */
-export function concatUint8Arrays(buffers: Uint8Array[]): Uint8Array {
-  if (buffers.length === 0) {
-    return new Uint8Array(0)
-  }
-
-  const totalLength = buffers.reduce((sum, buffer) => {
-    return sum + buffer.length
-  }, 0)
-
-  const combinedBuffer = new Uint8Array(totalLength)
-
-  let offset = 0
-  buffers.forEach((buffer) => {
-    combinedBuffer.set(buffer, offset)
-    offset = offset + buffer.length
-  })
-
-  return combinedBuffer
-}
-
-/**
- * @see https://stackoverflow.com/a/49129872/1806628
  */
 export function concatArrayBuffers(buffers: ArrayBuffer[]): ArrayBuffer {
   if (buffers.length === 0) {

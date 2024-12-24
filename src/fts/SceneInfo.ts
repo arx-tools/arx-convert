@@ -17,8 +17,8 @@ export class SceneInfo {
     }
   }
 
-  static accumulateFrom(cell: ArxCell): Uint8Array {
-    const buffer = new Uint8Array(SceneInfo.sizeOf())
+  static accumulateFrom(cell: ArxCell): ArrayBuffer {
+    const buffer = new ArrayBuffer(SceneInfo.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeInt32(cell.polygons.length)

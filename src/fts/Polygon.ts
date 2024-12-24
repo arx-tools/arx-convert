@@ -1,7 +1,7 @@
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxVertex, Vertex } from '@fts/Vertex.js'
 import { type ArxVector3, type QuadrupleOf } from '@common/types.js'
-import { concatUint8Arrays, times } from '@common/helpers.js'
+import { concatArrayBuffers, times } from '@common/helpers.js'
 // eslint-disable-next-line unused-imports/no-unused-imports -- it is used in jsdoc block
 import { ArxTextureContainer } from '@fts/TextureContainer.js'
 
@@ -88,11 +88,11 @@ export class Polygon {
     }
   }
 
-  static accumulateFrom(polygon: ArxPolygon): Uint8Array {
-    const buffer = new Uint8Array(Polygon.sizeOf())
+  static accumulateFrom(polygon: ArxPolygon): ArrayBuffer {
+    const buffer = new ArrayBuffer(Polygon.sizeOf())
     const binary = new BinaryIO(buffer)
 
-    binary.writeBuffer(concatUint8Arrays(polygon.vertices.map(Vertex.accumulateFrom)))
+    binary.writeBuffer(concatArrayBuffers(polygon.vertices.map(Vertex.accumulateFrom)))
     binary.writeInt32(polygon.textureContainerId)
     binary.writeVector3(polygon.norm)
     binary.writeVector3(polygon.norm2)

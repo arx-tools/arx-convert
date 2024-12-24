@@ -18,8 +18,8 @@ export class EPData {
     return { cellX: px, cellY: py, polygonIdx: idx }
   }
 
-  static accumulateFrom({ cellX: px, cellY: py, polygonIdx: idx }: ArxEPData): Uint8Array {
-    const buffer = new Uint8Array(EPData.sizeOf())
+  static accumulateFrom({ cellX: px, cellY: py, polygonIdx: idx }: ArxEPData): ArrayBuffer {
+    const buffer = new ArrayBuffer(EPData.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeInt16Array([px, py, idx, 0])

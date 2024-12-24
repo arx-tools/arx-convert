@@ -66,8 +66,8 @@ export class TextureVertex {
     return data
   }
 
-  static accumulateFrom(vertex: ArxTextureVertex, idx: number): Uint8Array {
-    const buffer = new Uint8Array(TextureVertex.sizeOf())
+  static accumulateFrom(vertex: ArxTextureVertex, idx: number): ArrayBuffer {
+    const buffer = new ArrayBuffer(TextureVertex.sizeOf())
     const binary = new BinaryIO(buffer)
 
     const isFirstVertexOfPolygon = idx === 0

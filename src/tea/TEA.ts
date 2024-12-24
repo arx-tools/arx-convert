@@ -4,7 +4,7 @@ import { type ArxQuaternion, type ArxVector3 } from '@common/types.js'
 import { type ArxTeaHeader, TeaHeader } from '@tea/TeaHeader.js'
 import { type ArxNewKeyFrame, NewKeyFrame } from '@tea/NewKeyFrame.js'
 import { type ArxOldKeyFrame, OldKeyFrame } from '@tea/OldKeyFrame.js'
-import { concatUint8Arrays } from '@common/helpers.js'
+import { concatArrayBuffers } from '@common/helpers.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/animation/AnimationFormat.h#L124
@@ -26,7 +26,7 @@ export type ArxTEA = {
 }
 
 export class TEA {
-  static load(decompressedFile: Uint8Array): ArxTEA {
+  static load(decompressedFile: ArrayBuffer): ArxTEA {
     const file = new BinaryIO(decompressedFile)
 
     const { numberOfKeyFrames, numberOfGroups, ...header } = TeaHeader.readFrom(file)
@@ -95,7 +95,7 @@ export class TEA {
     return data
   }
 
-  static save(json: ArxTEA): Uint8Array {
-    return concatUint8Arrays([])
+  static save(json: ArxTEA): ArrayBuffer {
+    return concatArrayBuffers([])
   }
 }

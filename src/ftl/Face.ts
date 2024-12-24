@@ -54,8 +54,8 @@ export class Face {
     }
   }
 
-  static accumulateFrom(face: ArxFace): Uint8Array {
-    const buffer = new Uint8Array(Face.sizeOf())
+  static accumulateFrom(face: ArxFace): ArrayBuffer {
+    const buffer = new ArrayBuffer(Face.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeInt32(face.faceType)

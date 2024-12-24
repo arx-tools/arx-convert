@@ -39,14 +39,14 @@ export class SceneHeader {
     }
   }
 
-  static accumulateFrom(json: ArxFTS): Uint8Array {
+  static accumulateFrom(json: ArxFTS): ArrayBuffer {
     const roomIds = json.polygons.map(({ room }) => {
       return room
     })
 
     const numberOfRooms = maxAll(uniq(roomIds))
 
-    const buffer = new Uint8Array(SceneHeader.sizeOf())
+    const buffer = new ArrayBuffer(SceneHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeFloat32(VERSION)

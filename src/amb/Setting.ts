@@ -33,8 +33,8 @@ export class Setting {
     }
   }
 
-  static accumulateFrom(setting: ArxSetting): Uint8Array {
-    const buffer = new Uint8Array(Setting.sizeOf())
+  static accumulateFrom(setting: ArxSetting): ArrayBuffer {
+    const buffer = new ArrayBuffer(Setting.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeFloat32(setting.min)

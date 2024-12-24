@@ -1,5 +1,5 @@
 import { BinaryIO } from '@common/BinaryIO.js'
-import { concatUint8Arrays, times } from '@common/helpers.js'
+import { concatArrayBuffers, times } from '@common/helpers.js'
 import { AmbHeader } from '@amb/AmbHeader.js'
 import { Track, type ArxTrack } from '@amb/Track.js'
 
@@ -8,7 +8,7 @@ export type ArxAMB = {
 }
 
 export class AMB {
-  static load(decompressedFile: Uint8Array): ArxAMB {
+  static load(decompressedFile: ArrayBuffer): ArxAMB {
     const file = new BinaryIO(decompressedFile)
 
     const { numberOfTracks, isNewerVersion } = AmbHeader.readFrom(file)
@@ -20,10 +20,10 @@ export class AMB {
     }
   }
 
-  static save(json: ArxAMB): Uint8Array {
+  static save(json: ArxAMB): ArrayBuffer {
     const header = AmbHeader.accumulateFrom(json)
-    const tracks = concatUint8Arrays(json.tracks.map(Track.accumulateFrom))
+    const tracks = concatArrayBuffers(json.tracks.map(Track.accumulateFrom))
 
-    return concatUint8Arrays([header, tracks])
+    return concatArrayBuffers([header, tracks])
   }
 }

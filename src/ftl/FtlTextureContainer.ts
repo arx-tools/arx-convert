@@ -13,8 +13,8 @@ export class FtlTextureContainer {
     }
   }
 
-  static accumulateFrom(textureContainer: ArxFtlTextureContainer): Uint8Array {
-    const buffer = new Uint8Array(FtlTextureContainer.sizeOf())
+  static accumulateFrom(textureContainer: ArxFtlTextureContainer): ArrayBuffer {
+    const buffer = new ArrayBuffer(FtlTextureContainer.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeString(TextureContainer.toAbsolutePath(textureContainer.filename), 256)

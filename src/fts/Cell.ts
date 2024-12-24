@@ -1,5 +1,5 @@
 import { BinaryIO } from '@common/BinaryIO.js'
-import { concatUint8Arrays, times } from '@common/helpers.js'
+import { concatArrayBuffers, times } from '@common/helpers.js'
 import { type ArxPolygon, Polygon } from '@fts/Polygon.js'
 import { SceneInfo } from '@fts/SceneInfo.js'
 
@@ -25,15 +25,15 @@ export class Cell {
     return data
   }
 
-  static accumulateFrom(cell: ArxCell): Uint8Array {
+  static accumulateFrom(cell: ArxCell): ArrayBuffer {
     const anchors = cell.anchors ?? []
-    const buffer = new Uint8Array(
+    const buffer = new ArrayBuffer(
       SceneInfo.sizeOf() + Polygon.sizeOf() * cell.polygons.length + BinaryIO.sizeOfInt32Array(anchors.length),
     )
     const binary = new BinaryIO(buffer)
 
     binary.writeBuffer(SceneInfo.accumulateFrom(cell))
-    binary.writeBuffer(concatUint8Arrays(cell.polygons.map(Polygon.accumulateFrom)))
+    binary.writeBuffer(concatArrayBuffers(cell.polygons.map(Polygon.accumulateFrom)))
     binary.writeInt32Array(anchors)
 
     return buffer

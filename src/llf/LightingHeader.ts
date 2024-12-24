@@ -23,8 +23,8 @@ export class LightingHeader {
     }
   }
 
-  static accumulateFrom(colors: Color[]): Uint8Array {
-    const buffer = new Uint8Array(LightingHeader.sizeOf())
+  static accumulateFrom(colors: Color[]): ArrayBuffer {
+    const buffer = new ArrayBuffer(LightingHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeInt32(colors.length)

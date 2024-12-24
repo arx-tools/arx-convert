@@ -64,8 +64,8 @@ export class DlfHeader {
     }
   }
 
-  static accumulateFrom(json: ArxDLF): Uint8Array {
-    const buffer = new Uint8Array(DlfHeader.sizeOf())
+  static accumulateFrom(json: ArxDLF): ArrayBuffer {
+    const buffer = new ArrayBuffer(DlfHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeFloat32(DANAE_VERSION)

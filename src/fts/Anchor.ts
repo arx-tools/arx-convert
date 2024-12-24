@@ -16,8 +16,8 @@ export class Anchor {
     }
   }
 
-  static accumulateFrom(anchor: ArxAnchor): Uint8Array {
-    const buffer = new Uint8Array(AnchorData.sizeOf() + anchor.linkedAnchors.length * 4)
+  static accumulateFrom(anchor: ArxAnchor): ArrayBuffer {
+    const buffer = new ArrayBuffer(AnchorData.sizeOf() + anchor.linkedAnchors.length * 4)
     const binary = new BinaryIO(buffer)
 
     binary.writeBuffer(AnchorData.accumulateFrom(anchor))

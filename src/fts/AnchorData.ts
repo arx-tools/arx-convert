@@ -44,8 +44,8 @@ export class AnchorData {
     return data
   }
 
-  static accumulateFrom(anchor: ArxAnchor): Uint8Array {
-    const buffer = new Uint8Array(AnchorData.sizeOf())
+  static accumulateFrom(anchor: ArxAnchor): ArrayBuffer {
+    const buffer = new ArrayBuffer(AnchorData.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeVector3(anchor.data.pos)

@@ -18,8 +18,8 @@ export class Action {
     }
   }
 
-  static accumulateFrom(action: ArxAction): Uint8Array {
-    const buffer = new Uint8Array(Action.sizeOf())
+  static accumulateFrom(action: ArxAction): ArrayBuffer {
+    const buffer = new ArrayBuffer(Action.sizeOf())
     const binary = new BinaryIO(buffer)
 
     binary.writeString(action.name, 256)

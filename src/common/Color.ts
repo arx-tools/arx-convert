@@ -34,8 +34,8 @@ export class Color {
     return { r: r * 255, g: g * 255, b: b * 255, a: 1 }
   }
 
-  static accumulateFrom({ r, g, b, a }: ArxColor, mode: ColorMode): Uint8Array {
-    const buffer = new Uint8Array(Color.sizeOf(mode))
+  static accumulateFrom({ r, g, b, a }: ArxColor, mode: ColorMode): ArrayBuffer {
+    const buffer = new ArrayBuffer(Color.sizeOf(mode))
     const binary = new BinaryIO(buffer)
 
     if (mode === 'bgra') {
