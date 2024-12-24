@@ -9,7 +9,7 @@ export type ArxCell = {
 }
 
 export class Cell {
-  static readFrom(binary: BinaryIO): ArxCell {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxCell {
     const { numberOfPolygons, numberOfAnchors } = SceneInfo.readFrom(binary)
 
     const data: ArxCell = {

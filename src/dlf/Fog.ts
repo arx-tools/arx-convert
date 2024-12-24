@@ -24,7 +24,7 @@ export type ArxFog = {
 }
 
 export class Fog {
-  static readFrom(binary: BinaryIO): ArxFog {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxFog {
     const dataBlock1 = {
       pos: binary.readVector3(),
       color: Color.readFrom(binary, 'rgb'),

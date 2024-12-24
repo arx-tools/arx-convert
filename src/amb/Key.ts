@@ -24,7 +24,7 @@ export class Key {
   /**
    * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/audio/Ambiance.cpp#L187
    */
-  static readFrom(binary: BinaryIO): ArxKey {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxKey {
     binary.readUint32() // flags - always 0
 
     return {

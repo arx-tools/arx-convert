@@ -17,7 +17,7 @@ export type ArxSceneHeader = {
 }
 
 export class SceneHeader {
-  static readFrom(binary: BinaryIO): ArxSceneHeader {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxSceneHeader {
     binary.readFloat32() // version - always 0.14100000262260437
     binary.readInt32() // sizeX - always 160
     binary.readInt32() // sizeZ - always 160

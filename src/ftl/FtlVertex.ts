@@ -8,7 +8,7 @@ export type ArxFtlVertex = {
 }
 
 export class FtlVertex {
-  static readFrom(binary: BinaryIO): ArxFtlVertex {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxFtlVertex {
     binary.readUint8Array(32) // unused
 
     return {

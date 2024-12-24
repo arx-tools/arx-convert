@@ -7,7 +7,7 @@ export type ArxFtlTextureContainer = {
 }
 
 export class FtlTextureContainer {
-  static readFrom(binary: BinaryIO): ArxFtlTextureContainer {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxFtlTextureContainer {
     return {
       filename: TextureContainer.toRelativePath(binary.readString(256)),
     }

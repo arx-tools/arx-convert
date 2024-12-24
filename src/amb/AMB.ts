@@ -8,7 +8,7 @@ export type ArxAMB = {
 }
 
 export class AMB {
-  static load(decompressedFile: ArrayBuffer): ArxAMB {
+  static load(decompressedFile: ArrayBufferLike): ArxAMB {
     const file = new BinaryIO(decompressedFile)
 
     const { numberOfTracks, isNewerVersion } = AmbHeader.readFrom(file)

@@ -40,7 +40,7 @@ export type ArxFTS = {
 const IS_AN_UNCOMPRESSED_FTS = 0
 
 export class FTS {
-  static load(decompressedFile: ArrayBuffer): ArxFTS {
+  static load(decompressedFile: ArrayBufferLike): ArxFTS {
     const file = new BinaryIO(decompressedFile)
 
     const { numberOfUniqueHeaders, ...header } = FtsHeader.readFrom(file)

@@ -13,7 +13,7 @@ export type ArxInteractiveObject = {
 }
 
 export class InteractiveObject {
-  static readFrom(binary: BinaryIO): ArxInteractiveObject {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxInteractiveObject {
     const data: ArxInteractiveObject = {
       name: InteractiveObject.toRelativePath(binary.readString(512)),
       pos: binary.readVector3(),

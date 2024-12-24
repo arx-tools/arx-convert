@@ -9,7 +9,7 @@ export type ArxGroup = {
 }
 
 export class Group {
-  static readFrom(binary: BinaryIO): ArxGroup & { numberOfIndices: number } {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxGroup & { numberOfIndices: number } {
     const data = {
       name: binary.readString(256),
       origin: binary.readUint32(),

@@ -24,7 +24,7 @@ export type ArxFace = {
 }
 
 export class Face {
-  static readFrom(binary: BinaryIO): ArxFace {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxFace {
     const faceType = binary.readInt32()
 
     binary.readUint32Array(3) // rgb - always [0, 0, 0]

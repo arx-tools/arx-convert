@@ -11,7 +11,7 @@ export class AmbHeader {
   /**
    * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/audio/Ambiance.cpp#L627
    */
-  static readFrom(binary: BinaryIO): ArxAmbHeader {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxAmbHeader {
     binary.readString(4) // identifier - always "GAMB"
 
     const version = binary.readUint32()

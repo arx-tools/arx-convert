@@ -15,7 +15,7 @@ export type ArxFtlHeader = {
 }
 
 export class FtlHeader {
-  static readFrom(binary: BinaryIO): ArxFtlHeader {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxFtlHeader {
     binary.readString(4) // identifier - always "FTL\0"
     binary.readFloat32() // version - always 0.832_570_016_384_124_8
     binary.readString(512) // checksum - contains data, but ArxLibertatis doesn't read it

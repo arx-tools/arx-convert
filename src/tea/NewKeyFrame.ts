@@ -11,7 +11,7 @@ export type ArxNewKeyFrame = ArxOldKeyFrame & {
 }
 
 export class NewKeyFrame {
-  static readFrom(binary: BinaryIO): ArxNewKeyFrame {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxNewKeyFrame {
     return {
       num_frame: binary.readInt32(),
       flag_frame: binary.readInt32(),

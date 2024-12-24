@@ -19,7 +19,7 @@ export type ArxZoneAndPathPoint = {
 }
 
 export class ZoneAndPathPoint {
-  static readFrom(binary: BinaryIO, pos: ArxVector3): ArxZoneAndPathPoint {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>, pos: ArxVector3): ArxZoneAndPathPoint {
     const rpos = binary.readVector3()
     const data = {
       pos: {

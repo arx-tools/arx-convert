@@ -9,7 +9,7 @@ export type ArxLightingHeader = {
 }
 
 export class LightingHeader {
-  static readFrom(binary: BinaryIO): ArxLightingHeader {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxLightingHeader {
     const numberOfColors = binary.readInt32()
 
     binary.readInt32() // view mode - unused

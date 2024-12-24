@@ -37,7 +37,7 @@ export type ArxPortalPolygon = {
 }
 
 export class PortalPolygon {
-  static readFrom(binary: BinaryIO): ArxPortalPolygon {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxPortalPolygon {
     binary.readInt32() // type - in 2 occasions on level 2 it's 0, all other cases it's 64 (ArxPolygonFlags.Quad)
 
     const dataBlock = {

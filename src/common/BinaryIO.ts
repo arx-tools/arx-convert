@@ -2,7 +2,9 @@ import { decodeText, encodeText, repeat } from '@common/helpers.js'
 import { LITTLE_ENDIAN, TRUNCATE_ZERO_BYTES, KEEP_ZERO_BYTES, BYTE_OF_AN_UNKNOWN_CHAR } from '@common/constants.js'
 import { type ArxQuaternion, type ArxRotation, type ArxVector3 } from '@common/types.js'
 
-export class BinaryIO extends DataView<ArrayBuffer> {
+export class BinaryIO<
+  TArrayBuffer extends ArrayBufferLike & { BYTES_PER_ELEMENT?: never },
+> extends DataView<TArrayBuffer> {
   static sizeOfFloat32(): 4 {
     return 4 as const
   }
@@ -85,7 +87,7 @@ export class BinaryIO extends DataView<ArrayBuffer> {
 
   public position: number // TODO: make this private - this needs to be public because of TEA
 
-  constructor(buffer: ArrayBuffer, byteOffset?: number, byteLength?: number) {
+  constructor(buffer: TArrayBuffer, byteOffset?: number, byteLength?: number) {
     super(buffer, byteOffset, byteLength)
     this.position = 0
   }
@@ -244,13 +246,13 @@ export class BinaryIO extends DataView<ArrayBuffer> {
     this.position = this.position + BinaryIO.sizeOfUint8()
   }
 
-  writeUint8Array(values: number[] | ArrayBuffer): void {
-    if (values instanceof ArrayBuffer) {
-      new Uint8Array(values).forEach((value) => {
+  writeUint8Array(values: number[] | ArrayBufferLike): void {
+    if (Array.isArray(values)) {
+      values.forEach((value) => {
         this.writeUint8(value)
       })
     } else {
-      values.forEach((value) => {
+      new Uint8Array(values).forEach((value) => {
         this.writeUint8(value)
       })
     }
@@ -379,7 +381,7 @@ export class BinaryIO extends DataView<ArrayBuffer> {
     this.writeFloat32Array([w, x, y, z])
   }
 
-  writeBuffer(buffer: ArrayBuffer): void {
+  writeBuffer(buffer: ArrayBufferLike): void {
     this.writeUint8Array(buffer)
   }
 }

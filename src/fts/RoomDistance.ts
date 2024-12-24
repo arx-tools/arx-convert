@@ -11,7 +11,7 @@ export type ArxRoomDistance = {
 }
 
 export class RoomDistance {
-  static readFrom(binary: BinaryIO): ArxRoomDistance {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxRoomDistance {
     return {
       distance: binary.readFloat32(), // -1 means use truedist
       startPosition: binary.readVector3(),

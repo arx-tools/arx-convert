@@ -9,7 +9,7 @@ export type ArxScene = {
 }
 
 export class Scene {
-  static readFrom(binary: BinaryIO): ArxScene {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxScene {
     const levelIdx = Scene.pathToLevelIdx(binary.readString(512))
 
     binary.readInt32Array(16) // pad - ?

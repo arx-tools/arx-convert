@@ -19,7 +19,7 @@ export type ArxDlfHeader = {
 }
 
 export class DlfHeader {
-  static readFrom(binary: BinaryIO): ArxDlfHeader {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxDlfHeader {
     binary.readFloat32() // version - always 1.44
     binary.readString(16) // identifier - always "DANAE_FILE"
 

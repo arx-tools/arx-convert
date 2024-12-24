@@ -52,7 +52,7 @@ export type ArxTextureVertex = {
 }
 
 export class TextureVertex {
-  static readFrom(binary: BinaryIO): ArxTextureVertex {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxTextureVertex {
     const data = {
       pos: binary.readVector3(),
       rhw: binary.readFloat32(),

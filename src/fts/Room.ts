@@ -9,7 +9,7 @@ export type ArxRoom = {
 }
 
 export class Room {
-  static readFrom(binary: BinaryIO): ArxRoom {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxRoom {
     const { numberOfPortals, numberOfPolygons } = RoomData.readFrom(binary)
 
     return {

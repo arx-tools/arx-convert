@@ -9,7 +9,7 @@ export type ArxTextureContainer = {
 }
 
 export class TextureContainer {
-  static readFrom(binary: BinaryIO): ArxTextureContainer {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxTextureContainer {
     const id = binary.readInt32()
 
     binary.readInt32() // temp - always 0

@@ -12,7 +12,7 @@ export type ArxUniqueHeader = {
 }
 
 export class UniqueHeader {
-  static readFrom(binary: BinaryIO): ArxUniqueHeader {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxUniqueHeader {
     return {
       path: binary.readString(256),
       check: binary.readUint8Array(512),

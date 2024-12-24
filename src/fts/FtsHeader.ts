@@ -12,7 +12,7 @@ export type ArxFtsHeader = {
 }
 
 export class FtsHeader {
-  static readFrom(binary: BinaryIO): ArxFtsHeader {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxFtsHeader {
     const path = binary.readString(256)
 
     const data: ArxFtsHeader = {

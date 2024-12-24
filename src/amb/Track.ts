@@ -25,7 +25,7 @@ export class Track {
   /**
    * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/audio/Ambiance.cpp#L531
    */
-  static readFrom(binary: BinaryIO, isNewerVersion: boolean): ArxTrack {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>, isNewerVersion: boolean): ArxTrack {
     const filename = Track.toRelativePath(binary.readString())
 
     if (isNewerVersion) {

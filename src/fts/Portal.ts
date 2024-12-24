@@ -13,7 +13,7 @@ export type ArxPortal = {
 }
 
 export class Portal {
-  static readFrom(binary: BinaryIO): ArxPortal {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxPortal {
     return {
       polygon: PortalPolygon.readFrom(binary),
       room1: binary.readInt32(), // facing normal

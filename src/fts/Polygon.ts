@@ -71,7 +71,7 @@ export type ArxPolygon = {
 }
 
 export class Polygon {
-  static readFrom(binary: BinaryIO): ArxPolygon {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxPolygon {
     return {
       vertices: times(() => {
         return Vertex.readFrom(binary)

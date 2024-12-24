@@ -13,7 +13,7 @@ export type ArxVertex = {
 }
 
 export class Vertex {
-  static readFrom(binary: BinaryIO): ArxVertex {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxVertex {
     // y before x is not a typo!
     const [y, x, z, u, v] = binary.readFloat32Array(5)
     return { x, y, z, u, v }

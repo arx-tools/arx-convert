@@ -172,7 +172,7 @@ export type ArxLight = {
 }
 
 export class Light {
-  static readFrom(binary: BinaryIO): ArxLight {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxLight {
     const dataBlock1 = {
       pos: binary.readVector3(),
       color: Color.readFrom(binary, 'rgb'),

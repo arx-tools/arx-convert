@@ -9,7 +9,7 @@ export type ArxAction = {
 }
 
 export class Action {
-  static readFrom(binary: BinaryIO): ArxAction {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxAction {
     return {
       name: binary.readString(256),
       vertexIdx: binary.readInt32(),

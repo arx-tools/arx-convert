@@ -7,7 +7,7 @@ export type ArxAnchor = {
 }
 
 export class Anchor {
-  static readFrom(binary: BinaryIO): ArxAnchor {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxAnchor {
     const { numberOfLinkedAnchors, ...anchorData } = AnchorData.readFrom(binary)
 
     return {

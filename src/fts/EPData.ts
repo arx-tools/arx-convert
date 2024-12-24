@@ -13,7 +13,7 @@ export type ArxEPData = {
 }
 
 export class EPData {
-  static readFrom(binary: BinaryIO): ArxEPData {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxEPData {
     const [px, py, idx] = binary.readInt16Array(4)
     return { cellX: px, cellY: py, polygonIdx: idx }
   }

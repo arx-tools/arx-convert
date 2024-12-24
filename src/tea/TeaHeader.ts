@@ -15,7 +15,7 @@ export type ArxTeaHeader = {
 }
 
 export class TeaHeader {
-  static readFrom(binary: BinaryIO): ArxTeaHeader {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxTeaHeader {
     return {
       ident: binary.readString(20),
       version: binary.readUint32(),

@@ -10,7 +10,7 @@ export type ArxSceneInfo = {
 }
 
 export class SceneInfo {
-  static readFrom(binary: BinaryIO): ArxSceneInfo {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxSceneInfo {
     return {
       numberOfPolygons: binary.readInt32(),
       numberOfAnchors: binary.readInt32(),

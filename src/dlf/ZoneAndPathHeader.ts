@@ -46,7 +46,7 @@ export type ArxZoneAndPathHeader = {
 }
 
 export class ZoneAndPathHeader {
-  static readFrom(binary: BinaryIO): ArxZoneAndPathHeader {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxZoneAndPathHeader {
     const name = binary.readString(64)
 
     binary.readInt16() // idx - always 0

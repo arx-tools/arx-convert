@@ -26,7 +26,7 @@ export type ArxAnchorData = {
 }
 
 export class AnchorData {
-  static readFrom(binary: BinaryIO): ArxAnchorData {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxAnchorData {
     const data: ArxAnchorData = {
       pos: binary.readVector3(),
       radius: binary.readFloat32(),

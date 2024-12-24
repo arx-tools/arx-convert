@@ -14,7 +14,7 @@ export type ArxLlfHeader = {
 }
 
 export class LlfHeader {
-  static readFrom(binary: BinaryIO): ArxLlfHeader {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxLlfHeader {
     binary.readFloat32() // version - always 1.44
     binary.readString(16) // identifier - always "DANAE_LLH_FILE"
 

@@ -24,7 +24,7 @@ export class Setting {
   /**
    * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/audio/Ambiance.cpp#L107
    */
-  static readFrom(binary: BinaryIO): ArxSetting {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxSetting {
     return {
       min: binary.readFloat32(),
       max: binary.readFloat32(),

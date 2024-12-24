@@ -7,7 +7,7 @@ export type ArxSelection = {
 }
 
 export class Selection {
-  static readFrom(binary: BinaryIO): ArxSelection & { numberOfSelected: number } {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxSelection & { numberOfSelected: number } {
     const data = {
       name: binary.readString(64),
       numberOfSelected: binary.readInt32(),

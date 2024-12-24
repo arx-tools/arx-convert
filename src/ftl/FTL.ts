@@ -27,7 +27,7 @@ export type ArxFTL = {
 }
 
 export class FTL {
-  static load(decompressedFile: ArrayBuffer): ArxFTL {
+  static load(decompressedFile: ArrayBufferLike): ArxFTL {
     const file = new BinaryIO(decompressedFile)
 
     const {

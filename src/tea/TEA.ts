@@ -26,7 +26,7 @@ export type ArxTEA = {
 }
 
 export class TEA {
-  static load(decompressedFile: ArrayBuffer): ArxTEA {
+  static load(decompressedFile: ArrayBufferLike): ArxTEA {
     const file = new BinaryIO(decompressedFile)
 
     const { numberOfKeyFrames, numberOfGroups, ...header } = TeaHeader.readFrom(file)
