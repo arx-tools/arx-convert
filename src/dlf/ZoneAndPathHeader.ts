@@ -88,8 +88,8 @@ export class ZoneAndPathHeader {
     }
   }
 
-  static allocateFrom(zoneOrPath: ArxZone | ArxPath): Uint8Array {
-    const buffer = new Uint8Array(ZoneAndPathHeader.sizeOf())
+  static allocateFrom(zoneOrPath: ArxZone | ArxPath): ArrayBuffer {
+    const buffer = new ArrayBuffer(ZoneAndPathHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
     const { pos } = zoneOrPath.points[0]

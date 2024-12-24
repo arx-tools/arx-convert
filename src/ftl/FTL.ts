@@ -77,7 +77,7 @@ export class FTL {
     const groups = concatArrayBuffers(json.groups.map(Group.accumulateFrom))
     const indices = concatArrayBuffers(
       json.groups.map(({ indices }) => {
-        const buffer = new Uint8Array(BinaryIO.sizeOfInt32Array(indices.length))
+        const buffer = new ArrayBuffer(BinaryIO.sizeOfInt32Array(indices.length))
         const binary = new BinaryIO(buffer)
         binary.writeInt32Array(indices)
         return buffer

@@ -41,7 +41,7 @@ async function fileExists(filename: string): Promise<boolean> {
 
 export async function streamToBuffer(input: NodeJS.ReadableStream): Promise<ArrayBuffer> {
   return new Promise((resolve, reject) => {
-    const chunks: ArrayBuffer[] = []
+    const chunks: ArrayBufferLike[] = []
 
     input.on('data', (chunk: Buffer) => {
       chunks.push(chunk.buffer)
