@@ -6,10 +6,10 @@ import { type ArxInteractiveObject, InteractiveObject } from '@dlf/InteactiveObj
 import { ArxZoneAndPathFlags, type ArxZoneAndPathHeader, ZoneAndPathHeader } from '@dlf/ZoneAndPathHeader.js'
 import { type ArxZoneAndPathPoint, ZoneAndPathPoint } from '@dlf/ZoneAndPathPoint.js'
 import { type ArxScene, Scene } from '@dlf/Scene.js'
-import { type Expand, type Optional } from '@common/types.js'
+import type { SetOptional, Simplify } from 'type-fest'
 
-export type ArxZone = Expand<
-  Optional<
+export type ArxZone = Simplify<
+  SetOptional<
     Omit<ArxZoneAndPathHeader, 'numberOfPoints' | 'pos' | 'flags'>,
     'backgroundColor' | 'ambience' | 'ambienceMaxVolume' | 'drawDistance'
   > & {
