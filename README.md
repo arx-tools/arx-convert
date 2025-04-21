@@ -14,9 +14,9 @@ This will give you access to the following commands, both do the same:
 
 ### Recommended requirements
 
-nodejs 18+ (because the lib uses prefix-only core modules)
+node.js 18.0+ (because the lib uses prefix-only core modules)
 
-It might work with older versions of nodejs, but I haven't tested it there.
+It might work with older versions of node.js, but I haven't tested it there.
 
 ## Command-line API
 
@@ -66,51 +66,52 @@ The package is published as a commonjs lib and the files can be found in the `di
 install it via npm. If you downloaded the source files from github, then you need to transpile the typescript
 files yourself using the `npm run build` command.
 
-The built js files come with sourcemaps, which you can use by running your nodejs file with the
+The built js files come with sourcemaps, which you can use by running your node.js file with the
 [--enable-source-maps](https://nodejs.org/api/cli.html#--enable-source-maps) flag
 
 ### Javascript example
 
 ```js
-const fs = require('node:fs')
+const fs = require('node:fs/promises')
 const path = require('node:path')
 const { FTS } = require('arx-convert')
 
 ;(async () => {
   // reads an unpacked fts file into a buffer
-  const binary = await fs.promises.readFile(path.resolve(__dirname, './fast.fts.unpacked'))
+  const binary = await fs.readFile(path.resolve(__dirname, './fast.fts.unpacked'))
 
   // converts the buffer into a json using the FTS converter
   const json = FTS.load(binary)
 
   // save as a minified json
-  await fs.promises.writeFile(path.resolve(__dirname, './fast.fts.min.json'), JSON.stringify(json), 'utf-8')
+  await fs.writeFile(path.resolve(__dirname, './fast.fts.min.json'), JSON.stringify(json), 'utf8')
 
   // save as a formatted json
-  await fs.promises.writeFile(path.resolve(__dirname, './fast.fts.json'), JSON.stringify(json, null, 2), 'utf-8')
+  await fs.writeFile(path.resolve(__dirname, './fast.fts.json'), JSON.stringify(json, null, '\t'), 'utf8')
 })()
 ```
 
 ### Typescript example
 
 ```ts
-import fs from 'node:fs'
+import fs from 'node:fs/promises'
 import path from 'node:path'
 import { DLF } from 'arx-convert'
-import { ArxDLF } from 'arx-convert/types'
+import type { ArxDLF } from 'arx-convert/types'
+
 ;(async () => {
   // reads an unpacked dlf file into a buffer
-  const binary = await fs.promises.readFile(path.resolve(__dirname, './level1.dlf.unpacked'))
+  const binary = await fs.readFile(path.resolve(__dirname, './level1.dlf.unpacked'))
 
   // converts the buffer into a json using the DLF converter
   // optionally you can assign a type to the variable
   const json: ArxDLF = DLF.load(binary)
 
   // save as a minified json
-  await fs.promises.writeFile(path.resolve(__dirname, './level1.dlf.min.json'), JSON.stringify(json), 'utf-8')
+  await fs.writeFile(path.resolve(__dirname, './level1.dlf.min.json'), JSON.stringify(json), 'utf8')
 
   // save as a formatted json
-  await fs.promises.writeFile(path.resolve(__dirname, './level1.dlf.json'), JSON.stringify(json, null, 2), 'utf-8')
+  await fs.writeFile(path.resolve(__dirname, './level1.dlf.json'), JSON.stringify(json, null, '\t'), 'utf8')
 })()
 ```
 
