@@ -1,6 +1,6 @@
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxColor, Color } from '@common/Color.js'
-import { type ArxVector3 } from '@common/types.js'
+import type { ArxVector3 } from '@common/types.js'
 
 type HardcodedDataType = {
   color: ArxColor

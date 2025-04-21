@@ -1,6 +1,6 @@
 import { BinaryIO } from '@common/BinaryIO.js'
-import { type ArxVector3 } from '@common/types.js'
-import { type ArxAnchor } from '@fts/Anchor.js'
+import type { ArxVector3 } from '@common/types.js'
+import type { ArxAnchor } from '@fts/Anchor.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L113

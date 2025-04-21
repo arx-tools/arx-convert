@@ -1,4 +1,4 @@
-import { invert } from './helpers.js'
+import { invert } from '@common/helpers.js'
 
 export const DANAE_VERSION = 1.440_000_057_220_459 // 1.44f
 

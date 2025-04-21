@@ -1,7 +1,7 @@
-import { BinaryIO } from '@common/BinaryIO.js'
-import { concatArrayBuffers, times } from '@common/helpers.js'
 import { AmbHeader } from '@amb/AmbHeader.js'
 import { Track, type ArxTrack } from '@amb/Track.js'
+import { BinaryIO } from '@common/BinaryIO.js'
+import { concatArrayBuffers, times } from '@common/helpers.js'
 
 export type ArxAMB = {
   tracks: ArxTrack[]

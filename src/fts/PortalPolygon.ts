@@ -1,6 +1,6 @@
 import { BinaryIO } from '@common/BinaryIO.js'
 import { concatArrayBuffers, times } from '@common/helpers.js'
-import { type ArxVector3, type QuadrupleOf } from '@common/types.js'
+import type { ArxVector3, QuadrupleOf } from '@common/types.js'
 import { ArxPolygonFlags } from '@fts/Polygon.js'
 import { type ArxTextureVertex, TextureVertex } from '@fts/TextureVertex.js'
 

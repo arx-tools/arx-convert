@@ -1,7 +1,7 @@
 import { BinaryIO } from '@common/BinaryIO.js'
-import { VERSION } from '@fts/constants.js'
 import { repeat } from '@common/helpers.js'
-import { type ArxFTS } from '@fts/FTS.js'
+import type { ArxFTS } from '@fts/FTS.js'
+import { VERSION } from '@fts/constants.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L56

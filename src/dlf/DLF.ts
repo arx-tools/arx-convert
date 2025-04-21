@@ -1,12 +1,12 @@
+import type { SetOptional, Simplify } from 'type-fest'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { concatArrayBuffers, times } from '@common/helpers.js'
 import { type ArxDlfHeader, DlfHeader } from '@dlf/DlfHeader.js'
 import { type ArxFog, Fog } from '@dlf/Fog.js'
 import { type ArxInteractiveObject, InteractiveObject } from '@dlf/InteactiveObject.js'
+import { type ArxScene, Scene } from '@dlf/Scene.js'
 import { ArxZoneAndPathFlags, type ArxZoneAndPathHeader, ZoneAndPathHeader } from '@dlf/ZoneAndPathHeader.js'
 import { type ArxZoneAndPathPoint, ZoneAndPathPoint } from '@dlf/ZoneAndPathPoint.js'
-import { type ArxScene, Scene } from '@dlf/Scene.js'
-import type { SetOptional, Simplify } from 'type-fest'
 
 export type ArxZone = Simplify<
   SetOptional<

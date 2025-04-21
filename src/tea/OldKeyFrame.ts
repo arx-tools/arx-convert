@@ -1,5 +1,5 @@
 import { BinaryIO } from '@common/BinaryIO.js'
-import { type ArxTEA } from '@tea/TEA.js'
+import type { ArxTEA } from '@tea/TEA.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/animation/AnimationFormat.h#L91

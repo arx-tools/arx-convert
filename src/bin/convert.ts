@@ -1,8 +1,8 @@
 #!/usr/bin/env -S node --enable-source-maps
-
 import process from 'node:process'
 import minimist from 'minimist-lite'
 import YAML from 'yaml'
+import { DLF, FTS, LLF, FTL, TEA, AMB } from '@src/index.js'
 import {
   getPackageVersion,
   streamToBuffer,
@@ -15,7 +15,6 @@ import {
   isArxFormat,
   isDataFormat,
 } from '@bin/helpers.js'
-import { DLF, FTS, LLF, FTL, TEA, AMB } from '@src/index.js'
 
 type AppArgs = {
   _: string[]

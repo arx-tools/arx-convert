@@ -1,7 +1,7 @@
 import { BinaryIO } from '@common/BinaryIO.js'
 import { DANAE_VERSION } from '@common/constants.js'
 import { repeat } from '@common/helpers.js'
-import { type ArxLLF } from '@llf/LLF.js'
+import type { ArxLLF } from '@llf/LLF.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L178

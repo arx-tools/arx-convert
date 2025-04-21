@@ -1,4 +1,4 @@
-import { type TripleOf } from '@common/types.js'
+import type { TripleOf } from '@common/types.js'
 
 export const VERSION = 0.141_000_002_622_604_37 // 0.141f
 

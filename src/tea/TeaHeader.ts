@@ -1,6 +1,6 @@
-import { KEEP_ZERO_BYTES } from '@common/constants.js'
 import { BinaryIO } from '@common/BinaryIO.js'
-import { type ArxTEA } from '@tea/TEA.js'
+import { KEEP_ZERO_BYTES } from '@common/constants.js'
+import type { ArxTEA } from '@tea/TEA.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/animation/AnimationFormat.h#L82

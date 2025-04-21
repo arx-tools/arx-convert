@@ -1,8 +1,8 @@
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxColor, Color } from '@common/Color.js'
 import { repeat } from '@common/helpers.js'
-import { type ArxVector3 } from '@common/types.js'
-import { type ArxPath, type ArxZone } from '@dlf/DLF.js'
+import type { ArxVector3 } from '@common/types.js'
+import type { ArxPath, ArxZone } from '@dlf/DLF.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/ai/Paths.h#L65

@@ -1,6 +1,6 @@
 import { BinaryIO } from '@common/BinaryIO.js'
 import { repeat } from '@common/helpers.js'
-import { type ArxRotation, type ArxVector3 } from '@common/types.js'
+import type { ArxRotation, ArxVector3 } from '@common/types.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L193

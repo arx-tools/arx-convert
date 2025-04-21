@@ -1,6 +1,6 @@
+import { type ArxKey, Key } from '@amb/Key.js'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { concatArrayBuffers, times } from '@common/helpers.js'
-import { type ArxKey, Key } from '@amb/Key.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/audio/Ambiance.cpp#L230

@@ -1,5 +1,5 @@
-import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxSetting, Setting } from '@amb/Setting.js'
+import { BinaryIO } from '@common/BinaryIO.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/audio/Ambiance.cpp#L168

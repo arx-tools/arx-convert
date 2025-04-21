@@ -1,12 +1,12 @@
 import { BinaryIO } from '@common/BinaryIO.js'
-import { type ArxFtlHeader, FtlHeader } from '@ftl/FtlHeader.js'
-import { type ArxFtlVertex, FtlVertex } from '@ftl/FtlVertex.js'
-import { type ArxFtlTextureContainer, FtlTextureContainer } from '@ftl/FtlTextureContainer.js'
-import { type ArxFace, Face } from '@ftl/Face.js'
-import { type ArxGroup, Group } from '@ftl/Group.js'
-import { Action, type ArxAction } from '@ftl/Action.js'
-import { type ArxSelection, Selection } from '@ftl/Selections.js'
 import { concatArrayBuffers, times } from '@common/helpers.js'
+import { Action, type ArxAction } from '@ftl/Action.js'
+import { type ArxFace, Face } from '@ftl/Face.js'
+import { type ArxFtlHeader, FtlHeader } from '@ftl/FtlHeader.js'
+import { type ArxFtlTextureContainer, FtlTextureContainer } from '@ftl/FtlTextureContainer.js'
+import { type ArxFtlVertex, FtlVertex } from '@ftl/FtlVertex.js'
+import { type ArxGroup, Group } from '@ftl/Group.js'
+import { type ArxSelection, Selection } from '@ftl/Selections.js'
 
 export type ArxFTL = {
   header: Omit<

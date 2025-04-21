@@ -1,5 +1,5 @@
 import { BinaryIO } from '@common/BinaryIO.js'
-import { type Color } from '@common/Color.js'
+import type { Color } from '@common/Color.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L94

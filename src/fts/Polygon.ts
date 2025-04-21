@@ -1,9 +1,9 @@
 import { BinaryIO } from '@common/BinaryIO.js'
-import { type ArxVertex, Vertex } from '@fts/Vertex.js'
-import { type ArxVector3, type QuadrupleOf } from '@common/types.js'
 import { concatArrayBuffers, times } from '@common/helpers.js'
+import type { ArxVector3, QuadrupleOf } from '@common/types.js'
 // eslint-disable-next-line unused-imports/no-unused-imports -- it is used in jsdoc block
 import { ArxTextureContainer } from '@fts/TextureContainer.js'
+import { type ArxVertex, Vertex } from '@fts/Vertex.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/GraphicsTypes.h#L88

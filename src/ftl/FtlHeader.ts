@@ -1,5 +1,5 @@
 import { BinaryIO } from '@common/BinaryIO.js'
-import { type ArxFTL } from '@ftl/FTL.js'
+import type { ArxFTL } from '@ftl/FTL.js'
 import { VERSION } from '@ftl/constants.js'
 
 /** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FTLFormat.h#L86 */
