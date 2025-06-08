@@ -5,7 +5,10 @@ const xoConfig: FlatXoConfig = {
   space: true,
   semicolon: false,
   prettier: true,
-  plugins: { 'unused-imports': unusedImports },
+  plugins: {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- god knows why this keeps coming back...
+    'unused-imports': unusedImports,
+  },
   files: ['xo.config.ts', 'src/**/*.ts'],
   rules: {
     'capitalized-comments': 'off',
@@ -54,6 +57,7 @@ const xoConfig: FlatXoConfig = {
     '@typescript-eslint/no-unsafe-argument': 'off',
     'object-shorthand': ['error', 'always', { avoidQuotes: true }],
     '@typescript-eslint/no-import-type-side-effects': 'error',
+    'unicorn/prefer-string-raw': 'off',
   },
 }
 

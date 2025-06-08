@@ -43,6 +43,7 @@ export async function streamToBuffer(input: NodeJS.ReadableStream): Promise<Arra
   return new Promise((resolve, reject) => {
     const chunks: ArrayBufferLike[] = []
 
+    // eslint-disable-next-line @typescript-eslint/no-restricted-types -- the Buffer type is coming from node.js, I'm not changing that
     input.on('data', (chunk: Buffer) => {
       chunks.push(chunk.buffer)
     })
