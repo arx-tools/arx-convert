@@ -6,7 +6,13 @@ export const VERSION = 0.141_000_002_622_604_37 // 0.141f
 // Arx ignores the 4th vertex of a quad, it always calculates cell coordinates using the first 3 vertices.
 // cellX is calculated by averaging the x coordinates of the vertices, dividing that by 100 and rounding it down.
 // cellY is calculated the same way as cellX, but using the z coordinates.
-// see helpers.ts > getCellCoords
+// see helpers.ts > getCellCoords()
+//
+// Calculating the cell coordinates for polygons incorrectly will cause different issues depending on the size
+// of the error. Having the coordinates off by 1 will cause collision issues, the player will partially be able
+// to walk into the wall that is placed into the incorrect cell, while having a larger coordinate difference
+// will cause the game's rendering to turn off periodically as the player walks or looks around as it goes in
+// and out of bounds.
 //
 // For whatever reason the coords in the table below create polygons, which ends up in an incorrect cell
 // according to the cell data in the original level files.
