@@ -6,8 +6,8 @@ import { DLF, FTS, LLF, FTL, TEA, AMB } from '@src/index.js'
 import {
   getPackageVersion,
   streamToBuffer,
-  stringifyYAML,
-  stringifyJSON,
+  stringifyToYAML,
+  stringifyToJSON,
   outputInChunks,
   getInputStream,
   getOutputStream,
@@ -163,13 +163,13 @@ switch (args.from) {
 let rawOut: string | ArrayBuffer
 switch (args.to) {
   case 'json': {
-    rawOut = stringifyJSON(parsedIn, args.format || args.pretty || args.prettify)
+    rawOut = stringifyToJSON(parsedIn, args.format || args.pretty || args.prettify)
     break
   }
 
   case 'yml':
   case 'yaml': {
-    rawOut = await stringifyYAML(parsedIn)
+    rawOut = await stringifyToYAML(parsedIn)
     break
   }
 

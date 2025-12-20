@@ -62,17 +62,17 @@ export async function streamToBuffer(input: NodeJS.ReadableStream): Promise<Arra
   })
 }
 
-export function stringifyJSON(json: any, prettify = false): string {
+export function stringifyToJSON(data: any, prettify = false): string {
   if (prettify) {
-    return JSON.stringify(json, null, '\t')
+    return JSON.stringify(data, null, '\t')
   }
 
-  return JSON.stringify(json)
+  return JSON.stringify(data)
 }
 
-export async function stringifyYAML(json: any): Promise<string> {
+export async function stringifyToYAML(data: any): Promise<string> {
   const YAML = await import('yaml')
-  return YAML.stringify(json)
+  return YAML.stringify(data)
 }
 
 function sliceBuffer(buffer: ArrayBuffer, start: number, end?: number): ArrayBuffer
