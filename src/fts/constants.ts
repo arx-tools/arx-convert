@@ -28,15 +28,23 @@ export const VERSION = 0.141_000_002_622_604_37 // 0.141f
 // level  1 ->  8 / 58963
 // level  2 ->  2 / 73791
 // level  3 ->  1 / 59442
+// level  4 is okay
 // level  5 -> 16 / 68710
 // level  6 ->  6 / 42111
 // level  7 ->  4 / 76875
+// level  8 is okay
+// level  9 doesn't exist
+// level 10 is okay
 // level 11 ->  9 / 69815
 // level 12 -> 24 / 34660
+// level 13 is okay
 // level 14 -> 10 / 39387
 // level 15 ->  2 / 44616
 // level 16 ->  1 / 53367
+// level 17 is okay
 // level 18 ->  2 / 39098
+// level 19 is okay
+// level 20 is okay
 // level 21 -> 43 / 30594
 // level 22 -> 15 / 61953
 // level 23 ->  5 / 24519
@@ -45,7 +53,9 @@ export const VERSION = 0.141_000_002_622_604_37 // 0.141f
 // - no, the error is much larger, than Number.EPSILON, or Number.EPSILON * 10**5.
 // - no, rounding the individual coordinates to 3 or more decimals doesn't solve the issue.
 //
-// The following fractions we get by calculating (average / 100) % 1
+// Looking at just the averages are not enough:
+//
+// We get the following fractions by calculating (average / 100) % 1
 // always need to be rounded up, no matter what coords make up the average:
 // 0.9999983723958294,
 // 0.9999983723958366,
