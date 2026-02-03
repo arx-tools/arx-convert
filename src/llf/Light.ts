@@ -221,7 +221,7 @@ export class Light {
     binary.writeFloat32(light.exRadius)
     binary.writeFloat32(light.exFrequency)
     binary.writeFloat32(light.exSize)
-    binary.writeFloat32(clamp(0, Number.MAX_SAFE_INTEGER, light.exSpeed))
+    binary.writeFloat32(clamp(light.exSpeed, 0, Number.MAX_SAFE_INTEGER))
     binary.writeFloat32(light.exFlareSize)
 
     binary.writeFloat32Array(repeat(0, 24)) // fpad

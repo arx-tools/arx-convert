@@ -63,7 +63,7 @@ export function encodeText(text: string): number[] {
   })
 }
 
-export function clamp(min: number, max: number, n: number): number {
+export function clamp(n: number, min: number, max: number): number {
   if (n < min) {
     return min
   }
