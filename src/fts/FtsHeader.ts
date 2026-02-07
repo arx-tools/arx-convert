@@ -1,7 +1,7 @@
 import { BinaryIO } from '@common/BinaryIO.js'
 import { repeat } from '@common/helpers.js'
 import type { ArxFTS } from '@fts/FTS.js'
-import { VERSION } from '@fts/constants.js'
+import { FTS_VERSION } from '@fts/constants.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L56
@@ -20,7 +20,7 @@ export class FtsHeader {
       numberOfUniqueHeaders: binary.readInt32(),
     }
 
-    binary.readFloat32() // version - always 0.14100000262260437
+    binary.readFloat32() // version - always FTS_VERSION
     binary.readInt32() // uncompressed size in bytes
     binary.readUint32Array(3) // pad - ?
 
@@ -33,7 +33,7 @@ export class FtsHeader {
 
     binary.writeString(FtsHeader.levelIdxToPath(json.header.levelIdx), 256)
     binary.writeInt32(json.uniqueHeaders.length)
-    binary.writeFloat32(VERSION)
+    binary.writeFloat32(FTS_VERSION)
     binary.writeInt32(uncompressedSize)
 
     binary.writeUint32Array(repeat(0, 3)) // pad

@@ -1,6 +1,9 @@
 import { invert } from '@common/helpers.js'
 
-export const DANAE_VERSION = 1.440_000_057_220_459 // 1.44f
+/**
+ * 1.44f converted from C style float
+ */
+export const DANAE_VERSION = 1.440_000_057_220_459
 
 export const LITTLE_ENDIAN = true
 export const BIG_ENDIAN = false
@@ -11,9 +14,12 @@ export const KEEP_ZERO_BYTES = 'keep zero bytes'
 export const MAP_WIDTH_IN_CELLS = 160
 export const MAP_DEPTH_IN_CELLS = 160
 
-// source: https://cs.stanford.edu/people/miles/iso8859.html
-// source: https://mathiasbynens.be/notes/javascript-escapes
-
+/**
+ * ASCII / ISO 8859-1 characters
+ *
+ * @see https://cs.stanford.edu/people/miles/iso8859.html
+ * @see https://mathiasbynens.be/notes/javascript-escapes
+ */
 // prettier-ignore
 export const CHARS: readonly string[] = [
   '\0', '\u0001', '\u0002', '\u0003', '\u0004', '\u0005', '\u0006', '\u0007', '\b', '\t', '\n', '\v', '\f', '\r', '\u000E', '\u000F',

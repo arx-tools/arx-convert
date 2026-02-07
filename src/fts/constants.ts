@@ -1,75 +1,80 @@
 import type { TripleOf } from '@common/types.js'
 
-export const VERSION = 0.141_000_002_622_604_37 // 0.141f
+/**
+ * 0.141f converted from C style float
+ */
+export const FTS_VERSION = 0.141_000_002_622_604_37
 
-// The polygons of Arx are sorted into cells, a 160x160 2D grid on the X and Z axis.
-// Arx ignores the 4th vertex of a quad, it always calculates cell coordinates using the first 3 vertices.
-// cellX is calculated by averaging the x coordinates of the vertices, dividing that by 100 and rounding it down.
-// cellY is calculated the same way as cellX, but using the z coordinates.
-// see helpers.ts > getCellCoords()
-//
-// Calculating the cell coordinates for polygons incorrectly will cause different issues depending on the size
-// of the error. Having the coordinates off by 1 will cause collision issues, the player will partially be able
-// to walk into the wall that is placed into the incorrect cell, while having a larger coordinate difference
-// will cause the game's rendering to turn off periodically as the player walks or looks around as it goes in
-// and out of bounds.
-//
-// For whatever reason the coords in the table below create polygons, which ends up in an incorrect cell
-// according to the cell data in the original level files.
-// Probably some precision got lost when Theo Game Maker exported the FTS data.
-//
-// I've already spent numerous days trying to figure out where the error is originating from,
-// so I give up and just put the problematic coordinates into a table below.
-//
-// There are a very small number of coordinates (that are to be averaged either to produce cellX or cellY)
-// which need to be rounded up instead of rounded down:
-//
-// level  0 ->  9 polygons have coords that needs to be rounded up from the total of 45418 polygons
-// level  1 ->  8 / 58963
-// level  2 ->  2 / 73791
-// level  3 ->  1 / 59442
-// level  4 is okay
-// level  5 -> 16 / 68710
-// level  6 ->  6 / 42111
-// level  7 ->  4 / 76875
-// level  8 is okay
-// level  9 doesn't exist
-// level 10 is okay
-// level 11 ->  9 / 69815
-// level 12 -> 24 / 34660
-// level 13 is okay
-// level 14 -> 10 / 39387
-// level 15 ->  2 / 44616
-// level 16 ->  1 / 53367
-// level 17 is okay
-// level 18 ->  2 / 39098
-// level 19 is okay
-// level 20 is okay
-// level 21 -> 43 / 30594
-// level 22 -> 15 / 61953
-// level 23 ->  5 / 24519
-//
-// Some things that I tried, but didn't work:
-// - no, the error is much larger, than Number.EPSILON, or Number.EPSILON * 10**5.
-// - no, rounding the individual coordinates to 3 or more decimals doesn't solve the issue.
-//
-// Looking at just the averages are not enough:
-//
-// We get the following fractions by calculating (average / 100) % 1
-// always need to be rounded up, no matter what coords make up the average:
-// 0.9999983723958294,
-// 0.9999983723958366,
-// 0.9999991861979147,
-// 0.9999991861979183
-//
-// But the following 3 fractions sometimes need to be rounded up and at other times rounded down.
-// 0.9999934895833462,
-// 0.9999967447916589,
-// 0.9999967447916731
-//
-// level 22 is the best example as it has both cases where the same fraction needs to be rounded
-// in both ways within the same level (produced by different coordinates of course).
-
+/**
+ * The polygons of Arx are sorted into cells, a 160x160 2D grid on the X and Z axis.
+ * Arx ignores the 4th vertex of a quad, it always calculates cell coordinates using the first 3 vertices.
+ * cellX is calculated by averaging the x coordinates of the vertices, dividing that by 100 and rounding it down.
+ * cellY is calculated the same way as cellX, but using the z coordinates.
+ *
+ * see `helpers.ts` > `getCellCoords()`
+ *
+ * Calculating the cell coordinates for polygons incorrectly will cause different issues depending on the size
+ * of the error. Having the coordinates off by 1 will cause collision issues, the player will partially be able
+ * to walk into the wall that is placed into the incorrect cell, while having a larger coordinate difference
+ * will cause the game's rendering to turn off periodically as the player walks or looks around as it goes in
+ * and out of bounds.
+ *
+ * For whatever reason the coords in the table below create polygons, which ends up in an incorrect cell
+ * according to the cell data in the original level files.
+ * Probably some precision got lost when Theo Game Maker exported the FTS data.
+ *
+ * I've already spent numerous days trying to figure out where the error is originating from,
+ * so I give up and just put the problematic coordinates into a table below.
+ *
+ * There are a very small number of coordinates (that are to be averaged either to produce cellX or cellY)
+ * which need to be rounded up instead of rounded down:
+ *
+ * - level  0 ->  9 / 45418 polygons have coords that need to be rounded up
+ * - level  1 ->  8 / 58963
+ * - level  2 ->  2 / 73791
+ * - level  3 ->  1 / 59442
+ * - level  4 is okay
+ * - level  5 -> 16 / 68710
+ * - level  6 ->  6 / 42111
+ * - level  7 ->  4 / 76875
+ * - level  8 is okay
+ * - level  9 doesn't exist
+ * - level 10 is okay
+ * - level 11 ->  9 / 69815
+ * - level 12 -> 24 / 34660
+ * - level 13 is okay
+ * - level 14 -> 10 / 39387
+ * - level 15 ->  2 / 44616
+ * - level 16 ->  1 / 53367
+ * - level 17 is okay
+ * - level 18 ->  2 / 39098
+ * - level 19 is okay
+ * - level 20 is okay
+ * - level 21 -> 43 / 30594
+ * - level 22 -> 15 / 61953
+ * - level 23 ->  5 / 24519
+ *
+ * Some things that I tried, but didn't work:
+ * - no, the error is much larger, than Number.EPSILON, or Number.EPSILON * 10**5.
+ * - no, rounding the individual coordinates to 3 or more decimals doesn't solve the issue.
+ *
+ * Looking at just the averages are not enough:
+ *
+ * We get the following fractions by calculating (average / 100) % 1
+ * always need to be rounded up, no matter what coords make up the average:
+ * - 0.9999983723958294
+ * - 0.9999983723958366
+ * - 0.9999991861979147
+ * - 0.9999991861979183
+ *
+ * But the following 3 fractions sometimes need to be rounded up and at other times rounded down.
+ * - 0.9999934895833462
+ * - 0.9999967447916589
+ * - 0.9999967447916731
+ *
+ * level 22 is the best example as it has both cases where the same fraction needs to be rounded
+ * in both ways within the same level (produced by different coordinates of course).
+ */
 // prettier-ignore
 export const COORDS_THAT_ROUND_UP: TripleOf<number>[] = [
   [  2550,                   2600,                   2649.999_755_859_375],

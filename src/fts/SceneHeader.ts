@@ -3,7 +3,7 @@ import { MAP_DEPTH_IN_CELLS, MAP_WIDTH_IN_CELLS } from '@common/constants.js'
 import { maxAll, uniq } from '@common/helpers.js'
 import type { ArxVector3 } from '@common/types.js'
 import type { ArxFTS } from '@fts/FTS.js'
-import { VERSION } from '@fts/constants.js'
+import { FTS_VERSION } from '@fts/constants.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L94
@@ -18,9 +18,9 @@ export type ArxSceneHeader = {
 
 export class SceneHeader {
   static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxSceneHeader {
-    binary.readFloat32() // version - always 0.14100000262260437
-    binary.readInt32() // sizeX - always 160
-    binary.readInt32() // sizeZ - always 160
+    binary.readFloat32() // version - always FTS_VERSION
+    binary.readInt32() // sizeX - always MAP_WIDTH_IN_CELLS
+    binary.readInt32() // sizeZ - always MAP_DEPTH_IN_CELLS
 
     const numberOfTextures = binary.readInt32()
 
@@ -49,7 +49,7 @@ export class SceneHeader {
     const buffer = new ArrayBuffer(SceneHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
-    binary.writeFloat32(VERSION)
+    binary.writeFloat32(FTS_VERSION)
     binary.writeInt32(MAP_WIDTH_IN_CELLS)
     binary.writeInt32(MAP_DEPTH_IN_CELLS)
     binary.writeInt32(json.textureContainers.length)

@@ -1,5 +1,5 @@
 import type { ArxAMB } from '@amb/AMB.js'
-import { VERSION_1003, VERSION_1002 } from '@amb/constants.js'
+import { AMB_VERSION_1003, AMB_VERSION_1002 } from '@amb/constants.js'
 import { BinaryIO } from '@common/BinaryIO.js'
 
 export type ArxAmbHeader = {
@@ -17,7 +17,7 @@ export class AmbHeader {
     const version = binary.readUint32()
 
     return {
-      isNewerVersion: version >= VERSION_1002,
+      isNewerVersion: version >= AMB_VERSION_1002,
       numberOfTracks: binary.readUint32(),
     }
   }
@@ -27,7 +27,7 @@ export class AmbHeader {
     const binary = new BinaryIO(buffer)
 
     binary.writeString('GAMB', 4)
-    binary.writeInt32(VERSION_1003)
+    binary.writeInt32(AMB_VERSION_1003)
     binary.writeInt32(json.tracks.length)
 
     return buffer
