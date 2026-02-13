@@ -3,6 +3,7 @@ import { type ArxColor, Color } from '@common/Color.js'
 import { repeat } from '@common/helpers.js'
 import type { ArxVector3 } from '@common/types.js'
 import type { ArxPath, ArxZone } from '@dlf/DLF.js'
+import { DEFAULT_DRAW_DISTANCE } from '@dlf/constants.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/ai/Paths.h#L65
@@ -92,58 +93,41 @@ export class ZoneAndPathHeader {
     const buffer = new ArrayBuffer(ZoneAndPathHeader.sizeOf())
     const binary = new BinaryIO(buffer)
 
-    const { pos } = zoneOrPath.points[0]
+    const isZone = ZoneAndPathHeader.isZone(zoneOrPath)
 
     binary.writeString(zoneOrPath.name, 64)
     binary.writeInt16(0) // idx
 
-    let flags: ArxZoneAndPathFlags = ArxZoneAndPathFlags.None
-    if ('backgroundColor' in zoneOrPath && zoneOrPath.backgroundColor !== undefined) {
-      flags = flags | ArxZoneAndPathFlags.SetBackgroundColor
-    }
+    binary.writeInt16(ZoneAndPathHeader.setFlags(zoneOrPath))
 
-    if ('drawDistance' in zoneOrPath && zoneOrPath.drawDistance !== undefined) {
-      flags = flags | ArxZoneAndPathFlags.SetDrawDistance
-    }
+    binary.writeVector3(zoneOrPath.points[0].pos) // initPos
+    binary.writeVector3(zoneOrPath.points[0].pos) // pos
 
-    if (
-      'ambience' in zoneOrPath &&
-      zoneOrPath.ambience !== undefined &&
-      'ambienceMaxVolume' in zoneOrPath &&
-      zoneOrPath.ambienceMaxVolume !== undefined
-    ) {
-      flags = flags | ArxZoneAndPathFlags.SetAmbience
-    }
-
-    binary.writeInt16(flags)
-    binary.writeVector3(pos) // initPos
-    binary.writeVector3(pos)
     binary.writeInt32(zoneOrPath.points.length)
 
-    if ('backgroundColor' in zoneOrPath) {
-      binary.writeBuffer(Color.accumulateFrom(zoneOrPath?.backgroundColor ?? Color.black, 'rgb'))
+    if (isZone && zoneOrPath.backgroundColor !== undefined) {
+      binary.writeBuffer(Color.accumulateFrom(zoneOrPath.backgroundColor, 'rgb'))
     } else {
       binary.writeBuffer(Color.accumulateFrom(Color.black, 'rgb'))
     }
 
-    // draw distance of paths in the original arx levels is 2800 in 80% of the time, otherwise 0
-    if ('drawDistance' in zoneOrPath) {
-      binary.writeFloat32(zoneOrPath?.drawDistance ?? 2800)
+    if (isZone && zoneOrPath.drawDistance !== undefined) {
+      binary.writeFloat32(zoneOrPath.drawDistance)
     } else {
-      binary.writeFloat32(2800)
+      binary.writeFloat32(DEFAULT_DRAW_DISTANCE)
     }
 
     binary.writeFloat32(0) // reverb
 
-    if ('ambienceMaxVolume' in zoneOrPath) {
-      binary.writeFloat32(zoneOrPath?.ambienceMaxVolume ?? 100)
+    if (isZone && zoneOrPath.ambienceMaxVolume !== undefined) {
+      binary.writeFloat32(zoneOrPath.ambienceMaxVolume)
     } else {
       binary.writeFloat32(100)
     }
 
     binary.writeFloat32Array(repeat(0, 26)) // fpad
 
-    if ('height' in zoneOrPath) {
+    if (isZone) {
       binary.writeInt32(zoneOrPath.height)
     } else {
       binary.writeInt32(0)
@@ -151,8 +135,8 @@ export class ZoneAndPathHeader {
 
     binary.writeInt32Array(repeat(0, 31)) // lpad
 
-    if ('ambience' in zoneOrPath) {
-      binary.writeString(zoneOrPath?.ambience ?? 'NONE', 128)
+    if (isZone && zoneOrPath.ambience !== undefined) {
+      binary.writeString(zoneOrPath.ambience, 128)
     } else {
       binary.writeString('NONE', 128)
     }
@@ -173,5 +157,31 @@ export class ZoneAndPathHeader {
       BinaryIO.sizeOfInt32Array(1 + 31) +
       BinaryIO.sizeOfString(256)
     )
+  }
+
+  static isZone(zoneOrPath: ArxZone | ArxPath): zoneOrPath is ArxZone {
+    return 'height' in zoneOrPath
+  }
+
+  static setFlags(zoneOrPath: ArxZone | ArxPath): ArxZoneAndPathFlags {
+    if (!ZoneAndPathHeader.isZone(zoneOrPath)) {
+      return ArxZoneAndPathFlags.None
+    }
+
+    let flags: ArxZoneAndPathFlags = ArxZoneAndPathFlags.None
+
+    if (zoneOrPath.backgroundColor !== undefined) {
+      flags = flags | ArxZoneAndPathFlags.SetBackgroundColor
+    }
+
+    if (zoneOrPath.drawDistance !== undefined) {
+      flags = flags | ArxZoneAndPathFlags.SetDrawDistance
+    }
+
+    if (zoneOrPath.ambience !== undefined && zoneOrPath.ambienceMaxVolume !== undefined) {
+      flags = flags | ArxZoneAndPathFlags.SetAmbience
+    }
+
+    return flags
   }
 }
