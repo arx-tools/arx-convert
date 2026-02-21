@@ -320,7 +320,7 @@ export class BinaryIO<
   writeString(str: string, length?: number): void {
     // if length is given we assume a fixed length string
     if (length === undefined) {
-      // otherwise its a 0 terminated c string
+      // otherwise it's a 0 terminated c string
       encodeText(str).forEach((charCode) => {
         this.writeUint8(charCode)
       })
