@@ -30,12 +30,12 @@ export type ArxFTS = {
  * Arx Libertatis feature: setting the uncompressed bytes' size in the header to 0 gets
  * interpreted as the file being uncompressed
  *
- * source of discussion: https://arx-libertatis.org/irclogs/2022/%23arx.2022-09-06.log
+ * Source of discussion: https://arx-libertatis.org/irclogs/2022/%23arx.2022-09-06.log
  * and https://arx-libertatis.org/irclogs/2022/%23arx.2022-09-07.log
  *
- * implemented in: https://github.com/arx/ArxLibertatis/commit/2d2226929780b6202f54982bacc79ddf75dbec53
+ * Implemented in: https://github.com/arx/ArxLibertatis/commit/2d2226929780b6202f54982bacc79ddf75dbec53
  *
- * available in Arx Libertatis 1.3 snapshots that came after `2022-09-17` in https://arx-libertatis.org/files/snapshots/
+ * Available in Arx Libertatis 1.3 snapshots that came after `2022-09-17` in https://arx-libertatis.org/files/snapshots/
  */
 const IS_AN_UNCOMPRESSED_FTS = 0
 
@@ -91,6 +91,12 @@ export class FTS {
     }
   }
 
+  /**
+   * @param {boolean} isCompressed when set to `true` (which is the default value) then the FTS will
+   * need to get partially compressed with {@link https://github.com/arx-tools/node-pkware | node-pkware}.
+   * `arx-libertatis-1.3-dev-2022-12-31` and later {@link https://arx-libertatis.org/files/snapshots/ | Arx Libertatis 1.3 snapshots }
+   * all support uncompressed FTS files, when targeting those versions isCompressed can be set to `false`.
+   */
   static save(json: ArxFTS, isCompressed = true): ArrayBuffer {
     const { levelIdx } = json.header
 
