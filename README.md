@@ -6,11 +6,30 @@ Converts various Arx Fatalis formats (DLF, FTS, LLF, AMB and FTL) to JSON/YAML a
 
 ## Installation
 
-`npm i arx-convert -g`
+### node.js
 
-This will give you access to the following commands, both do the same:
+`npm i -g arx-convert`
 
-- `arx-convert`
+### browser
+
+```html
+<script type="importmap">
+  {
+    "imports": {
+      "arx-convert": "https://esm.sh/arx-convert",
+      "arx-convert/types": "https://esm.sh/arx-convert/types",
+      "arx-convert/utils": "https://esm.sh/arx-convert/utils"
+    }
+  }
+</script>
+<script type="module">
+  import { DLF, FTS, LLF } from 'arx-convert'
+  import { type ArxPolygon, ArxPolygonFlags, type ArxFTS, type ArxLLF, type ArxDLF } from 'arx-convert/types'
+  import { isQuad } from 'arx-convert/utils'
+
+  // ...
+</script>
+```
 
 ### Recommended requirements
 
