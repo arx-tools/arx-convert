@@ -1,12 +1,10 @@
 import { BinaryIO } from '@common/BinaryIO.js'
-import { KEEP_ZERO_BYTES } from '@common/constants.js'
 import type { ArxTEA } from '@tea/TEA.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/animation/AnimationFormat.h#L82
  */
 export type ArxTeaHeader = {
-  ident: string
   version: number
   name: string
   numberOfFrames: number
@@ -16,10 +14,11 @@ export type ArxTeaHeader = {
 
 export class TeaHeader {
   static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxTeaHeader {
+    binary.readString(20) // identifier - always "Theo Animation File"
+
     return {
-      ident: binary.readString(20),
       version: binary.readUint32(),
-      name: binary.readString(256, KEEP_ZERO_BYTES),
+      name: binary.readString(256),
       numberOfFrames: binary.readInt32(),
       numberOfGroups: binary.readInt32(),
       numberOfKeyFrames: binary.readInt32(),
@@ -29,6 +28,8 @@ export class TeaHeader {
   static accumulateFrom(json: ArxTEA, uncompressedSize: number): ArrayBuffer {
     const buffer = new ArrayBuffer(TeaHeader.sizeOf())
     const binary = new BinaryIO(buffer)
+
+    binary.writeString('Theo Animation File', 20)
 
     // TODO
 
