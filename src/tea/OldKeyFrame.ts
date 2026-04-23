@@ -1,22 +1,9 @@
 import { BinaryIO } from '@common/BinaryIO.js'
 import type { ArxTEA } from '@tea/TEA.js'
-
-/**
- * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/animation/AnimationFormat.h#L91
- */
-export type ArxOldKeyFrame = {
-  num_frame: number
-  flag_frame: number
-  master_key_frame: boolean
-  key_frame: boolean
-  key_move: boolean
-  key_orient: boolean
-  key_morph: boolean
-  time_frame: number
-}
+import type { ArxKeyFrame } from '@tea/types.js'
 
 export class OldKeyFrame {
-  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxOldKeyFrame {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxKeyFrame {
     return {
       num_frame: binary.readInt32(),
       flag_frame: binary.readInt32(),

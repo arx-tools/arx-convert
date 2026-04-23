@@ -1,21 +1,19 @@
 import { BinaryIO } from '@common/BinaryIO.js'
-import { KEEP_ZERO_BYTES } from '@common/constants.js'
-import { type ArxOldKeyFrame, OldKeyFrame } from '@tea/OldKeyFrame.js'
+import { OldKeyFrame } from '@tea/OldKeyFrame.js'
 import type { ArxTEA } from '@tea/TEA.js'
-
-/**
- * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/animation/AnimationFormat.h#L102
- */
-export type ArxNewKeyFrame = ArxOldKeyFrame & {
-  info_frame: string
-}
+import type { ArxKeyFrame } from '@tea/types.js'
 
 export class NewKeyFrame {
-  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxNewKeyFrame {
-    return {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxKeyFrame {
+    const dataBlock = {
       num_frame: binary.readInt32(),
       flag_frame: binary.readInt32(),
-      info_frame: binary.readString(256, KEEP_ZERO_BYTES),
+    }
+
+    binary.readString(256) // info_frame - contains empty string or garbage data, like "ÿÿÿÿÿÿÿÿx10" or "¸}?kÞÖ½"
+
+    return {
+      ...dataBlock,
       master_key_frame: binary.readInt32() !== 0,
       key_frame: binary.readInt32() !== 0,
       key_move: binary.readInt32() !== 0, // is there a global translation?
@@ -28,6 +26,8 @@ export class NewKeyFrame {
   static accumulateFrom(json: ArxTEA): ArrayBuffer {
     const buffer = new ArrayBuffer(NewKeyFrame.sizeOf())
     const binary = new BinaryIO(buffer)
+
+    // TODO: write info_frame as an empty string
 
     // TODO
 

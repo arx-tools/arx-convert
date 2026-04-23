@@ -1,24 +1,9 @@
 import { BinaryIO } from '@common/BinaryIO.js'
-import { KEEP_ZERO_BYTES } from '@common/constants.js'
 import { concatArrayBuffers } from '@common/helpers.js'
-import type { ArxQuaternion, ArxVector3 } from '@common/types.js'
-import { type ArxNewKeyFrame, NewKeyFrame } from '@tea/NewKeyFrame.js'
-import { type ArxOldKeyFrame, OldKeyFrame } from '@tea/OldKeyFrame.js'
+import { NewKeyFrame } from '@tea/NewKeyFrame.js'
+import { OldKeyFrame } from '@tea/OldKeyFrame.js'
 import { type ArxTeaHeader, TeaHeader } from '@tea/TeaHeader.js'
-
-/**
- * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/animation/AnimationFormat.h#L124
- */
-export type ArxTheaSample = {
-  name: string
-  size: number
-}
-
-export type ArxKeyFrame = (ArxNewKeyFrame | ArxOldKeyFrame) & {
-  translate?: ArxVector3
-  quat?: ArxQuaternion
-  sample?: ArxTheaSample
-}
+import type { ArxKeyFrame } from '@tea/types.js'
 
 export type ArxTEA = {
   header: Omit<ArxTeaHeader, 'numberOfKeyFrames' | 'numberOfGroups'>
@@ -41,7 +26,8 @@ export class TEA {
     }
 
     for (let i = 0; i < numberOfKeyFrames; i++) {
-      console.log(i, file.position)
+      // console.log(i, file.position)
+
       let keyframe: ArxKeyFrame
       if (header.version >= 2015) {
         keyframe = NewKeyFrame.readFrom(file)
@@ -49,6 +35,7 @@ export class TEA {
         keyframe = OldKeyFrame.readFrom(file)
       }
 
+      /*
       data.keyframes.push(keyframe)
 
       if (keyframe.key_move) {
@@ -88,9 +75,10 @@ export class TEA {
       }
 
       console.log(keyframe)
+      */
     }
 
-    file.position = file.position + 4 // num_sfx?
+    // file.position = file.position + 4 // num_sfx?
 
     return data
   }
