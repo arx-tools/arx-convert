@@ -3,7 +3,7 @@ import { concatArrayBuffers } from '@common/helpers.js'
 import { NewKeyFrame } from '@tea/NewKeyFrame.js'
 import { OldKeyFrame } from '@tea/OldKeyFrame.js'
 import { type ArxTeaHeader, TeaHeader } from '@tea/TeaHeader.js'
-import type { ArxKeyFrame } from '@tea/types.js'
+import type { ArxKeyFrame, ArxTheaSample } from '@tea/types.js'
 
 export type ArxTEA = {
   header: Omit<ArxTeaHeader, 'numberOfKeyFrames' | 'numberOfGroups'>
@@ -35,7 +35,6 @@ export class TEA {
         keyframe = OldKeyFrame.readFrom(file)
       }
 
-      /*
       data.keyframes.push(keyframe)
 
       if (keyframe.key_move) {
@@ -54,8 +53,8 @@ export class TEA {
       for (let j = 0; j < numberOfGroups; j++) {
         // theo groupanim
         const group = {
-          key: file.readInt32() !== 0,
-          angle: file.readString(8, KEEP_ZERO_BYTES), // ignored
+          isKey: file.readInt32() !== 0,
+          angle: file.readString(8), // ignored
           quat: file.readQuat(),
           translate: file.readVector3(),
           zoom: file.readVector3(),
@@ -67,18 +66,16 @@ export class TEA {
 
       if (numberOfSamples !== -1) {
         const sample: ArxTheaSample = {
-          name: file.readString(256, KEEP_ZERO_BYTES),
+          name: file.readString(256),
           size: file.readInt32(),
         }
         keyframe.sample = sample
+
         file.position = file.position + sample.size
       }
 
-      console.log(keyframe)
-      */
+      file.position = file.position + 4 // num_sfx?
     }
-
-    // file.position = file.position + 4 // num_sfx?
 
     return data
   }

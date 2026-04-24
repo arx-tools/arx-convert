@@ -10,7 +10,7 @@ export class NewKeyFrame {
       flag_frame: binary.readInt32(),
     }
 
-    binary.readString(256) // info_frame - contains empty string or garbage data, like "ÿÿÿÿÿÿÿÿx10" or "¸}?kÞÖ½"
+    binary.readString(256) // info_frame - always empty string
 
     return {
       ...dataBlock,
