@@ -7,6 +7,9 @@ import type { ArxTEA } from '@tea/TEA.js'
 export type ArxTeaHeader = {
   version: number
   name: string
+  /**
+   * Total number of frames that make up the whole animation
+   */
   numberOfFrames: number
   numberOfGroups: number
   numberOfKeyFrames: number

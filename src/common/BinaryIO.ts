@@ -85,7 +85,7 @@ export class BinaryIO<
     return BinaryIO.sizeOfFloat32Array(4)
   }
 
-  public position: number // TODO: make this private - this needs to be public because of TEA
+  private position: number
 
   constructor(buffer: TArrayBuffer, byteOffset?: number, byteLength?: number) {
     super(buffer, byteOffset, byteLength)
@@ -383,5 +383,9 @@ export class BinaryIO<
 
   writeBuffer(buffer: ArrayBufferLike): void {
     this.writeUint8Array(buffer)
+  }
+
+  skipBytes(numberOfBytes: number): void {
+    this.position = this.position + numberOfBytes
   }
 }

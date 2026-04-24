@@ -5,20 +5,20 @@ import type { ArxKeyFrame } from '@tea/types.js'
 
 export class NewKeyFrame {
   static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxKeyFrame {
-    const dataBlock = {
-      num_frame: binary.readInt32(),
-      flag_frame: binary.readInt32(),
+    const dataBlock: Pick<ArxKeyFrame, 'frame' | 'flags'> = {
+      frame: binary.readInt32(),
+      flags: binary.readInt32(),
     }
 
-    binary.readString(256) // info_frame - always empty string
+    binary.readString(256) // info_frame - always an empty string
 
     return {
       ...dataBlock,
-      master_key_frame: binary.readInt32() !== 0,
-      key_frame: binary.readInt32() !== 0,
-      key_move: binary.readInt32() !== 0, // is there a global translation?
-      key_orient: binary.readInt32() !== 0, // is there a global rotation?
-      key_morph: binary.readInt32() !== 0, // is there a global morph? (ignored)
+      isMasterKeyFrame: binary.readInt32() !== 0,
+      isKeyFrame: binary.readInt32() !== 0,
+      hasTranslate: binary.readInt32() !== 0,
+      hasQuaternion: binary.readInt32() !== 0,
+      hasMorphData: binary.readInt32() !== 0,
       time_frame: binary.readInt32(),
     }
   }

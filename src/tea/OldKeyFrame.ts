@@ -5,13 +5,13 @@ import type { ArxKeyFrame } from '@tea/types.js'
 export class OldKeyFrame {
   static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxKeyFrame {
     return {
-      num_frame: binary.readInt32(),
-      flag_frame: binary.readInt32(),
-      master_key_frame: binary.readInt32() !== 0,
-      key_frame: binary.readInt32() !== 0,
-      key_move: binary.readInt32() !== 0,
-      key_orient: binary.readInt32() !== 0,
-      key_morph: binary.readInt32() !== 0,
+      frame: binary.readInt32(),
+      flags: binary.readInt32(),
+      isMasterKeyFrame: binary.readInt32() !== 0,
+      isKeyFrame: binary.readInt32() !== 0,
+      hasTranslate: binary.readInt32() !== 0,
+      hasQuaternion: binary.readInt32() !== 0,
+      hasMorphData: binary.readInt32() !== 0,
       time_frame: binary.readInt32(),
     }
   }
