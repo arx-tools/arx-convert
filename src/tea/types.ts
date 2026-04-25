@@ -34,14 +34,13 @@ export type ArxKeyFrame = {
    * not used by Arx
    */
   isKeyFrame: boolean
-  // TODO: remove this as it's the same as ArxKeyFrame.translate !== undefined
-  hasTranslate: boolean
-  // TODO: remove this as it's the same as ArxKeyFrame.quaternion !== undefined
-  hasQuaternion: boolean
+  hasTranslateData: boolean
+  hasQuaternionData: boolean
   /**
-   * 16 byte data of unknown type and ignored by Arx
+   * 16 bytes of unknown data type and ignored by Arx
    */
   hasMorphData: boolean
+  // TODO: what is this field for?
   time_frame: number
 
   translate?: ArxVector3
@@ -97,4 +96,9 @@ export enum ArxAnimationPlayingFlags {
    * ctime externally set, no update
    */
   ExControl = 1 << 7,
+}
+
+export const enum ArxAnimationVersions {
+  Old = 2014,
+  New = 2015,
 }

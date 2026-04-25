@@ -1,23 +1,22 @@
 import { BinaryIO } from '@common/BinaryIO.js'
 import { concatArrayBuffers } from '@common/helpers.js'
-import { NewKeyFrame } from '@tea/NewKeyFrame.js'
-import { OldKeyFrame } from '@tea/OldKeyFrame.js'
+import { KeyFrame } from '@tea/KeyFrame.js'
 import { type ArxTeaHeader, TeaHeader } from '@tea/TeaHeader.js'
 import type { ArxKeyFrame, TheoGroupAnim } from '@tea/types.js'
 
 export type ArxTEA = {
-  header: Omit<ArxTeaHeader, 'numberOfKeyFrames' | 'numberOfGroups'>
-  keyframes: ArxKeyFrame[]
+  header: Omit<ArxTeaHeader, 'numberOfKeyFrames' | 'numberOfGroups' | 'version'>
+  keyframes: Array<Omit<ArxKeyFrame, 'hasTranslateData' | 'hasQuaternionData' | 'hasMorphData'>>
 }
 
 export class TEA {
   static load(decompressedFile: ArrayBufferLike): ArxTEA {
     const file = new BinaryIO(decompressedFile)
 
-    const { numberOfKeyFrames, numberOfGroups, ...header } = TeaHeader.readFrom(file)
+    const { numberOfKeyFrames, numberOfGroups, version, ...header } = TeaHeader.readFrom(file)
 
-    if (header.version < 2014) {
-      throw new Error(`Invalid TEA version ${header.version}`)
+    if (version < 2014) {
+      throw new Error(`Invalid TEA version ${version}`)
     }
 
     const data: ArxTEA = {
@@ -26,25 +25,20 @@ export class TEA {
     }
 
     for (let i = 0; i < numberOfKeyFrames; i++) {
-      let keyframe: ArxKeyFrame
-      if (header.version >= 2015) {
-        keyframe = NewKeyFrame.readFrom(file)
-      } else {
-        keyframe = OldKeyFrame.readFrom(file)
-      }
+      const keyframe = KeyFrame.readFrom(file, version)
 
-      if (keyframe.hasTranslate) {
+      if (keyframe.hasTranslateData) {
         keyframe.translate = file.readVector3()
       }
 
-      if (keyframe.hasQuaternion) {
-        file.skipBytes(8) // theo angle - not used by Arx
+      if (keyframe.hasQuaternionData) {
+        file.skipBytes(8) // theo angle - no info on the structure - not used by Arx
 
         keyframe.quaternion = file.readQuat()
       }
 
       if (keyframe.hasMorphData) {
-        file.skipBytes(16) // thea morph - not used by Arx
+        file.skipBytes(16) // thea morph - no info on the structure - not used by Arx
       }
 
       for (let j = 0; j < numberOfGroups; j++) {
@@ -69,8 +63,9 @@ export class TEA {
           size: file.readInt32(),
         }
 
-        file.skipBytes(keyframe.sample.size) // contains audio data if not empty, which is already present in SFX folder of the game  - not used by Arx
-        // only 4 audios are not present in the SFX folder of the released game:
+        file.skipBytes(keyframe.sample.size) // contains audio data if not empty, which is already present in SFX folder of the game * - not used by Arx
+
+        // * Only 4 audios are not present in the SFX folder of the released game:
         // - Bell.wav
         // - porticulis_close.wav
         // - porticulis_open.wav
