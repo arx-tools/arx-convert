@@ -76,7 +76,7 @@ export const FTS_VERSION = 0.141_000_002_622_604_37
  * in both ways within the same level (produced by different coordinates of course).
  */
 // prettier-ignore
-export const COORDS_THAT_ROUND_UP: TripleOf<number>[] = [
+export const COORDS_THAT_ROUND_UP: Array<TripleOf<number>> = [
   [  2550,                   2600,                   2649.999_755_859_375],
   [  2649.999_755_859_375,   2700,                   2749.999_755_859_375],
   [  3949.999_755_859_375,   4000,                   4050],

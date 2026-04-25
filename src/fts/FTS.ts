@@ -18,7 +18,7 @@ export type ArxFTS = {
   uniqueHeaders: ArxUniqueHeader[]
   sceneHeader: Omit<ArxSceneHeader, 'numberOfTextures' | 'numberOfAnchors' | 'numberOfPortals' | 'numberOfRooms'>
   textureContainers: ArxTextureContainer[]
-  cells: Omit<ArxCell, 'polygons'>[]
+  cells: Array<Omit<ArxCell, 'polygons'>>
   polygons: ArxPolygon[]
   anchors: ArxAnchor[]
   portals: ArxPortal[]
