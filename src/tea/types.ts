@@ -18,7 +18,7 @@ export type TheaSample = {
  */
 export type ArxKeyFrame = {
   /**
-   * Position of this frame on the timeline set between `0` and `ArxTeaHeader.numberOfFrames`
+   * Position of this keyframe on the timeline set between `0` (inclusive) and `ArxTeaHeader.numberOfFrames` (exclusive)
    */
   frame: number
   /**
