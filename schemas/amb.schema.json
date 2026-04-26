@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://arx-tools.github.io/schemas/amb.schema.json",
+  "title": "AMB",
+  "description": "AMB (Ambience) format of Arx Fatalis interpreted as JSON by arx-convert",
+  "$defs": {
+    "uint32": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
+    },
+    "float32": {
+      "type": "number"
+    },
+    "settings": {
+      "type": "object",
+      "properties": {
+        "min": {
+          "$ref": "#/$defs/float32"
+        },
+        "max": {
+          "$ref": "#/$defs/float32"
+        },
+        "interval": {
+          "description": "defined in milliseconds",
+          "$ref": "#/$defs/uint32"
+        },
+        "flags": {
+          "description": "see ArxSettingFlag for values",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        }
+      },
+      "required": [
+        "min",
+        "max",
+        "interval",
+        "flags"
+      ]
+    }
+  },
+  "type": "object",
+  "properties": {
+    "tracks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "filename": {
+            "type": "string"
+          },
+          "flags": {
+            "description": "see ArxTrackFlags for values",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 63
+          },
+          "keys": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "$ref": "#/$defs/uint32"
+                },
+                "loop": {
+                  "description": "uint32 + 1",
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 4294967296
+                },
+                "delayMin": {
+                  "description": "defined in milliseconds",
+                  "$ref": "#/$defs/uint32"
+                },
+                "delayMax": {
+                  "description": "defined in milliseconds",
+                  "$ref": "#/$defs/uint32"
+                },
+                "volume": {
+                  "$ref": "#/$defs/settings"
+                },
+                "pitch": {
+                  "$ref": "#/$defs/settings"
+                },
+                "pan": {
+                  "$ref": "#/$defs/settings"
+                },
+                "x": {
+                  "$ref": "#/$defs/settings"
+                },
+                "y": {
+                  "$ref": "#/$defs/settings"
+                },
+                "z": {
+                  "$ref": "#/$defs/settings"
+                }
+              },
+              "required": [
+                "start",
+                "loop",
+                "delayMin",
+                "delayMax",
+                "volume",
+                "pitch",
+                "pan",
+                "x",
+                "y",
+                "z"
+              ]
+            }
+          }
+        },
+        "required": [
+          "filename",
+          "flags",
+          "keys"
+        ]
+      }
+    }
+  },
+  "required": [
+    "tracks"
+  ]
+}

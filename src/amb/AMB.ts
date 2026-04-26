@@ -4,6 +4,7 @@ import { BinaryIO } from '@common/BinaryIO.js'
 import { concatArrayBuffers, times } from '@common/helpers.js'
 
 export type ArxAMB = {
+  $schema?: string
   tracks: ArxTrack[]
 }
 
@@ -14,6 +15,7 @@ export class AMB {
     const { numberOfTracks, isNewerVersion } = AmbHeader.readFrom(file)
 
     return {
+      $schema: 'https://arx-tools.github.io/schemas/amb.schema.json',
       tracks: times(() => {
         return Track.readFrom(file, isNewerVersion)
       }, numberOfTracks),

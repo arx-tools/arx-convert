@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://arx-tools.github.io/schemas/tea.schema.json",
   "title": "TEA",
-  "description": "Theo animation format of Arx Fatalis interpreted as JSON by arx-convert",
+  "description": "TEA (ThEo Animation) format of Arx Fatalis interpreted as JSON by arx-convert",
   "$defs": {
     "vector3": {
       "type": "object",
@@ -46,7 +46,7 @@
         "w"
       ]
     },
-    "32bitPositiveInteger": {
+    "positiveInt32": {
       "type": "integer",
       "minimum": 0,
       "maximum": 2147483647
@@ -62,7 +62,7 @@
           "type": "string"
         },
         "totalNumberOfFrames": {
-          "$ref": "#/$defs/32bitPositiveInteger"
+          "$ref": "#/$defs/positiveInt32"
         }
       },
       "required": [
@@ -78,7 +78,7 @@
         "properties": {
           "frame": {
             "description": "Should be between 0 (inclusive) and header.totalNumberOfFrames (exclusive)",
-            "$ref": "#/$defs/32bitPositiveInteger"
+            "$ref": "#/$defs/positiveInt32"
           },
           "flags": {
             "anyOf": [
@@ -97,7 +97,7 @@
             "type": "boolean"
           },
           "time_frame": {
-            "$ref": "#/$defs/32bitPositiveInteger"
+            "$ref": "#/$defs/positiveInt32"
           },
           "groups": {
             "type": "array",
