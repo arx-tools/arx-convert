@@ -79,8 +79,10 @@ export type ArxKeyFrame = {
   /**
    * always set to -1 or 9 in tea files, so Arx Libertatis in debug mode expects only those 2 values
    * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/animation/Animation.cpp#L304
+   *
+   * if ommitted the default value is -1
    */
-  flags: ArxAnimationPlayingFlags
+  flags?: ArxAnimationPlayingFlags
   /**
    * not used by Arx
    */
@@ -92,7 +94,13 @@ export type ArxKeyFrame = {
   // TODO: what is this field for?
   time_frame: number
   groups: ArxTheoAnimationGroup[]
+  /**
+   * if value is missing than it means it's a vector with 0/0/0 values
+   */
   translate?: ArxVector3
+  /**
+   * if value is missing than it means it's a quaternion with 0/0/0/1 values
+   */
   quaternion?: ArxQuaternion
   sample?: ArxTheaSample
 }
@@ -123,12 +131,20 @@ export class KeyFrame {
     }
 
     if (hasTranslateData) {
-      keyframe.translate = binary.readVector3()
+      const translate = binary.readVector3()
+
+      if (translate.x !== 0 || translate.y !== 0 || translate.z !== 0) {
+        keyframe.translate = translate
+      }
     }
 
     if (hasQuaternionData) {
       binary.skipBytes(8) // theo angle - no info on the structure - not used by Arx
-      keyframe.quaternion = binary.readQuat()
+
+      const quaternion = binary.readQuat()
+      if (quaternion.x !== 0 || quaternion.y !== 0 || quaternion.z !== 0 || quaternion.w !== 1) {
+        keyframe.quaternion = quaternion
+      }
     }
 
     if (hasMorphData) {
@@ -206,7 +222,7 @@ export class KeyFrame {
     const binary = new BinaryIO(buffer)
 
     binary.writeInt32(keyframe.frame)
-    binary.writeInt32(keyframe.flags)
+    binary.writeInt32(keyframe.flags ?? -1)
 
     if (keyframe.isMasterKeyFrame) {
       binary.writeInt32(1)
