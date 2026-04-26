@@ -1,5 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://arx-tools.github.io/schemas/tea.schema.json",
   "title": "TEA",
   "description": "Theo animation format of Arx Fatalis interpreted as JSON by arx-convert",
   "$defs": {

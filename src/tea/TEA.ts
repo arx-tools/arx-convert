@@ -5,6 +5,7 @@ import { type ArxTeaHeader, TeaHeader } from '@tea/TeaHeader.js'
 import { TEA_VERSION_OLD } from './constants.js'
 
 export type ArxTEA = {
+  $schema?: string
   header: Omit<ArxTeaHeader, 'numberOfKeyFrames' | 'numberOfGroups' | 'version'>
   keyframes: ArxKeyFrame[]
 }
@@ -20,6 +21,7 @@ export class TEA {
     }
 
     const data: ArxTEA = {
+      $schema: 'https://arx-tools.github.io/schemas/tea.schema.json',
       header,
       keyframes: times(() => {
         return KeyFrame.readFrom(file, version, numberOfGroups)
