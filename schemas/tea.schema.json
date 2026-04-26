@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TEA",
+  "description": "Theo animation format of Arx Fatalis interpreted as JSON by arx-convert",
+  "$defs": {
+    "vector3": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "z"
+      ]
+    },
+    "quaternion": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        },
+        "w": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "z",
+        "w"
+      ]
+    },
+    "32bitPositiveInteger": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647
+    }
+  },
+  "type": "object",
+  "properties": {
+    "header": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Name of the animation. It's good idea to make this the same as the filename (without the extension).",
+          "type": "string"
+        },
+        "totalNumberOfFrames": {
+          "$ref": "#/$defs/32bitPositiveInteger"
+        }
+      },
+      "required": [
+        "name",
+        "totalNumberOfFrames"
+      ]
+    },
+    "keyframes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "A single keyframe",
+        "properties": {
+          "frame": {
+            "description": "Should be between 0 (inclusive) and header.totalNumberOfFrames (exclusive)",
+            "$ref": "#/$defs/32bitPositiveInteger"
+          },
+          "flags": {
+            "anyOf": [
+              {
+                "const": -1
+              },
+              {
+                "const": 9
+              }
+            ]
+          },
+          "isMasterKeyFrame": {
+            "type": "boolean"
+          },
+          "isKeyFrame": {
+            "type": "boolean"
+          },
+          "time_frame": {
+            "$ref": "#/$defs/32bitPositiveInteger"
+          },
+          "groups": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "isKey": {
+                  "type": "boolean"
+                },
+                "translate": {
+                  "description": "Optional field, ommitting this field is the same as setting 0/0/0",
+                  "$ref": "#/$defs/vector3"
+                },
+                "quaternion": {
+                  "description": "Optional field, ommitting this field is the same as setting 0/0/0/1",
+                  "$ref": "#/$defs/quaternion"
+                },
+                "zoom": {
+                  "description": "Optional field, ommitting this field is the same as setting 0/0/0",
+                  "$ref": "#/$defs/vector3"
+                }
+              },
+              "required": [
+                "isKey"
+              ]
+            }
+          },
+          "translate": {
+            "description": "Optional field, ommitting this field is the same as setting 0/0/0",
+            "$ref": "#/$defs/vector3"
+          },
+          "quaternion": {
+            "description": "Optional field, ommitting this field is the same as setting 0/0/0/1",
+            "$ref": "#/$defs/quaternion"
+          }
+        },
+        "required": [
+          "frame",
+          "isMasterKeyFrame",
+          "isKeyFrame",
+          "time_frame",
+          "groups"
+        ]
+      }
+    }
+  },
+  "required": [
+    "header",
+    "keyframes"
+  ]
+}
