@@ -122,10 +122,6 @@ export class KeyFrame {
       groups: [],
     }
 
-    if (keyframe.time_frame !== 0) {
-      console.log(keyframe.time_frame)
-    }
-
     if (hasTranslateData) {
       keyframe.translate = binary.readVector3()
     }
