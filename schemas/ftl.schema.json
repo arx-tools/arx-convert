@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://arx-tools.github.io/schemas/ftl.schema.json",
+  "title": "FTL",
+  "description": "FTL format of Arx Fatalis interpreted as JSON by arx-convert",
+  "$defs": {},
+  "type": "object",
+  "properties": {
+    "header": {},
+    "vertices": {},
+    "faces": {},
+    "textureContainers": {},
+    "groups": {},
+    "actions": {},
+    "selections": {}
+  },
+  "required": [
+    "header",
+    "vertices",
+    "faces",
+    "textureContainers",
+    "groups",
+    "actions",
+    "selections"
+  ]
+}

@@ -6,8 +6,12 @@ import { LightingHeader } from '@llf/LightingHeader.js'
 import { type ArxLlfHeader, LlfHeader } from '@llf/LlfHeader.js'
 
 export type ArxLLF = {
+  $schema?: string
   header: Omit<ArxLlfHeader, 'numberOfLights'>
   lights: ArxLight[]
+  /**
+   * pre-computed vertex light colors for FTS.polygons
+   */
   colors: ArxColor[]
 }
 
@@ -26,6 +30,7 @@ export class LLF {
     }, numberOfColors)
 
     return {
+      $schema: 'https://arx-tools.github.io/schemas/llf.schema.json',
       header,
       lights,
       colors,

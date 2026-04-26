@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://arx-tools.github.io/schemas/fts.schema.json",
+  "title": "FTS",
+  "description": "FTS (FasT Scene) format of Arx Fatalis interpreted as JSON by arx-convert",
+  "$defs": {},
+  "type": "object",
+  "properties": {
+    "header": {},
+    "uniqueHeaders": {},
+    "sceneHeader": {},
+    "textureContainers": {},
+    "cells": {},
+    "polygons": {},
+    "anchors": {},
+    "portals": {},
+    "rooms": {},
+    "roomDistances": {}
+  },
+  "required": [
+    "header",
+    "uniqueHeaders",
+    "sceneHeader",
+    "textureContainers",
+    "cells",
+    "polygons",
+    "anchors",
+    "portals",
+    "rooms",
+    "roomDistances"
+  ]
+}

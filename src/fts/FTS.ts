@@ -14,6 +14,7 @@ import { type ArxUniqueHeader, UniqueHeader } from '@fts/UniqueHeader.js'
 import { addLightIndex, getCellCoords } from '@fts/helpers.js'
 
 export type ArxFTS = {
+  $schema?: string
   header: Omit<ArxFtsHeader, 'numberOfUniqueHeaders'>
   uniqueHeaders: ArxUniqueHeader[]
   sceneHeader: Omit<ArxSceneHeader, 'numberOfTextures' | 'numberOfAnchors' | 'numberOfPortals' | 'numberOfRooms'>
@@ -64,6 +65,7 @@ export class FTS {
     }
 
     return {
+      $schema: 'https://arx-tools.github.io/schemas/fts.schema.json',
       header,
       uniqueHeaders,
       sceneHeader,

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://arx-tools.github.io/schemas/dlf.schema.json",
+  "title": "DLF",
+  "description": "DLF (Danae Level File) format of Arx Fatalis interpreted as JSON by arx-convert",
+  "$defs": {},
+  "type": "object",
+  "properties": {
+    "header": {},
+    "scene": {},
+    "interactiveObjects": {},
+    "fogs": {},
+    "paths": {},
+    "zones": {}
+  },
+  "required": [
+    "header",
+    "scene",
+    "interactiveObjects",
+    "fogs",
+    "paths",
+    "zones"
+  ]
+}

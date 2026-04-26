@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://arx-tools.github.io/schemas/llf.schema.json",
+  "title": "LLF",
+  "description": "LLF (Level Lighting File) format of Arx Fatalis interpreted as JSON by arx-convert",
+  "$defs": {
+    "uint8": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 255
+    },
+    "positiveInt32": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647
+    },
+    "color": {
+      "type": "object",
+      "properties": {
+        "r": {
+          "$ref": "#/$defs/uint8"
+        },
+        "g": {
+          "$ref": "#/$defs/uint8"
+        },
+        "b": {
+          "$ref": "#/$defs/uint8"
+        },
+        "a": {
+          "description": "0.0 = fully transparent, 1.0 = fully opaque",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "required": [
+        "r",
+        "g",
+        "b",
+        "a"
+      ]
+    },
+    "vector3": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "z"
+      ]
+    }
+  },
+  "type": "object",
+  "properties": {
+    "header": {
+      "type": "object",
+      "properties": {
+        "lastUser": {
+          "type": "string",
+          "maxLength": 255
+        },
+        "time": {
+          "$ref": "#/$defs/positiveInt32"
+        },
+        "numberOfBackgroundPolygons": {
+          "$ref": "#/$defs/positiveInt32"
+        }
+      },
+      "required": [
+        "lastUser",
+        "time",
+        "numberOfBackgroundPolygons"
+      ]
+    },
+    "lights": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pos": {
+            "$ref": "#/$defs/vector3"
+          },
+          "color": {
+            "$ref": "#/$defs/color"
+          },
+          "fallStart": {
+            "description": "The radius of a sphere around `pos` in which the light is at full intensity.",
+            "$comment": "TODO: define this field"
+          },
+          "fallEnd": {
+            "description": "The radius of a sphere around `pos` where the light's intensity gradually fades to 0.",
+            "$comment": "TODO: define this field"
+          },
+          "intensity": {
+            "description": "How bright the light is.",
+            "$comment": "TODO: define this field"
+          },
+          "exFlicker": {
+            "description": "This color periodically overrides `color`. The frequency of the flicker cannot be changed. Subtractive color mixing is used, the color will get subtracted from `color` resulting in a negative color",
+            "$ref": "#/$defs/color"
+          },
+          "exRadius": {
+            "description": "Determines the spread of the smoke and fire particles: creates a circle around the center of the light with a radius of `exRadius`. When `ArxLightFlags.SpawnFire` is set, then it also sets the radius of the spheare around the light's center which harms the NPCs and the player with fire damage when getting in contact.",
+            "$comment": "TODO: define this field"
+          },
+          "exFrequency": {
+            "description": "How frequently should the light source spawn flame particles when `flags` has `ArxLightFlags.SpawnFire` set, or smoke particle when `ArxLightFlags.SpawnSmoke` is set. The range is between 0.0 and 1.0 where 0.0 completely stops fire from spawning.",
+            "$comment": "TODO: define this field"
+          },
+          "exSize": {
+            "description": "Size of the fire/smoke particles if `ArxLightFlags.SpawnFire` or `ArxLightFlags.SpawnSmoke` is set. The value is supposed to be set between 0.0 and 1.0, but it can go over 1.0 for extreme effect.",
+            "$comment": "TODO: define this field"
+          },
+          "exSpeed": {
+            "description": "How far the fire/smoke particles go during the time they are alive. A larger number will make the particles shoot up like a fountain, a smaller number will make all of them stay in one place. The value is supposed to be set between 0.0 and 1.0, but it can go over 1.0 for extreme effect.",
+            "$comment": "TODO: define this field"
+          },
+          "exFlareSize": {
+            "description": "The radius of the flare/halo when `ArxLightFlags.Flare` is set. The value of `exFlareSize` is ignored when `ArxLightFlags.FixFlareSize` is set. Danae only allows setting it to a maximum of 200, but there isn't any limitiations in the game.",
+            "$comment": "TODO: define this field"
+          },
+          "flags": {
+            "description": "See ArxLightFlags for values",
+            "$comment": "TODO: define this field"
+          }
+        },
+        "required": [
+          "pos",
+          "color",
+          "fallStart",
+          "fallEnd",
+          "intensity",
+          "exFlicker",
+          "exRadius",
+          "exFrequency",
+          "exSize",
+          "exSpeed",
+          "exFlareSize",
+          "flags"
+        ]
+      }
+    },
+    "colors": {
+      "description": "pre-computed vertex light colors for FTS.polygons",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/color"
+      }
+    }
+  },
+  "required": [
+    "header",
+    "lights",
+    "colors"
+  ]
+}

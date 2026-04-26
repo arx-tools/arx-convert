@@ -8,6 +8,7 @@ import type { ArxLLF } from '@llf/LLF.js'
  */
 export type ArxLlfHeader = {
   lastUser: string
+  // TODO: what is this field for? what values are valid?
   time: number
   numberOfLights: number
   numberOfBackgroundPolygons: number

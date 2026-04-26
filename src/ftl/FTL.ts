@@ -9,6 +9,7 @@ import { type ArxGroup, Group } from '@ftl/Group.js'
 import { type ArxSelection, Selection } from '@ftl/Selections.js'
 
 export type ArxFTL = {
+  $schema?: string
   header: Omit<
     ArxFtlHeader,
     | 'numberOfVertices'
@@ -41,6 +42,7 @@ export class FTL {
     } = FtlHeader.readFrom(file)
 
     return {
+      $schema: 'https://arx-tools.github.io/schemas/ftl.schema.json',
       header,
       vertices: times(() => {
         return FtlVertex.readFrom(file)

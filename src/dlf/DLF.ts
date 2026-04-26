@@ -20,6 +20,7 @@ export type ArxZone = Simplify<
 export type ArxPath = Pick<ArxZone, 'name' | 'points'>
 
 export type ArxDLF = {
+  $schema?: string
   header: Omit<ArxDlfHeader, 'numberOfInteractiveObjects' | 'numberOfFogs' | 'numberOfZonesAndPaths'>
   scene: ArxScene
   interactiveObjects: ArxInteractiveObject[]
@@ -35,6 +36,7 @@ export class DLF {
     const { numberOfInteractiveObjects, numberOfFogs, numberOfZonesAndPaths, ...header } = DlfHeader.readFrom(file)
 
     const data: ArxDLF = {
+      $schema: 'https://arx-tools.github.io/schemas/dlf.schema.json',
       header,
       scene: Scene.readFrom(file),
       interactiveObjects: times(() => {

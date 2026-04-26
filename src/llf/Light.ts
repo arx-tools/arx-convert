@@ -122,30 +122,28 @@ export type ArxLight = {
   /**
    * This color periodically overrides `ArxLight.color`. The frequency of the flicker cannot be changed.
    *
-   * TODO: what is the frequency?
-   *
    * Subtractive color mixing is used, the color will get subtracted from `ArxLight.color` resulting in
    * a negative color.
    */
   exFlicker: ArxColor
   /**
    * Determines the spread of the smoke and fire particles: creates a circle around the center of the
-   * light with a radius of `exRadius`.
+   * light with a radius of `ArxLight.exRadius`.
    *
-   * When `SpawnFire` is set, then it also sets the radius of the spheare around the light's center which
+   * When `ArxLightFlags.SpawnFire` is set, then it also sets the radius of the spheare around the light's center which
    * harms the NPCs and the player with fire damage when getting in contact.
    *
    * BUG: Surprisingly the spread is not even, particles to the left of the light (negative on the X axis)
-   * don't spawn, only to the right.
+   * don't spawn, only to the right. A fix for it in Arx Libertatis is awaiting approval: https://github.com/arx/ArxLibertatis/pull/301
    *
    * @see https://imgur.com/a/cN3if0A
    */
   exRadius: number
   /**
-   * How frequently should the light source spawn a flame particle when `ArxLight.flags` has `ArxLightFlags.SpawnFire`
-   * set, or a smoke particle when `ArxLight.flags` has `ArxLightFlags.SpawnSmoke` set
+   * How frequently should the light source spawn flame particles when `ArxLight.flags` has `ArxLightFlags.SpawnFire`
+   * set, or smoke particles when `ArxLightFlags.SpawnSmoke` is set.
    *
-   * The range is between 0.0 and 1.0 where 0 completely stops fire from spawning.
+   * The range is between 0.0 and 1.0 where 0.0 completely stops fire from spawning.
    */
   exFrequency: number
   /**
@@ -163,9 +161,9 @@ export type ArxLight = {
   exSpeed: number
   /**
    * The radius of the flare/halo when `ArxLightFlags.Flare` is set.
-   * The value of exFlareSize is ignored when `ArxLightFlags.FixFlareSize` is set.
+   * The value of `exFlareSize` is ignored when `ArxLightFlags.FixFlareSize` is set.
    *
-   * Danae only allows setting it to a maximum of 200, but there isn't any limitiations in the code
+   * Danae only allows setting it to a maximum of 200, but there isn't any limitiations in the game.
    */
   exFlareSize: number
   flags: ArxLightFlags
