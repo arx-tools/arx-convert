@@ -53,7 +53,7 @@ export class Color {
 
       case 'rgb': {
         const [r, g, b] = binary.readFloat32Array(3)
-        return { r: r * 255, g: g * 255, b: b * 255, a: 1 }
+        return { r: Math.floor(r * 255), g: Math.floor(g * 255), b: Math.floor(b * 255), a: 1 }
       }
     }
   }
