@@ -70,7 +70,7 @@
       "properties": {
         "lastUser": {
           "type": "string",
-          "maxLength": 255
+          "maxLength": 256
         },
         "time": {
           "$ref": "#/$defs/positiveInt32"
