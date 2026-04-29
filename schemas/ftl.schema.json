@@ -3,16 +3,241 @@
   "$id": "https://arx-tools.github.io/schemas/ftl.schema.json",
   "title": "FTL",
   "description": "FTL format of Arx Fatalis interpreted as JSON by arx-convert",
-  "$defs": {},
+  "$defs": {
+    "uint32": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
+    },
+    "vector3": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "z"
+      ]
+    },
+    "float32": {
+      "type": "number"
+    },
+    "positiveInt16": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 32767
+    },
+    "positiveInt32": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647
+    }
+  },
   "type": "object",
   "properties": {
-    "header": {},
-    "vertices": {},
-    "faces": {},
-    "textureContainers": {},
-    "groups": {},
-    "actions": {},
-    "selections": {}
+    "header": {
+      "type": "object",
+      "properties": {
+        "origin": {
+          "$ref": "#/$defs/uint32"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 256
+        }
+      },
+      "required": [
+        "origin",
+        "name"
+      ]
+    },
+    "vertices": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "vector": {
+            "$ref": "#/$defs/vector3"
+          },
+          "norm": {
+            "$ref": "#/$defs/vector3"
+          }
+        },
+        "required": [
+          "vector",
+          "norm"
+        ]
+      }
+    },
+    "faces": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "faceType": {
+            "anyOf": [
+              {
+                "description": "ArxFaceType.Flat",
+                "const": 0
+              },
+              {
+                "description": "ArxFaceType.Text",
+                "const": 1
+              },
+              {
+                "description": "ArxFaceType.DoubleSided",
+                "const": 2
+              }
+            ]
+          },
+          "vertexIdx": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/uint16"
+            },
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "textureIdx": {
+            "$ref": "#/$defs/positiveInt16"
+          },
+          "u": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/float32"
+            },
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "v": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/float32"
+            },
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "transval": {
+            "description": "Optional, default value when ommitted is 0",
+            "$ref": "#/$defs/float32"
+          },
+          "norm": {
+            "$ref": "#/$defs/vector3"
+          }
+        },
+        "required": [
+          "faceType",
+          "vertexIdx",
+          "textureIdx",
+          "u",
+          "v",
+          "norm"
+        ]
+      }
+    },
+    "textureContainers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "filename": {
+            "type": "string",
+            "maxLength": 256
+          }
+        },
+        "required": [
+          "filename"
+        ]
+      }
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "origin": {
+            "$ref": "#/$defs/uint32"
+          },
+          "indices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/positiveInt32"
+            }
+          },
+          "blobShadowSize": {
+            "$ref": "#/$defs/float32"
+          }
+        },
+        "required": [
+          "name",
+          "origin",
+          "indices",
+          "blobShadowSize"
+        ]
+      }
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "vertexIdx": {
+            "$ref": "#/$defs/positiveInt32"
+          },
+          "action": {
+            "$ref": "#/$defs/positiveInt32"
+          },
+          "sfx": {
+            "$ref": "#/$defs/positiveInt32"
+          }
+        },
+        "required": [
+          "name",
+          "vertexIdx",
+          "action",
+          "sfx"
+        ]
+      }
+    },
+    "selections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "selected": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/positiveInt32"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "selected"
+        ]
+      }
+    }
   },
   "required": [
     "header",
