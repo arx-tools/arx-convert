@@ -263,3 +263,7 @@ or uncompressed
 
 - `FTS.save(ftsData, true)` -> fts files get compressed (true can be omitted as it is the **default** value)
 - `FTS.save(ftsData, false)` -> marks the fts file as uncompressed, no pkware compression is required afterwards
+
+### Validating generated JSON files using schemas
+
+https://www.jsonschemavalidator.net/
