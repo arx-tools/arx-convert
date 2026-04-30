@@ -7,11 +7,13 @@ import type { ArxLLF } from '@llf/LLF.js'
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L178
  */
 export type ArxLlfHeader = {
-  lastUser: string
-  // TODO: what is this field for? what values are valid?
-  time: number
+  lastModifiedBy: string
+  /**
+   * unix timestamp in seconds
+   */
+  lastModifiedAt: number
   numberOfLights: number
-  numberOfBackgroundPolygons: number
+  numberOfPolygonsInFTS: number
 }
 
 export class LlfHeader {
@@ -20,15 +22,15 @@ export class LlfHeader {
     binary.readString(16) // identifier - always "DANAE_LLH_FILE"
 
     const dataBlock = {
-      lastUser: binary.readString(256),
-      time: binary.readInt32(),
+      lastModifiedBy: binary.readString(256),
+      lastModifiedAt: binary.readInt32(),
       numberOfLights: binary.readInt32(),
     }
 
     binary.readInt32() // number of shadow polygons - always 0
     binary.readInt32() // number of ignored polygons - always 0
 
-    const numberOfBackgroundPolygons = binary.readInt32()
+    const numberOfPolygonsInFTS = binary.readInt32()
 
     binary.readInt32Array(256) // pad - ?
     binary.readFloat32Array(256) // fpad - ?
@@ -37,7 +39,7 @@ export class LlfHeader {
 
     return {
       ...dataBlock,
-      numberOfBackgroundPolygons,
+      numberOfPolygonsInFTS,
     }
   }
 
@@ -47,12 +49,12 @@ export class LlfHeader {
 
     binary.writeFloat32(DANAE_VERSION)
     binary.writeString('DANAE_LLH_FILE', 16)
-    binary.writeString(json.header.lastUser, 256)
-    binary.writeInt32(json.header.time)
+    binary.writeString(json.header.lastModifiedBy, 256)
+    binary.writeInt32(json.header.lastModifiedAt)
     binary.writeInt32(json.lights.length)
     binary.writeInt32(0) // number of shadow polygons
     binary.writeInt32(0) // number of ignored polygons
-    binary.writeInt32(json.header.numberOfBackgroundPolygons)
+    binary.writeInt32(json.header.numberOfPolygonsInFTS)
 
     binary.writeInt32Array(repeat(0, 256)) // pad
     binary.writeFloat32Array(repeat(0, 256)) // fpad

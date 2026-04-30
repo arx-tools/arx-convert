@@ -58,9 +58,6 @@
         "y",
         "z"
       ]
-    },
-    "float32": {
-      "type": "number"
     }
   },
   "type": "object",
@@ -68,21 +65,22 @@
     "header": {
       "type": "object",
       "properties": {
-        "lastUser": {
+        "lastModifiedBy": {
           "type": "string",
           "maxLength": 256
         },
-        "time": {
+        "lastModifiedAt": {
+          "description": "Unix timestamp in seconds",
           "$ref": "#/$defs/positiveInt32"
         },
-        "numberOfBackgroundPolygons": {
+        "numberOfPolygonsInFTS": {
           "$ref": "#/$defs/positiveInt32"
         }
       },
       "required": [
-        "lastUser",
-        "time",
-        "numberOfBackgroundPolygons"
+        "lastModifiedBy",
+        "lastModifiedAt",
+        "numberOfPolygonsInFTS"
       ]
     },
     "lights": {
@@ -98,15 +96,15 @@
           },
           "fallStart": {
             "description": "The radius of a sphere around `pos` in which the light is at full intensity.",
-            "$ref": "#/$defs/float32"
+            "type": "number"
           },
           "fallEnd": {
             "description": "The radius of a sphere around `pos` where the light's intensity gradually fades to 0.",
-            "$ref": "#/$defs/float32"
+            "type": "number"
           },
           "intensity": {
             "description": "How bright the light is.",
-            "$ref": "#/$defs/float32"
+            "type": "number"
           },
           "exFlicker": {
             "description": "This color periodically overrides `color`. The frequency of the flicker cannot be changed. Subtractive color mixing is used, the color will get subtracted from `color` resulting in a negative color",
@@ -114,15 +112,15 @@
           },
           "exRadius": {
             "description": "Determines the spread of the smoke and fire particles: creates a circle around the center of the light with a radius of `exRadius`. When `ArxLightFlags.SpawnFire` is set, then it also sets the radius of the spheare around the light's center which harms the NPCs and the player with fire damage when getting in contact.",
-            "$ref": "#/$defs/float32"
+            "type": "number"
           },
           "exFrequency": {
             "description": "How frequently should the light source spawn flame particles when `flags` has `ArxLightFlags.SpawnFire` set, or smoke particle when `ArxLightFlags.SpawnSmoke` is set. The range is between 0.0 and 1.0 where 0.0 completely stops fire from spawning.",
-            "$ref": "#/$defs/float32"
+            "type": "number"
           },
           "exSize": {
             "description": "Size of the fire/smoke particles if `ArxLightFlags.SpawnFire` or `ArxLightFlags.SpawnSmoke` is set. The value is supposed to be set between 0.0 and 1.0, but it can go over 1.0 for extreme effect.",
-            "$ref": "#/$defs/float32"
+            "type": "number"
           },
           "exSpeed": {
             "description": "How far the fire/smoke particles go during the time they are alive. A larger number will make the particles shoot up like a fountain, a smaller number will make all of them stay in one place. The value is supposed to be set between 0.0 and 1.0, but it can go over 1.0 for extreme effect.",
@@ -132,7 +130,7 @@
           },
           "exFlareSize": {
             "description": "The radius of the flare/halo when `ArxLightFlags.Flare` is set. The value of `exFlareSize` is ignored when `ArxLightFlags.FixFlareSize` is set. Danae only allows setting it to a maximum of 200, but there isn't any limitiations in the game.",
-            "$ref": "#/$defs/float32"
+            "type": "number"
           },
           "flags": {
             "description": "See ArxLightFlags for values",

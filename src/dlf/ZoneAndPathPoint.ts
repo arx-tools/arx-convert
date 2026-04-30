@@ -2,6 +2,9 @@ import { BinaryIO } from '@common/BinaryIO.js'
 import { repeat } from '@common/helpers.js'
 import type { ArxVector3 } from '@common/types.js'
 
+/**
+ * These are not bitwise flags, they cannot be combined
+ */
 export enum ArxZoneAndPathPointType {
   Standard = 0,
   Bezier = 1,

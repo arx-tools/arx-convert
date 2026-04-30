@@ -3,15 +3,387 @@
   "$id": "https://arx-tools.github.io/schemas/dlf.schema.json",
   "title": "DLF",
   "description": "DLF (Danae Level File) format of Arx Fatalis interpreted as JSON by arx-convert",
-  "$defs": {},
+  "$defs": {
+    "positiveInt32": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647
+    },
+    "vector3": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "z"
+      ]
+    },
+    "rotation": {
+      "description": "Euler angles in radians",
+      "type": "object",
+      "properties": {
+        "a": {
+          "description": "Euler angle defined in radian",
+          "type": "number"
+        },
+        "b": {
+          "description": "Euler angle defined in radian",
+          "type": "number"
+        },
+        "g": {
+          "description": "Euler angle defined in radian",
+          "type": "number"
+        }
+      },
+      "required": [
+        "a",
+        "b",
+        "g"
+      ]
+    },
+    "color": {
+      "type": "object",
+      "properties": {
+        "r": {
+          "$ref": "#/$defs/uint8"
+        },
+        "g": {
+          "$ref": "#/$defs/uint8"
+        },
+        "b": {
+          "$ref": "#/$defs/uint8"
+        },
+        "a": {
+          "description": "0.0 = fully transparent, 1.0 = fully opaque",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "required": [
+        "r",
+        "g",
+        "b",
+        "a"
+      ]
+    }
+  },
   "type": "object",
   "properties": {
-    "header": {},
-    "scene": {},
-    "interactiveObjects": {},
-    "fogs": {},
-    "paths": {},
-    "zones": {}
+    "header": {
+      "type": "object",
+      "properties": {
+        "lastModifiedBy": {
+          "type": "string",
+          "maxLength": 256
+        },
+        "lastModifiedAt": {
+          "description": "Unix timestamp in seconds",
+          "$ref": "#/$defs/positiveInt32"
+        },
+        "posEdit": {
+          "$ref": "#/$defs/vector3"
+        },
+        "angleEdit": {
+          "$ref": "#/$defs/rotation"
+        },
+        "numberOfPolygonsInFTS": {
+          "$ref": "#/$defs/positiveInt32"
+        }
+      },
+      "required": [
+        "lastModifiedBy",
+        "lastModifiedAt",
+        "posEdit",
+        "angleEdit",
+        "numberOfPolygonsInFTS"
+      ]
+    },
+    "scene": {
+      "type": "object",
+      "properties": {
+        "levelIdx": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "levelIdx"
+      ]
+    },
+    "interactiveObjects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 512
+          },
+          "pos": {
+            "$ref": "#/$defs/vector3"
+          },
+          "angle": {
+            "$ref": "#/$defs/rotation"
+          },
+          "identifier": {
+            "description": "Number at the end of entity ids: like the `56` in `goblin_base_0056`. No info on whether the game can handle identifiers larger than 4 digits.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9999
+          }
+        },
+        "required": [
+          "name",
+          "pos",
+          "angle",
+          "identifier"
+        ]
+      }
+    },
+    "fogs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pos": {
+            "$ref": "#/$defs/vector3"
+          },
+          "color": {
+            "$ref": "#/$defs/color"
+          },
+          "size": {
+            "type": "number",
+            "minimum": 0
+          },
+          "special": {
+            "anyOf": [
+              {
+                "const": 0
+              },
+              {
+                "description": "FOG_DIRECTIONAL",
+                "const": 1
+              }
+            ]
+          },
+          "scale": {
+            "type": "number",
+            "minimum": 0
+          },
+          "move": {
+            "description": "A normal vector, all axis are between -1 and 1",
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number",
+                "minimum": -1,
+                "maximum": 1
+              },
+              "y": {
+                "type": "number",
+                "minimum": -1,
+                "maximum": 1
+              },
+              "z": {
+                "type": "number",
+                "minimum": -1,
+                "maximum": 1
+              }
+            },
+            "required": [
+              "x",
+              "y",
+              "z"
+            ]
+          },
+          "angle": {
+            "$ref": "#/$defs/rotation"
+          },
+          "speed": {
+            "description": "Movement speed of fog particles: \"move\" * (\"speed\" * 0.1)",
+            "type": "number",
+            "minimum": 0
+          },
+          "rotateSpeed": {
+            "description": "Particle rotation between 0 (stationary) and 1 (rotating as fast as the FPS allows)",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "toLive": {
+            "description": "How long each particle lives (fade in -> show -> fade out) in milliseconds",
+            "$ref": "#/$defs/positiveInt32"
+          },
+          "frequency": {
+            "description": "Whether to draw new fog particles is checked by creating a random number between 0 and 2000. If that random number is < frequency then a new particle is drawn. Having the frequency set to 2000 or above means spawning fog particles on every frame.",
+            "$ref": "#/$defs/positiveInt32"
+          }
+        },
+        "required": [
+          "pos",
+          "color",
+          "size",
+          "special",
+          "scale",
+          "move",
+          "angle",
+          "speed",
+          "rotateSpeed",
+          "toLive",
+          "frequency"
+        ]
+      }
+    },
+    "paths": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "points": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "pos": {
+                  "$ref": "#/$defs/vector3"
+                },
+                "type": {
+                  "anyOf": [
+                    {
+                      "description": "ArxZoneAndPathPointType.Standard",
+                      "const": 0
+                    },
+                    {
+                      "description": "ArxZoneAndPathPointType.Bezier",
+                      "const": 1
+                    },
+                    {
+                      "description": "ArxZoneAndPathPointType.BezierControlPoint",
+                      "const": 2
+                    }
+                  ]
+                },
+                "time": {
+                  "$ref": "#/$defs/uint32"
+                }
+              },
+              "required": [
+                "pos",
+                "type",
+                "time"
+              ]
+            }
+          }
+        },
+        "required": [
+          "name",
+          "points"
+        ]
+      }
+    },
+    "zones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "height": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/positiveInt32"
+              },
+              {
+                "description": "The zone has infinite height",
+                "const": -1
+              }
+            ]
+          },
+          "backgroundColor": {
+            "$ref": "#/$defs/color"
+          },
+          "drawDistance": {
+            "type": "number",
+            "minimum": 0
+          },
+          "ambienceMaxVolume": {
+            "description": "A floating point number between 0 and 100.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "ambience": {
+            "anyOf": [
+              {
+                "const": "NONE"
+              },
+              {
+                "description": "The filename of an amb file in \"sfx/ambiance/\" folder, for example \"ambient_gob_jail_main\".",
+                "type": "string",
+                "maxLength": 128
+              }
+            ]
+          },
+          "points": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "pos": {
+                  "$ref": "#/$defs/vector3"
+                },
+                "type": {
+                  "anyOf": [
+                    {
+                      "description": "ArxZoneAndPathPointType.Standard",
+                      "const": 0
+                    },
+                    {
+                      "description": "ArxZoneAndPathPointType.Bezier",
+                      "const": 1
+                    },
+                    {
+                      "description": "ArxZoneAndPathPointType.BezierControlPoint",
+                      "const": 2
+                    }
+                  ]
+                },
+                "time": {
+                  "$ref": "#/$defs/uint32"
+                }
+              },
+              "required": [
+                "pos",
+                "type",
+                "time"
+              ]
+            }
+          }
+        },
+        "required": [
+          "name",
+          "height",
+          "points"
+        ]
+      }
+    }
   },
   "required": [
     "header",

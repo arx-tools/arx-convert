@@ -10,16 +10,34 @@ export type ArxFog = {
   pos: ArxVector3
   color: ArxColor
   size: number
-  /** either 0 or 1 - ? */
+  /**
+   * Either 0 = ? or 1 = FOG_DIRECTIONAL
+   */
   special: number
   scale: number
-  /** a normal vector, all axis are between -1 and 1 */
+  /**
+   * A normal vector, all axis are between -1 and 1
+   */
   move: ArxVector3
   angle: ArxRotation
+  /**
+   * Movement speed of fog particles: `move` * (`speed` * 0.1)
+   */
   speed: number
+  /**
+   * Particle rotation between 0 (stationary) and 1 (rotating as fast as the FPS allows)
+   */
   rotateSpeed: number
-  /** milliseconds */
+  /**
+   * How long each particle lives (fade in -> show -> fade out) in milliseconds
+   */
   toLive: number
+  /**
+   * Whether to draw new fog particles is checked by creating a random number between 0 and 2000.
+   * If that random number is < frequency then a new particle is drawn.
+   *
+   * Having the frequency set to 2000 or above means spawning fog particles on every frame.
+   */
   frequency: number
 }
 

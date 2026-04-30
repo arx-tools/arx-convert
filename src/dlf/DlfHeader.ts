@@ -8,13 +8,16 @@ import type { ArxDLF } from '@dlf/DLF.js'
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L58
  */
 export type ArxDlfHeader = {
-  lastUser: string
-  time: number
+  lastModifiedBy: string
+  /**
+   * unix timestamp in seconds
+   */
+  lastModifiedAt: number
   posEdit: ArxVector3
   angleEdit: ArxRotation
   numberOfInteractiveObjects: number
   numberOfFogs: number
-  numberOfBackgroundPolygons: number
+  numberOfPolygonsInFTS: number
   numberOfZonesAndPaths: number
 }
 
@@ -24,8 +27,8 @@ export class DlfHeader {
     binary.readString(16) // identifier - always "DANAE_FILE"
 
     const dataBlock = {
-      lastUser: binary.readString(256),
-      time: binary.readInt32(),
+      lastModifiedBy: binary.readString(256),
+      lastModifiedAt: binary.readInt32(),
       posEdit: binary.readVector3(),
       angleEdit: binary.readRotation(),
     }
@@ -42,7 +45,7 @@ export class DlfHeader {
     binary.readInt32() // number of lights - always 0 as lights are stored in LLF files
 
     const numberOfFogs = binary.readInt32()
-    const numberOfBackgroundPolygons = binary.readInt32()
+    const numberOfPolygonsInFTS = binary.readInt32()
 
     binary.readInt32() // number of ignored polygons - always 0
     binary.readInt32() // number of child polygons - always 0
@@ -59,7 +62,7 @@ export class DlfHeader {
       ...dataBlock,
       numberOfInteractiveObjects,
       numberOfFogs,
-      numberOfBackgroundPolygons,
+      numberOfPolygonsInFTS,
       numberOfZonesAndPaths,
     }
   }
@@ -70,8 +73,8 @@ export class DlfHeader {
 
     binary.writeFloat32(DANAE_VERSION)
     binary.writeString('DANAE_FILE', 16)
-    binary.writeString(json.header.lastUser, 256)
-    binary.writeInt32(json.header.time)
+    binary.writeString(json.header.lastModifiedBy, 256)
+    binary.writeInt32(json.header.lastModifiedAt)
     binary.writeVector3(json.header.posEdit)
     binary.writeRotation(json.header.angleEdit)
     binary.writeInt32(1) // number of scenes
@@ -83,7 +86,7 @@ export class DlfHeader {
     binary.writeInt32Array(repeat(0, 256))
     binary.writeInt32(0) // number of lights -> stored in LLF
     binary.writeInt32(json.fogs.length)
-    binary.writeInt32(json.header.numberOfBackgroundPolygons)
+    binary.writeInt32(json.header.numberOfPolygonsInFTS)
     binary.writeInt32(0) // number of ignored polygons
     binary.writeInt32(0) // number of child polygons
     binary.writeInt32(json.paths.length + json.zones.length)

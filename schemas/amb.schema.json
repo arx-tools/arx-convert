@@ -9,17 +9,14 @@
       "minimum": 0,
       "maximum": 4294967295
     },
-    "float32": {
-      "type": "number"
-    },
     "settings": {
       "type": "object",
       "properties": {
         "min": {
-          "$ref": "#/$defs/float32"
+          "type": "number"
         },
         "max": {
-          "$ref": "#/$defs/float32"
+          "type": "number"
         },
         "interval": {
           "description": "defined in milliseconds",

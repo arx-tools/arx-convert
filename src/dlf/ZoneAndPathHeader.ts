@@ -36,12 +36,16 @@ export type ArxZoneAndPathHeader = {
    */
   drawDistance: number
   /**
-   * spelled as `ambianceMaxVolume` in arx source code
+   * A floating point number between 0 and 100.
+   *
+   * Spelled as `amb_max_vol` in arx source code
    */
   ambienceMaxVolume: number
   height: number
   /**
-   * spelled as `ambiance` in arx source code
+   * The filename of an amb file in `sfx/ambiance/` folder, for example "ambient_gob_jail_main", or "NONE" for no ambience.
+   *
+   * Spelled as `ambiance` in arx source code
    */
   ambience: string
 }

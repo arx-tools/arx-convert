@@ -28,9 +28,6 @@
         "z"
       ]
     },
-    "float32": {
-      "type": "number"
-    },
     "positiveInt16": {
       "type": "integer",
       "minimum": 0,
@@ -113,7 +110,7 @@
           "u": {
             "type": "array",
             "items": {
-              "$ref": "#/$defs/float32"
+              "type": "number"
             },
             "minLength": 3,
             "maxLength": 3
@@ -121,14 +118,14 @@
           "v": {
             "type": "array",
             "items": {
-              "$ref": "#/$defs/float32"
+              "type": "number"
             },
             "minLength": 3,
             "maxLength": 3
           },
           "transval": {
             "description": "Optional, default value when ommitted is 0",
-            "$ref": "#/$defs/float32"
+            "type": "number"
           },
           "norm": {
             "$ref": "#/$defs/vector3"
@@ -178,7 +175,7 @@
             }
           },
           "blobShadowSize": {
-            "$ref": "#/$defs/float32"
+            "type": "number"
           }
         },
         "required": [
