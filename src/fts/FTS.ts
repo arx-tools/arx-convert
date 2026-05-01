@@ -16,7 +16,7 @@ import { addLightIndex, getCellCoords } from '@fts/helpers.js'
 export type ArxFTS = {
   $schema?: string
   header: Omit<ArxFtsHeader, 'numberOfUniqueHeaders'>
-  uniqueHeaders: ArxUniqueHeader[]
+  uniqueHeaders?: ArxUniqueHeader[]
   sceneHeader: Omit<ArxSceneHeader, 'numberOfTextures' | 'numberOfAnchors' | 'numberOfPortals' | 'numberOfRooms'>
   textureContainers: ArxTextureContainer[]
   cells: Array<Omit<ArxCell, 'polygons'>>
@@ -146,7 +146,7 @@ export class FTS {
       header = FtsHeader.accumulateFrom(json, IS_AN_UNCOMPRESSED_FTS)
     }
 
-    const uniqueHeaders = concatArrayBuffers(json.uniqueHeaders.map(UniqueHeader.accumulateFrom))
+    const uniqueHeaders = concatArrayBuffers((json.uniqueHeaders ?? []).map(UniqueHeader.accumulateFrom))
 
     return concatArrayBuffers([header, uniqueHeaders, dataWithoutHeader])
   }

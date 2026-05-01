@@ -53,7 +53,7 @@ export class AnchorData {
     binary.writeFloat32(anchor.data.height)
     binary.writeInt16(anchor.linkedAnchors.length)
 
-    let flags = 0
+    let flags = ArxAnchorFlags.None
     if (anchor.data.isBlocked) {
       flags = flags | ArxAnchorFlags.Blocked
     }

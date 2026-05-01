@@ -56,10 +56,10 @@ export type ArxPolygon = {
   /**
    * Opacity type and amount when {@link ArxPolygon.flags} & {@link ArxPolygonFlags.Transparent}:
    *
-   *   - greater or equal to 2 = multiplicative
-   *   - greater or equal to 1 = additive
-   *   - greater than 0 = normal
-   *   - less or equal to 0 = subtractive
+   *   -  2 or more = multiplicative
+   *   -  1         = additive
+   *   -  0         = normal
+   *   - -1 or less = subtractive
    *
    * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/Mesh.cpp#L1102
    */

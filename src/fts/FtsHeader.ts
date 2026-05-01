@@ -32,7 +32,7 @@ export class FtsHeader {
     const binary = new BinaryIO(buffer)
 
     binary.writeString(FtsHeader.levelIdxToPath(json.header.levelIdx), 256)
-    binary.writeInt32(json.uniqueHeaders.length)
+    binary.writeInt32((json.uniqueHeaders ?? []).length)
     binary.writeFloat32(FTS_VERSION)
     binary.writeInt32(uncompressedSize)
 

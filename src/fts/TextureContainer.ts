@@ -5,6 +5,9 @@ import { BinaryIO } from '@common/BinaryIO.js'
  */
 export type ArxTextureContainer = {
   id: number
+  /**
+   * Filename of an image within graph/obj3d/textures, like "[stone]_human_castle_wall1.bmp"
+   */
   filename: string
 }
 

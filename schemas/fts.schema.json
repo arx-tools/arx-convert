@@ -3,23 +3,383 @@
   "$id": "https://arx-tools.github.io/schemas/fts.schema.json",
   "title": "FTS",
   "description": "FTS (FasT Scene) format of Arx Fatalis interpreted as JSON by arx-convert",
-  "$defs": {},
+  "$defs": {
+    "uint8": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 255
+    },
+    "vector3": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "z"
+      ]
+    },
+    "positiveInt16": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 32767
+    },
+    "positiveInt32": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647
+    },
+    "vertex": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        },
+        "u": {
+          "type": "number"
+        },
+        "v": {
+          "type": "number"
+        },
+        "llfColorIdx": {
+          "$ref": "#/$defs/positiveInt32"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "z",
+        "u",
+        "v"
+      ]
+    }
+  },
   "type": "object",
   "properties": {
-    "header": {},
-    "uniqueHeaders": {},
-    "sceneHeader": {},
-    "textureContainers": {},
-    "cells": {},
-    "polygons": {},
-    "anchors": {},
-    "portals": {},
-    "rooms": {},
-    "roomDistances": {}
+    "header": {
+      "type": "object",
+      "properties": {
+        "levelIdx": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "levelIdx"
+      ]
+    },
+    "uniqueHeaders": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "check": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/uint8"
+            },
+            "minLength": 512,
+            "maxLength": 512
+          }
+        },
+        "required": [
+          "path",
+          "check"
+        ]
+      }
+    },
+    "sceneHeader": {
+      "type": "object",
+      "properties": {
+        "mScenePosition": {
+          "$ref": "#/$defs/vector3"
+        }
+      },
+      "required": [
+        "mScenePosition"
+      ]
+    },
+    "textureContainers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/positiveInt32"
+          },
+          "filename": {
+            "description": "Filename of an image within graph/obj3d/textures, like \"[stone]_human_castle_wall1.bmp\"",
+            "type": "string",
+            "maxLength": 256
+          }
+        },
+        "required": [
+          "id",
+          "filename"
+        ]
+      }
+    },
+    "cells": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "anchors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/positiveInt32"
+            }
+          }
+        }
+      }
+    },
+    "polygons": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "vertices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/vertex"
+            },
+            "minItems": 4,
+            "maxItems": 4
+          },
+          "textureContainerId": {
+            "$ref": "#/$defs/positiveInt32"
+          },
+          "norm": {
+            "$ref": "#/$defs/vector3"
+          },
+          "norm2": {
+            "$ref": "#/$defs/vector3"
+          },
+          "normals": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/vector3"
+            },
+            "minItems": 4,
+            "maxItems": 4
+          },
+          "transval": {
+            "description": "Opacity type and amount when ArxPolygon.flags & ArxPolygonFlags.Transparent: 2 or more = multiplicative; 1 = additive; 0 = normal; -1 or less = subtractive",
+            "type": "integer"
+          },
+          "area": {
+            "type": "number"
+          },
+          "flags": {
+            "description": "ArxPolygonFlags",
+            "$ref": "#/$defs/positiveInt32"
+          },
+          "room": {
+            "$ref": "#/$defs/positiveInt16"
+          },
+          "paddy": {
+            "$ref": "#/$defs/positiveInt16"
+          }
+        },
+        "required": [
+          "vertices",
+          "textureContainerId",
+          "norm",
+          "norm2",
+          "transval",
+          "area",
+          "flags",
+          "room"
+        ]
+      }
+    },
+    "anchors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "pos": {
+                "$ref": "#/$defs/vector3"
+              },
+              "radius": {
+                "type": "number",
+                "minimum": 0
+              },
+              "height": {
+                "type": "number",
+                "minimum": 0
+              },
+              "isBlocked": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "pos",
+              "radius",
+              "height",
+              "isBlocked"
+            ]
+          },
+          "linkedAnchors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/positiveInt32"
+            }
+          }
+        },
+        "required": [
+          "data",
+          "linkedAnchors"
+        ]
+      }
+    },
+    "portals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "polygon": {
+            "type": "object",
+            "properties": {
+              "min": {
+                "$ref": "#/$defs/vector3"
+              },
+              "max": {
+                "$ref": "#/$defs/vector3"
+              },
+              "norm": {
+                "$ref": "#/$defs/vector3"
+              },
+              "norm2": {
+                "$ref": "#/$defs/vector3"
+              },
+              "vertices": {
+                "type": "array",
+                "items": {
+                  "description": "D3DTLVERTEX with hardcoded color, specular, tu and tv values - see https://learn.microsoft.com/en-us/previous-versions/ms896915(v=msdn.10)",
+                  "type": "object",
+                  "properties": {
+                    "pos": {
+                      "description": "sx, sy and sz of D3DTLVERTEX (screen coordinates)",
+                      "$ref": "#/$defs/vector3"
+                    },
+                    "rhw": {
+                      "description": "portal bounds radius - used by ARX_PORTALS_Frustrum_ComputeRoom; [r]eciprocal of [h]omogeneous [w] from homogeneous coordinates (x, y, z, w) - see https://learn.microsoft.com/en-us/previous-versions/ms896915(v=msdn.10)#members",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "pos",
+                    "rhw"
+                  ]
+                },
+                "minLength": 4,
+                "maxLength": 4
+              },
+              "center": {
+                "$ref": "#/$defs/vector3"
+              }
+            },
+            "required": [
+              "min",
+              "max",
+              "norm",
+              "norm2",
+              "vertices",
+              "center"
+            ]
+          },
+          "room1": {
+            "$ref": "#/$defs/positiveInt32"
+          },
+          "room2": {
+            "$ref": "#/$defs/positiveInt32"
+          },
+          "usePortal": {
+            "type": "integer",
+            "minimum": -32768,
+            "maximum": 32767
+          },
+          "paddy": {
+            "type": "integer",
+            "minimum": -32768,
+            "maximum": 32767
+          }
+        },
+        "required": [
+          "polygon",
+          "room1",
+          "room2",
+          "usePortal",
+          "paddy"
+        ]
+      }
+    },
+    "rooms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "portals": {
+            // TODO
+          },
+          "polygons": {
+            // TODO
+          }
+        },
+        "required": [
+          "portals",
+          "polygons"
+        ]
+      }
+    },
+    "roomDistances": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "distance": {
+            // TODO
+          },
+          "startPosition": {
+            // TODO
+          },
+          "endPosition": {
+            // TODO
+          }
+        },
+        "required": [
+          "distance",
+          "startPosition",
+          "endPosition"
+        ]
+      }
+    }
   },
   "required": [
     "header",
-    "uniqueHeaders",
     "sceneHeader",
     "textureContainers",
     "cells",

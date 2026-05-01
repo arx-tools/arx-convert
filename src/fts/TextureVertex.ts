@@ -34,6 +34,8 @@ const HARDCODED_DATA_TYPE2: HardcodedDataType = {
 }
 
 /**
+ * D3DTLVERTEX with hardcoded color, specular, tu and tv values
+ *
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/GraphicsFormat.h#L82
  * @see https://learn.microsoft.com/en-us/previous-versions/ms896915(v=msdn.10)
  */
