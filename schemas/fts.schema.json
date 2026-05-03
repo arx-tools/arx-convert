@@ -67,6 +67,11 @@
         "u",
         "v"
       ]
+    },
+    "int16": {
+      "type": "integer",
+      "minimum": -32768,
+      "maximum": 32767
     }
   },
   "type": "object",
@@ -318,14 +323,10 @@
             "$ref": "#/$defs/positiveInt32"
           },
           "usePortal": {
-            "type": "integer",
-            "minimum": -32768,
-            "maximum": 32767
+            "$ref": "#/$defs/int16"
           },
           "paddy": {
-            "type": "integer",
-            "minimum": -32768,
-            "maximum": 32767
+            "$ref": "#/$defs/int16"
           }
         },
         "required": [
@@ -343,10 +344,37 @@
         "type": "object",
         "properties": {
           "portals": {
-            // TODO
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/positiveInt32"
+            }
           },
           "polygons": {
-            // TODO
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "cellX": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 160
+                },
+                "cellY": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 160
+                },
+                "polygonIdx": {
+                  "description": "This number is a counter for polygons in the cell, it has no relation to the order of polygons globally",
+                  "$ref": "#/$defs/positiveInt16"
+                }
+              },
+              "required": [
+                "cellX",
+                "cellY",
+                "polygonIdx"
+              ]
+            }
           }
         },
         "required": [
