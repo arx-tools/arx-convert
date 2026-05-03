@@ -7,22 +7,22 @@ export type ArxEPData = {
   cellX: number
   cellY: number
   /**
-   * this number is a counter for polygons in the cell, it has no relation to the order of polygons globally
+   * This number is a counter for polygons in the cell, it has no relation to the order of polygons globally
    */
   polygonIdx: number
 }
 
 export class EPData {
   static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxEPData {
-    const [px, py, idx] = binary.readInt16Array(4)
-    return { cellX: px, cellY: py, polygonIdx: idx }
+    const [cellX, cellY, polygonIdx] = binary.readInt16Array(4)
+    return { cellX, cellY, polygonIdx }
   }
 
-  static accumulateFrom({ cellX: px, cellY: py, polygonIdx: idx }: ArxEPData): ArrayBuffer {
+  static accumulateFrom({ cellX, cellY, polygonIdx }: ArxEPData): ArrayBuffer {
     const buffer = new ArrayBuffer(EPData.sizeOf())
     const binary = new BinaryIO(buffer)
 
-    binary.writeInt16Array([px, py, idx, 0])
+    binary.writeInt16Array([cellX, cellY, polygonIdx, 0])
 
     return buffer
   }
