@@ -5,6 +5,9 @@ import type { ArxVector3 } from '@common/types.js'
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L130
  */
 export type ArxRoomDistance = {
+  /**
+   * -1 means use truedist
+   */
   distance: number
   startPosition: ArxVector3
   endPosition: ArxVector3
@@ -13,7 +16,7 @@ export type ArxRoomDistance = {
 export class RoomDistance {
   static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxRoomDistance {
     return {
-      distance: binary.readFloat32(), // -1 means use truedist
+      distance: binary.readFloat32(),
       startPosition: binary.readVector3(),
       endPosition: binary.readVector3(),
     }

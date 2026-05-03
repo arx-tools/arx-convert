@@ -389,13 +389,22 @@
         "type": "object",
         "properties": {
           "distance": {
-            // TODO
+            "anyOf": [
+              {
+                "const": -1,
+                "description": "-1 means use truedist"
+              },
+              {
+                "type": "number",
+                "minimum": 0
+              }
+            ]
           },
           "startPosition": {
-            // TODO
+            "$ref": "#/$defs/vector3"
           },
           "endPosition": {
-            // TODO
+            "$ref": "#/$defs/vector3"
           }
         },
         "required": [
