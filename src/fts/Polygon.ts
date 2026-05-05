@@ -67,12 +67,11 @@ export type ArxPolygon = {
   area: number
   flags: ArxPolygonFlags
   room: number
-  paddy?: number
 }
 
 export class Polygon {
   static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxPolygon {
-    return {
+    const data = {
       vertices: times(() => {
         return Vertex.readFrom(binary)
       }, 4) as QuadrupleOf<ArxVertex>,
@@ -84,8 +83,11 @@ export class Polygon {
       area: binary.readFloat32(),
       flags: binary.readInt32(),
       room: binary.readInt16(),
-      paddy: binary.readInt16(),
     }
+
+    binary.readInt16() // paddy - unused by Arx, always 0
+
+    return data
   }
 
   static accumulateFrom(polygon: ArxPolygon): ArrayBuffer {
@@ -101,7 +103,7 @@ export class Polygon {
     binary.writeFloat32(polygon.area)
     binary.writeInt32(polygon.flags)
     binary.writeInt16(polygon.room)
-    binary.writeInt16(polygon.paddy ?? 0)
+    binary.writeInt16(0) // paddy
 
     return buffer
   }
@@ -109,11 +111,10 @@ export class Polygon {
   static sizeOf(): number {
     return (
       Vertex.sizeOf() * 4 +
-      BinaryIO.sizeOfInt32() +
+      BinaryIO.sizeOfInt32() * 2 +
       BinaryIO.sizeOfVector3Array(1 + 1 + 4) +
-      BinaryIO.sizeOfFloat32Array(2) +
-      BinaryIO.sizeOfInt32() +
-      BinaryIO.sizeOfInt16Array(2)
+      BinaryIO.sizeOfFloat32() * 2 +
+      BinaryIO.sizeOfInt16() * 2
     )
   }
 }

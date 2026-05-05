@@ -12,18 +12,20 @@ export type ArxPortal = {
   // it is mostly 0, the game code only explicitly mentions 0 (inactive - red in debug view), 1 (active, surrounding the room we stand in - green in debug view) and 2 (?)
   // but level2/fast.fts has weird (probably junk) data, like: 19800, 10402, 2241, -1, -13138, 10506, etc...
   usePortal: number
-  paddy: number
 }
 
 export class Portal {
   static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxPortal {
-    return {
+    const data = {
       polygon: PortalPolygon.readFrom(binary),
       room1: binary.readInt32(), // facing normal
       room2: binary.readInt32(),
       usePortal: binary.readInt16(),
-      paddy: binary.readInt16(),
     }
+
+    binary.readInt16() // paddy - unused by Arx, always 0
+
+    return data
   }
 
   static accumulateFrom(portal: ArxPortal, levelIdx: number): ArrayBuffer {
@@ -34,7 +36,7 @@ export class Portal {
     binary.writeInt32(portal.room1)
     binary.writeInt32(portal.room2)
     binary.writeInt16(portal.usePortal)
-    binary.writeInt16(portal.paddy)
+    binary.writeInt16(0) // paddy
 
     return buffer
   }

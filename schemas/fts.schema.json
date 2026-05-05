@@ -200,9 +200,6 @@
           },
           "room": {
             "$ref": "#/$defs/positiveInt16"
-          },
-          "paddy": {
-            "$ref": "#/$defs/positiveInt16"
           }
         },
         "required": [
@@ -324,17 +321,13 @@
           },
           "usePortal": {
             "$ref": "#/$defs/int16"
-          },
-          "paddy": {
-            "$ref": "#/$defs/int16"
           }
         },
         "required": [
           "polygon",
           "room1",
           "room2",
-          "usePortal",
-          "paddy"
+          "usePortal"
         ]
       }
     },
