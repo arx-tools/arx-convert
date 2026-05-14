@@ -2,7 +2,7 @@ import { BinaryIO } from '@common/BinaryIO.js'
 import { concatArrayBuffers, times } from '@common/helpers.js'
 import { type ArxKeyFrame, KeyFrame } from '@tea/KeyFrame.js'
 import { type ArxTeaHeader, TeaHeader } from '@tea/TeaHeader.js'
-import { TEA_VERSION_OLD } from './constants.js'
+import { TEA_VERSION_OLD } from '@tea/constants.js'
 
 export type ArxTEA = {
   $schema?: string

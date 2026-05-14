@@ -3,9 +3,9 @@ import { MAP_DEPTH_IN_CELLS, MAP_WIDTH_IN_CELLS } from '@common/constants.js'
 import { concatArrayBuffers, times } from '@common/helpers.js'
 import type { ArxVector3, QuadrupleOf } from '@common/types.js'
 // eslint-disable-next-line unused-imports/no-unused-imports -- it is used in jsdoc block
-import { ArxTextureContainer } from '@fts/TextureContainer.js'
+import type { ArxTextureContainer } from '@fts/TextureContainer.js'
 import { type ArxVertex, Vertex } from '@fts/Vertex.js'
-import { isBetween, isQuad } from './helpers.js'
+import { isBetween, isQuad } from '@fts/helpers.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/GraphicsTypes.h#L88
