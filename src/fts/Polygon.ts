@@ -1,9 +1,11 @@
 import { BinaryIO } from '@common/BinaryIO.js'
+import { MAP_DEPTH_IN_CELLS, MAP_WIDTH_IN_CELLS } from '@common/constants.js'
 import { concatArrayBuffers, times } from '@common/helpers.js'
 import type { ArxVector3, QuadrupleOf } from '@common/types.js'
 // eslint-disable-next-line unused-imports/no-unused-imports -- it is used in jsdoc block
 import { ArxTextureContainer } from '@fts/TextureContainer.js'
 import { type ArxVertex, Vertex } from '@fts/Vertex.js'
+import { isBetween, isQuad } from './helpers.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/GraphicsTypes.h#L88
@@ -116,5 +118,21 @@ export class Polygon {
       BinaryIO.sizeOfFloat32() * 2 +
       BinaryIO.sizeOfInt16() * 2
     )
+  }
+
+  /**
+   * A polygon is considered out of bounds when any of its vertices are not 0 <= x < 16000 or 0 <= z < 16000
+   */
+  static isOutOfBounds(polygon: ArxPolygon): boolean {
+    let numberOfPolygons = 3
+    if (isQuad(polygon)) {
+      numberOfPolygons = 4
+    }
+
+    return polygon.vertices.slice(0, numberOfPolygons).some(({ x, z }) => {
+      const fitsX = isBetween(0, MAP_WIDTH_IN_CELLS * 100 - 1, x)
+      const fitsZ = isBetween(0, MAP_DEPTH_IN_CELLS * 100 - 1, z)
+      return !fitsX || !fitsZ
+    })
   }
 }

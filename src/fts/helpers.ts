@@ -59,3 +59,14 @@ export function getCellCoords([a, b, c]: QuadrupleOf<ArxVertex>): DoubleOf<numbe
 
   return [cellX, cellY]
 }
+
+/**
+ * inclusive: min <= n <= max
+ */
+export function isBetween(min: number, max: number, n: number): boolean {
+  if (min > max) {
+    ;[max, min] = [min, max]
+  }
+
+  return n >= min && n <= max
+}

@@ -4,7 +4,7 @@ import { concatArrayBuffers, times } from '@common/helpers.js'
 import { Anchor, type ArxAnchor } from '@fts/Anchor.js'
 import { type ArxCell, Cell } from '@fts/Cell.js'
 import { type ArxFtsHeader, FtsHeader } from '@fts/FtsHeader.js'
-import type { ArxPolygon } from '@fts/Polygon.js'
+import { type ArxPolygon, Polygon } from '@fts/Polygon.js'
 import { type ArxPortal, Portal } from '@fts/Portal.js'
 import { type ArxRoom, Room } from '@fts/Room.js'
 import { type ArxRoomDistance, RoomDistance } from '@fts/RoomDistance.js'
@@ -149,5 +149,26 @@ export class FTS {
     const uniqueHeaders = concatArrayBuffers((json.uniqueHeaders ?? []).map(UniqueHeader.accumulateFrom))
 
     return concatArrayBuffers([header, uniqueHeaders, dataWithoutHeader])
+  }
+
+  /**
+   * Mutates the `.polygon` property by removing all polygons that are out of bounds
+   * and returns the list of removed polygons.
+   */
+  static removeOutOfBoundsPolygons(json: ArxFTS): ArxPolygon[] {
+    const inBounds: ArxPolygon[] = []
+    const outOfBounds: ArxPolygon[] = []
+
+    for (const polygon of json.polygons) {
+      if (Polygon.isOutOfBounds(polygon)) {
+        outOfBounds.push(polygon)
+      } else {
+        inBounds.push(polygon)
+      }
+    }
+
+    json.polygons = inBounds
+
+    return outOfBounds
   }
 }
