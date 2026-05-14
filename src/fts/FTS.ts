@@ -154,6 +154,8 @@ export class FTS {
   /**
    * Mutates the `.polygon` property by removing all polygons that are out of bounds
    * and returns the list of removed polygons.
+   *
+   * A polygon is considered out of bounds when any of its vertices are not 0 <= x < 16000 or 0 <= z < 16000
    */
   static removeOutOfBoundsPolygons(json: ArxFTS): ArxPolygon[] {
     const inBounds: ArxPolygon[] = []
