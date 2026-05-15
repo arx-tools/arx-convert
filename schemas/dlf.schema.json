@@ -29,19 +29,19 @@
       ]
     },
     "rotation": {
-      "description": "Euler angles in radians",
+      "description": "Euler angles in degrees",
       "type": "object",
       "properties": {
         "a": {
-          "description": "Euler angle defined in radian",
+          "description": "Euler angle defined in degrees",
           "type": "number"
         },
         "b": {
-          "description": "Euler angle defined in radian",
+          "description": "Euler angle defined in degrees",
           "type": "number"
         },
         "g": {
-          "description": "Euler angle defined in radian",
+          "description": "Euler angle defined in degrees",
           "type": "number"
         }
       },
@@ -50,6 +50,16 @@
         "b",
         "g"
       ]
+    },
+    "uint8": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 255
+    },
+    "uint32": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
     },
     "color": {
       "type": "object",
