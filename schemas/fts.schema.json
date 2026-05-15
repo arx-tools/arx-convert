@@ -215,7 +215,7 @@
           "data": {
             "type": "object",
             "properties": {
-              "pos": {
+              "position": {
                 "$ref": "#/$defs/vector3"
               },
               "radius": {
@@ -231,7 +231,7 @@
               }
             },
             "required": [
-              "pos",
+              "position",
               "radius",
               "height",
               "isBlocked"
@@ -276,7 +276,7 @@
                   "description": "D3DTLVERTEX with hardcoded color, specular, tu and tv values - see https://learn.microsoft.com/en-us/previous-versions/ms896915(v=msdn.10)",
                   "type": "object",
                   "properties": {
-                    "pos": {
+                    "position": {
                       "description": "sx, sy and sz of D3DTLVERTEX (screen coordinates)",
                       "$ref": "#/$defs/vector3"
                     },
@@ -286,7 +286,7 @@
                     }
                   },
                   "required": [
-                    "pos",
+                    "position",
                     "rhw"
                   ]
                 },

@@ -7,7 +7,7 @@ import type { ArxRotation, ArxVector3 } from '@common/types.js'
  */
 export type ArxInteractiveObject = {
   name: string
-  pos: ArxVector3
+  position: ArxVector3
   angle: ArxRotation
   /**
    * Number at the end of entity ids: like the `56` in `goblin_base_0056`.
@@ -20,7 +20,7 @@ export class InteractiveObject {
   static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxInteractiveObject {
     const data: ArxInteractiveObject = {
       name: InteractiveObject.toRelativePath(binary.readString(512)),
-      pos: binary.readVector3(),
+      position: binary.readVector3(),
       angle: binary.readRotation(),
       identifier: binary.readInt32(),
     }
@@ -37,7 +37,7 @@ export class InteractiveObject {
     const binary = new BinaryIO(buffer)
 
     binary.writeString(InteractiveObject.toAbsolutePath(interactiveObject.name), 512)
-    binary.writeVector3(interactiveObject.pos)
+    binary.writeVector3(interactiveObject.position)
     binary.writeRotation(interactiveObject.angle)
     binary.writeInt32(interactiveObject.identifier)
     binary.writeInt32(0) // flags

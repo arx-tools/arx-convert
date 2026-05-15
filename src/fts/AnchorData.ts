@@ -18,7 +18,7 @@ export enum ArxAnchorFlags {
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L117
  */
 export type ArxAnchorData = {
-  pos: ArxVector3
+  position: ArxVector3
   radius: number
   height: number
   numberOfLinkedAnchors: number
@@ -28,7 +28,7 @@ export type ArxAnchorData = {
 export class AnchorData {
   static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxAnchorData {
     const data: ArxAnchorData = {
-      pos: binary.readVector3(),
+      position: binary.readVector3(),
       radius: binary.readFloat32(),
       height: binary.readFloat32(),
       numberOfLinkedAnchors: binary.readInt16(),
@@ -48,7 +48,7 @@ export class AnchorData {
     const buffer = new ArrayBuffer(AnchorData.sizeOf())
     const binary = new BinaryIO(buffer)
 
-    binary.writeVector3(anchor.data.pos)
+    binary.writeVector3(anchor.data.position)
     binary.writeFloat32(anchor.data.radius)
     binary.writeFloat32(anchor.data.height)
     binary.writeInt16(anchor.linkedAnchors.length)

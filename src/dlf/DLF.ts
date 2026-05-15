@@ -10,7 +10,7 @@ import { type ArxZoneAndPathPoint, ZoneAndPathPoint } from '@dlf/ZoneAndPathPoin
 
 export type ArxZone = Simplify<
   SetOptional<
-    Omit<ArxZoneAndPathHeader, 'numberOfPoints' | 'pos' | 'flags'>,
+    Omit<ArxZoneAndPathHeader, 'numberOfPoints' | 'position' | 'flags'>,
     'backgroundColor' | 'ambience' | 'ambienceMaxVolume' | 'drawDistance'
   > & {
     points: ArxZoneAndPathPoint[]
@@ -58,11 +58,20 @@ export class DLF {
     file.readInt8Array(numberOfNodes * (204 + numberOfNodeLinks * 64))
 
     times(() => {
-      const { numberOfPoints, pos, height, name, backgroundColor, ambience, ambienceMaxVolume, drawDistance, flags } =
-        ZoneAndPathHeader.readFrom(file)
+      const {
+        numberOfPoints,
+        position,
+        height,
+        name,
+        backgroundColor,
+        ambience,
+        ambienceMaxVolume,
+        drawDistance,
+        flags,
+      } = ZoneAndPathHeader.readFrom(file)
 
       const points = times(() => {
-        return ZoneAndPathPoint.readFrom(file, pos)
+        return ZoneAndPathPoint.readFrom(file, position)
       }, numberOfPoints)
 
       /**
@@ -110,9 +119,9 @@ export class DLF {
     const paths = concatArrayBuffers(
       json.paths.flatMap((path) => {
         const header = ZoneAndPathHeader.allocateFrom(path)
-        const { pos } = path.points[0]
+        const { position } = path.points[0]
         const points = path.points.map((point) => {
-          return ZoneAndPathPoint.allocateFrom(point, pos)
+          return ZoneAndPathPoint.allocateFrom(point, position)
         })
 
         return [header, ...points]
@@ -122,9 +131,9 @@ export class DLF {
     const zones = concatArrayBuffers(
       json.zones.flatMap((zone) => {
         const header = ZoneAndPathHeader.allocateFrom(zone)
-        const { pos } = zone.points[0]
+        const { position } = zone.points[0]
         const points = zone.points.map((point) => {
-          return ZoneAndPathPoint.allocateFrom(point, pos)
+          return ZoneAndPathPoint.allocateFrom(point, position)
         })
 
         return [header, ...points]

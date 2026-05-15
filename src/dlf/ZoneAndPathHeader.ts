@@ -25,7 +25,7 @@ export enum ArxZoneAndPathFlags {
 export type ArxZoneAndPathHeader = {
   name: string
   flags: ArxZoneAndPathFlags
-  pos: ArxVector3
+  position: ArxVector3
   numberOfPoints: number
   /**
    * known as `rgb` in arx source code
@@ -58,12 +58,12 @@ export class ZoneAndPathHeader {
 
     const flags = binary.readInt16()
 
-    binary.readVector3() // initPos - the same as pos with only 1 instance of being different on level 6:
-    // initPos: { x: -2647.48486328125, y: -0.5400390625, z: 6539.69091796875 }
-    //     pos: { x: -2647.48486328125, y: -0.5400390625, z: 6539.6904296875 }
+    binary.readVector3() // initPosition - the same as position with only 1 instance of being different on level 6:
+    // initPosition: { x: -2647.48486328125, y: -0.5400390625, z: 6539.69091796875 }
+    //     position: { x: -2647.48486328125, y: -0.5400390625, z: 6539.6904296875 }
 
     const dataBlock = {
-      pos: binary.readVector3(),
+      position: binary.readVector3(),
       numberOfPoints: binary.readInt32(),
       backgroundColor: Color.readFrom(binary, 'rgb'),
       drawDistance: binary.readFloat32(),
@@ -104,8 +104,8 @@ export class ZoneAndPathHeader {
 
     binary.writeInt16(ZoneAndPathHeader.setFlags(zoneOrPath))
 
-    binary.writeVector3(zoneOrPath.points[0].pos) // initPos
-    binary.writeVector3(zoneOrPath.points[0].pos) // pos
+    binary.writeVector3(zoneOrPath.points[0].position) // initPosition
+    binary.writeVector3(zoneOrPath.points[0].position) // position
 
     binary.writeInt32(zoneOrPath.points.length)
 

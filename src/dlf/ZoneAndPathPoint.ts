@@ -15,20 +15,22 @@ export enum ArxZoneAndPathPointType {
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L168
  */
 export type ArxZoneAndPathPoint = {
-  pos: ArxVector3
+  position: ArxVector3
   type: ArxZoneAndPathPointType
   /** milliseconds */
   time: number
 }
 
 export class ZoneAndPathPoint {
-  static readFrom(binary: BinaryIO<ArrayBufferLike>, pos: ArxVector3): ArxZoneAndPathPoint {
-    const rpos = binary.readVector3()
+  static readFrom(binary: BinaryIO<ArrayBufferLike>, position: ArxVector3): ArxZoneAndPathPoint {
+    // TODO: what is r in rpos/rPosition? real?
+    const rPosition = binary.readVector3()
+
     const data = {
-      pos: {
-        x: rpos.x + pos.x,
-        y: rpos.y + pos.y,
-        z: rpos.z + pos.z,
+      position: {
+        x: rPosition.x + position.x,
+        y: rPosition.y + position.y,
+        z: rPosition.z + position.z,
       },
       type: binary.readInt32(),
       time: binary.readUint32(),
@@ -41,17 +43,18 @@ export class ZoneAndPathPoint {
     return data
   }
 
-  static allocateFrom(point: ArxZoneAndPathPoint, pos: ArxVector3): ArrayBuffer {
+  static allocateFrom(point: ArxZoneAndPathPoint, position: ArxVector3): ArrayBuffer {
     const buffer = new ArrayBuffer(ZoneAndPathPoint.sizeOf())
     const binary = new BinaryIO(buffer)
 
-    const rpos = {
-      x: point.pos.x - pos.x,
-      y: point.pos.y - pos.y,
-      z: point.pos.z - pos.z,
+    // TODO: what is r in rpos/rPosition? real?
+    const rPosition = {
+      x: point.position.x - position.x,
+      y: point.position.y - position.y,
+      z: point.position.z - position.z,
     }
 
-    binary.writeVector3(rpos)
+    binary.writeVector3(rPosition)
     binary.writeInt32(point.type)
     binary.writeUint32(point.time)
 

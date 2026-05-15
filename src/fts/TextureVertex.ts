@@ -43,7 +43,7 @@ export type ArxTextureVertex = {
   /**
    * sx, sy and sz of D3DTLVERTEX (screen coordinates)
    */
-  pos: ArxVector3
+  position: ArxVector3
   /**
    * portal bounds radius - used by ARX_PORTALS_Frustrum_ComputeRoom
    *
@@ -56,7 +56,7 @@ export type ArxTextureVertex = {
 export class TextureVertex {
   static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxTextureVertex {
     const data = {
-      pos: binary.readVector3(),
+      position: binary.readVector3(),
       rhw: binary.readFloat32(),
     }
 
@@ -84,7 +84,7 @@ export class TextureVertex {
 
     const { color, specular, tu, tv } = data
 
-    binary.writeVector3(vertex.pos)
+    binary.writeVector3(vertex.position)
 
     if (isFirstVertexOfPolygon) {
       binary.writeFloat32(vertex.rhw)

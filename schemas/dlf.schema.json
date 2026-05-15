@@ -143,7 +143,7 @@
             "type": "string",
             "maxLength": 512
           },
-          "pos": {
+          "position": {
             "$ref": "#/$defs/vector3"
           },
           "angle": {
@@ -158,7 +158,7 @@
         },
         "required": [
           "name",
-          "pos",
+          "position",
           "angle",
           "identifier"
         ]
@@ -169,7 +169,7 @@
       "items": {
         "type": "object",
         "properties": {
-          "pos": {
+          "position": {
             "$ref": "#/$defs/vector3"
           },
           "color": {
@@ -244,7 +244,7 @@
           }
         },
         "required": [
-          "pos",
+          "position",
           "color",
           "size",
           "special",
@@ -272,7 +272,7 @@
             "items": {
               "type": "object",
               "properties": {
-                "pos": {
+                "position": {
                   "$ref": "#/$defs/vector3"
                 },
                 "type": {
@@ -296,7 +296,7 @@
                 }
               },
               "required": [
-                "pos",
+                "position",
                 "type",
                 "time"
               ]
@@ -359,7 +359,7 @@
             "items": {
               "type": "object",
               "properties": {
-                "pos": {
+                "position": {
                   "$ref": "#/$defs/vector3"
                 },
                 "type": {
@@ -383,7 +383,7 @@
                 }
               },
               "required": [
-                "pos",
+                "position",
                 "type",
                 "time"
               ]

@@ -7,7 +7,7 @@ import type { ArxRotation, ArxVector3 } from '@common/types.js'
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L132
  */
 export type ArxFog = {
-  pos: ArxVector3
+  position: ArxVector3
   color: ArxColor
   size: number
   /**
@@ -44,7 +44,7 @@ export type ArxFog = {
 export class Fog {
   static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxFog {
     const dataBlock1 = {
-      pos: binary.readVector3(),
+      position: binary.readVector3(),
       color: Color.readFrom(binary, 'rgb'),
       size: binary.readFloat32(),
       special: binary.readInt32(),
@@ -74,7 +74,7 @@ export class Fog {
     const buffer = new ArrayBuffer(Fog.sizeOf())
     const binary = new BinaryIO(buffer)
 
-    binary.writeVector3(fog.pos)
+    binary.writeVector3(fog.position)
     binary.writeBuffer(Color.accumulateFrom(fog.color, 'rgb'))
     binary.writeFloat32(fog.size)
     binary.writeInt32(fog.special)
