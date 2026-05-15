@@ -88,18 +88,18 @@
       "items": {
         "type": "object",
         "properties": {
-          "pos": {
+          "position": {
             "$ref": "#/$defs/vector3"
           },
           "color": {
             "$ref": "#/$defs/color"
           },
           "fallStart": {
-            "description": "The radius of a sphere around `pos` in which the light is at full intensity.",
+            "description": "The radius of a sphere around `position` in which the light is at full intensity.",
             "type": "number"
           },
           "fallEnd": {
-            "description": "The radius of a sphere around `pos` where the light's intensity gradually fades to 0.",
+            "description": "The radius of a sphere around `position` where the light's intensity gradually fades to 0.",
             "type": "number"
           },
           "intensity": {
@@ -138,7 +138,7 @@
           }
         },
         "required": [
-          "pos",
+          "position",
           "color",
           "fallStart",
           "fallEnd",

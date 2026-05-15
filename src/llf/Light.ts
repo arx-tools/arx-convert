@@ -105,14 +105,14 @@ export enum ArxLightFlags {
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L114
  */
 export type ArxLight = {
-  pos: ArxVector3
+  position: ArxVector3
   color: ArxColor
   /**
-   * The radius of a sphere around `ArxLight.pos` in which the light is at full intensity.
+   * The radius of a sphere around `ArxLight.position` in which the light is at full intensity.
    */
   fallStart: number
   /**
-   * The radius of a sphere around `ArxLight.pos` where the light's intensity gradually fades to 0.
+   * The radius of a sphere around `ArxLight.position` where the light's intensity gradually fades to 0.
    */
   fallEnd: number
   /**
@@ -172,7 +172,7 @@ export type ArxLight = {
 export class Light {
   static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxLight {
     const dataBlock1 = {
-      pos: binary.readVector3(),
+      position: binary.readVector3(),
       color: Color.readFrom(binary, 'rgb'),
       fallStart: binary.readFloat32(),
       fallEnd: binary.readFloat32(),
@@ -207,7 +207,7 @@ export class Light {
     const buffer = new ArrayBuffer(Light.sizeOf())
     const binary = new BinaryIO(buffer)
 
-    binary.writeVector3(light.pos)
+    binary.writeVector3(light.position)
     binary.writeBuffer(Color.accumulateFrom(light.color, 'rgb'))
     binary.writeFloat32(light.fallStart)
     binary.writeFloat32(light.fallEnd)
