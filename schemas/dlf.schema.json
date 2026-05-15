@@ -101,13 +101,22 @@
           "description": "Unix timestamp in seconds",
           "$ref": "#/$defs/positiveInt32"
         },
-        "posEdit": {
-          "description": "Position of the player where it gets teleported to upon entering the level when no entity is specified as teleport target",
-          "$ref": "#/$defs/vector3"
-        },
-        "angleEdit": {
-          "description": "The orientation of the player upon entering a level, specified in degrees. Only \"b\" is used which turns the player around its Y axis as all other rotations on other axis gets reset by the player animations.",
-          "$ref": "#/$defs/rotation"
+        "player": {
+          "type": "object",
+          "properties": {
+            "position": {
+              "description": "Position of the player where it gets teleported to upon entering the level when no entity is specified as teleport target",
+              "$ref": "#/$defs/vector3"
+            },
+            "orientation": {
+              "description": "The orientation of the player upon entering a level, specified in degrees. Only \"b\" is used which turns the player around its Y axis as all other rotations on other axis gets reset by the player animations.",
+              "$ref": "#/$defs/rotation"
+            }
+          },
+          "required": [
+            "position",
+            "orientation"
+          ]
         },
         "numberOfPolygonsInFTS": {
           "$ref": "#/$defs/positiveInt32"
@@ -120,8 +129,7 @@
       "required": [
         "lastModifiedBy",
         "lastModifiedAt",
-        "posEdit",
-        "angleEdit",
+        "player",
         "numberOfPolygonsInFTS",
         "levelIdx"
       ]

@@ -13,16 +13,16 @@ export type ArxDlfHeader = {
    * unix timestamp in seconds
    */
   lastModifiedAt: number
-  // TODO: add a better name for this, like playerPosition
-  /**
-   * Position of the player where it gets teleported to upon entering the level when no entity is specified as teleport target
-   */
-  posEdit: ArxVector3
-  // TODO: add a better name for this, like playerOrientation
-  /**
-   * The orientation of the player upon entering a level, specified in degrees. Only "b" is used which turns the player around its Y axis as all other rotations on other axis gets reset by the player animations.
-   */
-  angleEdit: ArxRotation
+  player: {
+    /**
+     * Position of the player where it gets teleported to upon entering the level when no entity is specified as teleport target
+     */
+    position: ArxVector3
+    /**
+     * The orientation of the player upon entering a level, specified in degrees. Only "b" is used which turns the player around its Y axis as all other rotations on other axis gets reset by the player animations.
+     */
+    orientation: ArxRotation
+  }
   numberOfInteractiveObjects: number
   numberOfFogs: number
   numberOfPolygonsInFTS: number
@@ -37,8 +37,10 @@ export class DlfHeader {
     const dataBlock = {
       lastModifiedBy: binary.readString(256),
       lastModifiedAt: binary.readInt32(),
-      posEdit: binary.readVector3(),
-      angleEdit: binary.readRotation(),
+      player: {
+        position: binary.readVector3(),
+        orientation: binary.readRotation(),
+      },
     }
 
     binary.readInt32() // number of scenes - always 1
@@ -83,8 +85,8 @@ export class DlfHeader {
     binary.writeString('DANAE_FILE', 16)
     binary.writeString(json.header.lastModifiedBy, 256)
     binary.writeInt32(json.header.lastModifiedAt)
-    binary.writeVector3(json.header.posEdit)
-    binary.writeRotation(json.header.angleEdit)
+    binary.writeVector3(json.header.player.position)
+    binary.writeRotation(json.header.player.orientation)
     binary.writeInt32(1) // number of scenes
     binary.writeInt32(json.interactiveObjects.length)
     binary.writeInt32(0) // number of nodes
