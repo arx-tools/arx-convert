@@ -403,7 +403,6 @@
   },
   "required": [
     "header",
-    "sceneHeader",
     "textureContainers",
     "cells",
     "polygons",

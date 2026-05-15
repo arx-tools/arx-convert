@@ -380,7 +380,6 @@
   },
   "required": [
     "header",
-    "scene",
     "interactiveObjects",
     "fogs",
     "paths",
