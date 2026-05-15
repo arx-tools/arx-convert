@@ -4,7 +4,7 @@ import { concatArrayBuffers, times } from '@common/helpers.js'
 import { type ArxDlfHeader, DlfHeader } from '@dlf/DlfHeader.js'
 import { type ArxFog, Fog } from '@dlf/Fog.js'
 import { type ArxInteractiveObject, InteractiveObject } from '@dlf/InteactiveObject.js'
-import { type ArxScene, Scene } from '@dlf/Scene.js'
+import { Scene } from '@dlf/Scene.js'
 import { ArxZoneAndPathFlags, type ArxZoneAndPathHeader, ZoneAndPathHeader } from '@dlf/ZoneAndPathHeader.js'
 import { type ArxZoneAndPathPoint, ZoneAndPathPoint } from '@dlf/ZoneAndPathPoint.js'
 
@@ -21,8 +21,9 @@ export type ArxPath = Pick<ArxZone, 'name' | 'points'>
 
 export type ArxDLF = {
   $schema?: string
-  header: Simplify<Omit<ArxDlfHeader, 'numberOfInteractiveObjects' | 'numberOfFogs' | 'numberOfZonesAndPaths'>>
-  scene: ArxScene
+  header: Simplify<
+    Omit<ArxDlfHeader, 'numberOfInteractiveObjects' | 'numberOfFogs' | 'numberOfZonesAndPaths'> & { levelIdx: number }
+  >
   interactiveObjects: ArxInteractiveObject[]
   fogs: ArxFog[]
   paths: ArxPath[]
@@ -34,11 +35,14 @@ export class DLF {
     const file = new BinaryIO(decompressedFile)
 
     const { numberOfInteractiveObjects, numberOfFogs, numberOfZonesAndPaths, ...header } = DlfHeader.readFrom(file)
+    const { levelIdx } = Scene.readFrom(file)
 
     const data: ArxDLF = {
       $schema: 'https://arx-tools.github.io/schemas/dlf.schema.json',
-      header,
-      scene: Scene.readFrom(file),
+      header: {
+        ...header,
+        levelIdx,
+      },
       interactiveObjects: times(() => {
         return InteractiveObject.readFrom(file)
       }, numberOfInteractiveObjects),
@@ -94,7 +98,9 @@ export class DLF {
 
   static save(json: ArxDLF): ArrayBuffer {
     const header = DlfHeader.accumulateFrom(json)
-    const scene = Scene.accumulateFrom(json.scene)
+    const scene = Scene.accumulateFrom({
+      levelIdx: json.header.levelIdx,
+    })
     const interactiveObjects = concatArrayBuffers(json.interactiveObjects.map(InteractiveObject.accumulateFrom))
     const fogs = concatArrayBuffers(json.fogs.map(Fog.accumulateFrom))
     const numberOfNodes = 0
