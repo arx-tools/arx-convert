@@ -10,6 +10,10 @@ Converts various Arx Fatalis formats (DLF, FTS, LLF, AMB and FTL) to JSON/YAML a
 
 `npm i -g arx-convert`
 
+node.js 18.0+ (because the lib uses prefix-only core modules)
+
+It might work with older versions of node.js, but I haven't tested it there.
+
 ### browser
 
 ```html
@@ -30,12 +34,6 @@ Converts various Arx Fatalis formats (DLF, FTS, LLF, AMB and FTL) to JSON/YAML a
   // ...
 </script>
 ```
-
-### Recommended requirements
-
-node.js 18.0+ (because the lib uses prefix-only core modules)
-
-It might work with older versions of node.js, but I haven't tested it there.
 
 ## Command-line API
 
@@ -267,3 +265,11 @@ or uncompressed
 ### Validating generated JSON files using schemas
 
 https://www.jsonschemavalidator.net/
+
+## Miscellaneous infos
+
+Arx uses a right handed 3D coordinate system where:
+
+- X-axis is pointing left
+- Y-axis is pointing down
+- Z-axis is pointing towards you and is coming out of the screen
