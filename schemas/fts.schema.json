@@ -82,10 +82,14 @@
         "levelIdx": {
           "type": "integer",
           "minimum": 0
+        },
+        "mScenePosition": {
+          "$ref": "#/$defs/vector3"
         }
       },
       "required": [
-        "levelIdx"
+        "levelIdx",
+        "mScenePosition"
       ]
     },
     "uniqueHeaders": {
@@ -111,17 +115,6 @@
           "check"
         ]
       }
-    },
-    "sceneHeader": {
-      "type": "object",
-      "properties": {
-        "mScenePosition": {
-          "$ref": "#/$defs/vector3"
-        }
-      },
-      "required": [
-        "mScenePosition"
-      ]
     },
     "textureContainers": {
       "type": "array",

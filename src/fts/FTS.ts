@@ -16,11 +16,11 @@ import { addLightIndex, getCellCoords } from '@fts/helpers.js'
 
 export type ArxFTS = {
   $schema?: string
-  header: Simplify<Omit<ArxFtsHeader, 'numberOfUniqueHeaders'>>
-  uniqueHeaders?: ArxUniqueHeader[]
-  sceneHeader: Simplify<
-    Omit<ArxSceneHeader, 'numberOfTextures' | 'numberOfAnchors' | 'numberOfPortals' | 'numberOfRooms'>
+  header: Simplify<
+    Omit<ArxFtsHeader, 'numberOfUniqueHeaders'> &
+      Omit<ArxSceneHeader, 'numberOfTextures' | 'numberOfAnchors' | 'numberOfPortals' | 'numberOfRooms'>
   >
+  uniqueHeaders?: ArxUniqueHeader[]
   textureContainers: ArxTextureContainer[]
   cells: Array<Simplify<Omit<ArxCell, 'polygons'>>>
   polygons: ArxPolygon[]
@@ -69,9 +69,11 @@ export class FTS {
 
     return {
       $schema: 'https://arx-tools.github.io/schemas/fts.schema.json',
-      header,
+      header: {
+        ...header,
+        ...sceneHeader,
+      },
       uniqueHeaders,
-      sceneHeader,
       textureContainers,
       cells: combinedCells.map(({ polygons, ...cell }) => {
         return cell

@@ -56,7 +56,7 @@ export class SceneHeader {
     binary.writeInt32(json.polygons.length)
     binary.writeInt32(json.anchors.length)
     binary.writeVector3({ x: 0, y: 0, z: 0 }) // player position (should be dlf.header.posEdit + fts.sceneHeader.mScenePosition)
-    binary.writeVector3(json.sceneHeader.mScenePosition)
+    binary.writeVector3(json.header.mScenePosition)
     binary.writeInt32(json.portals.length)
     binary.writeInt32(numberOfRooms)
 
