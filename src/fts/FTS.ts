@@ -1,3 +1,4 @@
+import type { Simplify } from 'type-fest'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { MAP_DEPTH_IN_CELLS, MAP_WIDTH_IN_CELLS } from '@common/constants.js'
 import { concatArrayBuffers, times } from '@common/helpers.js'
@@ -15,11 +16,13 @@ import { addLightIndex, getCellCoords } from '@fts/helpers.js'
 
 export type ArxFTS = {
   $schema?: string
-  header: Omit<ArxFtsHeader, 'numberOfUniqueHeaders'>
+  header: Simplify<Omit<ArxFtsHeader, 'numberOfUniqueHeaders'>>
   uniqueHeaders?: ArxUniqueHeader[]
-  sceneHeader: Omit<ArxSceneHeader, 'numberOfTextures' | 'numberOfAnchors' | 'numberOfPortals' | 'numberOfRooms'>
+  sceneHeader: Simplify<
+    Omit<ArxSceneHeader, 'numberOfTextures' | 'numberOfAnchors' | 'numberOfPortals' | 'numberOfRooms'>
+  >
   textureContainers: ArxTextureContainer[]
-  cells: Array<Omit<ArxCell, 'polygons'>>
+  cells: Array<Simplify<Omit<ArxCell, 'polygons'>>>
   polygons: ArxPolygon[]
   anchors: ArxAnchor[]
   portals: ArxPortal[]

@@ -1,3 +1,4 @@
+import type { Simplify } from 'type-fest'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { concatArrayBuffers, times } from '@common/helpers.js'
 import { type ArxKeyFrame, KeyFrame } from '@tea/KeyFrame.js'
@@ -6,7 +7,7 @@ import { TEA_VERSION_OLD } from '@tea/constants.js'
 
 export type ArxTEA = {
   $schema?: string
-  header: Omit<ArxTeaHeader, 'numberOfKeyFrames' | 'numberOfGroups' | 'version'>
+  header: Simplify<Omit<ArxTeaHeader, 'numberOfKeyFrames' | 'numberOfGroups' | 'version'>>
   keyframes: ArxKeyFrame[]
 }
 

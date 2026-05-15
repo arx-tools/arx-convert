@@ -1,3 +1,4 @@
+import type { Simplify } from 'type-fest'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { concatArrayBuffers, times } from '@common/helpers.js'
 import { Action, type ArxAction } from '@ftl/Action.js'
@@ -10,14 +11,16 @@ import { type ArxSelection, Selection } from '@ftl/Selections.js'
 
 export type ArxFTL = {
   $schema?: string
-  header: Omit<
-    ArxFtlHeader,
-    | 'numberOfVertices'
-    | 'numberOfFaces'
-    | 'numberOfTextures'
-    | 'numberOfGroups'
-    | 'numberOfActions'
-    | 'numberOfSelections'
+  header: Simplify<
+    Omit<
+      ArxFtlHeader,
+      | 'numberOfVertices'
+      | 'numberOfFaces'
+      | 'numberOfTextures'
+      | 'numberOfGroups'
+      | 'numberOfActions'
+      | 'numberOfSelections'
+    >
   >
   vertices: ArxFtlVertex[]
   faces: ArxFace[]

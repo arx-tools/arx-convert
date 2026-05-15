@@ -21,7 +21,7 @@ export type ArxPath = Pick<ArxZone, 'name' | 'points'>
 
 export type ArxDLF = {
   $schema?: string
-  header: Omit<ArxDlfHeader, 'numberOfInteractiveObjects' | 'numberOfFogs' | 'numberOfZonesAndPaths'>
+  header: Simplify<Omit<ArxDlfHeader, 'numberOfInteractiveObjects' | 'numberOfFogs' | 'numberOfZonesAndPaths'>>
   scene: ArxScene
   interactiveObjects: ArxInteractiveObject[]
   fogs: ArxFog[]

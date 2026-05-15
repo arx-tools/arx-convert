@@ -1,3 +1,4 @@
+import type { Simplify } from 'type-fest'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxColor, Color } from '@common/Color.js'
 import { concatArrayBuffers, times } from '@common/helpers.js'
@@ -7,7 +8,7 @@ import { type ArxLlfHeader, LlfHeader } from '@llf/LlfHeader.js'
 
 export type ArxLLF = {
   $schema?: string
-  header: Omit<ArxLlfHeader, 'numberOfLights'>
+  header: Simplify<Omit<ArxLlfHeader, 'numberOfLights'>>
   lights: ArxLight[]
   /**
    * pre-computed vertex light colors for FTS.polygons
