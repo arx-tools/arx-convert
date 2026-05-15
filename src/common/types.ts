@@ -2,17 +2,37 @@
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/GraphicsFormat.h#L48
  */
 export type ArxVector3 = {
+  /**
+   * X-axis is pointing left
+   */
   x: number
+  /**
+   * Y-axis is pointing down
+   */
   y: number
+  /**
+   * Z-axis is pointing towards you and is coming out of the screen
+   */
   z: number
 }
 
 /**
+ * Euler angles in degrees
+ *
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/GraphicsFormat.h#L65
  */
 export type ArxRotation = {
+  /**
+   * Euler angle defined in degrees
+   */
   a: number
+  /**
+   * Euler angle defined in degrees
+   */
   b: number
+  /**
+   * Euler angle defined in degrees
+   */
   g: number
 }
 
