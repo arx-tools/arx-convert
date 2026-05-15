@@ -96,7 +96,7 @@
           "isKeyFrame": {
             "type": "boolean"
           },
-          "time_frame": {
+          "timeFrame": {
             "$ref": "#/$defs/positiveInt32"
           },
           "groups": {
@@ -138,7 +138,7 @@
           "frame",
           "isMasterKeyFrame",
           "isKeyFrame",
-          "time_frame",
+          "timeFrame",
           "groups"
         ]
       }

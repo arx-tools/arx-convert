@@ -92,7 +92,7 @@ export type ArxKeyFrame = {
    */
   isKeyFrame: boolean
   // TODO: what is this field for?
-  time_frame: number
+  timeFrame: number
   groups: ArxTheoAnimationGroup[]
   /**
    * if value is missing than it means it's a vector with 0/0/0 values
@@ -126,7 +126,7 @@ export class KeyFrame {
       flags,
       isMasterKeyFrame,
       isKeyFrame,
-      time_frame: binary.readInt32(),
+      timeFrame: binary.readInt32(),
       groups: [],
     }
 
@@ -252,7 +252,7 @@ export class KeyFrame {
 
     binary.writeInt32(0) // key_morph - ignored by Arx
 
-    binary.writeInt32(keyframe.time_frame)
+    binary.writeInt32(keyframe.timeFrame)
 
     if (keyframe.translate) {
       binary.writeVector3(keyframe.translate)
