@@ -11,7 +11,7 @@ export type ArxInteractiveObject = {
   angle: ArxRotation
   /**
    * Number at the end of entity ids: like the `56` in `goblin_base_0056`.
-   * The number should be between 0 and 9999. No info if the game can handle identifiers larger than 4 digits.
+   * The number should be between 0 and 9999. No info on whether the game can handle identifiers larger than 4 digits.
    */
   identifier: number
 }
