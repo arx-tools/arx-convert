@@ -8,7 +8,7 @@ import type { ArxRotation, ArxVector3 } from '@common/types.js'
 export type ArxInteractiveObject = {
   name: string
   position: ArxVector3
-  angle: ArxRotation
+  orientation: ArxRotation
   /**
    * Number at the end of entity ids: like the `56` in `goblin_base_0056`.
    * The number should be between 0 and 9999. No info on whether the game can handle identifiers larger than 4 digits.
@@ -21,7 +21,7 @@ export class InteractiveObject {
     const data: ArxInteractiveObject = {
       name: InteractiveObject.toRelativePath(binary.readString(512)),
       position: binary.readVector3(),
-      angle: binary.readRotation(),
+      orientation: binary.readRotation(),
       identifier: binary.readInt32(),
     }
 
@@ -38,7 +38,7 @@ export class InteractiveObject {
 
     binary.writeString(InteractiveObject.toAbsolutePath(interactiveObject.name), 512)
     binary.writeVector3(interactiveObject.position)
-    binary.writeRotation(interactiveObject.angle)
+    binary.writeRotation(interactiveObject.orientation)
     binary.writeInt32(interactiveObject.identifier)
     binary.writeInt32(0) // flags
 

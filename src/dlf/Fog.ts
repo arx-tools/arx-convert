@@ -19,7 +19,7 @@ export type ArxFog = {
    * A normal vector, all axis are between -1 and 1
    */
   move: ArxVector3
-  angle: ArxRotation
+  orientation: ArxRotation
   /**
    * Movement speed of fog particles: `move` * (`speed` * 0.1)
    */
@@ -50,7 +50,7 @@ export class Fog {
       special: binary.readInt32(),
       scale: binary.readFloat32(),
       move: binary.readVector3(),
-      angle: binary.readRotation(),
+      orientation: binary.readRotation(),
       speed: binary.readFloat32(),
       rotateSpeed: binary.readFloat32(),
       toLive: binary.readInt32(),
@@ -81,7 +81,7 @@ export class Fog {
     binary.writeFloat32(fog.scale)
     binary.writeVector3(fog.move)
 
-    binary.writeRotation(fog.angle)
+    binary.writeRotation(fog.orientation)
     binary.writeFloat32(fog.speed)
     binary.writeFloat32(fog.rotateSpeed)
     binary.writeInt32(fog.toLive)
