@@ -13,10 +13,12 @@ export type ArxDlfHeader = {
    * unix timestamp in seconds
    */
   lastModifiedAt: number
+  // TODO: add a better name for this, like playerPosition
   /**
    * Position of the player where it gets teleported to upon entering the level when no entity is specified as teleport target
    */
   posEdit: ArxVector3
+  // TODO: add a better name for this, like playerOrientation
   /**
    * The orientation of the player upon entering a level, specified in degrees. Only "b" is used which turns the player around its Y axis as all other rotations on other axis gets reset by the player animations.
    */

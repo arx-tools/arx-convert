@@ -11,6 +11,10 @@ import { FTS_VERSION } from '@fts/constants.js'
 export type ArxSceneHeader = {
   numberOfTextures: number
   numberOfAnchors: number
+  // TODO: add a better name for mScenePosition
+  /**
+   * ??
+   */
   mScenePosition: ArxVector3
   numberOfPortals: number
   numberOfRooms: number
