@@ -4,7 +4,7 @@ import { concatArrayBuffers, times } from '@common/helpers.js'
 import { type ArxDlfHeader, DlfHeader } from '@dlf/DlfHeader.js'
 import { type ArxFog, Fog } from '@dlf/Fog.js'
 import { type ArxInteractiveObject, InteractiveObject } from '@dlf/InteactiveObject.js'
-import { Scene } from '@dlf/Scene.js'
+import { type ArxScene, Scene } from '@dlf/Scene.js'
 import { ArxZoneAndPathFlags, type ArxZoneAndPathHeader, ZoneAndPathHeader } from '@dlf/ZoneAndPathHeader.js'
 import { type ArxZoneAndPathPoint, ZoneAndPathPoint } from '@dlf/ZoneAndPathPoint.js'
 
@@ -22,7 +22,7 @@ export type ArxPath = Pick<ArxZone, 'name' | 'points'>
 export type ArxDLF = {
   $schema?: string
   header: Simplify<
-    Omit<ArxDlfHeader, 'numberOfInteractiveObjects' | 'numberOfFogs' | 'numberOfZonesAndPaths'> & { levelIdx: number }
+    Omit<ArxDlfHeader, 'numberOfInteractiveObjects' | 'numberOfFogs' | 'numberOfZonesAndPaths'> & ArxScene
   >
   interactiveObjects: ArxInteractiveObject[]
   fogs: ArxFog[]
@@ -35,13 +35,13 @@ export class DLF {
     const file = new BinaryIO(decompressedFile)
 
     const { numberOfInteractiveObjects, numberOfFogs, numberOfZonesAndPaths, ...header } = DlfHeader.readFrom(file)
-    const { levelIdx } = Scene.readFrom(file)
+    const scene = Scene.readFrom(file)
 
     const data: ArxDLF = {
       $schema: 'https://arx-tools.github.io/schemas/dlf.schema.json',
       header: {
         ...header,
-        levelIdx,
+        ...scene,
       },
       interactiveObjects: times(() => {
         return InteractiveObject.readFrom(file)
