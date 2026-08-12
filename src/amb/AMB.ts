@@ -12,12 +12,12 @@ export class AMB {
   static load(decompressedFile: ArrayBufferLike): ArxAMB {
     const file = new BinaryIO(decompressedFile)
 
-    const { numberOfTracks, isNewerVersion } = AmbHeader.readFrom(file)
+    const { numberOfTracks, version } = AmbHeader.readFrom(file)
 
     return {
       $schema: 'https://arx-tools.github.io/schemas/amb.schema.json',
       tracks: times(() => {
-        return Track.readFrom(file, isNewerVersion)
+        return Track.readFrom(file, version)
       }, numberOfTracks),
     }
   }

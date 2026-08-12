@@ -1,9 +1,9 @@
 import type { ArxAMB } from '@amb/AMB.js'
-import { AMB_VERSION_1003, AMB_VERSION_1002 } from '@amb/constants.js'
+import { AMB_VERSION_1003, type AMB_VERSIONS } from '@amb/constants.js'
 import { BinaryIO } from '@common/BinaryIO.js'
 
 export type ArxAmbHeader = {
-  isNewerVersion: boolean
+  version: AMB_VERSIONS
   numberOfTracks: number
 }
 
@@ -14,10 +14,12 @@ export class AmbHeader {
   static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxAmbHeader {
     binary.readString(4) // identifier - always "GAMB"
 
-    const version = binary.readUint32()
+    // based on the assets of Arx only the ARX_VERSIONS versions are being used (1001, 1002 and 1003)
+    // arx-convert doesn't check for other versions, assumes it's one of those 3 versions
+    const version = binary.readUint32() as AMB_VERSIONS
 
     return {
-      isNewerVersion: version >= AMB_VERSION_1002,
+      version,
       numberOfTracks: binary.readUint32(),
     }
   }

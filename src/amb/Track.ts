@@ -1,6 +1,7 @@
 import { type ArxKey, Key } from '@amb/Key.js'
 import { BinaryIO } from '@common/BinaryIO.js'
 import { concatArrayBuffers, times } from '@common/helpers.js'
+import { AMB_VERSION_1002, AMB_VERSION_1003, type AMB_VERSIONS } from './constants.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/audio/Ambiance.cpp#L230
@@ -25,10 +26,10 @@ export class Track {
   /**
    * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/audio/Ambiance.cpp#L531
    */
-  static readFrom(binary: BinaryIO<ArrayBufferLike>, isNewerVersion: boolean): ArxTrack {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>, ambVersion: AMB_VERSIONS): ArxTrack {
     const filename = Track.toRelativePath(binary.readString())
 
-    if (isNewerVersion) {
+    if (ambVersion === AMB_VERSION_1002 || ambVersion === AMB_VERSION_1003) {
       binary.readString() // name - always ""
     }
 
@@ -39,7 +40,7 @@ export class Track {
       return Key.readFrom(binary)
     }, numberOfKeys)
 
-    if (isNewerVersion) {
+    if (ambVersion === AMB_VERSION_1003) {
       keys.reverse()
     }
 
@@ -58,7 +59,7 @@ export class Track {
     binary.writeString('') // name
     binary.writeUint32(track.flags)
     binary.writeUint32(track.keys.length)
-    binary.writeBuffer(concatArrayBuffers(track.keys.reverse().map(Key.accumulateFrom)))
+    binary.writeBuffer(concatArrayBuffers(track.keys.reverse().map(Key.accumulateFrom))) // .reverse() is needed as arx-convert outputs AMB_VERSION_1003 format
 
     return buffer
   }
