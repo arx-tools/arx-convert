@@ -59,7 +59,7 @@ export class Track {
     binary.writeString('') // name
     binary.writeUint32(track.flags)
     binary.writeUint32(track.keys.length)
-    binary.writeBuffer(concatArrayBuffers(track.keys.reverse().map(Key.accumulateFrom))) // .reverse() is needed as arx-convert outputs AMB_VERSION_1003 format
+    binary.writeBuffer(concatArrayBuffers([...track.keys].reverse().map(Key.accumulateFrom))) // .reverse() is needed as arx-convert outputs AMB_VERSION_1003 format
 
     return buffer
   }

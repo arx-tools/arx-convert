@@ -94,7 +94,7 @@ export function quotientAndRemainder(dividend: number, divisor: number): [number
 export function outputInChunks(buffer: string | ArrayBuffer, stream: NodeJS.WritableStream, chunkSize = 1024): void {
   let sizeOfBuffer: number
   if (typeof buffer === 'string') {
-    const [numberOfWholeChunks, leftoverChunkSize] = quotientAndRemainder(chunkSize, buffer.length)
+    const [numberOfWholeChunks, leftoverChunkSize] = quotientAndRemainder(buffer.length, chunkSize)
 
     for (let i = 0; i < numberOfWholeChunks; i++) {
       stream.write(sliceBuffer(buffer, i * chunkSize, (i + 1) * chunkSize))
