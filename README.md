@@ -273,3 +273,5 @@ Arx uses a right handed 3D coordinate system where:
 - X-axis is pointing left
 - Y-axis is pointing down
 - Z-axis is pointing towards you and is coming out of the screen
+
+TEA files are always outputted as `TEA_VERSION_OLD` (2014) version.
