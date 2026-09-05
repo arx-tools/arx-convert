@@ -123,7 +123,7 @@
             "type": "number"
           },
           "exSpeed": {
-            "description": "How far the fire/smoke particles go during the time they are alive. A larger number will make the particles shoot up like a fountain, a smaller number will make all of them stay in one place. The value is supposed to be set between 0.0 and 1.0, but it can go outside that boundary for extreme effect. Negative values will make flame particles never despawn, so after a bit new flame particles will cease to spawn.",
+            "description": "How far the fire/smoke particles go during the time they are alive. A larger number will make the particles shoot up like a fountain, positive values closer to 0.0 will make all of them stay in one place. The value is supposed to be set between 0.0 and 1.0, but it can go outside that boundary for extreme effect. Negative values will make flame particles never despawn, so after a bit new flame particles will cease to spawn.",
             "type": "number"
           },
           "exFlareSize": {
