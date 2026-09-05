@@ -157,6 +157,10 @@ export type ArxLight = {
    * shoot up like a fountain, a smaller number will make all of them stay in one place.
    *
    * The value is supposed to be set between 0.0 and 1.0, but it can go over 1.0 for extreme effect.
+   *
+   * The game can also handle negative numbers, but the resulting effect is the same as using 0.0
+   * As you go higher with values above 1.0 the flame will gradually start looking more like a fountain of flames
+   * or a volcano erupting.
    */
   exSpeed: number
   /**
@@ -219,6 +223,7 @@ export class Light {
     binary.writeFloat32(light.exRadius)
     binary.writeFloat32(light.exFrequency)
     binary.writeFloat32(light.exSize)
+    // negative values visually produce the same output as 0.0 (no vertical movement for particles), so I'm clamping it
     binary.writeFloat32(clamp(light.exSpeed, 0, Number.MAX_SAFE_INTEGER))
     binary.writeFloat32(light.exFlareSize)
 
