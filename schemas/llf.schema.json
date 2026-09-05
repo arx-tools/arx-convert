@@ -123,10 +123,8 @@
             "type": "number"
           },
           "exSpeed": {
-            "description": "How far the fire/smoke particles go during the time they are alive. A larger number will make the particles shoot up like a fountain, a smaller number will make all of them stay in one place. The value is supposed to be set between 0.0 and 1.0, but it can go over 1.0 for extreme effect.",
-            "type": "number",
-            "minimum": 0,
-            "maximum": 9007199254740991
+            "description": "How far the fire/smoke particles go during the time they are alive. A larger number will make the particles shoot up like a fountain, a smaller number will make all of them stay in one place. The value is supposed to be set between 0.0 and 1.0, but it can go outside that boundary for extreme effect. Negative values will make flame particles never despawn, so after a bit new flame particles will cease to spawn.",
+            "type": "number"
           },
           "exFlareSize": {
             "description": "The radius of the flare/halo when `ArxLightFlags.Flare` is set. The value of `exFlareSize` is ignored when `ArxLightFlags.FixFlareSize` is set. Danae only allows setting it to a maximum of 200, but there isn't any limitiations in the game.",

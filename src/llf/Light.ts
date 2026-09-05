@@ -1,6 +1,6 @@
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxColor, Color } from '@common/Color.js'
-import { clamp, repeat } from '@common/helpers.js'
+import { repeat } from '@common/helpers.js'
 import type { ArxVector3 } from '@common/types.js'
 
 /**
@@ -153,14 +153,15 @@ export type ArxLight = {
    */
   exSize: number
   /**
-   * How far the fire/smoke particles go during the time they are alive. A larger number will make the particles
-   * shoot up like a fountain, a smaller number will make all of them stay in one place.
+   * How far the fire/smoke particles go during the time they are alive (vertical movement).
+   * The value is supposed to be set between 0.0 and 1.0, but it can go outside that boundary for extreme effects.
    *
-   * The value is supposed to be set between 0.0 and 1.0, but it can go over 1.0 for extreme effect.
+   * 0.0 = the flame is stationary, particles are spinning in place
+   * 1.0 = flames go up really high before disappearing, still looks like a flame, albeit an agressive one
+   * >1.0 = flame particles start to look more like fountain particles, 15.0 is like a vulcano erupting
+   * <0.0 = flame particles start to move downwards.
    *
-   * The game can also handle negative numbers, but the resulting effect is the same as using 0.0
-   * As you go higher with values above 1.0 the flame will gradually start looking more like a fountain of flames
-   * or a volcano erupting.
+   * WARNING: particles will not disappear when exSpeed < 0, so after a while new flame particles will stop spawning!
    */
   exSpeed: number
   /**
@@ -223,8 +224,7 @@ export class Light {
     binary.writeFloat32(light.exRadius)
     binary.writeFloat32(light.exFrequency)
     binary.writeFloat32(light.exSize)
-    // negative values visually produce the same output as 0.0 (no vertical movement for particles), so I'm clamping it
-    binary.writeFloat32(clamp(light.exSpeed, 0, Number.MAX_SAFE_INTEGER))
+    binary.writeFloat32(light.exSpeed)
     binary.writeFloat32(light.exFlareSize)
 
     binary.writeFloat32Array(repeat(0, 24)) // fpad
