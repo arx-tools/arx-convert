@@ -10,7 +10,7 @@ const xoConfig: FlatXoConfig = [
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- god knows why this keeps coming back...
       'unused-imports': unusedImports,
     },
-    files: ['xo.config.ts', 'src/**/*.ts'],
+    files: ['xo.config.ts', 'src/**/*.ts', 'scripts/**/*.ts'],
     rules: {
       'capitalized-comments': 'off',
       'no-bitwise': 'off',
@@ -67,13 +67,16 @@ const xoConfig: FlatXoConfig = [
     },
   },
   {
-    space: true,
-    semicolon: false,
-    prettier: true,
-    files: ['scripts/**/*.mjs'],
+    // scripts/schemas.ts is outside of the tsconfig.json project that xo type-checks src with,
+    // so its node.js globals (console, process, ...) look like `any` and the type-aware
+    // no-unsafe-* rules would report false positives. The script is type-checked separately
+    // with tsc instead (using erasable syntax only).
+    files: ['scripts/**/*.ts'],
     rules: {
-      'capitalized-comments': 'off',
-      'no-await-in-loop': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
     },
   },
 ]
