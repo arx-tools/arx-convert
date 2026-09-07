@@ -31,6 +31,8 @@
     "build:watch": "nodemon --watch src --exec \"npm run build\" --ext ts",
     "lint": "xo",
     "lint:watch": "nodemon --watch src --exec \"npm run lint\" --ext ts",
+    "schemas:check": "node scripts/schemas.mjs check",
+    "schemas:sync": "node scripts/schemas.mjs sync",
     "prepublishOnly": "npm run lint && rm -rf dist && rm -f tsconfig.tsbuildinfo && npm run build"
   },
   "repository": {

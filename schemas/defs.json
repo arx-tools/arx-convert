@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "Canonical source of the shared $defs primitives. Not published on its own. scripts/schemas.mjs injects these into the self-contained format schemas (schemas/*.schema.json).",
+  "$defs": {
+    "uint8": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 255
+    },
+    "uint32": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
+    },
+    "positiveInt16": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 32767
+    },
+    "positiveInt32": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647
+    },
+    "vector3": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "z"
+      ]
+    },
+    "color": {
+      "type": "object",
+      "properties": {
+        "r": {
+          "$ref": "#/$defs/uint8"
+        },
+        "g": {
+          "$ref": "#/$defs/uint8"
+        },
+        "b": {
+          "$ref": "#/$defs/uint8"
+        },
+        "a": {
+          "description": "0.0 = fully transparent, 1.0 = fully opaque",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "required": [
+        "r",
+        "g",
+        "b",
+        "a"
+      ]
+    }
+  }
+}
