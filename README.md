@@ -275,3 +275,6 @@ Arx uses a right handed 3D coordinate system where:
 - Z-axis is pointing towards you and is coming out of the screen
 
 TEA files are always outputted as `TEA_VERSION_OLD` (2014) version.
+
+Running `scripts/schemas.ts` natively requires node version >=22.18.0 as node.js can natively strip typescript types
+since that version.
