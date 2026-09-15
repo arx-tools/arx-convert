@@ -1,5 +1,5 @@
 import { BinaryIO } from '@common/BinaryIO.js'
-import type { ArxVector3 } from '@common/types.js'
+import type { ArxVector3, Float32 } from '@common/types.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L130
@@ -8,7 +8,7 @@ export type ArxRoomDistance = {
   /**
    * -1 means use truedist
    */
-  distance: number
+  distance: Float32
   startPosition: ArxVector3
   endPosition: ArxVector3
 }

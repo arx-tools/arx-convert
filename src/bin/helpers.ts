@@ -11,6 +11,7 @@ import {
   SUPPORTED_DATA_FORMATS,
   SUPPORTED_FORMATS,
 } from '@bin/constants.js'
+import { compactFloat32Values } from '@common/float32.js'
 import { concatArrayBuffers } from '@common/helpers.js'
 
 function pathToPackageJson(): string {
@@ -62,12 +63,17 @@ export async function streamToBuffer(input: NodeJS.ReadableStream): Promise<Arra
   })
 }
 
+/**
+ * Serializes `data` into JSON. Float32 values (see `Float32` in `@common/float32.ts`) are written using the
+ * shortest decimal representation which still parses back to the very same float32 value, so the output is
+ * smaller without losing any precision the binary formats could store - see {@link compactFloat32Values}.
+ */
 export function stringifyToJSON(data: any, prettify = false): string {
   if (prettify) {
-    return JSON.stringify(data, null, '\t')
+    return compactFloat32Values(JSON.stringify(data, null, '\t'))
   }
 
-  return JSON.stringify(data)
+  return compactFloat32Values(JSON.stringify(data))
 }
 
 export async function stringifyToYAML(data: any): Promise<string> {

@@ -1,14 +1,15 @@
 import { BinaryIO } from '@common/BinaryIO.js'
+import type { Float32 } from '@common/types.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L73
  */
 export type ArxVertex = {
-  x: number
-  y: number
-  z: number
-  u: number
-  v: number
+  x: Float32
+  y: Float32
+  z: Float32
+  u: Float32
+  v: Float32
   llfColorIdx?: number
 }
 

@@ -30,7 +30,7 @@ export function addLightIndex(polygons: ArxPolygon[]): ArxPolygon[] {
 }
 
 function doCoordsNeedToBeRoundedUp(coords: TripleOf<number>): boolean {
-  const [a, b, c] = coords.sort((a, b) => {
+  const [a, b, c] = [...coords].sort((a, b) => {
     return a - b
   })
 
@@ -39,19 +39,29 @@ function doCoordsNeedToBeRoundedUp(coords: TripleOf<number>): boolean {
   })
 }
 
+/**
+ * The coordinates of the vertices are float32 values (see `Float32` in `@common/float32.ts`). When they arrive
+ * from a JSON file (`FTS.save()` calls this function) they can carry extra precision, because the JSON uses
+ * the shortest decimal representation of a float32. Rounding them back to float32 makes the cell calculation
+ * independent of that extra precision, so `COORDS_THAT_ROUND_UP` keeps matching and the polygons don't end up
+ * in a neighbouring cell.
+ */
 export function getCellCoords([a, b, c]: QuadrupleOf<ArxVertex>): DoubleOf<number> {
-  const x = (a.x + b.x + c.x) / 3
-  const z = (a.z + b.z + c.z) / 3
+  const xCoords: TripleOf<number> = [Math.fround(a.x), Math.fround(b.x), Math.fround(c.x)]
+  const zCoords: TripleOf<number> = [Math.fround(a.z), Math.fround(b.z), Math.fround(c.z)]
+
+  const x = (xCoords[0] + xCoords[1] + xCoords[2]) / 3
+  const z = (zCoords[0] + zCoords[1] + zCoords[2]) / 3
 
   let cellX: number
-  if (doCoordsNeedToBeRoundedUp([a.x, b.x, c.x])) {
+  if (doCoordsNeedToBeRoundedUp(xCoords)) {
     cellX = Math.ceil(x / 100)
   } else {
     cellX = Math.floor(x / 100)
   }
 
   let cellY: number
-  if (doCoordsNeedToBeRoundedUp([a.z, b.z, c.z])) {
+  if (doCoordsNeedToBeRoundedUp(zCoords)) {
     cellY = Math.ceil(z / 100)
   } else {
     cellY = Math.floor(z / 100)
