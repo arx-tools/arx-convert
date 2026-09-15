@@ -4,6 +4,10 @@
   "title": "FTS",
   "description": "FTS (FasT Scene) format of Arx Fatalis interpreted as JSON by arx-convert",
   "$defs": {
+    "float32": {
+      "description": "IEEE-754 single precision (32-bit) floating point number, exactly as it is stored in the binary format. JSON has no float32 type, so it is written as a 64-bit double using the shortest decimal representation which parses back to a value rounding to the very same float32 (`Math.fround(Number(value))` gives back the original). In JavaScript a float32 can be decoded with `DataView#getFloat32` and encoded with `DataView#setFloat32` (or rounded to one with `Math.fround`) - see `BinaryIO.readFloat32Array` / `BinaryIO.writeFloat32Array` in arx-convert. Fields with the `integer` type are never float32.",
+      "type": "number"
+    },
     "uint8": {
       "type": "integer",
       "minimum": 0,
@@ -13,13 +17,13 @@
       "type": "object",
       "properties": {
         "x": {
-          "type": "number"
+          "$ref": "#/$defs/float32"
         },
         "y": {
-          "type": "number"
+          "$ref": "#/$defs/float32"
         },
         "z": {
-          "type": "number"
+          "$ref": "#/$defs/float32"
         }
       },
       "required": [
@@ -42,19 +46,19 @@
       "type": "object",
       "properties": {
         "x": {
-          "type": "number"
+          "$ref": "#/$defs/float32"
         },
         "y": {
-          "type": "number"
+          "$ref": "#/$defs/float32"
         },
         "z": {
-          "type": "number"
+          "$ref": "#/$defs/float32"
         },
         "u": {
-          "type": "number"
+          "$ref": "#/$defs/float32"
         },
         "v": {
-          "type": "number"
+          "$ref": "#/$defs/float32"
         },
         "llfColorIdx": {
           "$ref": "#/$defs/positiveInt32"
@@ -185,7 +189,7 @@
             "type": "integer"
           },
           "area": {
-            "type": "number"
+            "$ref": "#/$defs/float32"
           },
           "flags": {
             "description": "ArxPolygonFlags",
@@ -219,11 +223,11 @@
                 "$ref": "#/$defs/vector3"
               },
               "radius": {
-                "type": "number",
+                "$ref": "#/$defs/float32",
                 "minimum": 0
               },
               "height": {
-                "type": "number",
+                "$ref": "#/$defs/float32",
                 "minimum": 0
               },
               "isBlocked": {
@@ -282,7 +286,7 @@
                     },
                     "rhw": {
                       "description": "portal bounds radius - used by ARX_PORTALS_Frustrum_ComputeRoom; [r]eciprocal of [h]omogeneous [w] from homogeneous coordinates (x, y, z, w) - see https://learn.microsoft.com/en-us/previous-versions/ms896915(v=msdn.10)#members",
-                      "type": "number"
+                      "$ref": "#/$defs/float32"
                     }
                   },
                   "required": [
@@ -381,7 +385,7 @@
                 "description": "-1 means use truedist"
               },
               {
-                "type": "number",
+                "$ref": "#/$defs/float32",
                 "minimum": 0
               }
             ]

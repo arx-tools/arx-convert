@@ -1,6 +1,6 @@
 import { BinaryIO } from '@common/BinaryIO.js'
 import { type ArxColor, Color } from '@common/Color.js'
-import type { ArxVector3 } from '@common/types.js'
+import type { ArxVector3, Float32 } from '@common/types.js'
 
 type HardcodedDataType = {
   color: ArxColor
@@ -50,7 +50,7 @@ export type ArxTextureVertex = {
    * [r]eciprocal of [h]omogeneous [w] from homogeneous coordinates (x, y, z, w)
    * @see https://learn.microsoft.com/en-us/previous-versions/ms896915(v=msdn.10)#members
    */
-  rhw: number
+  rhw: Float32
 }
 
 export class TextureVertex {

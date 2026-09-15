@@ -1,5 +1,5 @@
 import { BinaryIO } from '@common/BinaryIO.js'
-import type { ArxVector3 } from '@common/types.js'
+import type { ArxVector3, Float32 } from '@common/types.js'
 import type { ArxAnchor } from '@fts/Anchor.js'
 
 /**
@@ -19,8 +19,8 @@ export enum ArxAnchorFlags {
  */
 export type ArxAnchorData = {
   position: ArxVector3
-  radius: number
-  height: number
+  radius: Float32
+  height: Float32
   numberOfLinkedAnchors: number
   isBlocked: boolean
 }

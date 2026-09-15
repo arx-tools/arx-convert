@@ -1,7 +1,7 @@
 import { BinaryIO } from '@common/BinaryIO.js'
 import { MAP_DEPTH_IN_CELLS, MAP_WIDTH_IN_CELLS } from '@common/constants.js'
 import { concatArrayBuffers, times } from '@common/helpers.js'
-import type { ArxVector3, QuadrupleOf } from '@common/types.js'
+import type { ArxVector3, Float32, QuadrupleOf } from '@common/types.js'
 // eslint-disable-next-line unused-imports/no-unused-imports -- it is used in jsdoc block
 import type { ArxTextureContainer } from '@fts/TextureContainer.js'
 import { type ArxVertex, Vertex } from '@fts/Vertex.js'
@@ -66,7 +66,7 @@ export type ArxPolygon = {
    * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/Mesh.cpp#L1102
    */
   transval: number
-  area: number
+  area: Float32
   flags: ArxPolygonFlags
   room: number
 }
