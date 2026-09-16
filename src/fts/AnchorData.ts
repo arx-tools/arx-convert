@@ -1,5 +1,5 @@
 import { BinaryIO } from '@common/BinaryIO.js'
-import type { ArxVector3, Float32 } from '@common/types.js'
+import type { ArxVector3 } from '@common/types.js'
 import type { ArxAnchor } from '@fts/Anchor.js'
 
 /**
@@ -19,29 +19,27 @@ export enum ArxAnchorFlags {
  */
 export type ArxAnchorData = {
   position: ArxVector3
-  radius: Float32
-  height: Float32
   numberOfLinkedAnchors: number
-  isBlocked: boolean
 }
 
 export class AnchorData {
   static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxAnchorData {
-    const data: ArxAnchorData = {
-      position: binary.readVector3(),
-      radius: binary.readFloat32(),
-      height: binary.readFloat32(),
-      numberOfLinkedAnchors: binary.readInt16(),
-      isBlocked: false,
-    }
+    const position = binary.readVector3()
 
-    const flags = binary.readInt16()
+    /**
+     * radius and height are used by the game (NPC.cpp > AnchorData_GetNearest(), PathFinder.cpp) as a filter:
+     * an anchor can only be used by an npc whose physics cylinder is at least as high as `height` and at most
+     * as wide as `radius`. All anchors of the 23 levels of the original game use the same "no restriction"
+     * values, so they are not part of the JSON and are always written back as these.
+     */
+    binary.readFloat32() // radius - always 50
+    binary.readFloat32() // height - always -165
 
-    if ((flags & ArxAnchorFlags.Blocked) !== 0) {
-      data.isBlocked = true
-    }
+    const numberOfLinkedAnchors = binary.readInt16()
 
-    return data
+    binary.readInt16() // flags - always 0
+
+    return { position, numberOfLinkedAnchors }
   }
 
   static accumulateFrom(anchor: ArxAnchor): ArrayBuffer {
@@ -49,16 +47,12 @@ export class AnchorData {
     const binary = new BinaryIO(buffer)
 
     binary.writeVector3(anchor.data.position)
-    binary.writeFloat32(anchor.data.radius)
-    binary.writeFloat32(anchor.data.height)
+    binary.writeFloat32(50) // radius
+    binary.writeFloat32(-165) // height
+
     binary.writeInt16(anchor.linkedAnchors.length)
 
-    let flags = ArxAnchorFlags.None
-    if (anchor.data.isBlocked) {
-      flags = flags | ArxAnchorFlags.Blocked
-    }
-
-    binary.writeInt16(flags)
+    binary.writeInt16(ArxAnchorFlags.None) // flags - always 0
 
     return buffer
   }
