@@ -221,24 +221,10 @@
             "properties": {
               "position": {
                 "$ref": "#/$defs/vector3"
-              },
-              "radius": {
-                "$ref": "#/$defs/float32",
-                "minimum": 0
-              },
-              "height": {
-                "$ref": "#/$defs/float32",
-                "minimum": 0
-              },
-              "isBlocked": {
-                "type": "boolean"
               }
             },
             "required": [
-              "position",
-              "radius",
-              "height",
-              "isBlocked"
+              "position"
             ]
           },
           "linkedAnchors": {
