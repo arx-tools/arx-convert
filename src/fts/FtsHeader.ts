@@ -1,5 +1,5 @@
 import { BinaryIO } from '@common/BinaryIO.js'
-import { repeat } from '@common/helpers.js'
+import { levelIdxFromPath, repeat } from '@common/helpers.js'
 import type { ArxFTS } from '@fts/FTS.js'
 import { FTS_VERSION } from '@fts/constants.js'
 
@@ -42,7 +42,7 @@ export class FtsHeader {
   }
 
   static pathToLevelIdx(path: string): number {
-    return Number.parseInt(path.toLowerCase().replace('c:\\arx\\game\\graph\\levels\\level', '').replace('\\', ''), 10)
+    return levelIdxFromPath(path)
   }
 
   static levelIdxToPath(levelIdx: number): string {

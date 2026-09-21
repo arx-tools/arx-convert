@@ -97,3 +97,28 @@ export function concatArrayBuffers(buffers: ArrayBufferLike[]): ArrayBuffer {
 
   return combinedBuffer.buffer
 }
+
+/**
+ * Extracts the level number from a path stored in the header of an FTS or a DLF file.
+ *
+ * The early builds of the game kept the assets on a shared Windows drive, so the path in the header of those
+ * files can be `\\ARKANESERVER\Public\Arx\Game\Graph\Levels\Level2\` instead of
+ * `C:\ARX\Game\Graph\Levels\level2\`. The game itself never reads the path (it only uses the version, the
+ * unique header count and the uncompressed size of the header), so paths without a level number fall back
+ * to `0`.
+ *
+ * @example
+ * ```js
+ * levelIdxFromPath('C:\\ARX\\Game\\Graph\\Levels\\level2\\') -> 2
+ * levelIdxFromPath('\\\\ARKANESERVER\\Public\\Arx\\Game\\Graph\\Levels\\Level5\\') -> 5
+ * ```
+ */
+export function levelIdxFromPath(path: string): number {
+  const levelIdx = /level(\d+)/i.exec(path)
+
+  if (levelIdx === null) {
+    return 0
+  }
+
+  return Number.parseInt(levelIdx[1], 10)
+}

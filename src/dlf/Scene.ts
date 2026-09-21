@@ -1,5 +1,5 @@
 import { BinaryIO } from '@common/BinaryIO.js'
-import { repeat } from '@common/helpers.js'
+import { levelIdxFromPath, repeat } from '@common/helpers.js'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L88
@@ -32,7 +32,7 @@ export class Scene {
   }
 
   static pathToLevelIdx(path: string): number {
-    return Number.parseInt(path.toLowerCase().replace('graph\\levels\\level', '').replace('\\', ''), 10)
+    return levelIdxFromPath(path)
   }
 
   static levelIdxToPath(levelIdx: number): string {
