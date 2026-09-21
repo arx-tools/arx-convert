@@ -95,6 +95,14 @@ export class BinaryIO<
   readFloat32(): number {
     const val = this.getFloat32(this.position, LITTLE_ENDIAN)
     this.position = this.position + BinaryIO.sizeOfFloat32()
+
+    // NaN and Infinity can't be represented in JSON (they would become null), and the game data contains
+    // both 0 and -0 - everything is normalized, so loading a file from JSON or from the binary gives the
+    // same result
+    if (!Number.isFinite(val) || val === 0) {
+      return 0
+    }
+
     return val
   }
 
