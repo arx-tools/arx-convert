@@ -14,6 +14,29 @@
       "minimum": 0,
       "maximum": 2147483647
     },
+    "float32": {
+      "description": "IEEE-754 single precision (32-bit) floating point number, exactly as it is stored in the binary format. JSON has no float32 type, so it is written as a 64-bit double using the shortest decimal representation which parses back to a value rounding to the very same float32 (`Math.fround(Number(value))` gives back the original). In JavaScript a float32 can be decoded with `DataView#getFloat32` and encoded with `DataView#setFloat32` (or rounded to one with `Math.fround`) - see `BinaryIO.readFloat32Array` / `BinaryIO.writeFloat32Array` in arx-convert. Fields with the `integer` type are never float32.",
+      "type": "number"
+    },
+    "vector3": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "$ref": "#/$defs/float32"
+        },
+        "y": {
+          "$ref": "#/$defs/float32"
+        },
+        "z": {
+          "$ref": "#/$defs/float32"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "z"
+      ]
+    },
     "color": {
       "type": "object",
       "properties": {
@@ -38,25 +61,6 @@
         "g",
         "b",
         "a"
-      ]
-    },
-    "vector3": {
-      "type": "object",
-      "properties": {
-        "x": {
-          "type": "number"
-        },
-        "y": {
-          "type": "number"
-        },
-        "z": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "x",
-        "y",
-        "z"
       ]
     }
   },

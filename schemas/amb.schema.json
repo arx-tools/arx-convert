@@ -4,11 +4,6 @@
   "title": "AMB",
   "description": "AMB (Ambience) format of Arx Fatalis interpreted as JSON by arx-convert",
   "$defs": {
-    "uint32": {
-      "type": "integer",
-      "minimum": 0,
-      "maximum": 4294967295
-    },
     "settings": {
       "type": "object",
       "properties": {
@@ -35,6 +30,11 @@
         "interval",
         "flags"
       ]
+    },
+    "uint32": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
     }
   },
   "type": "object",
