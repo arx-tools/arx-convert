@@ -5,5 +5,8 @@ tsconfig.json
 
 src
 docs
+tests
+.clinerules
+ROADMAP.md
 .xo-config
 tsconfig.tsbuildinfo
