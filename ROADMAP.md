@@ -2,15 +2,9 @@
 
 ## Done
 
-- **13.0.2** - level number parsing for the `\\ARKANESERVER\...` style paths, normalization of `NaN`,
-  `Infinity` and `-0` float32 values (so a JSON round trip and a binary round trip produce the same output),
-  `chmod +x` after the build
-- **JSON size optimization, first half** ([#17](https://github.com/arx-tools/arx-convert/issues/17)):
-  float32 values are written in their shortest round-trip form (-22.8% on the minified level 1 output), the
-  JSON is minified by default, the constant anchor fields are not written anymore
-- **schema sync** - `schemas/defs.json` + `scripts/schemas.ts` (`sync`/`check`), the `float32` type is shared
-  by every format that has a `vector3`
-- **documentation** - `docs/`, `.clinerules/` and this roadmap
+- the first half of the JSON size optimization ([#17](https://github.com/arx-tools/arx-convert/issues/17)) and
+  the `13.0.2` fixes are on `main`: see the git history, the release notes and [docs](docs/README.md) for the
+  current behaviour
 
 ## Next
 

@@ -18,7 +18,7 @@ Two reasons for the explosion:
 2. the polygons dominate the output: on level 1 they are 88.6% of the generated JSON
    (58,963 polygons, of which 37,713 are quads and 21,250 are triangles)
 
-## What has been done
+## Current behaviour
 
 ### float32 values are written in their shortest form
 
@@ -55,15 +55,10 @@ meaningful ones left, the remaining size is dominated by unique data.
 
 The same value can have multiple representations in the data, and a JSON round trip has to produce the same
 output as loading and saving the binary directly. While reading, every float32 is normalized
-(`src/common/BinaryIO.ts` > `readFloat32()`):
-
-- `NaN` and `Infinity` become `0` - JSON can't represent them, they would become `null` (which is also invalid
-  per the schema) and `0` again when saving
-- `-0` becomes `0`
-
-The second one is a deliberate trade-off: it makes the regenerated files differ from the original ones in more
-bytes (1 byte per `-0`, e.g. 5,553 bytes in level 1), but the data has a single representation and the two
-conversion paths (JSON and binary) produce the exact same output.
+(`src/common/BinaryIO.ts` > `readFloat32()`): `NaN` and `Infinity` become `0` (JSON can't represent them, they
+would become `null`, which is also invalid per the schema) and `-0` becomes `0`. One value, one
+representation - the price is that a regenerated file differs from the original in a few bytes, see
+[pitfalls.md](pitfalls.md).
 
 ## What is left
 

@@ -5,44 +5,43 @@ Mistakes which cost time while working on this project.
 ## 1. The game files are partially compressed
 
 The pkware compression is **not** a dependency of `arx-convert`, it only works with the unpacked files. Use
-[`explode`](https://github.com/arx-tools/node-pkware) (or `arx-header-size` + `explode`, see the `unpack.sh`
-script in the README) first.
+[`explode`](https://github.com/arx-tools/node-pkware) (or the `unpack.sh` script from the README, which asks
+`arx-header-size` for the offset) first.
 
 - the offset to cut is **not always 1816**: it is `280 + numberOfUniqueHeaders × 768`, which is 1048 for
   level 10 and 2584 for level 5 (see [fts-format.md](fts-format.md))
 - a good check: the unpacked file has to be `offset + uncompressedsize` bytes long
 - feeding a **compressed** file into `FTS.load()` or into the CLI does not give a clean error: the header of a
-  compressed file looks like an uncompressed one, so the parser happily walks into the compressed data (this
-  can end up allocating huge arrays or running out of memory). Always decompress first.
+  compressed file looks like an uncompressed one, so the parser walks into the compressed data (this can end
+  up allocating huge arrays or running out of memory). Always decompress first.
 - repacking needs `implode <file> --offset=<header size> --binary --large`, see the `repack.sh` script
 
 ## 2. "Permission denied" from the global `arx-convert`
 
-The global binary can be a symlink into this repository. A rebuild (`tsc`) rewrites
-`dist/bin/convert.js` and drops its executable bit, after which the linked command fails with
-`bash: .../arx-convert: Permission denied` (exit 126). The `build` script runs
-`chmod +x dist/bin/convert.js` now, if it still happens: `chmod +x dist/bin/convert.js`.
+The global binary can be a symlink into this repository. A rebuild (`tsc`) rewrites `dist/bin/convert.js` and
+drops its executable bit, after which the linked command fails with `Permission denied` (exit 126). The
+`build` script runs `chmod +x dist/bin/convert.js` for this reason.
 
-Also be careful when using the CLI from scripts: if the command is not executable, the failure is instant and
-**no output file is created** - which looks like a successful run in a loop that only checks exit codes.
+Be careful when running the CLI from a script: if it is not executable, the failure is instant and **no output
+file is created** - which looks like a successful run in a loop that only checks exit codes.
 
-## 3. `levelIdx` and the ARKANESERVER paths
+## 3. JSON files generated before `13.0.2` have to be regenerated
 
-The number is parsed from the path in the file header. Early builds of the game stored the assets on a shared
-Windows drive, so 9 of the 23 levels have a `\\ARKANESERVER\Public\Arx\...` style path. Until `13.0.2` those
-became `NaN` → `null` in the JSON → `levelNaN` in the regenerated header, and the portals of the levels below
-10 got the wrong hardcoded block. **JSON files generated before `13.0.2` should be regenerated**, otherwise
-saving them writes the broken path back.
+`levelIdx` was parsed as `NaN` for the 9 levels which use the `\\ARKANESERVER\...` style header paths, so
+those JSON files contain `"levelIdx": null`, and saving them writes a broken path into the header. Regenerate
+them with the current version. (JSON files which still contain the removed anchor fields - `radius`, `height`,
+`isBlocked` - are fine: extra fields are simply ignored when saving.)
 
-JSON files which still contain the removed anchor fields (`radius`, `height`, `isBlocked`) are fine to load:
-the extra fields are simply ignored when saving.
+## 4. A regenerated file is not byte identical with the original
 
-## 4. NaN and -0 are normalized (13.0.2+)
+This is by design, the guarantee is that a JSON round trip produces the same output as loading and saving the
+binary directly. The known differences:
 
-While reading a float32, `NaN`/`Infinity` become `0` (JSON can't represent them: they would be `null`, which
-also violates the schema) and `-0` becomes `0`. The second one is a deliberate trade-off: it costs one byte
-per value when comparing the regenerated file with the original (e.g. 5,553 bytes in level 1), but the data has
-a single representation and a JSON round trip produces exactly the same output as a binary one.
+| reason | size |
+|---|---|
+| `paddy` is written as 0, while the files contain garbage in it (the game never reads it) | 2 bytes per polygon |
+| `-0` becomes `0` (JSON has no negative zero) | 1 byte per value (5,553 in level 1) |
+| the header path is rewritten in the `C:\ARX\Game\Graph\Levels\level<number>\` form | up to 256 bytes |
 
 ## 5. The cell assignment depends on the exact float32 values
 
@@ -65,3 +64,4 @@ rounding (and the non mutating sort) if you touch the function, or polygons end 
 `schemas/defs.json` is the canonical source of the shared definitions, the format schemas contain generated
 copies. Never hand-edit the shared definitions inside a format schema, run `npm run schemas:sync` instead, and
 use `npm run schemas:check` to verify (it also runs before publishing) - see [schemas.md](schemas.md).
+

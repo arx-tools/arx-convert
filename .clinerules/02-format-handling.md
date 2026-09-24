@@ -45,6 +45,14 @@ before skipping it, and note the result in the code.
   file the JSON came from, which is why `getCellCoords()` rounds the coordinates back to float32 before
   comparing them
 
+## Legacy variants in the game data
+
+The files of the original game are not uniform: the early builds stored their assets on a shared Windows drive
+(the header paths can be `\\ARKANESERVER\Public\Arx\...`), values can have multiple representations (`0` and
+`-0`), and a few fields contain values JSON can not represent (`NaN`). When a value is parsed out of a file, do
+not assume a single layout or a single representation: normalize the values while reading (`readFloat32()`) and
+parse the paths leniently (`levelIdxFromPath()` in `src/common/helpers.ts`).
+
 ## Changing the JSON shape
 
 - the shape of the generated JSON is a public interface: removing/renaming a field, or changing its type is a

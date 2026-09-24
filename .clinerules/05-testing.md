@@ -34,8 +34,8 @@ The tests only use the **unpacked** files (the pkware compression is not a depen
 
 1. **the two conversion paths produce the same output** (the most valuable one, it caught real bugs):
    `Format.save(JSON.parse(JSON.stringify(Format.load(bytes))))` has to equal `Format.save(Format.load(bytes))`
-2. **`levelIdx`** matches the number in the folder name of the fixture (for FTS and DLF) - the regression test
-   of the `\\ARKANESERVER\...` path fix
+2. **`levelIdx`** matches the number in the folder name of the fixture (for every format which stores it in a
+   header path)
 3. **no `null` in the generated JSON** and no `NaN`/`Infinity` in the parsed document (the JSON would be
    invalid per the schema)
 4. sanity checks per format: the expected top level keys (`header`, `polygons`, `rooms`, ...) exist and the

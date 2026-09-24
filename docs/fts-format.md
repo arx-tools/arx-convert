@@ -125,5 +125,5 @@ game recalculates the 4th vertex as the midpoint of vertices 1 and 2.
 
 `nb_rooms × nb_rooms` entries of `ROOM_DIST_DATA_SAVE`: a `distance` (-1 means "use truedist"), a start
 position and an end position. Some files contain NaN values in these positions, they are normalized to 0 (see
-[constant-audit.md](constant-audit.md)).
+[json-optimization.md](json-optimization.md)).
 
