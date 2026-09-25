@@ -48,10 +48,14 @@ export class ZoneAndPathPoint {
     const binary = new BinaryIO(buffer)
 
     // TODO: what is r in rpos/rPosition? real?
+    // the difference has to be calculated from float32 values: a coordinate which came from a JSON is a
+    // double which only rounds to the very same float32 (see `shortestFloat32()`), so without rounding the
+    // operands first, the subtraction can produce a different float32 than the one the file had - the same
+    // problem `getCellCoords()` solves for the vertices of the FTS
     const rPosition = {
-      x: point.position.x - position.x,
-      y: point.position.y - position.y,
-      z: point.position.z - position.z,
+      x: Math.fround(point.position.x) - Math.fround(position.x),
+      y: Math.fround(point.position.y) - Math.fround(position.y),
+      z: Math.fround(point.position.z) - Math.fround(position.z),
     }
 
     binary.writeVector3(rPosition)

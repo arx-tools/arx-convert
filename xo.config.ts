@@ -10,7 +10,7 @@ const xoConfig: FlatXoConfig = [
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- god knows why this keeps coming back...
       'unused-imports': unusedImports,
     },
-    files: ['xo.config.ts', 'src/**/*.ts', 'scripts/**/*.ts'],
+    files: ['xo.config.ts', 'src/**/*.ts', 'scripts/**/*.ts', 'tests/**/*.ts'],
     rules: {
       'capitalized-comments': 'off',
       'no-bitwise': 'off',
@@ -64,6 +64,19 @@ const xoConfig: FlatXoConfig = [
       'object-shorthand': ['error', 'always', { avoidQuotes: true }],
       '@typescript-eslint/no-import-type-side-effects': 'error',
       'unicorn/prefer-string-raw': 'off',
+    },
+  },
+  {
+    // The tests import the package through its own name (`arx-convert`, `arx-convert/utils`) because that is
+    // the interface a consumer gets, and node.js resolves it through the "exports" of package.json (the
+    // tests/tsconfig.json maps the same specifiers to the source, so a lint run doesn't need a build).
+    // The prettier sort-imports plugin and these two import rules disagree about such a self reference:
+    // `import-x/order` wants the self reference before the relative imports of the test folder, and
+    // `import-x/extensions` wants a ".js" extension which the subpath exports of the package don't have.
+    files: ['tests/**/*.ts'],
+    rules: {
+      'import-x/extensions': 'off',
+      'import-x/order': 'off',
     },
   },
   {

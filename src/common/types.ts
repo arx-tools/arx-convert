@@ -17,7 +17,7 @@ import type { BinaryIO } from '@common/BinaryIO.js'
  * - rounding to float32 without a buffer: `Math.fround(value)` (the binary encoding rounds the same way)
  *
  * When a float32 ends up in a JSON file, it is serialized using the shortest decimal representation which
- * still parses back to a value rounding to the very same float32 (`Math.fround(Number(jsonValue))` gives
+ * still parses back to a value rounding to the very same float32 (`Math.fround(jsonValue)` gives
  * back the original value), so the JSON stays compact without losing any precision the binary format can
  * store - see {@link shortestFloat32} and {@link compactFloat32Values}.
  */

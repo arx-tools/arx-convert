@@ -1,12 +1,14 @@
+# everything listed here is repository tooling, only the build output (dist) is published
 .editorconfig
 .gitignore
 .prettierrc
-tsconfig.json
+xo.config.ts
 
 src
 docs
 tests
+scripts
 .clinerules
 ROADMAP.md
-.xo-config
+tsconfig.json
 tsconfig.tsbuildinfo

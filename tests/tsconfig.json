@@ -1,0 +1,32 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    // the tests are not part of the build (see the root tsconfig.json), they are only type-checked
+    "noEmit": true,
+    // the tests use the node.js api (`node:fs`, `node:path`, `process`, ...): the node types are declared
+    // here instead of leaving them to the automatic inclusion of every `@types` package
+    "types": ["node"],
+    // the incremental build of the root tsconfig.json writes a tsbuildinfo next to the sources, a type check
+    // of the tests shouldn't leave an artifact behind either
+    "incremental": false,
+    "rootDir": "..",
+    // node.js only loads the built package (the aliases of `src` are rewritten by tsc-alias), but for
+    // type checking the source is the same code and it doesn't need a build before a lint run
+    "allowImportingTsExtensions": true,
+    "paths": {
+      "@bin/*": ["bin/*"],
+      "@common/*": ["common/*"],
+      "@dlf/*": ["dlf/*"],
+      "@fts/*": ["fts/*"],
+      "@llf/*": ["llf/*"],
+      "@ftl/*": ["ftl/*"],
+      "@tea/*": ["tea/*"],
+      "@amb/*": ["amb/*"],
+      "@src/*": ["*"],
+      "arx-convert": ["index.ts"],
+      "arx-convert/types": ["types.ts"],
+      "arx-convert/utils": ["utils.ts"]
+    }
+  },
+  "include": ["**/*.ts"]
+}

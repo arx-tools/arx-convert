@@ -61,7 +61,8 @@ rounding (and the non mutating sort) if you touch the function, or polygons end 
 
 ## 7. Schemas
 
-`schemas/defs.json` is the canonical source of the shared definitions, the format schemas contain generated
-copies. Never hand-edit the shared definitions inside a format schema, run `npm run schemas:sync` instead, and
-use `npm run schemas:check` to verify (it also runs before publishing) - see [schemas.md](schemas.md).
+`src/schemas/_defs.json` is the canonical source of the shared definitions, the published format schemas are
+generated from `src/schemas/` into `dist/schemas/` by the build. A format schema source never contains a
+shared definition (the build injects them), and `npm run schemas:check` verifies that (it also runs before
+publishing) - see [schemas.md](schemas.md).
 

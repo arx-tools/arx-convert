@@ -24,6 +24,10 @@ The size of the uncompressed part (called *offset* by `explode`) is therefore
 | 1 | 1048 | level 10 |
 | 3 | 2584 | level 5 |
 
+`node tests/tools/fts-offsets.ts` prints this offset (and the size of the unpacked pair) for the fixtures of the
+[test files](https://github.com/arx-tools/pkware-test-files), and checks the unique header count of a
+compressed file against its unpacked pair.
+
 `UNIQUE_HEADER` (`arx-convert`: `FtsHeader`) is:
 
 ```c

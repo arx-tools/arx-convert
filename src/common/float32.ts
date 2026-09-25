@@ -46,7 +46,7 @@ function skipStringLiteral(json: string, indexOfOpeningQuote: number): number {
  *
  * @example
  * ```js
- * shortestFloat32(369.9998779296875)    -> '369.9999'
+ * shortestFloat32(369.9998779296875)    -> '369.99988'
  * shortestFloat32(0.9932892322540283)   -> '0.99328923'
  * shortestFloat32(2.772158483926956e-38) -> '2.7721585e-38'
  * ```

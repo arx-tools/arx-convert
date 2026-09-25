@@ -7,7 +7,7 @@ Notes about the binary formats, the design decisions and the tooling of `arx-con
 | [fts-format.md](fts-format.md) | How an FTS file is built up, and which parts of it the game actually reads |
 | [json-optimization.md](json-optimization.md) | The JSON size optimization work ([issue #17](https://github.com/arx-tools/arx-convert/issues/17)): measurements, what is done, what is left |
 | [constant-audit.md](constant-audit.md) | Audit of the 23 levels of the original game: the constant/dead fields and why the remaining size work is not in them |
-| [schemas.md](schemas.md) | How the JSON schemas are kept in sync (`defs.json` + `scripts/schemas.ts`) |
+| [schemas.md](schemas.md) | How the published JSON schemas are generated from the sources (`_defs.json` + `scripts/schemas.ts`) |
 | [pitfalls.md](pitfalls.md) | Common mistakes when working with the game files and this tool |
 
 See also:

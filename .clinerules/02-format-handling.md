@@ -57,7 +57,7 @@ parse the paths leniently (`levelIdxFromPath()` in `src/common/helpers.ts`).
 
 - the shape of the generated JSON is a public interface: removing/renaming a field, or changing its type is a
   **breaking change**, note it in the commit (`!`) and in the release notes
-- update the matching schema in `schemas/` (see [03-schemas.md](03-schemas.md)) and the `Float32` types, and
-  mention the change in `docs/`
+- update the matching schema source in `src/schemas/` (see [03-schemas.md](03-schemas.md)) and the `Float32`
+  types, and mention the change in `docs/`
 - keep the JSON self describing: `$schema` is written by the format classes, the field names are camelCase and
   follow the names of the struct fields

@@ -20,9 +20,25 @@
   - function declarations instead of `const foo = () => ...`, and `arrow-body-style: always`
     (the arrow bodies start on a new line with `return`)
   - `curly: all`, `guard-for-in: off`, `no-await-in-loop: off`, `no-bitwise: off`
+  - the wrapper objects are never called as conversion functions: `String(value)` is `value.toString()`,
+    `Number(value)` is `Number.parseFloat(value)` (or `Number.parseInt(value, 10)`), `Boolean(value)` is an
+    explicit comparison - the wrappers coerce everything, `Number(null)` and `Number('')` are `0`
 - imports use the `@bin`, `@common`, `@dlf`, `@fts`, `@llf`, `@ftl`, `@tea`, `@amb` aliases; their order is
   enforced by `@trivago/prettier-plugin-sort-imports` (see `.prettierrc`)
 - type-only imports are separate (`import type { ... }`), see `consistent-type-imports` in the config
+
+## File operations
+
+- **no synchronous file operations**: `readFileSync`, `writeFileSync`, `readdirSync`, `existsSync`,
+  `mkdirSync`, `cpSync`, `rmSync`, `statSync` and their friends are banned everywhere (`src`, `scripts`,
+  `tests`). They block the whole process, so nothing next to them could ever run in parallel. Import from
+  `node:fs/promises` and `await` the call - `src/bin/helpers.ts` is the reference
+- an existence check is `await access()` (or the read itself) in a try/catch, never `existsSync()`
+- the blocking process calls are replaced as well: `spawnSync`/`execSync` are `spawn`/`execFile`, awaited
+- a helper which touches the file system is `async` and returns a `Promise`, even when its callers run it
+  one by one today - the async signature is what keeps the option of parallelizing them open
+- `createReadStream()` and `createWriteStream()` are the only ones which stay in `node:fs` (they have no
+  `node:fs/promises` counterpart and they don't block)
 
 ## JSDoc and comments
 
