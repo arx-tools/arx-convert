@@ -39,6 +39,8 @@
   one by one today - the async signature is what keeps the option of parallelizing them open
 - `createReadStream()` and `createWriteStream()` are the only ones which stay in `node:fs` (they have no
   `node:fs/promises` counterpart and they don't block)
+- `xo` enforces the rule (`n/no-sync` in `xo.config.ts`): a call whose name ends with `Sync` is a lint error,
+  in the `fs.readFileSync()` and the `readFileSync()` form alike
 
 ## JSDoc and comments
 

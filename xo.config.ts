@@ -64,6 +64,7 @@ const xoConfig: FlatXoConfig = [
       'object-shorthand': ['error', 'always', { avoidQuotes: true }],
       '@typescript-eslint/no-import-type-side-effects': 'error',
       'unicorn/prefer-string-raw': 'off',
+      'n/no-sync': 'error',
     },
   },
   {
