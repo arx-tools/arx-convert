@@ -272,7 +272,7 @@ https://www.jsonschemavalidator.net/
 
 - [docs](docs/README.md) - the binary formats, the JSON size optimization, the field audit and the pitfalls
 - [ROADMAP.md](ROADMAP.md) - what is planned next
-- [.clinerules](.clinerules) - the conventions of the codebase
+- [.clinerules](.clinerules) - the conventions of the codebase for AI tools
 - [issue #17](https://github.com/arx-tools/arx-convert/issues/17) - the JSON size optimization roadmap with
   the measured numbers
 

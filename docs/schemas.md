@@ -44,12 +44,13 @@ raised for it, the published package still works on node >= 18 - see the `dist` 
 The build stamps every generated schema with the release which generated it, in a custom annotation:
 
 ```json
-"x-generatedBy": "arx-convert@13.0.2"
+"x-generatedBy": "arx-convert@<version>"
 ```
 
-`x-generatedBy` is an unknown keyword for a validator: JSON Schema allows such annotations, they are simply
-ignored. It comes from the `name` and `version` of the `package.json` of the repository, the sources do not
-carry it, and it makes a copy of a schema traceable - the schemas served on
+`<version>` is the `version` of the `package.json` of the repository, prefixed with its `name` (the usual
+`name@version` of a package, e.g. `arx-convert@14.0.0`). `x-generatedBy` is an unknown keyword for a validator:
+JSON Schema allows such annotations, they are simply ignored. The sources do not carry it, only the build adds
+it, and it makes a copy of a schema traceable - the schemas served on
 [arx-tools.github.io](https://github.com/arx-tools/arx-tools.github.io) are copies of `dist/schemas`, and this
 is what tells which release that copy came from.
 
