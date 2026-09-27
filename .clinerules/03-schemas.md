@@ -23,7 +23,8 @@ after it.
 - `dist/schemas` is npm ignored on purpose: the schemas are served from
   [arx-tools.github.io](https://github.com/arx-tools/arx-tools.github.io), whose `public/schemas` is a copy of
   `dist/schemas`, so the published package does not carry them. Refreshing that copy is a manual step after a
-  release which changed a schema.
+  release which changed a schema (the website generates the index page of the folder from that copy at build
+  time, so nothing else has to be copied).
 - a source format schema must not define a name which exists in `_defs.json` - the generator injects those
   definitions (transitively, so `vector3` pulls in `float32`), and `npm run schemas:check` fails on a local
   copy of one.
