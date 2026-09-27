@@ -1,5 +1,7 @@
 # Arx Fatalis converter
 
+[![CI](https://github.com/arx-tools/arx-convert/actions/workflows/ci.yml/badge.svg)](https://github.com/arx-tools/arx-convert/actions/workflows/ci.yml)
+
 Converts various Arx Fatalis formats (DLF, FTS, LLF, AMB and FTL) to JSON/YAML and back
 
 **IMPORTANT: Arx Fatalis files are partially compressed. See "compression" section for more info**

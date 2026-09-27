@@ -2,6 +2,12 @@
 
 ## Branches and commits
 
+- `main` is the released state: it only receives the release merges (`dev` -> `main`), so its head is the
+  version which is on npm
+- `dev` is the integration branch: the per issue branches start from it and their PRs are merged into it. The
+  release pull requests are the only way into `main`, the day to day work never lands there directly
+- a hotfix which can not wait for the next release starts from `main` and is merged into `main`, then `main` is
+  merged back into `dev` so the next release keeps the fix as well
 - branch per issue, named `<issue-number>-<short-slug>`, e.g. `17-fts-json-size-optimization`
 - [Conventional Commits](https://www.conventionalcommits.org/): `feat|fix|refactor|docs|chore|ci(scope): subject`,
   with a `!` after the scope when the change is breaking, e.g. `refactor(fts)!: drop the constant ...`
@@ -23,10 +29,40 @@
 
 ## Releases
 
-1. bump the version in `package.json` (major for a breaking JSON change)
+1. bump the version in `package.json` on `dev` (major for a breaking JSON change)
 2. `npm run lint`, `npm run schemas:check`, `npm test`, `npm run build`
-3. commit + tag (`vX.Y.Z`) + GitHub release (the notes should mention breaking format changes)
-4. `npm publish` - `prepublishOnly` runs the checks before packing, so a stale schema aborts the release
+3. open the release PR (`dev` -> `main`), wait for the CI and merge it
+4. on `main`: commit + tag (`vX.Y.Z`) + GitHub release (the notes should mention breaking format changes)
+5. `npm publish` - `prepublishOnly` runs the checks before packing, so a stale schema aborts the release
+
+## CI
+
+`.github/workflows/ci.yml` runs on every push to `main` and `dev`, and on every pull request. The pull request
+side has no branch filter, so the issue PRs into `dev` and the release PRs into `main` are checked alike, on the
+merge commit which the merge would produce. It has two jobs:
+
+| job | what it does |
+|---|---|
+| `test` | node 22: `npm ci`, lint, the typecheck of the tests, the schema check, the full test run (`ARX_FULL_TEST=1`) and a CLI smoke test (`node dist/bin/convert.js --version`) |
+| `node18` | builds and packs with node 22, then installs the tarball on node 18.0.0 - the declared floor of `engines.node` - and runs the CLI |
+
+- the repo is checked out into `arx-convert/` and the fixtures of
+  [pkware-test-files](https://github.com/arx-tools/pkware-test-files) into the sibling `pkware-test-files/`:
+  `tests/fixtures.ts` resolves the fixture folder relative to the repository root, so the repo can not be the
+  workspace root in that job. The fixture repo is public and shallow-cloned (159.63 MiB pack), and only the
+  `test` job needs it
+- the full run of the suite is 291 tests in ~116 seconds locally (`ARX_FULL_TEST=1`, level 0-21)
+- the smoke test is there because no test loads the bin entry point, the shebang or the rewritten aliases
+- the `node18` job builds on node 22 on purpose: `scripts/schemas.ts` needs the native typescript support of
+  node >= 22.18.0, only the packed tarball is installed on 18. `npm pack` does not run `prepublishOnly`, so
+  the build is an explicit step
+- both jobs run on `ubuntu-latest`. There is no Debian/Ubuntu LTS runner label (the distro images are
+  container based, and `container:` would need an `apt-get install git` before the checkout), and the distro
+  does not matter here: the 464 packages of the lockfile are all prebuilt (the only two install scripts are
+  `unrs-resolver`'s `napi-postinstall ... check`, which just verifies the platform binding, and `fsevents`,
+  which is macOS only), the runtime dependencies (`minimist-lite`, `yaml`) are pure javascript, and the jobs
+  only use `git`, `tar`/`zstd` and `node`. `ubuntu-latest` is 24.04 now and GitHub plans to move it to 26.04 -
+  pin `ubuntu-24.04` in a job if that ever breaks it
 
 ## Local tooling
 

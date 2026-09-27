@@ -1,0 +1,111 @@
+name: CI
+
+on:
+  push:
+    # main only receives the release merges, dev is the integration branch
+    branches: [main, dev]
+  # no branches filter: the pull requests into any branch are checked, which covers both dev and the release PRs
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: test (node 22)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: checkout arx-convert
+        uses: actions/checkout@v7.0.1
+        with:
+          path: arx-convert
+          persist-credentials: false
+
+      # the fixture folder of tests/fixtures.ts is resolved as a sibling of the repo root,
+      # so the repo has to live in a subdirectory
+      - name: checkout the test fixtures
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: arx-tools/pkware-test-files
+          path: pkware-test-files
+          persist-credentials: false
+
+      - name: setup node
+        uses: actions/setup-node@v7.0.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: arx-convert/package-lock.json
+
+      - name: install
+        working-directory: arx-convert
+        run: npm ci
+
+      - name: lint
+        working-directory: arx-convert
+        run: npm run lint
+
+      - name: typecheck the tests
+        working-directory: arx-convert
+        run: npx tsc -p tests/tsconfig.json
+
+      - name: check the schemas
+        working-directory: arx-convert
+        run: npm run schemas:check
+
+      # the test script builds first, and ARX_FULL_TEST turns on every fixture
+      - name: test
+        working-directory: arx-convert
+        run: npm test
+        env:
+          ARX_FULL_TEST: '1'
+
+      # no test loads the bin entry point, the shebang or the rewritten aliases
+      - name: CLI smoke test
+        working-directory: arx-convert
+        run: node dist/bin/convert.js --version
+
+  node18:
+    name: node 18 (published package)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: checkout
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      # the tooling needs node 22 (native typescript support), so the build runs on it
+      - name: setup node (build)
+        uses: actions/setup-node@v7.0.0
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: install
+        run: npm ci
+
+      - name: build
+        run: npm run build
+
+      - name: pack
+        run: npm pack
+
+      # npm pack does not run prepublishOnly, and the lockfile is not installed on 18
+      - name: setup node 18
+        uses: actions/setup-node@v7.0.0
+        with:
+          node-version: 18.0.0
+
+      - name: install and run the packed tarball
+        run: |
+          mkdir -p "$RUNNER_TEMP/node18-check"
+          cd "$RUNNER_TEMP/node18-check"
+          npm install --no-audit --no-fund "$GITHUB_WORKSPACE"/arx-convert-*.tgz
+          node --version
+          ./node_modules/.bin/arx-convert --version
