@@ -1,6 +1,7 @@
 # everything listed here is repository tooling, only the build output (dist) is published
 .editorconfig
 .gitignore
+.github
 .prettierrc
 xo.config.ts
 
@@ -12,3 +13,6 @@ scripts
 ROADMAP.md
 tsconfig.json
 tsconfig.tsbuildinfo
+
+# the generated schemas are served from arx-tools.github.io, they are not part of the package
+dist/schemas

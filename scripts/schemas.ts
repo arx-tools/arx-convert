@@ -6,16 +6,16 @@
 //   node scripts/schemas.ts check [srcDir]           validates the sources, exits with 1 on a problem
 //
 // The sources are the canonical files: src/schemas/_defs.json holds the shared $defs (uint8, float32,
-// vector3, ...) and src/schemas/<format>.schema.json only defines what is local to that format. A published
-// schema has to be self-contained (every "#/$defs/x" $ref resolves inside the same file), so this script
-// injects the shared defs a format schema references - transitively, in the order of _defs.json.
+// vector3, ...) and src/schemas/<format>.schema.json only defines what is local to that format. A schema
+// which is served has to be self-contained (every "#/$defs/x" $ref resolves inside the same file), so this
+// script injects the shared defs a format schema references - transitively, in the order of _defs.json.
 //
-// Every generated schema is stamped with "x-generatedBy" (the name@version of this package), so a published
-// copy can be traced back to the release which generated it.
+// Every generated schema is stamped with "x-generatedBy" (the name@version of this package), so the copy
+// served on arx-tools.github.io can be traced back to the release which generated it.
 //
-// The output is a build artifact in dist/ (git ignored, never committed, never edited by hand), so the
-// generated schemas and their sources can not drift apart: there is no sync step, a build always writes them
-// from scratch.
+// The output is a build artifact in dist/ (git ignored and npm ignored, never committed, never edited by
+// hand), so the generated schemas and their sources can not drift apart: there is no sync step, a run of
+// "schemas.ts build" always writes them from scratch.
 // This file only uses erasable TypeScript syntax so that node.js can run it with type stripping.
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
@@ -198,7 +198,7 @@ for (const [name, def] of Object.entries(canonicalDefs)) {
   }
 }
 
-// the generated schemas carry the release which generated them, so a published copy can be traced back
+// the generated schemas carry the release which generated them, so the served copy can be traced back
 const packageJson = await loadJson(PACKAGE_FILENAME)
 const generatedBy = `${packageJson.name as string}@${packageJson.version as string}`
 

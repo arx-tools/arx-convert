@@ -33,7 +33,15 @@
 2. `npm run lint`, `npm run schemas:check`, `npm test`, `npm run build`
 3. open the release PR (`dev` -> `main`), wait for the CI and merge it
 4. on `main`: commit + tag (`vX.Y.Z`) + GitHub release (the notes should mention breaking format changes)
-5. `npm publish` - `prepublishOnly` runs the checks before packing, so a stale schema aborts the release
+5. `npm publish` - `prepublishOnly` runs the checks and a clean build before packing, so a broken schema source
+   aborts the release, and `dist/schemas` is regenerated with the version of the release
+6. if the release changed a schema, refresh the copy which is served: the just regenerated `dist/schemas` goes
+   into `public/schemas` of [arx-tools.github.io](https://github.com/arx-tools/arx-tools.github.io), the
+   package itself does not carry the schemas (see [docs/schemas.md](../docs/schemas.md))
+
+`npm run build` only compiles the typescript files: `npm run schemas:build` is a separate script, chained after
+the build by the `pretest` of `npm test` and by the `prepublishOnly` of `npm publish`, so both regenerate
+`dist/schemas`: there is no separate generation step to remember before publishing.
 
 ## CI
 
@@ -71,5 +79,5 @@ merge commit which the merge would produce. It has two jobs:
 | `../ArxLibertatis/src` | the source of truth for every format question, the JSDoc `@see` links point to it |
 | `../pkware-test-files` | test files from the game (`arx-fatalis/levelN/*.unpacked`), used by the tests |
 | `explode` / `implode` | [node-pkware](https://github.com/arx-tools/node-pkware), the FTS/DLF/LLF files are partially compressed with it |
-| `arx-header-size` | prints the size of the uncompressed header (the `--offset` for `explode`) |
+| `arx-header-size` | [arx-header-size](https://github.com/arx-tools/arx-header-size), prints the size of the uncompressed header (the `--offset` for `explode`) |
 | `arx-convert` | the CLI of this repository (globally linked, needs `chmod +x dist/bin/convert.js` after a rebuild - the build script does it) |

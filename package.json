@@ -27,15 +27,15 @@
     }
   },
   "scripts": {
-    "build": "tsc && tsc-alias && node scripts/schemas.ts build && chmod +x dist/bin/convert.js",
+    "build": "tsc && tsc-alias && chmod +x dist/bin/convert.js",
     "build:watch": "nodemon --watch src --exec \"npm run build\" --ext ts",
     "lint": "xo",
     "lint:watch": "nodemon --watch src --exec \"npm run lint\" --ext ts",
-    "pretest": "npm run build",
+    "pretest": "npm run build && npm run schemas:build",
     "test": "node --test tests/*.test.ts",
     "schemas:build": "node scripts/schemas.ts build",
     "schemas:check": "node scripts/schemas.ts check",
-    "prepublishOnly": "npm run lint && npm run schemas:check && rm -rf dist && rm -f tsconfig.tsbuildinfo && npm run build"
+    "prepublishOnly": "npm run lint && npm run schemas:check && rm -rf dist && rm -f tsconfig.tsbuildinfo && npm run build && npm run schemas:build"
   },
   "repository": {
     "type": "git",

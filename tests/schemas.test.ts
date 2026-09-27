@@ -189,7 +189,7 @@ void test('dist/schemas is what the schema sources generate', async () => {
   const distFolder = path.join(pathToRepoRoot(), 'dist', 'schemas')
   assert.ok(
     await pathExists(distFolder),
-    'dist/schemas is missing - run "npm run build" first ("npm test" does it through its pretest script)',
+    'dist/schemas is missing - run "npm run schemas:build" first ("npm test" does it through its pretest script)',
   )
 
   await withSchemasCopy(async (schemasFolder, outFolder) => {
@@ -200,7 +200,7 @@ void test('dist/schemas is what the schema sources generate', async () => {
       const generated = await readSchema(outFolder, format)
       const dist = await readSchema(distFolder, format)
 
-      assert.deepEqual(dist, generated, `dist/schemas/${format}.schema.json is stale, run "npm run build"`)
+      assert.deepEqual(dist, generated, `dist/schemas/${format}.schema.json is stale, run "npm run schemas:build"`)
     }
   })
 })

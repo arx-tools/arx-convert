@@ -7,26 +7,14 @@ Notes collected while working on the format. The C structs are from
 ## File layout
 
 An FTS file is a *partially* compressed file: the header is stored as is, only the scene data after it is
-compressed with the pkware/implode algorithm (see [pitfalls.md](pitfalls.md) about decompression).
+compressed with the pkware/implode algorithm (see [pitfalls.md](pitfalls.md) about decompression). The size of
+that uncompressed part - the `--offset` of `explode` - is not a constant: it is computed from the file by
+[`arx-header-size`](https://github.com/arx-tools/arx-header-size), which also reports the compression of a file
+and the numbers behind its header size.
 
-| Offset | Size | Content |
-|---|---|---|
-| `0` | 280 | `UNIQUE_HEADER` (`FtsHeader`) |
-| `280` | `uniqueHeaders × 768` | `UNIQUE_HEADER3` entries (`.scn` file list + check data) |
-| `280 + uniqueHeaders × 768` | rest of the file | the compressed scene data |
-
-The size of the uncompressed part (called *offset* by `explode`) is therefore
-`280 + numberOfUniqueHeaders × 768`:
-
-| unique headers | offset | example |
-|---|---|---|
-| 2 | 1816 | 21 of the 23 levels |
-| 1 | 1048 | level 10 |
-| 3 | 2584 | level 5 |
-
-`node tests/tools/fts-offsets.ts` prints this offset (and the size of the unpacked pair) for the fixtures of the
-[test files](https://github.com/arx-tools/pkware-test-files), and checks the unique header count of a
-compressed file against its unpacked pair.
+`node tests/tools/fts-offsets.ts` prints the offset of the fixtures of the
+[test files](https://github.com/arx-tools/pkware-test-files) together with the size of their unpacked pair, and
+checks the unique header count of a compressed file against that pair.
 
 `UNIQUE_HEADER` (`arx-convert`: `FtsHeader`) is:
 
@@ -40,11 +28,8 @@ struct UNIQUE_HEADER {
 };
 ```
 
-Two things follow from this:
-
-- the decompressed file is `offset + uncompressedsize` bytes long - a handy way to verify a decompression
-- the `path` field is **never read by the game** (the loader only uses `version`, `count` and
-  `uncompressedsize`), it only carries the level number in textual form
+The `path` field is **never read by the game** (the loader only uses `version`, `count` and `uncompressedsize`),
+it only carries the level number in textual form.
 
 `path` is where `levelIdx` comes from: early builds kept the assets on a shared Windows drive, so the path can
 be `\\ARKANESERVER\Public\Arx\Game\Graph\Levels\Level5\` instead of `C:\ARX\Game\Graph\Levels\level5\` - see

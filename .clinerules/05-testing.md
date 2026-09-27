@@ -5,12 +5,13 @@
 - the tests use node.js' **built-in test runner**: `"test": "node --test tests/*.test.ts"` - no test framework
   and no extra dependency is added, node.js runs the typescript files with its native type stripping
   (node.js >= 22.18.0, like `scripts/schemas.ts`)
-- `"pretest": "npm run build"` is needed: the tests import the package through its own name (`arx-convert`,
-  `arx-convert/utils`) because that is the interface a consumer gets, and node.js resolves it through the
-  `exports` of `package.json` - into `dist`. The `@common/...` aliases of `src` are only rewritten by
-  `tsc-alias` during a build, so the source can not be loaded by node directly (the relative `.js` imports of
-  `src` would not resolve either). A test run with a stale `dist` tests the old code, always use `npm test`
-  instead of calling `node --test` by hand.
+- `"pretest": "npm run build && npm run schemas:build"` is needed: the tests import the package through its own
+  name (`arx-convert`, `arx-convert/utils`) because that is the interface a consumer gets, and node.js resolves
+  it through the `exports` of `package.json` - into `dist`. The `@common/...` aliases of `src` are only
+  rewritten by `tsc-alias` during a build, so the source can not be loaded by node directly (the relative `.js`
+  imports of `src` would not resolve either). A test run with a stale `dist` tests the old code, always use
+  `npm test` instead of calling `node --test` by hand. The `schemas:build` part is for
+  `tests/schemas.test.ts`, which compares `dist/schemas` with what the schema sources generate.
 - `tests/*.test.ts` files are picked up by `npm test`, the manual diagnostic tools (`fts-offsets`,
   `constant-audit`, `nan-finder`) live in `tests/tools/*.ts` together with their shared `documents.ts` - those
   are not tests, `npm test` doesn't run them

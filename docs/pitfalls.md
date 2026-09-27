@@ -5,12 +5,12 @@ Mistakes which cost time while working on this project.
 ## 1. The game files are partially compressed
 
 The pkware compression is **not** a dependency of `arx-convert`, it only works with the unpacked files. Use
-[`explode`](https://github.com/arx-tools/node-pkware) (or the `unpack.sh` script from the README, which asks
-`arx-header-size` for the offset) first.
+[`explode`](https://github.com/arx-tools/node-pkware) first and let
+[`arx-header-size`](https://github.com/arx-tools/arx-header-size) compute the offset it needs - the `unpack.sh`
+script of the README shows the two together.
 
-- the offset to cut is **not always 1816**: it is `280 + numberOfUniqueHeaders × 768`, which is 1048 for
-  level 10 and 2584 for level 5 (see [fts-format.md](fts-format.md))
-- a good check: the unpacked file has to be `offset + uncompressedsize` bytes long
+- the offset to cut is **not always 1816**: it depends on the file, so read it with `arx-header-size` instead of
+  assuming a value (see [fts-format.md](fts-format.md), which links to the tool as well)
 - feeding a **compressed** file into `FTS.load()` or into the CLI does not give a clean error: the header of a
   compressed file looks like an uncompressed one, so the parser walks into the compressed data (this can end
   up allocating huge arrays or running out of memory). Always decompress first.
@@ -61,8 +61,8 @@ rounding (and the non mutating sort) if you touch the function, or polygons end 
 
 ## 7. Schemas
 
-`src/schemas/_defs.json` is the canonical source of the shared definitions, the published format schemas are
-generated from `src/schemas/` into `dist/schemas/` by the build. A format schema source never contains a
-shared definition (the build injects them), and `npm run schemas:check` verifies that (it also runs before
-publishing) - see [schemas.md](schemas.md).
+`src/schemas/_defs.json` is the canonical source of the shared definitions, the format schemas served on
+arx-tools.github.io are generated from `src/schemas/` into `dist/schemas/` by `npm run schemas:build`. A format
+schema source never contains a shared definition (the generator injects them), and `npm run schemas:check`
+verifies that (it also runs before publishing) - see [schemas.md](schemas.md).
 

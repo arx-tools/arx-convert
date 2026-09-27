@@ -138,7 +138,7 @@ Some Arx Fatalis files are partially compressed with Stormlib Pkware and you nee
 tool for unpacking/repacking: [node-pkware](https://www.npmjs.com/package/node-pkware)
 
 Also, Arx Fatalis file headers are not constant in size, but there is a tool
-that can give you the exact offset you need to pipe into node-pkware: [arx-header-size](https://www.npmjs.com/package/arx-header-size)
+that can give you the exact offset you need to pipe into node-pkware: [arx-header-size](https://github.com/arx-tools/arx-header-size)
 
 Install these tools by running
 
@@ -267,6 +267,9 @@ or uncompressed
 ### Validating generated JSON files using schemas
 
 https://www.jsonschemavalidator.net/
+
+The schemas are served from `https://arx-tools.github.io/schemas/` (the same URL the generated JSON refers to
+in `$schema`), they are not part of the npm package.
 
 ## Documentation
 
