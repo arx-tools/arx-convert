@@ -1,0 +1,109 @@
+name: Release
+
+# The JSON schemas are served from https://arx-tools.github.io/schemas/ - that is the URL the
+# generated JSON names in its "$schema" - so a release which changed a schema has to refresh the
+# copy there. This workflow does that: it builds the schemas exactly as "npm run schemas:build"
+# does and commits them into public/schemas of the website, whose own workflow deploys them.
+#
+# The push into the website needs a token which can write there - secrets.SITE_REPO_TOKEN, a
+# personal access token with "contents: read and write" on arx-tools/arx-tools.github.io. The
+# GITHUB_TOKEN of this repository can not write into another one, and a push made with it would
+# not trigger the deploy of the website either.
+#
+# The manual run builds the same way and shows what would change, but it pushes nothing unless
+# dry_run is turned off.
+
+on:
+  release:
+    types: [published]
+
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: build and show what would change in the website, but do not push
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  schemas:
+    name: build and deploy the schemas
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      # scripts/schemas.ts is run by node.js' native typescript support, which needs 22.18.0
+      - name: setup node
+        uses: actions/setup-node@v7.1.0
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: install
+        run: npm ci
+
+      - name: check the schema sources
+        run: npm run schemas:check
+
+      - name: build the schemas
+        run: npm run schemas:build
+
+      # the stamp is what tells which release a served schema came from, so it has to be the
+      # version of this release
+      - name: check the x-generatedBy stamp
+        run: |
+          version=$(node -p "require('./package.json').version")
+          for file in dist/schemas/*.schema.json; do
+            generated_by=$(node -p "require('./$file')['x-generatedBy']")
+            if [ "$generated_by" != "arx-convert@$version" ]; then
+              echo "$file is stamped with \"$generated_by\" instead of \"arx-convert@$version\"" >&2
+              exit 1
+            fi
+          done
+          echo "every schema is stamped with arx-convert@$version"
+
+      - name: checkout the website
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: arx-tools/arx-tools.github.io
+          ref: main
+          path: website
+          token: ${{ secrets.SITE_REPO_TOKEN }}
+
+      # the folder is replaced as a whole, so a schema of an older release can not stay behind
+      - name: replace public/schemas
+        run: |
+          rm -f website/public/schemas/*.schema.json
+          cp dist/schemas/*.schema.json website/public/schemas/
+          ls -l website/public/schemas/
+
+      - name: commit and push
+        working-directory: website
+        env:
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          version=$(node -p "require('../package.json').version")
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A public/schemas
+
+          if git diff --cached --quiet; then
+            echo "public/schemas is already up to date, nothing to commit"
+            exit 0
+          fi
+
+          git status --short
+
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "dry run: the changes above are not committed"
+            exit 0
+          fi
+
+          git commit -m "chore(schemas): update to arx-convert $version"
+          git push origin main
