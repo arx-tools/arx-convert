@@ -24,6 +24,27 @@
 | 2 | sparse `cells` | [#17](https://github.com/arx-tools/arx-convert/issues/17) task 4, 25,600 entries of which only ~1,900-3,500 are not empty |
 | 3 | re-measure every level | and update [docs/json-optimization.md](docs/json-optimization.md) |
 | 4 | release `14.0.0` | the JSON format changed (the anchor fields), so it is a breaking release, it ships with a `dev` -> `main` release PR |
+| 5 | typed array load path for the polygons | not the JSON, the object graph is what costs, see below |
+
+### Task 5 - typed array load path for the polygons
+
+Measured on level 1 (58,963 polygons, 10.7 MB unpacked):
+
+| load path | retained JS heap | object graph | time |
+|---|---:|---|---:|
+| `JSON.parse()` of the 44.8 MB minified JSON | ~90 MB (+45 MB of text) | 3,869,304 nodes | 0.29 s |
+| `FTS.load()` of the unpacked binary | ~103 MB | the very same 3,869,304 nodes | 0.23 s |
+| `DataView` -> `Float32Array`, no objects at all | **0 MB** | none | **0.02 s** |
+
+`FTS.load()` builds exactly the same object graph as the JSON path, so dropping the JSON gains nothing - the cost
+is the representation, not the serialization. The polygons are ~91% of that graph and ~93% of the JSON, and they
+are a fixed stride record (`Vertex`: 20 bytes, `Polygon`: 172 bytes, see [docs/fts-format.md](docs/fts-format.md)).
+
+A proof of concept (a `DataView` walk writing the three.js `position`, `normal` and `uv` `Float32Array`s directly)
+produces **bit identical** attributes to `FTS.load()` + the browser editor's `arxPolygonsToMesh()`, on level 1 and
+on a generated map alike, and the `llfColorIdx` of a vertex does not have to be stored (it is its position in the
+polygon stream). Open: a separate entry point against an `ArxFTS.polygons` accessor, and whether only the polygons
+are converted (they are the whole win, the anchors/portals/rooms can stay objects).
 
 ## Ideas, not planned
 
