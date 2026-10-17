@@ -35,9 +35,11 @@
 4. on `main`: commit + tag (`vX.Y.Z`) + GitHub release (the notes should mention breaking format changes)
 5. `npm publish` - `prepublishOnly` runs the checks and a clean build before packing, so a broken schema source
    aborts the release, and `dist/schemas` is regenerated with the version of the release
-6. if the release changed a schema, refresh the copy which is served: the just regenerated `dist/schemas` goes
-   into `public/schemas` of [arx-tools.github.io](https://github.com/arx-tools/arx-tools.github.io), the
-   package itself does not carry the schemas (see [docs/schemas.md](../docs/schemas.md))
+6. publishing the GitHub release also refreshes the copy which is served: `.github/workflows/release.yml` builds
+   `dist/schemas` from the tag and commits it into `public/schemas` of
+   [arx-tools.github.io](https://github.com/arx-tools/arx-tools.github.io) - the package itself does not carry the
+   schemas (see [docs/schemas.md](../docs/schemas.md)). It needs `secrets.SITE_REPO_TOKEN` there and it can be
+   re-run by hand (Actions -> Release -> Run workflow) if the push failed
 
 `npm run build` only compiles the typescript files: `npm run schemas:build` is a separate script, chained after
 the build by the `pretest` of `npm test` and by the `prepublishOnly` of `npm publish`, so both regenerate

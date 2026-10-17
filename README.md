@@ -269,7 +269,19 @@ or uncompressed
 https://www.jsonschemavalidator.net/
 
 The schemas are served from `https://arx-tools.github.io/schemas/` (the same URL the generated JSON refers to
-in `$schema`), they are not part of the npm package.
+in `$schema`), they are not part of the npm package. The copy there is refreshed by the release workflow of this
+repository, so a release which changed a schema does not need a manual copy.
+
+## Branches and releases
+
+`main` is the released state - it only receives the release merges - and `dev` is the integration branch where the
+pull requests of the issues land. A release is a `dev` -> `main` merge, a `vX.Y.Z` tag with a GitHub release on
+`main`, then `npm publish`; [`docs`](docs/README.md) and [.clinerules/04-workflow.md](.clinerules/04-workflow.md)
+have the details.
+
+Publishing the release also refreshes the schemas which are served on
+[arx-tools.github.io](https://github.com/arx-tools/arx-tools.github.io): `.github/workflows/release.yml` builds them
+from `src/schemas` and commits them into `public/schemas` of the website.
 
 ## Documentation
 
