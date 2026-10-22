@@ -42,6 +42,11 @@
     "url": "git+https://github.com/arx-tools/arx-convert.git"
   },
   "author": "Lajos Meszaros <m_lajos@hotmail.com>",
+  "contributors": [
+    {
+      "name": "DeepSeek Harness (AI coding agent) using DeepSeek-V41-Flash"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/arx-tools/arx-convert/issues"
