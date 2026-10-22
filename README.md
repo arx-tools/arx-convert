@@ -276,8 +276,7 @@ repository, so a release which changed a schema does not need a manual copy.
 
 `main` is the released state - it only receives the release merges - and `dev` is the integration branch where the
 pull requests of the issues land. A release is a `dev` -> `main` merge, a `vX.Y.Z` tag with a GitHub release on
-`main`, then `npm publish`; [`docs`](docs/README.md) and [.clinerules/04-workflow.md](.clinerules/04-workflow.md)
-have the details.
+`main`, then `npm publish`.
 
 Publishing the release also refreshes the schemas which are served on
 [arx-tools.github.io](https://github.com/arx-tools/arx-tools.github.io): `.github/workflows/release.yml` builds them
@@ -286,8 +285,6 @@ from `src/schemas` and commits them into `public/schemas` of the website.
 ## Documentation
 
 - [docs](docs/README.md) - the binary formats, the JSON size optimization, the field audit and the pitfalls
-- [ROADMAP.md](ROADMAP.md) - what is planned next
-- [.clinerules](.clinerules) - the conventions of the codebase for AI tools
 - [issue #17](https://github.com/arx-tools/arx-convert/issues/17) - the JSON size optimization roadmap with
   the measured numbers
 

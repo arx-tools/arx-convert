@@ -13,5 +13,3 @@ Notes about the binary formats, the design decisions and the tooling of `arx-con
 See also:
 
 - [../README.md](../README.md) - installation, CLI and API usage
-- [../ROADMAP.md](../ROADMAP.md) - what is planned next
-- [../.clinerules](../.clinerules) - conventions of the codebase

@@ -9,8 +9,6 @@ src
 docs
 tests
 scripts
-.clinerules
-ROADMAP.md
 tsconfig.json
 tsconfig.tsbuildinfo
 
