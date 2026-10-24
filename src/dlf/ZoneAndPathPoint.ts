@@ -5,11 +5,16 @@ import type { ArxVector3 } from '../common/types.ts'
 /**
  * These are not bitwise flags, they cannot be combined.
  */
-export enum ArxZoneAndPathPointType {
-  Standard = 0,
-  Bezier = 1,
-  BezierControlPoint = 2,
-}
+export const ArxZoneAndPathPointType = {
+  Standard: 0,
+  Bezier: 1,
+  BezierControlPoint: 2,
+} as const
+
+/**
+ * One of the {@link ArxZoneAndPathPointType} values.
+ */
+export type ArxZoneAndPathPointType = (typeof ArxZoneAndPathPointType)[keyof typeof ArxZoneAndPathPointType]
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L168
@@ -34,7 +39,8 @@ export class ZoneAndPathPoint {
         y: rPosition.y + position.y,
         z: rPosition.z + position.z,
       },
-      type: binary.readInt32(),
+      // the files in the wild only carry the three known values
+      type: binary.readInt32() as ArxZoneAndPathPointType,
       time: binary.readUint32(),
     }
 

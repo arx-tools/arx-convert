@@ -6,15 +6,20 @@ import { AMB_VERSION_1002, AMB_VERSION_1003, type AMB_VERSIONS } from './constan
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/audio/Ambiance.cpp#L230
  */
-export enum ArxTrackFlags {
-  None = 0,
-  Position = 1 << 0,
-  // ? = 1 << 1,
-  Master = 1 << 2,
-  // ? = 1 << 3,
-  Paused = 1 << 4,
-  Prefetched = 1 << 5,
-}
+export const ArxTrackFlags = {
+  None: 0,
+  Position: 1 << 0,
+  // ?: 1 << 1,
+  Master: 1 << 2,
+  // ?: 1 << 3,
+  Paused: 1 << 4,
+  Prefetched: 1 << 5,
+} as const
+
+/**
+ * A combination of the {@link ArxTrackFlags} bits.
+ */
+export type ArxTrackFlags = number
 
 export type ArxTrack = {
   filename: string

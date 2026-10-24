@@ -6,8 +6,8 @@ import type { ArxVector3 } from '../common/types.ts'
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/Light.h#L80
  */
-export enum ArxLightFlags {
-  None = 0,
+export const ArxLightFlags = {
+  None: 0,
   /**
    * Makes the light source dynamic in a way that when combined with other flags it can
    * be manipulated real-time in-game. For example it can be made extinguishable.
@@ -15,7 +15,7 @@ export enum ArxLightFlags {
    * A non-dynamic light is one that has their effect hardcoded into the polygon's vertex
    * data as vertex lighting.
    */
-  SemiDynamic = 1 << 0,
+  SemiDynamic: 1 << 0,
   /**
    * Makes the light source extinguishable with the douse spell (and probably to the arrows too).
    * Also makes it ignitable with the ignite spell.
@@ -24,12 +24,12 @@ export enum ArxLightFlags {
    *
    * @see https://www.youtube.com/watch?v=x8CGx19No4k on how to douse a light source with an arrow
    */
-  Extinguishable = 1 << 1,
+  Extinguishable: 1 << 1,
   /**
    * When `SemiDynamic` is set it makes the light source start turned off.
    * If `Extinguishable` is also set then it can be ignited.
    */
-  StartExtinguished = 1 << 2,
+  StartExtinguished: 1 << 2,
   /**
    * On its own it only makes the light source emit fire cracking sounds.
    * When `SemiDynamic` is also set it creates a flare/halo around the light source.
@@ -38,26 +38,26 @@ export enum ArxLightFlags {
    *
    * Fire only shows if `ArxLight.exFrequency` is > 0.
    */
-  SpawnFire = 1 << 3,
+  SpawnFire: 1 << 3,
   /**
    * Similarly to `SpawnFire` this also makes fire cracking sounds on its own.
    * When `SemiDynamic` is set and `ArxLight.exFrequency` is > 0 then it periodically emits
    * smoke particles.
    */
-  SpawnSmoke = 1 << 4,
+  SpawnSmoke: 1 << 4,
   /**
    * Unused.
    *
    * Not used by any of the lights on the existing arx levels, nor is it used in Danae, AF or AL.
    */
-  Off = 1 << 5,
+  Off: 1 << 5,
   /**
    * If set then the fire/smoke particles will take on the color from `ArxLight.color`, otherwise
    * they are white.
    * If `SpawnFire` is set, then the flames will take on the colors, but the smoke particles will
    * remain white.
    */
-  ColorLegacy = 1 << 6,
+  ColorLegacy: 1 << 6,
   /**
    * Only used by DANAE. Arx Fatalis 1.21 and Arx Libertatis ignores it.
    *
@@ -66,12 +66,12 @@ export enum ArxLightFlags {
    *
    * @see https://github.com/arx/ArxLibertatis/blob/ArxFatalis-1.21/Sources/EERIE/EERIELight.cpp#L504
    */
-  NoCasted = 1 << 7,
+  NoCasted: 1 << 7,
   /**
    * Normally the flare will keep its size relative to the game's window.
    * This flag allows to break from that and have the flare size be tied to the world.
    */
-  FixFlareSize = 1 << 8,
+  FixFlareSize: 1 << 8,
   /**
    * When the halo/flare size is automatically set then this flag makes it slightly larger.
    *
@@ -80,7 +80,7 @@ export enum ArxLightFlags {
    *
    * @see https://github.com/arx/ArxLibertatis/blob/ArxFatalis-1.21/Sources/DANAE/DanaeSaveLoad.cpp#L1618
    */
-  Fireplace = 1 << 9,
+  Fireplace: 1 << 9,
   /**
    * Works together with `Extinguishable`.
    * Blocks reacting to the ignite spell cast by the player, the spellcast script command can
@@ -88,7 +88,7 @@ export enum ArxLightFlags {
    *
    * This doesn't block the light source from reacting to the douse spell.
    */
-  NoIgnit = 1 << 10,
+  NoIgnit: 1 << 10,
   /**
    * This makes that a light source has a halo around it. If `SpawnFire` is set, then this
    * flag automatically/implicitly gets set as you can't have fire without a flare.
@@ -98,8 +98,13 @@ export enum ArxLightFlags {
    *
    * @see https://github.com/arx/ArxLibertatis/blob/ArxFatalis-1.21/Sources/DANAE/DanaeSaveLoad.cpp#L1618
    */
-  Flare = 1 << 11,
-}
+  Flare: 1 << 11,
+} as const
+
+/**
+ * A combination of the {@link ArxLightFlags} bits.
+ */
+export type ArxLightFlags = number
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L114

@@ -9,40 +9,45 @@ import { isBetween, isQuad } from './helpers.ts'
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/GraphicsTypes.h#L88
  */
-export enum ArxPolygonFlags {
-  None = 0,
-  NoShadow = 1 << 0,
-  DoubleSided = 1 << 1,
-  Transparent = 1 << 2,
-  Water = 1 << 3,
-  Glow = 1 << 4,
-  Ignore = 1 << 5,
-  Quad = 1 << 6,
+export const ArxPolygonFlags = {
+  None: 0,
+  NoShadow: 1 << 0,
+  DoubleSided: 1 << 1,
+  Transparent: 1 << 2,
+  Water: 1 << 3,
+  Glow: 1 << 4,
+  Ignore: 1 << 5,
+  Quad: 1 << 6,
   /**
    * Unused by arx.
    */
-  Tiled = 1 << 7,
-  Metal = 1 << 8,
-  Hide = 1 << 9,
-  Stone = 1 << 10,
-  Wood = 1 << 11,
-  Gravel = 1 << 12,
-  Earth = 1 << 13,
-  NoCollision = 1 << 14,
-  Lava = 1 << 15,
-  Climbable = 1 << 16,
-  Falling = 1 << 17,
-  NoPath = 1 << 18,
-  NoDraw = 1 << 19,
-  PrecisePath = 1 << 20,
-  // NoClimb = 1 << 21, // unused
-  // Angular = 1 << 22, // unused
-  // AngularIdx0 = 1 << 23, // unused
-  // AngularIdx1 = 1 << 24, // unused
-  // AngularIdx2 = 1 << 25, // unused
-  // AngularIdx3 = 1 << 26, // unused
-  LateMip = 1 << 27,
-}
+  Tiled: 1 << 7,
+  Metal: 1 << 8,
+  Hide: 1 << 9,
+  Stone: 1 << 10,
+  Wood: 1 << 11,
+  Gravel: 1 << 12,
+  Earth: 1 << 13,
+  NoCollision: 1 << 14,
+  Lava: 1 << 15,
+  Climbable: 1 << 16,
+  Falling: 1 << 17,
+  NoPath: 1 << 18,
+  NoDraw: 1 << 19,
+  PrecisePath: 1 << 20,
+  // NoClimb: 1 << 21, // unused
+  // Angular: 1 << 22, // unused
+  // AngularIdx0: 1 << 23, // unused
+  // AngularIdx1: 1 << 24, // unused
+  // AngularIdx2: 1 << 25, // unused
+  // AngularIdx3: 1 << 26, // unused
+  LateMip: 1 << 27,
+} as const
+
+/**
+ * A combination of the {@link ArxPolygonFlags} bits.
+ */
+export type ArxPolygonFlags = number
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L81

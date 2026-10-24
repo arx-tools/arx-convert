@@ -6,11 +6,16 @@ import type { ArxVector3, TripleOf } from '../common/types.ts'
  *
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FTLFormat.h#L105
  */
-export enum ArxFaceType {
-  Flat = 0,
-  Text = 1,
-  DoubleSided = 2,
-}
+export const ArxFaceType = {
+  Flat: 0,
+  Text: 1,
+  DoubleSided: 2,
+} as const
+
+/**
+ * One of the {@link ArxFaceType} values.
+ */
+export type ArxFaceType = (typeof ArxFaceType)[keyof typeof ArxFaceType]
 
 /**
  * The default value of the optional `transval` property is 0.
@@ -29,7 +34,8 @@ export type ArxFace = {
 
 export class Face {
   static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxFace {
-    const faceType = binary.readInt32()
+    // the files in the wild only carry the three known values
+    const faceType = binary.readInt32() as ArxFaceType
 
     binary.readUint32Array(3) // rgb - always [0, 0, 0]
 

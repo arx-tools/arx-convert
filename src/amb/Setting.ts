@@ -3,11 +3,16 @@ import { BinaryIO } from '../common/BinaryIO.ts'
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/audio/Ambiance.cpp#L84
  */
-export enum ArxSettingFlag {
-  None = 0,
-  Random = 1 << 0,
-  Interpolate = 1 << 1,
-}
+export const ArxSettingFlag = {
+  None: 0,
+  Random: 1 << 0,
+  Interpolate: 1 << 1,
+} as const
+
+/**
+ * A combination of the {@link ArxSettingFlag} bits.
+ */
+export type ArxSettingFlag = number
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/audio/Ambiance.cpp#L90

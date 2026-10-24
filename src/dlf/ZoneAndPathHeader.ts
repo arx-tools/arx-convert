@@ -9,15 +9,20 @@ import { DEFAULT_DRAW_DISTANCE } from './constants.ts'
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/ai/Paths.h#L65
  * @see https://github.com/arx/ArxLibertatis/blob/ArxFatalis-1.21/Sources/Include/ARX_Paths.h#L128
  */
-export enum ArxZoneAndPathFlags {
-  None = 0,
-  // Loop = 1 << 0, // have been removed from Arx Libertatis, no idea if it was implemented in vanilla Arx
+export const ArxZoneAndPathFlags = {
+  None: 0,
+  // Loop: 1 << 0, // have been removed from Arx Libertatis, no idea if it was implemented in vanilla Arx
   // level7 "PATH_BLACK" and level8 "PATH1" are the only 2 paths where flag is set to this, but path flags are ignored
-  SetAmbience = 1 << 1,
-  SetBackgroundColor = 1 << 2,
-  SetDrawDistance = 1 << 3,
-  // Reverb = 1 << 4, // have been removed from Arx Libertatis, wasn't implemented in vanilla Arx
-}
+  SetAmbience: 1 << 1,
+  SetBackgroundColor: 1 << 2,
+  SetDrawDistance: 1 << 3,
+  // Reverb: 1 << 4, // have been removed from Arx Libertatis, wasn't implemented in vanilla Arx
+} as const
+
+/**
+ * A combination of the {@link ArxZoneAndPathFlags} bits.
+ */
+export type ArxZoneAndPathFlags = number
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L150

@@ -18,6 +18,10 @@ const xoConfig: XoConfigItem[] = [
       // `ArxKeyFrame` / `isKeyFrame` are part of the published api: renaming them belongs to the
       // breaking-change round (the enums go then too), not to the tooling migration
       'unicorn/consistent-compound-words': 'off',
+      // the enum replacement keeps the public name: the `const` object holds the values and the type
+      // alias the type, so the two declarations share a name (they live in different declaration
+      // spaces, but the rule does not have an option for a type alias next to a value)
+      '@typescript-eslint/no-redeclare': 'off',
     },
   },
 ]

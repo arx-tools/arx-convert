@@ -1,9 +1,6 @@
 {
   "extends": "@arx-tools/config/tsconfig.base.json",
   "compilerOptions": {
-    // the nine enums of the formats are not erasable syntax; the conversion to const objects is a
-    // separate (breaking) round, until then the build needs the compiler to emit them
-    "erasableSyntaxOnly": false,
     // the build is a full rebuild every time, so a deleted output can not go stale
     "incremental": false,
     "rootDir": "./src",
