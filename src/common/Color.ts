@@ -1,37 +1,41 @@
-import { BinaryIO } from '@common/BinaryIO.js'
+import { BinaryIO } from './BinaryIO.ts'
 
 type ColorMode = 'abgr' | 'bgra' | 'rgb'
 
 /**
- * Color containing red, green, blue and alpha channels
+ * Color containing red, green, blue and alpha channels.
  *
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/GraphicsFormat.h#L29
  */
 export type ArxColor = {
   /**
-   * red channel, integer between 0 and 255
+   * Red channel, integer between 0 and 255.
    *
+   * @remarks
    * - 0 = darkest, lowest intensity
    * - 255 = brightest, most intensity
    */
   r: number
   /**
-   * green channel, integer between 0 and 255
+   * Green channel, integer between 0 and 255.
    *
+   * @remarks
    * - 0 = darkest, lowest intensity
    * - 255 = brightest, most intensity
    */
   g: number
   /**
-   * blue channel, integer between 0 and 255
+   * Blue channel, integer between 0 and 255.
    *
+   * @remarks
    * - 0 = darkest, lowest intensity
    * - 255 = brightest, most intensity
    */
   b: number
   /**
-   * alpha channel, float between 0.0 and 1.0
+   * Alpha channel, float between 0.0 and 1.0.
    *
+   * @remarks
    * - 0.0 = fully transparent
    * - 1.0 = fully opaque
    */

@@ -1,7 +1,9 @@
-import { BinaryIO } from '@common/BinaryIO.js'
-import { TextureContainer } from '@fts/TextureContainer.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { TextureContainer } from '../fts/TextureContainer.ts'
 
-/** @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FTLFormat.h#L97 */
+/**
+ * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FTLFormat.h#L97
+ */
 export type ArxFtlTextureContainer = {
   filename: string
 }

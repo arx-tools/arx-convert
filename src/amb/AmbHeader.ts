@@ -1,6 +1,6 @@
-import type { ArxAMB } from '@amb/AMB.js'
-import { AMB_VERSION_1003, type AMB_VERSIONS } from '@amb/constants.js'
-import { BinaryIO } from '@common/BinaryIO.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import type { ArxAMB } from './AMB.ts'
+import { AMB_VERSION_1003, type AMB_VERSIONS } from './constants.ts'
 
 export type ArxAmbHeader = {
   version: AMB_VERSIONS
@@ -9,6 +9,8 @@ export type ArxAmbHeader = {
 
 export class AmbHeader {
   /**
+   * Reads the header of an ambience file.
+   *
    * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/audio/Ambiance.cpp#L627
    */
   static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxAmbHeader {

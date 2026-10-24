@@ -1,7 +1,7 @@
-import { BinaryIO } from '@common/BinaryIO.js'
-import { concatArrayBuffers, times } from '@common/helpers.js'
-import { type ArxPolygon, Polygon } from '@fts/Polygon.js'
-import { SceneInfo } from '@fts/SceneInfo.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { concatArrayBuffers, times } from '../common/helpers.ts'
+import { type ArxPolygon, Polygon } from './Polygon.ts'
+import { SceneInfo } from './SceneInfo.ts'
 
 export type ArxCell = {
   polygons: ArxPolygon[]
@@ -12,17 +12,19 @@ export class Cell {
   static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxCell {
     const { numberOfPolygons, numberOfAnchors } = SceneInfo.readFrom(binary)
 
-    const data: ArxCell = {
-      polygons: times(() => {
-        return Polygon.readFrom(binary)
-      }, numberOfPolygons),
-    }
+    const polygons = times(() => {
+      return Polygon.readFrom(binary)
+    }, numberOfPolygons)
 
+    let anchors: number[] | undefined
     if (numberOfAnchors > 0) {
-      data.anchors = binary.readInt32Array(numberOfAnchors)
+      anchors = binary.readInt32Array(numberOfAnchors)
     }
 
-    return data
+    return {
+      polygons,
+      anchors,
+    } satisfies ArxCell
   }
 
   static accumulateFrom(cell: ArxCell): ArrayBuffer {

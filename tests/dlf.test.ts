@@ -1,19 +1,13 @@
 import assert from 'node:assert/strict'
+import { Buffer } from 'node:buffer'
 import { test } from 'node:test'
+import { assertTopLevelKeys, assertValidJsonValues, levelsForTest, readFixture, toJsonRoundTrip } from './fixtures.ts'
 import { DLF } from 'arx-convert'
 import type { ArxDLF } from 'arx-convert/types'
-import {
-  assertSameBytes,
-  assertTopLevelKeys,
-  assertValidJsonValues,
-  levelsForTest,
-  readFixture,
-  toJsonRoundTrip,
-} from './fixtures.ts'
 
 /**
- * level6 is the smallest fixture whose header path is stored in the `\\ARKANESERVER\...` style of the early
- * builds (see `levelIdxFromPath()`), so the default run covers that path parsing as well
+ * Level6 is the smallest fixture whose header path is stored in the `\\ARKANESERVER\...` style of the early
+ * builds (see `levelIdxFromPath()`), so the default run covers that path parsing as well.
  */
 const DEFAULT_LEVELS = [6, 8, 20]
 
@@ -24,7 +18,10 @@ for (const level of await levelsForTest(DEFAULT_LEVELS)) {
   const bytes = await readFixture(level, 'dlf')
 
   void test(`${description}: both conversion paths produce the same file`, () => {
-    assertSameBytes(DLF.save(toJsonRoundTrip(DLF.load(bytes))), DLF.save(DLF.load(bytes)), description)
+    const fromBinary = DLF.save(DLF.load(bytes))
+    const fromJson = DLF.save(toJsonRoundTrip(DLF.load(bytes)))
+
+    assert.ok(Buffer.from(fromJson).equals(Buffer.from(fromBinary)), `${description}: the two paths differ`)
   })
 
   void test(`${description}: levelIdx matches the folder of the fixture`, () => {

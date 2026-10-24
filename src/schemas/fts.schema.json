@@ -26,13 +26,7 @@
           "$ref": "#/$defs/positiveInt32"
         }
       },
-      "required": [
-        "x",
-        "y",
-        "z",
-        "u",
-        "v"
-      ]
+      "required": ["x", "y", "z", "u", "v"]
     },
     "int16": {
       "type": "integer",
@@ -53,10 +47,7 @@
           "$ref": "#/$defs/vector3"
         }
       },
-      "required": [
-        "levelIdx",
-        "mScenePosition"
-      ]
+      "required": ["levelIdx", "mScenePosition"]
     },
     "uniqueHeaders": {
       "type": "array",
@@ -76,10 +67,7 @@
             "maxLength": 512
           }
         },
-        "required": [
-          "path",
-          "check"
-        ]
+        "required": ["path", "check"]
       }
     },
     "textureContainers": {
@@ -96,10 +84,7 @@
             "maxLength": 256
           }
         },
-        "required": [
-          "id",
-          "filename"
-        ]
+        "required": ["id", "filename"]
       }
     },
     "cells": {
@@ -161,16 +146,7 @@
             "$ref": "#/$defs/positiveInt16"
           }
         },
-        "required": [
-          "vertices",
-          "textureContainerId",
-          "norm",
-          "norm2",
-          "transval",
-          "area",
-          "flags",
-          "room"
-        ]
+        "required": ["vertices", "textureContainerId", "norm", "norm2", "transval", "area", "flags", "room"]
       }
     },
     "anchors": {
@@ -185,9 +161,7 @@
                 "$ref": "#/$defs/vector3"
               }
             },
-            "required": [
-              "position"
-            ]
+            "required": ["position"]
           },
           "linkedAnchors": {
             "type": "array",
@@ -196,10 +170,7 @@
             }
           }
         },
-        "required": [
-          "data",
-          "linkedAnchors"
-        ]
+        "required": ["data", "linkedAnchors"]
       }
     },
     "portals": {
@@ -237,10 +208,7 @@
                       "$ref": "#/$defs/float32"
                     }
                   },
-                  "required": [
-                    "position",
-                    "rhw"
-                  ]
+                  "required": ["position", "rhw"]
                 },
                 "minLength": 4,
                 "maxLength": 4
@@ -249,14 +217,7 @@
                 "$ref": "#/$defs/vector3"
               }
             },
-            "required": [
-              "min",
-              "max",
-              "norm",
-              "norm2",
-              "vertices",
-              "center"
-            ]
+            "required": ["min", "max", "norm", "norm2", "vertices", "center"]
           },
           "room1": {
             "$ref": "#/$defs/positiveInt32"
@@ -268,12 +229,7 @@
             "$ref": "#/$defs/int16"
           }
         },
-        "required": [
-          "polygon",
-          "room1",
-          "room2",
-          "usePortal"
-        ]
+        "required": ["polygon", "room1", "room2", "usePortal"]
       }
     },
     "rooms": {
@@ -307,18 +263,11 @@
                   "$ref": "#/$defs/positiveInt16"
                 }
               },
-              "required": [
-                "cellX",
-                "cellY",
-                "polygonIdx"
-              ]
+              "required": ["cellX", "cellY", "polygonIdx"]
             }
           }
         },
-        "required": [
-          "portals",
-          "polygons"
-        ]
+        "required": ["portals", "polygons"]
       }
     },
     "roomDistances": {
@@ -345,22 +294,9 @@
             "$ref": "#/$defs/vector3"
           }
         },
-        "required": [
-          "distance",
-          "startPosition",
-          "endPosition"
-        ]
+        "required": ["distance", "startPosition", "endPosition"]
       }
     }
   },
-  "required": [
-    "header",
-    "textureContainers",
-    "cells",
-    "polygons",
-    "anchors",
-    "portals",
-    "rooms",
-    "roomDistances"
-  ]
+  "required": ["header", "textureContainers", "cells", "polygons", "anchors", "portals", "rooms", "roomDistances"]
 }

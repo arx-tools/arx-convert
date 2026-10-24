@@ -1,8 +1,8 @@
-import { BinaryIO } from '@common/BinaryIO.js'
-import { repeat, times } from '@common/helpers.js'
-import type { ArxQuaternion, ArxVector3 } from '@common/types.js'
-import { TEA_VERSION_NEW, TEA_VERSION_OLD } from '@tea/constants.js'
-import type { ArxTheaSample } from '@tea/types.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { repeat, times } from '../common/helpers.ts'
+import type { ArxQuaternion, ArxVector3 } from '../common/types.ts'
+import { TEA_VERSION_NEW, TEA_VERSION_OLD } from './constants.ts'
+import type { ArxTheaSample } from './types.ts'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/animation/Animation.h#L131
@@ -11,27 +11,27 @@ import type { ArxTheaSample } from '@tea/types.js'
 export enum ArxAnimationPlayingFlags {
   None = 0,
   /**
-   * Must be looped at end (indefinitely...)
+   * Must be looped at end (indefinitely...).
    */
   Loop = 1 << 0,
   /**
-   * Is played in reverse (from end to start)
+   * Is played in reverse (from end to start).
    */
   Reverse = 1 << 1,
   /**
-   * Is paused
+   * Is paused.
    */
   Paused = 1 << 2,
   /**
-   * Has just finished
+   * Has just finished.
    */
   AnimEnd = 1 << 3,
   /**
-   * Is a static Anim (no movement offset returned)
+   * Is a static Anim (no movement offset returned).
    */
   StaticAnim = 1 << 4,
   /**
-   * Must be stopped at end
+   * Must be stopped at end.
    */
   StopEnd = 1 << 5,
   /**
@@ -39,7 +39,7 @@ export enum ArxAnimationPlayingFlags {
    */
   ForcePlay = 1 << 6,
   /**
-   * ctime externally set, no update
+   * `ctime` externally set, no update.
    */
   ExControl = 1 << 7,
 }
@@ -50,15 +50,15 @@ export enum ArxAnimationPlayingFlags {
 export type ArxTheoAnimationGroup = {
   isKey: boolean
   /**
-   * if value is missing than it means it's a quaternion with 0/0/0/1 values
+   * If value is missing than it means it's a quaternion with 0/0/0/1 values.
    */
   quaternion?: ArxQuaternion
   /**
-   * if value is missing than it means it's a vector with 0/0/0 values
+   * If value is missing than it means it's a vector with 0/0/0 values.
    */
   translate?: ArxVector3
   /**
-   * if value is missing than it means it's a vector with 0/0/0 values
+   * If value is missing than it means it's a vector with 0/0/0 values.
    */
   zoom?: ArxVector3
 }
@@ -73,33 +73,34 @@ export type ArxTheoAnimationGroup = {
  */
 export type ArxKeyFrame = {
   /**
-   * Position of this keyframe on the timeline set between `0` (inclusive) and `ArxTeaHeader.totalNumberOfFrames` (exclusive)
+   * Position of this keyframe on the timeline set between `0` (inclusive) and `ArxTeaHeader.totalNumberOfFrames` (exclusive).
    */
   frame: number
   /**
-   * always set to -1 or 9 in tea files, so Arx Libertatis in debug mode expects only those 2 values
+   * Always set to -1 or 9 in tea files, so Arx Libertatis in debug mode expects only those 2 values.
+   *
    * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/animation/Animation.cpp#L304
    *
    * if ommitted the default value is -1
    */
   flags?: ArxAnimationPlayingFlags
   /**
-   * not used by Arx
+   * Not used by Arx.
    */
   isMasterKeyFrame: boolean
   /**
-   * not used by Arx
+   * Not used by Arx.
    */
   isKeyFrame: boolean
   // TODO: what is this field for?
   timeFrame: number
   groups: ArxTheoAnimationGroup[]
   /**
-   * if value is missing than it means it's a vector with 0/0/0 values
+   * If value is missing than it means it's a vector with 0/0/0 values.
    */
   translate?: ArxVector3
   /**
-   * if value is missing than it means it's a quaternion with 0/0/0/1 values
+   * If value is missing than it means it's a quaternion with 0/0/0/1 values.
    */
   quaternion?: ArxQuaternion
   sample?: ArxTheaSample
@@ -160,23 +161,16 @@ export class KeyFrame {
       const translate = binary.readVector3()
       const zoom = binary.readVector3()
 
-      const group: ArxTheoAnimationGroup = {
+      const hasQuaternion = quaternion.x !== 0 || quaternion.y !== 0 || quaternion.z !== 0 || quaternion.w !== 1
+      const hasTranslate = translate.x !== 0 || translate.y !== 0 || translate.z !== 0
+      const hasZoom = zoom.x !== 0 || zoom.y !== 0 || zoom.z !== 0
+
+      return {
         isKey,
+        ...(hasQuaternion && { quaternion }),
+        ...(hasTranslate && { translate }),
+        ...(hasZoom && { zoom }),
       }
-
-      if (quaternion.x !== 0 || quaternion.y !== 0 || quaternion.z !== 0 || quaternion.w !== 1) {
-        group.quaternion = quaternion
-      }
-
-      if (translate.x !== 0 || translate.y !== 0 || translate.z !== 0) {
-        group.translate = translate
-      }
-
-      if (zoom.x !== 0 || zoom.y !== 0 || zoom.z !== 0) {
-        group.zoom = zoom
-      }
-
-      return group
     }, numberOfGroups)
 
     const hasSample = binary.readInt32() !== -1
@@ -263,26 +257,24 @@ export class KeyFrame {
       binary.writeQuat(keyframe.quaternion)
     }
 
-    keyframe.groups.forEach(
-      ({
-        isKey,
-        quaternion = { x: 0, y: 0, z: 0, w: 1 },
-        translate = { x: 0, y: 0, z: 0 },
-        zoom = { x: 0, y: 0, z: 0 },
-      }) => {
-        if (isKey) {
-          binary.writeInt32(1)
-        } else {
-          binary.writeInt32(0)
-        }
+    for (const {
+      isKey,
+      quaternion = { x: 0, y: 0, z: 0, w: 1 },
+      translate = { x: 0, y: 0, z: 0 },
+      zoom = { x: 0, y: 0, z: 0 },
+    } of keyframe.groups) {
+      if (isKey) {
+        binary.writeInt32(1)
+      } else {
+        binary.writeInt32(0)
+      }
 
-        binary.writeString('', 8) // angle
+      binary.writeString('', 8) // angle
 
-        binary.writeQuat(quaternion)
-        binary.writeVector3(translate)
-        binary.writeVector3(zoom)
-      },
-    )
+      binary.writeQuat(quaternion)
+      binary.writeVector3(translate)
+      binary.writeVector3(zoom)
+    }
 
     if (keyframe.sample === undefined) {
       binary.writeInt32(-1) // num_sample
@@ -297,6 +289,7 @@ export class KeyFrame {
     return buffer
   }
 
+  // eslint-disable-next-line max-params -- the size of a keyframe depends on seven independent flags of the format
   static sizeOf(
     version: number,
     hasTranslateData: boolean,

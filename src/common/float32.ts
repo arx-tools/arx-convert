@@ -1,14 +1,14 @@
-import type { Float32 } from '@common/types.js'
+import type { Float32 } from './types.ts'
 
 /**
- * a float32 value has at most 9 significant decimal digits, so 9 is the highest precision worth trying
+ * A float32 value has at most 9 significant decimal digits, so 9 is the highest precision worth trying.
  */
 const MAX_SIGNIFICANT_DIGITS_OF_FLOAT32 = 9
 
 /**
- * sticky, so it can be positioned with `lastIndex` without slicing the json text
+ * Sticky, so it can be positioned with `lastIndex` without slicing the json text.
  */
-const NUMBER_PATTERN = /-?\d+(?:\.\d+)?(?:[eE][-+]?\d+)?/y
+const NUMBER_PATTERN = /-?\d+(?:\.\d+)?(?:e[+-]?\d+)?/iy
 
 function isDigit(char: string): boolean {
   return char >= '0' && char <= '9'
@@ -46,9 +46,9 @@ function skipStringLiteral(json: string, indexOfOpeningQuote: number): number {
  *
  * @example
  * ```js
- * shortestFloat32(369.9998779296875)    -> '369.99988'
- * shortestFloat32(0.9932892322540283)   -> '0.99328923'
- * shortestFloat32(2.772158483926956e-38) -> '2.7721585e-38'
+ * shortestFloat32(369.999_877_929_687_5)    -> '369.99988'
+ * shortestFloat32(0.993_289_232_254_028_3)   -> '0.99328923'
+ * shortestFloat32(2.772_158_483_926_956e-38) -> '2.7721585e-38'
  * ```
  */
 export function shortestFloat32(value: Float32): string {
@@ -74,10 +74,10 @@ export function shortestFloat32(value: Float32): string {
  * (see {@link shortestFloat32}), so the output text becomes smaller without changing any of the values.
  *
  * - only number tokens containing a `.` or an `e` are rewritten, integers are already printed in their
- *   shortest form by `JSON.stringify()`
+ * shortest form by `JSON.stringify()`
  * - only values which are exactly representable as a float32 (`Math.fround(value) === value`) are rewritten,
- *   so computed doubles (like the `uint8 / 255` color alphas) keep their precision
- * - the text is scanned as JSON, so numbers inside strings (like file names) are never touched
+ * so computed doubles (like the `uint8 / 255` color alphas) keep their precision
+ * - the text is scanned as JSON, so numbers inside strings (like file names) are never touched.
  */
 export function compactFloat32Values(json: string): string {
   const parts: string[] = []

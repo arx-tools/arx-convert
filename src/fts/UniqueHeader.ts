@@ -1,4 +1,4 @@
-import { BinaryIO } from '@common/BinaryIO.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L68
@@ -6,7 +6,7 @@ import { BinaryIO } from '@common/BinaryIO.js'
 export type ArxUniqueHeader = {
   path: string
   /**
-   * 512 bytes
+   * 512 bytes.
    */
   check: number[]
 }

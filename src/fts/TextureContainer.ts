@@ -1,4 +1,4 @@
-import { BinaryIO } from '@common/BinaryIO.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L107
@@ -6,7 +6,7 @@ import { BinaryIO } from '@common/BinaryIO.js'
 export type ArxTextureContainer = {
   id: number
   /**
-   * Filename of an image within graph/obj3d/textures, like "[stone]_human_castle_wall1.bmp"
+   * Filename of an image within graph/obj3d/textures, like "[stone]_human_castle_wall1.bmp".
    */
   filename: string
 }
@@ -37,6 +37,9 @@ export class TextureContainer {
   }
 
   /**
+   * Converts the absolute path of a texture to the relative one the FTS file stores.
+   *
+   * @example
    * from: GRAPH\\OBJ3D\\TEXTURES\\[STONE]_HUMAN_GROUND_WET.BMP
    *   to: [stone]_human_ground_wet.bmp
    */
@@ -45,6 +48,9 @@ export class TextureContainer {
   }
 
   /**
+   * Converts the relative path of a texture back to the absolute path the game reads.
+   *
+   * @example
    * from: [stone]_human_ground_wet.bmp
    *   to: graph\\obj3d\\textures\\[stone]_human_ground_wet.bmp
    */

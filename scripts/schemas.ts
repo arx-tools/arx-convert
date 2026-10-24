@@ -121,6 +121,7 @@ function orderKeys(doc: JsonObject): JsonObject {
  * their source order, the shared ones follow in the order of _defs.json. Throws an Error when the source
  * defines a shared def locally, or references a def which is neither defined locally nor shared.
  *
+ * @throws When the source defines a shared def locally, or references an unknown def.
  * @example
  * generateSchema(JSON.parse(await readFile('src/schemas/fts.schema.json', 'utf8')), defs, 'arx-convert@1.2.3')
  */
@@ -142,9 +143,9 @@ function generateSchema(doc: JsonObject, canonicalDefs: JsonObject, generatedBy:
 
   const required = requiredSharedDefs(collectRefNames(doc), canonicalDefs)
   const newDefs: JsonObject = { ...sourceDefs }
-  for (const name of Object.keys(canonicalDefs)) {
+  for (const [name, value] of Object.entries(canonicalDefs)) {
     if (required.has(name)) {
-      newDefs[name] = structuredClone(canonicalDefs[name])
+      newDefs[name] = structuredClone(value)
     }
   }
 
@@ -207,7 +208,7 @@ const schemaFiles = schemaFilenames
   .filter((filename) => {
     return filename.endsWith('.schema.json')
   })
-  .sort()
+  .toSorted()
 
 if (schemaFiles.length === 0) {
   console.error(`no *.schema.json files found in "${srcDir}"`)

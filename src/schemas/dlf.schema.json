@@ -21,11 +21,7 @@
           "type": "number"
         }
       },
-      "required": [
-        "a",
-        "b",
-        "g"
-      ]
+      "required": ["a", "b", "g"]
     }
   },
   "type": "object",
@@ -53,10 +49,7 @@
               "$ref": "#/$defs/rotation"
             }
           },
-          "required": [
-            "position",
-            "orientation"
-          ]
+          "required": ["position", "orientation"]
         },
         "numberOfPolygonsInFTS": {
           "$ref": "#/$defs/positiveInt32"
@@ -66,13 +59,7 @@
           "minimum": 0
         }
       },
-      "required": [
-        "lastModifiedBy",
-        "lastModifiedAt",
-        "player",
-        "numberOfPolygonsInFTS",
-        "levelIdx"
-      ]
+      "required": ["lastModifiedBy", "lastModifiedAt", "player", "numberOfPolygonsInFTS", "levelIdx"]
     },
     "interactiveObjects": {
       "type": "array",
@@ -96,12 +83,7 @@
             "maximum": 9999
           }
         },
-        "required": [
-          "name",
-          "position",
-          "orientation",
-          "identifier"
-        ]
+        "required": ["name", "position", "orientation", "identifier"]
       }
     },
     "fogs": {
@@ -154,11 +136,7 @@
                 "maximum": 1
               }
             },
-            "required": [
-              "x",
-              "y",
-              "z"
-            ]
+            "required": ["x", "y", "z"]
           },
           "orientation": {
             "$ref": "#/$defs/rotation"
@@ -235,18 +213,11 @@
                   "$ref": "#/$defs/uint32"
                 }
               },
-              "required": [
-                "position",
-                "type",
-                "time"
-              ]
+              "required": ["position", "type", "time"]
             }
           }
         },
-        "required": [
-          "name",
-          "points"
-        ]
+        "required": ["name", "points"]
       }
     },
     "zones": {
@@ -322,27 +293,13 @@
                   "$ref": "#/$defs/uint32"
                 }
               },
-              "required": [
-                "position",
-                "type",
-                "time"
-              ]
+              "required": ["position", "type", "time"]
             }
           }
         },
-        "required": [
-          "name",
-          "height",
-          "points"
-        ]
+        "required": ["name", "height", "points"]
       }
     }
   },
-  "required": [
-    "header",
-    "interactiveObjects",
-    "fogs",
-    "paths",
-    "zones"
-  ]
+  "required": ["header", "interactiveObjects", "fogs", "paths", "zones"]
 }

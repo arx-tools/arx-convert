@@ -1,16 +1,22 @@
-import { type ArxSetting, Setting } from '@amb/Setting.js'
-import { BinaryIO } from '@common/BinaryIO.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { type ArxSetting, Setting } from './Setting.ts'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/audio/Ambiance.cpp#L168
  */
 export type ArxKey = {
-  /** milliseconds */
+  /**
+   * Milliseconds.
+   */
   start: number
   loop: number
-  /** milliseconds */
+  /**
+   * Milliseconds.
+   */
   delayMin: number
-  /** milliseconds */
+  /**
+   * Milliseconds.
+   */
   delayMax: number
   volume: ArxSetting
   pitch: ArxSetting
@@ -22,6 +28,8 @@ export type ArxKey = {
 
 export class Key {
   /**
+   * Reads one sound key record of an ambience file.
+   *
    * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/audio/Ambiance.cpp#L187
    */
   static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxKey {

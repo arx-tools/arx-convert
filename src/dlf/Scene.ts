@@ -1,5 +1,5 @@
-import { BinaryIO } from '@common/BinaryIO.js'
-import { levelIdxFromPath, repeat } from '@common/helpers.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { levelIdxFromPath, repeat } from '../common/helpers.ts'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L88

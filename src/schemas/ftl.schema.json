@@ -23,10 +23,7 @@
           "maxLength": 256
         }
       },
-      "required": [
-        "origin",
-        "name"
-      ]
+      "required": ["origin", "name"]
     },
     "vertices": {
       "type": "array",
@@ -40,10 +37,7 @@
             "$ref": "#/$defs/vector3"
           }
         },
-        "required": [
-          "vector",
-          "norm"
-        ]
+        "required": ["vector", "norm"]
       }
     },
     "faces": {
@@ -102,14 +96,7 @@
             "$ref": "#/$defs/vector3"
           }
         },
-        "required": [
-          "faceType",
-          "vertexIdx",
-          "textureIdx",
-          "u",
-          "v",
-          "norm"
-        ]
+        "required": ["faceType", "vertexIdx", "textureIdx", "u", "v", "norm"]
       }
     },
     "textureContainers": {
@@ -122,9 +109,7 @@
             "maxLength": 256
           }
         },
-        "required": [
-          "filename"
-        ]
+        "required": ["filename"]
       }
     },
     "groups": {
@@ -149,12 +134,7 @@
             "type": "number"
           }
         },
-        "required": [
-          "name",
-          "origin",
-          "indices",
-          "blobShadowSize"
-        ]
+        "required": ["name", "origin", "indices", "blobShadowSize"]
       }
     },
     "actions": {
@@ -176,12 +156,7 @@
             "$ref": "#/$defs/positiveInt32"
           }
         },
-        "required": [
-          "name",
-          "vertexIdx",
-          "action",
-          "sfx"
-        ]
+        "required": ["name", "vertexIdx", "action", "sfx"]
       }
     },
     "selections": {
@@ -200,20 +175,9 @@
             }
           }
         },
-        "required": [
-          "name",
-          "selected"
-        ]
+        "required": ["name", "selected"]
       }
     }
   },
-  "required": [
-    "header",
-    "vertices",
-    "faces",
-    "textureContainers",
-    "groups",
-    "actions",
-    "selections"
-  ]
+  "required": ["header", "vertices", "faces", "textureContainers", "groups", "actions", "selections"]
 }

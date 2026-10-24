@@ -20,11 +20,7 @@
           "$ref": "#/$defs/positiveInt32"
         }
       },
-      "required": [
-        "lastModifiedBy",
-        "lastModifiedAt",
-        "numberOfPolygonsInFTS"
-      ]
+      "required": ["lastModifiedBy", "lastModifiedAt", "numberOfPolygonsInFTS"]
     },
     "lights": {
       "type": "array",
@@ -102,9 +98,5 @@
       }
     }
   },
-  "required": [
-    "header",
-    "lights",
-    "colors"
-  ]
+  "required": ["header", "lights", "colors"]
 }

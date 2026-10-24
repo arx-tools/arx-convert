@@ -1,6 +1,6 @@
-import { BinaryIO } from '@common/BinaryIO.js'
-import { type ArxColor, Color } from '@common/Color.js'
-import type { ArxVector3, Float32 } from '@common/types.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { type ArxColor, Color } from '../common/Color.ts'
+import type { ArxVector3, Float32 } from '../common/types.ts'
 
 type HardcodedDataType = {
   color: ArxColor
@@ -34,20 +34,21 @@ const HARDCODED_DATA_TYPE2: HardcodedDataType = {
 }
 
 /**
- * D3DTLVERTEX with hardcoded color, specular, tu and tv values
+ * D3DTLVERTEX with hardcoded color, specular, tu and tv values.
  *
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/GraphicsFormat.h#L82
  * @see https://learn.microsoft.com/en-us/previous-versions/ms896915(v=msdn.10)
  */
 export type ArxTextureVertex = {
   /**
-   * sx, sy and sz of D3DTLVERTEX (screen coordinates)
+   * `sx`, `sy` and `sz` of D3DTLVERTEX (screen coordinates).
    */
   position: ArxVector3
   /**
-   * portal bounds radius - used by ARX_PORTALS_Frustrum_ComputeRoom
+   * Portal bounds radius - used by ARX_PORTALS_Frustrum_ComputeRoom.
    *
-   * [r]eciprocal of [h]omogeneous [w] from homogeneous coordinates (x, y, z, w)
+   * [r]eciprocal of [h]omogeneous [w] from homogeneous coordinates (x, y, z, w).
+   *
    * @see https://learn.microsoft.com/en-us/previous-versions/ms896915(v=msdn.10)#members
    */
   rhw: Float32

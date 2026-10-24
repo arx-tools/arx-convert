@@ -1,13 +1,13 @@
 import type { Simplify } from 'type-fest'
-import { BinaryIO } from '@common/BinaryIO.js'
-import { concatArrayBuffers, times } from '@common/helpers.js'
-import { Action, type ArxAction } from '@ftl/Action.js'
-import { type ArxFace, Face } from '@ftl/Face.js'
-import { type ArxFtlHeader, FtlHeader } from '@ftl/FtlHeader.js'
-import { type ArxFtlTextureContainer, FtlTextureContainer } from '@ftl/FtlTextureContainer.js'
-import { type ArxFtlVertex, FtlVertex } from '@ftl/FtlVertex.js'
-import { type ArxGroup, Group } from '@ftl/Group.js'
-import { type ArxSelection, Selection } from '@ftl/Selections.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { concatArrayBuffers, times } from '../common/helpers.ts'
+import { Action, type ArxAction } from './Action.ts'
+import { type ArxFace, Face } from './Face.ts'
+import { type ArxFtlHeader, FtlHeader } from './FtlHeader.ts'
+import { type ArxFtlTextureContainer, FtlTextureContainer } from './FtlTextureContainer.ts'
+import { type ArxFtlVertex, FtlVertex } from './FtlVertex.ts'
+import { type ArxGroup, Group } from './Group.ts'
+import { type ArxSelection, Selection } from './Selections.ts'
 
 export type ArxFTL = {
   $schema?: string

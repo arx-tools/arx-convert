@@ -1,12 +1,12 @@
 import type { SetOptional, Simplify } from 'type-fest'
-import { BinaryIO } from '@common/BinaryIO.js'
-import { concatArrayBuffers, times } from '@common/helpers.js'
-import { type ArxDlfHeader, DlfHeader } from '@dlf/DlfHeader.js'
-import { type ArxFog, Fog } from '@dlf/Fog.js'
-import { type ArxInteractiveObject, InteractiveObject } from '@dlf/InteractiveObject.js'
-import { type ArxScene, Scene } from '@dlf/Scene.js'
-import { ArxZoneAndPathFlags, type ArxZoneAndPathHeader, ZoneAndPathHeader } from '@dlf/ZoneAndPathHeader.js'
-import { type ArxZoneAndPathPoint, ZoneAndPathPoint } from '@dlf/ZoneAndPathPoint.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { concatArrayBuffers, times } from '../common/helpers.ts'
+import { type ArxDlfHeader, DlfHeader } from './DlfHeader.ts'
+import { type ArxFog, Fog } from './Fog.ts'
+import { type ArxInteractiveObject, InteractiveObject } from './InteractiveObject.ts'
+import { type ArxScene, Scene } from './Scene.ts'
+import { ArxZoneAndPathFlags, type ArxZoneAndPathHeader, ZoneAndPathHeader } from './ZoneAndPathHeader.ts'
+import { type ArxZoneAndPathPoint, ZoneAndPathPoint } from './ZoneAndPathPoint.ts'
 
 export type ArxZone = Simplify<
   SetOptional<
@@ -75,7 +75,7 @@ export class DLF {
       }, numberOfPoints)
 
       /**
-       * zones and paths are the same, the only difference is if height = 0 then it's a path, otherwise a zone
+       * Zones and paths are the same, the only difference is if height = 0 then it's a path, otherwise a zone.
        *
        * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LoadLevel.cpp#L407
        */
@@ -85,16 +85,16 @@ export class DLF {
       } else {
         const zone: ArxZone = { name, points, height }
 
-        if (flags & ArxZoneAndPathFlags.SetAmbience) {
+        if ((flags & ArxZoneAndPathFlags.SetAmbience) !== 0) {
           zone.ambience = ambience
           zone.ambienceMaxVolume = ambienceMaxVolume
         }
 
-        if (flags & ArxZoneAndPathFlags.SetBackgroundColor) {
+        if ((flags & ArxZoneAndPathFlags.SetBackgroundColor) !== 0) {
           zone.backgroundColor = backgroundColor
         }
 
-        if (flags & ArxZoneAndPathFlags.SetDrawDistance) {
+        if ((flags & ArxZoneAndPathFlags.SetDrawDistance) !== 0) {
           zone.drawDistance = drawDistance
         }
 

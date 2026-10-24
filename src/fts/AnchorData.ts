@@ -1,6 +1,6 @@
-import { BinaryIO } from '@common/BinaryIO.js'
-import type { ArxVector3 } from '@common/types.js'
-import type { ArxAnchor } from '@fts/Anchor.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import type { ArxVector3 } from '../common/types.ts'
+import type { ArxAnchor } from './Anchor.ts'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L113
@@ -27,7 +27,7 @@ export class AnchorData {
     const position = binary.readVector3()
 
     /**
-     * radius and height are used by the game (NPC.cpp > AnchorData_GetNearest(), PathFinder.cpp) as a filter:
+     * `radius` and `height` are used by the game (NPC.cpp > AnchorData_GetNearest(), PathFinder.cpp) as a filter:
      * an anchor can only be used by an npc whose physics cylinder is at least as high as `height` and at most
      * as wide as `radius`. All anchors of the 23 levels of the original game use the same "no restriction"
      * values, so they are not part of the JSON and are always written back as these.

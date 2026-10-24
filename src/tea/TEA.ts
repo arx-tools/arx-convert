@@ -1,9 +1,9 @@
 import type { Simplify } from 'type-fest'
-import { BinaryIO } from '@common/BinaryIO.js'
-import { concatArrayBuffers, times } from '@common/helpers.js'
-import { type ArxKeyFrame, KeyFrame } from '@tea/KeyFrame.js'
-import { type ArxTeaHeader, TeaHeader } from '@tea/TeaHeader.js'
-import { TEA_VERSION_OLD } from '@tea/constants.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { concatArrayBuffers, times } from '../common/helpers.ts'
+import { type ArxKeyFrame, KeyFrame } from './KeyFrame.ts'
+import { type ArxTeaHeader, TeaHeader } from './TeaHeader.ts'
+import { TEA_VERSION_OLD } from './constants.ts'
 
 export type ArxTEA = {
   $schema?: string

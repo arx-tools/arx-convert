@@ -1,4 +1,4 @@
-import { BinaryIO } from '@common/BinaryIO.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L161
@@ -7,7 +7,7 @@ export type ArxEPData = {
   cellX: number
   cellY: number
   /**
-   * This number is a counter for polygons in the cell, it has no relation to the order of polygons globally
+   * This number is a counter for polygons in the cell, it has no relation to the order of polygons globally.
    */
   polygonIdx: number
 }

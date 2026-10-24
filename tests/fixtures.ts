@@ -40,13 +40,13 @@ export async function availableLevels(): Promise<number[]> {
   const levels: number[] = []
 
   const filenames = await readdir(pathToLevelsFolder())
-  filenames.forEach((filename) => {
-    const level = /^level(\d+)$/.exec(filename)
+  for (const filename of filenames) {
+    const level = /^level(?<level>\d+)$/.exec(filename)
 
-    if (level !== null) {
-      levels.push(Number.parseInt(level[1], 10))
+    if (level?.groups !== undefined) {
+      levels.push(Number.parseInt(level.groups.level, 10))
     }
-  })
+  }
 
   levels.sort((a, b) => {
     return a - b
@@ -61,7 +61,7 @@ export async function availableLevels(): Promise<number[]> {
  */
 export async function levelsForTest(defaultLevels: number[]): Promise<number[]> {
   if (process.env.ARX_FULL_TEST === '1') {
-    return availableLevels()
+    return await availableLevels()
   }
 
   return defaultLevels
@@ -110,7 +110,9 @@ export async function readFixture(level: number, format: ArxTestFormat): Promise
       throw error
     }
 
-    throw new Error(`${filename} is missing - check out ${PKWARE_TEST_FILES_REPOSITORY} next to this repository`)
+    throw new Error(`${filename} is missing - check out ${PKWARE_TEST_FILES_REPOSITORY} next to this repository`, {
+      cause: error_,
+    })
   }
 }
 
@@ -142,9 +144,9 @@ export function visitValues(
   callback(jsonPath, value)
 
   if (Array.isArray(value)) {
-    value.forEach((item, index) => {
+    for (const [index, item] of value.entries()) {
       visitValues(item, callback, `${jsonPath}[${index}]`)
-    })
+    }
 
     return
   }
@@ -209,8 +211,8 @@ export function assertTopLevelKeys(
   expectedKeys: string[],
   description: string,
 ): void {
-  const keys = Object.keys(document).sort()
-  const sortedExpectedKeys = [...expectedKeys].sort()
+  const keys = Object.keys(document).toSorted()
+  const sortedExpectedKeys = [...expectedKeys].toSorted()
 
   assert.deepEqual(
     keys,

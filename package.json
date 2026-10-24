@@ -27,15 +27,16 @@
     }
   },
   "scripts": {
-    "build": "tsc && tsc-alias && chmod +x dist/bin/convert.js",
+    "build": "tsc -p tsconfig.src.json && node scripts/rewrite-declaration-imports.ts && chmod +x dist/bin/convert.js",
     "build:watch": "nodemon --watch src --exec \"npm run build\" --ext ts",
-    "lint": "xo",
+    "lint": "rm -f xo.config.mjs && xo --ignore 'xo.config.mjs'",
     "lint:watch": "nodemon --watch src --exec \"npm run lint\" --ext ts",
-    "pretest": "npm run build && npm run schemas:build",
-    "test": "node --test tests/*.test.ts",
+    "test": "node --test tests/**/*.test.ts",
     "schemas:build": "node scripts/schemas.ts build",
     "schemas:check": "node scripts/schemas.ts check",
-    "prepublishOnly": "npm run lint && npm run schemas:check && rm -rf dist && rm -f tsconfig.tsbuildinfo && npm run build && npm run schemas:build"
+    "prepublishOnly": "npm run lint && npm run typecheck && npm run schemas:check && rm -rf dist && npm run build && npm run schemas:build",
+    "typecheck": "tsc -p tsconfig.src.json --noEmit && tsc -p tsconfig.scripts.json && tsc -p tsconfig.tests.json && tsc -p tsconfig.json",
+    "pretest": "npm run build && npm run schemas:build"
   },
   "repository": {
     "type": "git",
@@ -57,16 +58,23 @@
     "yaml": "^2.7.1"
   },
   "devDependencies": {
-    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
-    "@types/node": "^22.14.1",
-    "eslint-plugin-unused-imports": "^4.1.4",
-    "nodemon": "^3.1.9",
-    "tsc-alias": "^1.8.15",
+    "@types/node": "^22.20.5",
+    "@typescript/native": "npm:typescript@^7.0.2",
+    "eslint-plugin-unused-imports": "^4.4.1",
+    "nodemon": "^3.1.14",
+    "pre-commit": "^2.0.0",
     "type-fest": "^4.40.0",
-    "typescript": "5.8.3",
-    "xo": "^1.1.0"
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "xo": "^5.0.1"
   },
   "keywords": [
     "arx-fatalis"
-  ]
+  ],
+  "pre-commit": {
+    "run": [
+      "lint",
+      "typecheck",
+      "test"
+    ]
+  }
 }

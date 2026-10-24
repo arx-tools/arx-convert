@@ -1,18 +1,18 @@
-import { BinaryIO } from '@common/BinaryIO.js'
-import type { ArxTEA } from '@tea/TEA.js'
-import { TEA_VERSION_OLD } from '@tea/constants.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import type { ArxTEA } from './TEA.ts'
+import { TEA_VERSION_OLD } from './constants.ts'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/animation/AnimationFormat.h#L82
  */
 export type ArxTeaHeader = {
   /**
-   * either 2014 or 2015
+   * Either 2014 or 2015.
    */
   version: number
   name: string
   /**
-   * Total number of frames that make up the whole animation
+   * Total number of frames that make up the whole animation.
    */
   totalNumberOfFrames: number
   numberOfGroups: number

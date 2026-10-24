@@ -9,7 +9,7 @@ src
 docs
 tests
 scripts
-tsconfig.json
+tsconfig*.json
 tsconfig.tsbuildinfo
 
 # the generated schemas are served from arx-tools.github.io, they are not part of the package

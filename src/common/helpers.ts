@@ -1,4 +1,4 @@
-import { BYTE_OF_AN_UNKNOWN_CHAR, CHARS, CHAR_OF_AN_UNKNOWN_BYTE, CODES } from '@common/constants.js'
+import { BYTE_OF_AN_UNKNOWN_CHAR, CHARS, CHAR_OF_AN_UNKNOWN_BYTE, CODES } from './constants.ts'
 
 export function maxAll(arr: number[]): number {
   let i = arr.length
@@ -15,6 +15,8 @@ export function maxAll(arr: number[]): number {
 }
 
 /**
+ * Returns the values without the duplicates, keeping the order of the first occurrences.
+ *
  * @see https://stackoverflow.com/a/14438954/1806628
  */
 export function uniq<T>(values: T[]): T[] {
@@ -24,7 +26,7 @@ export function uniq<T>(values: T[]): T[] {
 }
 
 export function times<T>(fn: (index: number) => T, repetitions: number): T[] {
-  return Array.from({ length: repetitions }).map((value, index) => {
+  return Array.from({ length: repetitions }, (value, index) => {
     return fn(index)
   })
 }
@@ -42,9 +44,9 @@ export function repeat<T>(value: T, repetitions: number): T[] {
 export function invert(values: string[]): Record<string, number> {
   const obj: Record<string, number> = {}
 
-  values.forEach((value, index) => {
+  for (const [index, value] of values.entries()) {
     obj[value] = index
-  })
+  }
 
   return obj
 }
@@ -76,6 +78,8 @@ export function clamp(n: number, min: number, max: number): number {
 }
 
 /**
+ * Concatenates the buffers into one new buffer.
+ *
  * @see https://stackoverflow.com/a/49129872/1806628
  */
 export function concatArrayBuffers(buffers: ArrayBufferLike[]): ArrayBuffer {
@@ -90,10 +94,10 @@ export function concatArrayBuffers(buffers: ArrayBufferLike[]): ArrayBuffer {
   const combinedBuffer = new Uint8Array(totalLength)
 
   let offset = 0
-  buffers.forEach((buffer) => {
+  for (const buffer of buffers) {
     combinedBuffer.set(new Uint8Array(buffer), offset)
     offset = offset + buffer.byteLength
-  })
+  }
 
   return combinedBuffer.buffer
 }
@@ -114,11 +118,11 @@ export function concatArrayBuffers(buffers: ArrayBufferLike[]): ArrayBuffer {
  * ```
  */
 export function levelIdxFromPath(path: string): number {
-  const levelIdx = /level(\d+)/i.exec(path)
+  const levelIdx = /level(?<level>\d+)/i.exec(path)
 
-  if (levelIdx === null) {
+  if (levelIdx?.groups === undefined) {
     return 0
   }
 
-  return Number.parseInt(levelIdx[1], 10)
+  return Number.parseInt(levelIdx.groups.level, 10)
 }

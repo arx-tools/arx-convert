@@ -1,7 +1,7 @@
-import { BinaryIO } from '@common/BinaryIO.js'
-import { concatArrayBuffers, times } from '@common/helpers.js'
-import { type ArxEPData, EPData } from '@fts/EPData.js'
-import { RoomData } from '@fts/RoomData.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { concatArrayBuffers, times } from '../common/helpers.ts'
+import { type ArxEPData, EPData } from './EPData.ts'
+import { RoomData } from './RoomData.ts'
 
 export type ArxRoom = {
   portals: number[]

@@ -1,7 +1,7 @@
-import { BinaryIO } from '@common/BinaryIO.js'
-import { type ArxColor, Color } from '@common/Color.js'
-import { repeat } from '@common/helpers.js'
-import type { ArxVector3 } from '@common/types.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { type ArxColor, Color } from '../common/Color.ts'
+import { repeat } from '../common/helpers.ts'
+import type { ArxVector3 } from '../common/types.ts'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/Light.h#L80
@@ -34,9 +34,9 @@ export enum ArxLightFlags {
    * On its own it only makes the light source emit fire cracking sounds.
    * When `SemiDynamic` is also set it creates a flare/halo around the light source.
    *
-   * The flare's/halo's properties can be controlled by the properties of `ArxLight.ex*` properties
+   * The flare's/halo's properties can be controlled by the properties of `ArxLight.ex*` properties.
    *
-   * Fire only shows if `ArxLight.exFrequency` is > 0
+   * Fire only shows if `ArxLight.exFrequency` is > 0.
    */
   SpawnFire = 1 << 3,
   /**
@@ -46,7 +46,7 @@ export enum ArxLightFlags {
    */
   SpawnSmoke = 1 << 4,
   /**
-   * Unused
+   * Unused.
    *
    * Not used by any of the lights on the existing arx levels, nor is it used in Danae, AF or AL.
    */
@@ -134,7 +134,7 @@ export type ArxLight = {
    * harms the NPCs and the player with fire damage when getting in contact.
    *
    * BUG: Surprisingly the spread is not even, particles to the left of the light (negative on the X axis)
-   * don't spawn, only to the right. A fix for it in Arx Libertatis is awaiting approval: https://github.com/arx/ArxLibertatis/pull/301
+   * don't spawn, only to the right. A fix for it in Arx Libertatis is awaiting approval: https://github.com/arx/ArxLibertatis/pull/301.
    *
    * @see https://imgur.com/a/cN3if0A
    */

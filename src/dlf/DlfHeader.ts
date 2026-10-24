@@ -1,8 +1,8 @@
-import { BinaryIO } from '@common/BinaryIO.js'
-import { DANAE_VERSION } from '@common/constants.js'
-import { repeat } from '@common/helpers.js'
-import type { ArxRotation, ArxVector3 } from '@common/types.js'
-import type { ArxDLF } from '@dlf/DLF.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { DANAE_VERSION } from '../common/constants.ts'
+import { repeat } from '../common/helpers.ts'
+import type { ArxRotation, ArxVector3 } from '../common/types.ts'
+import type { ArxDLF } from './DLF.ts'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L58
@@ -10,12 +10,12 @@ import type { ArxDLF } from '@dlf/DLF.js'
 export type ArxDlfHeader = {
   lastModifiedBy: string
   /**
-   * unix timestamp in seconds
+   * Unix timestamp in seconds.
    */
   lastModifiedAt: number
   player: {
     /**
-     * Position of the player where it gets teleported to upon entering the level when no entity is specified as teleport target
+     * Position of the player where it gets teleported to upon entering the level when no entity is specified as teleport target.
      */
     position: ArxVector3
     /**

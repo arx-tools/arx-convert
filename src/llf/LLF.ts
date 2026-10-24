@@ -1,17 +1,17 @@
 import type { Simplify } from 'type-fest'
-import { BinaryIO } from '@common/BinaryIO.js'
-import { type ArxColor, Color } from '@common/Color.js'
-import { concatArrayBuffers, times } from '@common/helpers.js'
-import { type ArxLight, Light } from '@llf/Light.js'
-import { LightingHeader } from '@llf/LightingHeader.js'
-import { type ArxLlfHeader, LlfHeader } from '@llf/LlfHeader.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { type ArxColor, Color } from '../common/Color.ts'
+import { concatArrayBuffers, times } from '../common/helpers.ts'
+import { type ArxLight, Light } from './Light.ts'
+import { LightingHeader } from './LightingHeader.ts'
+import { type ArxLlfHeader, LlfHeader } from './LlfHeader.ts'
 
 export type ArxLLF = {
   $schema?: string
   header: Simplify<Omit<ArxLlfHeader, 'numberOfLights'>>
   lights: ArxLight[]
   /**
-   * pre-computed vertex light colors for FTS.polygons
+   * Pre-computed vertex light colors for FTS.polygons.
    */
   colors: ArxColor[]
 }

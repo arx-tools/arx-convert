@@ -1,6 +1,6 @@
 import type { Simplify } from 'type-fest'
-import { BinaryIO } from '@common/BinaryIO.js'
-import { type ArxAnchorData, AnchorData } from '@fts/AnchorData.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { type ArxAnchorData, AnchorData } from './AnchorData.ts'
 
 export type ArxAnchor = {
   data: Simplify<Omit<ArxAnchorData, 'numberOfLinkedAnchors'>>

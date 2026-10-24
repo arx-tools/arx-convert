@@ -1,6 +1,6 @@
-import { LITTLE_ENDIAN, TRUNCATE_ZERO_BYTES, KEEP_ZERO_BYTES, BYTE_OF_AN_UNKNOWN_CHAR } from '@common/constants.js'
-import { decodeText, encodeText, repeat } from '@common/helpers.js'
-import type { ArxQuaternion, ArxRotation, ArxVector3 } from '@common/types.js'
+import { LITTLE_ENDIAN, TRUNCATE_ZERO_BYTES, KEEP_ZERO_BYTES, BYTE_OF_AN_UNKNOWN_CHAR } from './constants.ts'
+import { decodeText, encodeText, repeat } from './helpers.ts'
+import type { ArxQuaternion, ArxRotation, ArxVector3 } from './types.ts'
 
 export class BinaryIO<
   TArrayBuffer extends ArrayBufferLike & { BYTES_PER_ELEMENT?: never },
@@ -99,7 +99,7 @@ export class BinaryIO<
     // NaN and Infinity can't be represented in JSON (they would become null), and the game data contains
     // both 0 and -0 - everything is normalized, so loading a file from JSON or from the binary gives the
     // same result
-    if (!Number.isFinite(val) || val === 0) {
+    if (val === 0 || !Number.isFinite(val)) {
       return 0
     }
 
@@ -211,9 +211,9 @@ export class BinaryIO<
   }
 
   writeFloat32Array(values: number[]): void {
-    values.forEach((value) => {
+    for (const value of values) {
       this.writeFloat32(value)
-    })
+    }
   }
 
   writeInt8(value: number): void {
@@ -222,9 +222,9 @@ export class BinaryIO<
   }
 
   writeInt8Array(values: number[]): void {
-    values.forEach((value) => {
+    for (const value of values) {
       this.writeInt8(value)
-    })
+    }
   }
 
   writeInt16(value: number): void {
@@ -233,9 +233,9 @@ export class BinaryIO<
   }
 
   writeInt16Array(values: number[]): void {
-    values.forEach((value) => {
+    for (const value of values) {
       this.writeInt16(value)
-    })
+    }
   }
 
   writeInt32(value: number): void {
@@ -244,9 +244,9 @@ export class BinaryIO<
   }
 
   writeInt32Array(values: number[]): void {
-    values.forEach((value) => {
+    for (const value of values) {
       this.writeInt32(value)
-    })
+    }
   }
 
   writeUint8(value: number): void {
@@ -256,13 +256,13 @@ export class BinaryIO<
 
   writeUint8Array(values: number[] | ArrayBufferLike): void {
     if (Array.isArray(values)) {
-      values.forEach((value) => {
+      for (const value of values) {
         this.writeUint8(value)
-      })
+      }
     } else {
-      new Uint8Array(values).forEach((value) => {
+      for (const value of new Uint8Array(values)) {
         this.writeUint8(value)
-      })
+      }
     }
   }
 
@@ -272,9 +272,9 @@ export class BinaryIO<
   }
 
   writeUint16Array(values: number[]): void {
-    values.forEach((value) => {
+    for (const value of values) {
       this.writeUint16(value)
-    })
+    }
   }
 
   writeUint32(value: number): void {
@@ -283,9 +283,9 @@ export class BinaryIO<
   }
 
   writeUint32Array(values: number[]): void {
-    values.forEach((value) => {
+    for (const value of values) {
       this.writeUint32(value)
-    })
+    }
   }
 
   readString(
@@ -329,21 +329,22 @@ export class BinaryIO<
     // if length is given we assume a fixed length string
     if (length === undefined) {
       // otherwise it's a 0 terminated c string
-      encodeText(str).forEach((charCode) => {
+      for (const charCode of encodeText(str)) {
         this.writeUint8(charCode)
-      })
+      }
+
       this.writeUint8(0)
     } else {
       const charCodes = repeat(0, length)
 
       // replacing 0s in charCodes one by one from left to right
-      encodeText(str).forEach((charCode, index) => {
+      for (const [index, charCode] of encodeText(str).entries()) {
         charCodes[index] = charCode
-      })
+      }
 
-      charCodes.forEach((charCode) => {
+      for (const charCode of charCodes) {
         this.writeUint8(charCode)
-      })
+      }
     }
   }
 
@@ -366,9 +367,9 @@ export class BinaryIO<
   }
 
   writeVector3Array(values: ArxVector3[]): void {
-    values.forEach((value) => {
+    for (const value of values) {
       this.writeVector3(value)
-    })
+    }
   }
 
   readRotation(): ArxRotation {

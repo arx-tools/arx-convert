@@ -24,12 +24,7 @@
           "maximum": 3
         }
       },
-      "required": [
-        "min",
-        "max",
-        "interval",
-        "flags"
-      ]
+      "required": ["min", "max", "interval", "flags"]
     }
   },
   "type": "object",
@@ -89,30 +84,13 @@
                   "$ref": "#/$defs/settings"
                 }
               },
-              "required": [
-                "start",
-                "loop",
-                "delayMin",
-                "delayMax",
-                "volume",
-                "pitch",
-                "pan",
-                "x",
-                "y",
-                "z"
-              ]
+              "required": ["start", "loop", "delayMin", "delayMax", "volume", "pitch", "pan", "x", "y", "z"]
             }
           }
         },
-        "required": [
-          "filename",
-          "flags",
-          "keys"
-        ]
+        "required": ["filename", "flags", "keys"]
       }
     }
   },
-  "required": [
-    "tracks"
-  ]
+  "required": ["tracks"]
 }

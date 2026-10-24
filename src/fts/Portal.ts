@@ -1,5 +1,5 @@
-import { BinaryIO } from '@common/BinaryIO.js'
-import { type ArxPortalPolygon, PortalPolygon } from '@fts/PortalPolygon.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { type ArxPortalPolygon, PortalPolygon } from './PortalPolygon.ts'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/GraphicsTypes.h#L268
@@ -10,7 +10,7 @@ export type ArxPortal = {
   room2: number
   // check level2/fast.fts for various values for usePortal (spelled as useportal in Arx Libertatis code)
   // it is mostly 0, the game code only explicitly mentions 0 (inactive - red in debug view), 1 (active, surrounding the room we stand in - green in debug view) and 2 (?)
-  // but level2/fast.fts has weird (probably junk) data, like: 19800, 10402, 2241, -1, -13138, 10506, etc...
+  // but level2/fast.fts has weird (probably junk) data, like: 19_800, 10_402, 2241, -1, -13_138, 10_506, etc...
   usePortal: number
 }
 

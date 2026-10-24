@@ -1,9 +1,9 @@
-import { BinaryIO } from '@common/BinaryIO.js'
-import { type ArxColor, Color } from '@common/Color.js'
-import { repeat } from '@common/helpers.js'
-import type { ArxVector3 } from '@common/types.js'
-import type { ArxPath, ArxZone } from '@dlf/DLF.js'
-import { DEFAULT_DRAW_DISTANCE } from '@dlf/constants.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { type ArxColor, Color } from '../common/Color.ts'
+import { repeat } from '../common/helpers.ts'
+import type { ArxVector3 } from '../common/types.ts'
+import type { ArxPath, ArxZone } from './DLF.ts'
+import { DEFAULT_DRAW_DISTANCE } from './constants.ts'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/ai/Paths.h#L65
@@ -28,24 +28,24 @@ export type ArxZoneAndPathHeader = {
   position: ArxVector3
   numberOfPoints: number
   /**
-   * known as `rgb` in arx source code
+   * Known as `rgb` in arx source code.
    */
   backgroundColor: ArxColor
   /**
-   * known as `farClip` in arx source code
+   * Known as `farClip` in arx source code.
    */
   drawDistance: number
   /**
    * A floating point number between 0 and 100.
    *
-   * Spelled as `amb_max_vol` in arx source code
+   * Spelled as `amb_max_vol` in arx source code.
    */
   ambienceMaxVolume: number
   height: number
   /**
    * The filename of an amb file in `sfx/ambiance/` folder, for example "ambient_gob_jail_main", or "NONE" for no ambience.
    *
-   * Spelled as `ambiance` in arx source code
+   * Spelled as `ambiance` in arx source code.
    */
   ambience: string
 }
@@ -59,8 +59,8 @@ export class ZoneAndPathHeader {
     const flags = binary.readInt16()
 
     binary.readVector3() // initPosition - the same as position with only 1 instance of being different on level 6:
-    // initPosition: { x: -2647.48486328125, y: -0.5400390625, z: 6539.69091796875 }
-    //     position: { x: -2647.48486328125, y: -0.5400390625, z: 6539.6904296875 }
+    // initPosition: { x: -2647.484_863_281_25, y: -0.540_039_062_5, z: 6539.690_917_968_75 }
+    //     position: { x: -2647.484_863_281_25, y: -0.540_039_062_5, z: 6539.690_429_687_5 }
 
     const dataBlock = {
       position: binary.readVector3(),

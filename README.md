@@ -16,6 +16,8 @@ node.js 18.0+ (because the lib uses prefix-only core modules)
 
 It might work with older versions of node.js, but I haven't tested it there.
 
+The version needed for development is in the [Development](#development) section.
+
 ### browser
 
 ```html
@@ -131,6 +133,32 @@ import type { ArxDLF } from 'arx-convert/types'
   await fs.writeFile(path.resolve(__dirname, './level1.dlf.json'), JSON.stringify(json, null, '\t'), 'utf8')
 })()
 ```
+
+## Development
+
+The sources and the tests run **directly with Node.js** — there is no build step for them. The `.ts`
+files are loaded through Node's type stripping, which is **on by default since Node.js 22.18**, and
+the tests use the built-in `node:test` runner. The development environment therefore needs:
+
+- **Node.js >= 22.18** — stricter than the `engines` field, which only describes what the published
+  package needs at runtime
+- npm >= 8
+
+The features behind the version: type stripping (22.18), the ES2025 iterator helpers such as
+`Iterator.prototype.toArray()` (22.0), `Array.prototype.toSorted()` and `.toReversed()` (20.0),
+`import.meta.dirname` (20.11) and the custom `node:test` reporter (20.1).
+
+| command | what it does |
+|---|---|
+| `npm install` | installs the dependencies |
+| `npm run lint` | check code against the pre-defined coding guidelines |
+| `npm run typecheck` | type checks the sources, the scripts and the tests |
+| `npm test` | builds the package and the schemas first, then runs the tests |
+| `npm run build` | compiles the published `dist` and rewrites the `.ts` extensions of the declaration imports |
+| `npm run schemas:build` | generates the self-contained JSON schemas from `src/schemas/` into `dist/schemas` |
+| `npm run schemas:check` | validates the schema sources |
+
+The tests read the fixtures from the `pkware-test-files` repository next to this one.
 
 ## Compression
 
@@ -297,6 +325,3 @@ Arx uses a right handed 3D coordinate system where:
 - Z-axis is pointing towards you and is coming out of the screen
 
 TEA files are always outputted as `TEA_VERSION_OLD` (2014) version.
-
-Running `scripts/schemas.ts` natively requires node version >=22.18.0 as node.js can natively strip typescript types
-since that version.

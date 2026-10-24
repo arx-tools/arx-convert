@@ -1,5 +1,5 @@
-import { BinaryIO } from '@common/BinaryIO.js'
-import type { ArxCell } from '@fts/Cell.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import type { ArxCell } from './Cell.ts'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L125

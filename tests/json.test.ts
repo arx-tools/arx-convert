@@ -3,8 +3,8 @@ import { test } from 'node:test'
 import { compactFloat32Values, shortestFloat32 } from 'arx-convert/utils'
 
 /**
- * float32 values which are hard to print/parse: the smallest subnormal, the smallest normal, the largest
- * finite value and values which need a rounding to become a float32
+ * Float32 values which are hard to print/parse: the smallest subnormal, the smallest normal, the largest
+ * finite value and values which need a rounding to become a float32.
  */
 const TRICKY_FLOAT32_VALUES = [
   0,
@@ -16,7 +16,7 @@ const TRICKY_FLOAT32_VALUES = [
   Math.fround(Math.PI),
   1.401_298_464_324_817e-45,
   1.175_494_350_822_287_5e-38,
-  3.402_823_466_385_288_6e+38,
+  3.402_823_466_385_288_6e38,
   16_777_217,
 ]
 
@@ -27,15 +27,14 @@ void test('shortestFloat32() returns the examples of its jsdoc', () => {
 })
 
 void test('shortestFloat32() parses back to the same float32', () => {
-  TRICKY_FLOAT32_VALUES.forEach((value) => {
-    const float32 = Math.fround(value)
-    const parsedBack = Math.fround(Number.parseFloat(shortestFloat32(float32)))
-
-    // not `assert.equal()`: it uses `Object.is()`, which sees the difference between 0 and -0
-    if (parsedBack !== float32) {
-      assert.fail(`shortestFloat32(${float32}) gave ${shortestFloat32(float32)}, which parses back to ${parsedBack}`)
-    }
+  const broken = TRICKY_FLOAT32_VALUES.map((value: number) => {
+    return Math.fround(value)
+  }).filter((float32: number) => {
+    // not `Object.is()`: it sees the difference between 0 and -0, and JSON does not have -0 either
+    return Math.fround(Number.parseFloat(shortestFloat32(float32))) !== float32
   })
+
+  assert.deepEqual(broken, [], `these values do not parse back: ${broken.map(String).join(', ')}`)
 })
 
 void test('shortestFloat32() keeps the values JSON can not represent', () => {
@@ -76,16 +75,22 @@ void test('compactFloat32Values() is idempotent', () => {
 void test('compactFloat32Values() keeps every value as the same float32', () => {
   const document: Record<string, number> = {}
 
-  TRICKY_FLOAT32_VALUES.forEach((value, index) => {
+  for (const [index, value] of TRICKY_FLOAT32_VALUES.entries()) {
     document[`v${index}`] = value
-  })
+  }
 
   const compacted = JSON.parse(compactFloat32Values(JSON.stringify(document))) as Record<string, number>
 
-  Object.keys(document).forEach((key) => {
-    // not `assert.equal()`: it uses `Object.is()`, which sees the difference between 0 and -0
-    if (Math.fround(compacted[key]) !== Math.fround(document[key])) {
-      assert.fail(`compactFloat32Values() changed ${key} (${document[key]}) to ${compacted[key]}`)
-    }
+  const changed = Object.entries(document).filter(([key, value]) => {
+    // not `Object.is()`: it sees the difference between 0 and -0, and JSON does not have -0 either
+    return Math.fround(compacted[key]) !== Math.fround(value)
   })
+
+  assert.deepEqual(
+    changed.map(([key]) => {
+      return key
+    }),
+    [],
+    'compactFloat32Values() changed these values',
+  )
 })

@@ -1,4 +1,4 @@
-import { BinaryIO } from '@common/BinaryIO.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/audio/Ambiance.cpp#L84
@@ -15,13 +15,17 @@ export enum ArxSettingFlag {
 export type ArxSetting = {
   min: number
   max: number
-  /** milliseconds */
+  /**
+   * Milliseconds.
+   */
   interval: number
   flags: ArxSettingFlag
 }
 
 export class Setting {
   /**
+   * Reads the global settings record of an ambience file.
+   *
    * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/audio/Ambiance.cpp#L107
    */
   static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxSetting {

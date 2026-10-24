@@ -1,6 +1,6 @@
-import { BinaryIO } from '@common/BinaryIO.js'
-import { repeat } from '@common/helpers.js'
-import type { ArxRoom } from '@fts/Room.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { repeat } from '../common/helpers.ts'
+import type { ArxRoom } from './Room.ts'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L178

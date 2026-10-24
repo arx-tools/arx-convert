@@ -1,6 +1,6 @@
-import { BinaryIO } from '@common/BinaryIO.js'
-import { repeat } from '@common/helpers.js'
-import type { ArxRotation, ArxVector3 } from '@common/types.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { repeat } from '../common/helpers.ts'
+import type { ArxRotation, ArxVector3 } from '../common/types.ts'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L193
@@ -49,19 +49,20 @@ export class InteractiveObject {
   }
 
   /**
+   * If the last folder in the path and filename differs, like `...\\ITEMS\\PROVISIONS\\MUSHROOM\\FOOD_MUSHROOM.teo`
+   * then it should keep the full path, but change the extension to `.asl`.
+   *
+   * @example
    * from: `\\\\ARKANESERVER\\PUBLIC\\ARX\\GRAPH\\OBJ3D\\INTERACTIVE\\ITEMS\\PROVISIONS\\PIE\\PIE.teo`
    *   to: `items/provisions/pie`
    *
    * from: `C:\\ARX\\Graph\\Obj3D\\Interactive\\System\\Marker\\Marker.teo`
    *   to: `system/marker`
-   *
-   * If the last folder in the path and filename differs, like `...\\ITEMS\\PROVISIONS\\MUSHROOM\\FOOD_MUSHROOM.teo`
-   * then it should keep the full path, but change the extension to `.asl`
    */
   static toRelativePath(filePath: string): string {
     // items/provisions/pie/pie.teo
     // items/provisions/mushroom/food_mushroom.teo
-    filePath = filePath.toLowerCase().replaceAll('\\', '/').split('graph/obj3d/interactive/')[1]
+    filePath = filePath.toLowerCase().replaceAll('\\', '/').split('graph/obj3d/interactive/', 2)[1]
 
     // browser compatible version of `const { dir, name } = path.parse(filePath)`
     const filePathParts = filePath.split('/')
@@ -82,11 +83,12 @@ export class InteractiveObject {
   }
 
   /**
+   * If the path also has a file specified with extension, like `items/provisions/mushroom/food_mushroom.asl`
+   * then keep the file part too, but change the extension to `.teo`.
+   *
+   * @example
    * from: `items/provisions/pie`
    *   to: `c:\\arx\\graph\\obj3d\\interactive\\items\\provisions\\pie\\pie.teo`
-   *
-   * If the path also has a file specified with extension, like `items/provisions/mushroom/food_mushroom.asl`
-   * then keep the file part too, but change the extension to `.teo`
    */
   static toAbsolutePath(filePath: string): string {
     filePath = filePath.toLowerCase().replace(/\/$/, '')

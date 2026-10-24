@@ -11,8 +11,8 @@
 import { stat } from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
-import { FTS } from 'arx-convert'
 import { availableLevels, pathToLevelFolder, readBinaryFile } from '../fixtures.ts'
+import { FTS } from 'arx-convert'
 
 function defaultCompressedFiles(levels: number[]): string[] {
   return levels.map((level) => {

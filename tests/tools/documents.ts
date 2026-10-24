@@ -1,5 +1,5 @@
-import { DLF, FTS, LLF } from 'arx-convert'
 import { type ArxTestFormat, availableLevels, pathToFixture, readBinaryFile, readFixture } from '../fixtures.ts'
+import { DLF, FTS, LLF } from 'arx-convert'
 
 /**
  * A parsed document together with the name of the fixture or file it came from, so a report can tell which
@@ -63,6 +63,8 @@ export function loadDocument(format: ArxTestFormat, bytes: ArrayBuffer): unknown
 
 /**
  * The format of an `.unpacked` file, taken from its name.
+ *
+ * @throws When the name does not end with a known suffix.
  */
 export function formatsOfFile(filename: string): ArxTestFormat {
   for (const { format, suffix } of SUFFIXES) {

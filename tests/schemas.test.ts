@@ -39,7 +39,7 @@ async function runSchemasScript(args: string[]): Promise<ScriptResult> {
     output = output + chunk
   })
 
-  return new Promise<ScriptResult>((resolve, reject) => {
+  return await new Promise<ScriptResult>((resolve, reject) => {
     child.on('error', reject)
 
     // a missing status means the process was killed by a signal, which is a failure of the test as well
@@ -146,23 +146,63 @@ void test('schemas.ts check rejects a shared definition in a format schema sourc
   })
 })
 
+/**
+ * Checks that the build wrote every schema and that each one only references definitions it has.
+ *
+ * @param outFolder The folder the schemas were written to.
+ */
+async function assertSelfContainedSchemas(outFolder: string): Promise<void> {
+  const problems: string[] = []
+
+  for (const format of FORMATS) {
+    if (!(await pathExists(schemaFilename(outFolder, format)))) {
+      problems.push(`${format}.schema.json is missing`)
+      continue
+    }
+
+    const schema = await readSchema(outFolder, format)
+    const defs = (schema.$defs ?? {}) as JsonObject
+
+    for (const ref of collectRefNames(schema)) {
+      if (!(ref in defs)) {
+        problems.push(`${format}.schema.json references "#/$defs/${ref}", which is not in its $defs`)
+      }
+    }
+  }
+
+  assert.deepEqual(problems, [], problems.join('\n'))
+}
+
+/**
+ * Checks that the build did not write the shared definitions back into the format sources.
+ *
+ * @param schemasFolder The folder the sources were read from.
+ */
+async function assertSourcesUntouched(schemasFolder: string): Promise<void> {
+  const sharedDefsText = await readFile(path.join(schemasFolder, DEFS_FILENAME), 'utf8')
+  const sharedNames = Object.keys((JSON.parse(sharedDefsText) as { $defs: JsonObject }).$defs)
+  const problems: string[] = []
+
+  for (const format of FORMATS) {
+    const sourceSchema = await readSchema(schemasFolder, format)
+    const sourceDefs = (sourceSchema.$defs ?? {}) as JsonObject
+
+    for (const name of sharedNames) {
+      if (name in sourceDefs) {
+        problems.push(`the shared definition "${name}" was written back into the ${format} source`)
+      }
+    }
+  }
+
+  assert.deepEqual(problems, [], problems.join('\n'))
+}
+
 void test('schemas.ts build writes self-contained schemas and leaves the sources alone', async () => {
   await withSchemasCopy(async (schemasFolder, outFolder) => {
     const { status, output } = await runSchemasScript(['build', schemasFolder, outFolder])
     assert.equal(status, 0, `schemas.ts build exited with ${status}:\n${output}`)
 
-    for (const format of FORMATS) {
-      assert.ok(
-        await pathExists(schemaFilename(outFolder, format)),
-        `schemas.ts build did not write ${format}.schema.json`,
-      )
-
-      const schema = await readSchema(outFolder, format)
-      const defs = (schema.$defs ?? {}) as JsonObject
-      for (const ref of collectRefNames(schema)) {
-        assert.ok(ref in defs, `${format}.schema.json references "#/$defs/${ref}", which is not in its $defs`)
-      }
-    }
+    await assertSelfContainedSchemas(outFolder)
 
     const fts = await readSchema(outFolder, 'fts')
     const ftsDefs = (fts.$defs ?? {}) as JsonObject
@@ -170,18 +210,7 @@ void test('schemas.ts build writes self-contained schemas and leaves the sources
     assert.ok('vector3' in ftsDefs, 'the generated fts schema did not get the shared vector3 definition')
     assert.ok('vertex' in ftsDefs, 'the generated fts schema lost its local vertex definition')
 
-    const sharedDefsText = await readFile(path.join(schemasFolder, DEFS_FILENAME), 'utf8')
-    const sharedNames = Object.keys((JSON.parse(sharedDefsText) as { $defs: JsonObject }).$defs)
-    for (const format of FORMATS) {
-      const sourceSchema = await readSchema(schemasFolder, format)
-      const sourceDefs = (sourceSchema.$defs ?? {}) as JsonObject
-      for (const name of sharedNames) {
-        assert.ok(
-          !(name in sourceDefs),
-          `schemas.ts build wrote the shared definition "${name}" back into the ${format} source`,
-        )
-      }
-    }
+    await assertSourcesUntouched(schemasFolder)
   })
 })
 
@@ -196,27 +225,35 @@ void test('dist/schemas is what the schema sources generate', async () => {
     const { status, output } = await runSchemasScript(['build', schemasFolder, outFolder])
     assert.equal(status, 0, `schemas.ts build exited with ${status}:\n${output}`)
 
+    const stale: string[] = []
+
     for (const format of FORMATS) {
       const generated = await readSchema(outFolder, format)
       const dist = await readSchema(distFolder, format)
 
-      assert.deepEqual(dist, generated, `dist/schemas/${format}.schema.json is stale, run "npm run schemas:build"`)
+      if (JSON.stringify(dist) !== JSON.stringify(generated)) {
+        stale.push(`dist/schemas/${format}.schema.json`)
+      }
     }
+
+    assert.deepEqual(stale, [], `these schemas are stale, run "npm run schemas:build": ${stale.join(', ')}`)
   })
 })
 
 void test('every generated schema declares the $id the generated JSON points to', async () => {
   const distFolder = path.join(pathToRepoRoot(), 'dist', 'schemas')
 
+  const wrongIds: string[] = []
+
   for (const format of FORMATS) {
     const schema = await readSchema(distFolder, format)
 
-    assert.equal(
-      schema.$id,
-      `https://arx-tools.github.io/schemas/${format}.schema.json`,
-      `${format}.schema.json: $id has to match the $schema written into the generated JSON`,
-    )
+    if (schema.$id !== `https://arx-tools.github.io/schemas/${format}.schema.json`) {
+      wrongIds.push(`${format}.schema.json: $id is ${String(schema.$id)}`)
+    }
   }
+
+  assert.deepEqual(wrongIds, [], `$id has to match the $schema written into the generated JSON: ${wrongIds.join(', ')}`)
 })
 
 void test('every generated schema is stamped with the version of this arx-convert', async () => {
@@ -224,13 +261,19 @@ void test('every generated schema is stamped with the version of this arx-conver
   const packageJson = JSON.parse(packageJsonText) as { name: string; version: string }
   const distFolder = path.join(pathToRepoRoot(), 'dist', 'schemas')
 
+  const wrongStamps: string[] = []
+
   for (const format of FORMATS) {
     const schema = await readSchema(distFolder, format)
 
-    assert.equal(
-      schema['x-generatedBy'],
-      `${packageJson.name}@${packageJson.version}`,
-      `${format}.schema.json: x-generatedBy has to name the release which generated it`,
-    )
+    if (schema['x-generatedBy'] !== `${packageJson.name}@${packageJson.version}`) {
+      wrongStamps.push(`${format}.schema.json: ${String(schema['x-generatedBy'])}`)
+    }
   }
+
+  assert.deepEqual(
+    wrongStamps,
+    [],
+    `x-generatedBy has to name the release which generated the schema: ${wrongStamps.join(', ')}`,
+  )
 })

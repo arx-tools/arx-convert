@@ -3,6 +3,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
+import { compactFloat32Values } from '../common/float32.ts'
+import { concatArrayBuffers } from '../common/helpers.ts'
 import {
   type SupportedArxFormat,
   type SupportedDataFormat,
@@ -10,9 +12,7 @@ import {
   SUPPORTED_ARX_FORMATS,
   SUPPORTED_DATA_FORMATS,
   SUPPORTED_FORMATS,
-} from '@bin/constants.js'
-import { compactFloat32Values } from '@common/float32.js'
-import { concatArrayBuffers } from '@common/helpers.js'
+} from './constants.ts'
 
 function pathToPackageJson(): string {
   const filename = fileURLToPath(import.meta.url)
@@ -41,10 +41,9 @@ async function fileExists(filename: string): Promise<boolean> {
 }
 
 export async function streamToBuffer(input: NodeJS.ReadableStream): Promise<ArrayBuffer> {
-  return new Promise((resolve, reject) => {
+  return await new Promise((resolve, reject) => {
     const chunks: ArrayBufferLike[] = []
 
-    // eslint-disable-next-line @typescript-eslint/no-restricted-types -- the Buffer type is coming from node.js, I'm not changing that
     input.on('data', (chunk: Buffer) => {
       chunks.push(chunk.buffer)
     })
@@ -88,6 +87,8 @@ function sliceBuffer(buffer: string | ArrayBuffer, start: number = 0, end?: numb
 }
 
 /**
+ * Returns the quotient and the remainder of an integer division in one step.
+ *
  * @example
  * ```js
  * quotientAndRemainder(20, 3) -> [6, 2]
@@ -167,7 +168,7 @@ export async function getInputStream(filename?: string): Promise<NodeJS.Readable
   throw new Error('input file does not exist')
 }
 
-export async function getOutputStream(filename?: string): Promise<NodeJS.WritableStream> {
+export function getOutputStream(filename?: string): NodeJS.WritableStream {
   if (filename === undefined) {
     return process.stdout
   }

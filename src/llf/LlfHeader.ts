@@ -1,7 +1,7 @@
-import { BinaryIO } from '@common/BinaryIO.js'
-import { DANAE_VERSION } from '@common/constants.js'
-import { repeat } from '@common/helpers.js'
-import type { ArxLLF } from '@llf/LLF.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { DANAE_VERSION } from '../common/constants.ts'
+import { repeat } from '../common/helpers.ts'
+import type { ArxLLF } from './LLF.ts'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L178
@@ -9,7 +9,7 @@ import type { ArxLLF } from '@llf/LLF.js'
 export type ArxLlfHeader = {
   lastModifiedBy: string
   /**
-   * unix timestamp in seconds
+   * Unix timestamp in seconds.
    */
   lastModifiedAt: number
   numberOfLights: number

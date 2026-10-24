@@ -1,7 +1,7 @@
-import { type ArxKey, Key } from '@amb/Key.js'
-import { BinaryIO } from '@common/BinaryIO.js'
-import { concatArrayBuffers, times } from '@common/helpers.js'
-import { AMB_VERSION_1002, AMB_VERSION_1003, type AMB_VERSIONS } from './constants.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { concatArrayBuffers, times } from '../common/helpers.ts'
+import { type ArxKey, Key } from './Key.ts'
+import { AMB_VERSION_1002, AMB_VERSION_1003, type AMB_VERSIONS } from './constants.ts'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/audio/Ambiance.cpp#L230
@@ -24,6 +24,8 @@ export type ArxTrack = {
 
 export class Track {
   /**
+   * Reads one track of an ambience file, which is a sound and the keys it reacts to.
+   *
    * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/audio/Ambiance.cpp#L531
    */
   static readFrom(binary: BinaryIO<ArrayBufferLike>, ambVersion: AMB_VERSIONS): ArxTrack {
@@ -59,12 +61,15 @@ export class Track {
     binary.writeString('') // name
     binary.writeUint32(track.flags)
     binary.writeUint32(track.keys.length)
-    binary.writeBuffer(concatArrayBuffers([...track.keys].reverse().map(Key.accumulateFrom))) // .reverse() is needed as arx-convert outputs AMB_VERSION_1003 format
+    binary.writeBuffer(concatArrayBuffers([...track.keys].toReversed().map(Key.accumulateFrom))) // .reverse() is needed as arx-convert outputs AMB_VERSION_1003 format
 
     return buffer
   }
 
   /**
+   * Converts the absolute path of a sound to the relative one the AMB file stores.
+   *
+   * @example
    * from: SFX\\AMBIANCE\\LOOP_GOBLIN_MAIN.WAV
    *   to: sfx/ambiance/loop_goblin_main.wav
    *
@@ -79,6 +84,9 @@ export class Track {
   }
 
   /**
+   * Converts the relative path of a sound back to the absolute path the game reads.
+   *
+   * @example
    * from: srx/ambiance/loop_goblin_main.wav
    *   to: sfx\\ambiance\\loop_goblin_main.wav
    */

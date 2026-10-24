@@ -1,7 +1,7 @@
-import { BinaryIO } from '@common/BinaryIO.js'
-import { type ArxColor, Color } from '@common/Color.js'
-import { repeat } from '@common/helpers.js'
-import type { ArxRotation, ArxVector3 } from '@common/types.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { type ArxColor, Color } from '../common/Color.ts'
+import { repeat } from '../common/helpers.ts'
+import type { ArxRotation, ArxVector3 } from '../common/types.ts'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/scene/LevelFormat.h#L132
@@ -11,25 +11,25 @@ export type ArxFog = {
   color: ArxColor
   size: number
   /**
-   * Either 0 = ? or 1 = FOG_DIRECTIONAL
+   * Either 0 = ? Or 1 = FOG_DIRECTIONAL.
    */
   special: number
   scale: number
   /**
-   * A normal vector, all axis are between -1 and 1
+   * A normal vector, all axis are between -1 and 1.
    */
   move: ArxVector3
   orientation: ArxRotation
   /**
-   * Movement speed of fog particles: `move` * (`speed` * 0.1)
+   * Movement speed of fog particles: `move` * (`speed` * 0.1).
    */
   speed: number
   /**
-   * Particle rotation between 0 (stationary) and 1 (rotating as fast as the FPS allows)
+   * Particle rotation between 0 (stationary) and 1 (rotating as fast as the FPS allows).
    */
   rotateSpeed: number
   /**
-   * How long each particle lives (fade in -> show -> fade out) in milliseconds
+   * How long each particle lives (fade in -> show -> fade out) in milliseconds.
    */
   toLive: number
   /**

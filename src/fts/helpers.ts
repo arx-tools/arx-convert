@@ -1,7 +1,7 @@
-import type { DoubleOf, QuadrupleOf, TripleOf } from '@common/types.js'
-import { type ArxPolygon, ArxPolygonFlags } from '@fts/Polygon.js'
-import type { ArxVertex } from '@fts/Vertex.js'
-import { COORDS_THAT_ROUND_UP } from '@fts/constants.js'
+import type { DoubleOf, QuadrupleOf, TripleOf } from '../common/types.ts'
+import { type ArxPolygon, ArxPolygonFlags } from './Polygon.ts'
+import type { ArxVertex } from './Vertex.ts'
+import { COORDS_THAT_ROUND_UP } from './constants.ts'
 
 export function isQuad({ flags }: { flags: ArxPolygonFlags }): boolean {
   return (flags & ArxPolygonFlags.Quad) !== 0
@@ -30,7 +30,7 @@ export function addLightIndex(polygons: ArxPolygon[]): ArxPolygon[] {
 }
 
 function doCoordsNeedToBeRoundedUp(coords: TripleOf<number>): boolean {
-  const [a, b, c] = [...coords].sort((a, b) => {
+  const [a, b, c] = [...coords].toSorted((a, b) => {
     return a - b
   })
 
@@ -71,7 +71,7 @@ export function getCellCoords([a, b, c]: QuadrupleOf<ArxVertex>): DoubleOf<numbe
 }
 
 /**
- * inclusive: min <= n <= max
+ * Inclusive: min <= n <= max.
  */
 export function isBetween(min: number, max: number, n: number): boolean {
   if (min > max) {

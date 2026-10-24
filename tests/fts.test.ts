@@ -1,16 +1,10 @@
 import assert from 'node:assert/strict'
+import { Buffer } from 'node:buffer'
 import { test } from 'node:test'
+import { assertTopLevelKeys, assertValidJsonValues, levelsForTest, readFixture, toJsonRoundTrip } from './fixtures.ts'
 import { FTS } from 'arx-convert'
 import type { ArxFTS } from 'arx-convert/types'
 import { MAP_DEPTH_IN_CELLS, MAP_WIDTH_IN_CELLS } from 'arx-convert/utils'
-import {
-  assertSameBytes,
-  assertTopLevelKeys,
-  assertValidJsonValues,
-  levelsForTest,
-  readFixture,
-  toJsonRoundTrip,
-} from './fixtures.ts'
 
 /**
  * The smallest levels, they keep `npm test` fast - `ARX_FULL_TEST=1 npm test` runs on every fixture.
@@ -37,7 +31,10 @@ for (const level of await levelsForTest(DEFAULT_LEVELS)) {
   void test(`${description}: both conversion paths produce the same file`, () => {
     // what the game gets from a JSON has to be byte identical with what it gets from the binary,
     // otherwise the shortest float32 serialization lost precision
-    assertSameBytes(FTS.save(toJsonRoundTrip(FTS.load(bytes))), FTS.save(FTS.load(bytes)), description)
+    const fromBinary = FTS.save(FTS.load(bytes))
+    const fromJson = FTS.save(toJsonRoundTrip(FTS.load(bytes)))
+
+    assert.ok(Buffer.from(fromJson).equals(Buffer.from(fromBinary)), `${description}: the two paths differ`)
   })
 
   void test(`${description}: levelIdx matches the folder of the fixture`, () => {

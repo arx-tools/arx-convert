@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
+import { levelsForTest, readFixture } from './fixtures.ts'
 import { DLF, FTS, LLF } from 'arx-convert'
 import { isQuad } from 'arx-convert/utils'
-import { levelsForTest, readFixture } from './fixtures.ts'
 
 const DEFAULT_LEVELS = [8, 20]
 

@@ -1,9 +1,9 @@
-import { BinaryIO } from '@common/BinaryIO.js'
-import { MAP_DEPTH_IN_CELLS, MAP_WIDTH_IN_CELLS } from '@common/constants.js'
-import { maxAll, uniq } from '@common/helpers.js'
-import type { ArxVector3 } from '@common/types.js'
-import type { ArxFTS } from '@fts/FTS.js'
-import { FTS_VERSION } from '@fts/constants.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { MAP_DEPTH_IN_CELLS, MAP_WIDTH_IN_CELLS } from '../common/constants.ts'
+import { maxAll, uniq } from '../common/helpers.ts'
+import type { ArxVector3 } from '../common/types.ts'
+import type { ArxFTS } from './FTS.ts'
+import { FTS_VERSION } from './constants.ts'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L94
@@ -13,7 +13,7 @@ export type ArxSceneHeader = {
   numberOfAnchors: number
   // TODO: add a better name for mScenePosition
   /**
-   * ??
+   * Position of the scene. Neither the format nor the engine documents it, the editor only keeps it.
    */
   mScenePosition: ArxVector3
   numberOfPortals: number

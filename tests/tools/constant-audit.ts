@@ -27,7 +27,7 @@ type Audit = {
 }
 
 function normalizePath(jsonPath: string): string {
-  return jsonPath.replaceAll(/\.([A-Za-z]+)\[(\d+)]/g, (match: string, property: string) => {
+  return jsonPath.replaceAll(/\.(?<property>[a-z]+)\[\d+\]/gi, (match: string, property: string) => {
     if (FIXED_ARITY_ARRAYS.has(property)) {
       return match
     }
@@ -93,7 +93,7 @@ await forEachDocument(documentArguments, ({ name, document }) => {
 
 let constants = 0
 
-for (const jsonPath of [...audits.keys()].toSorted()) {
+for (const jsonPath of audits.keys().toArray().toSorted()) {
   const audit = audits.get(jsonPath)
 
   if (audit === undefined) {
@@ -110,7 +110,7 @@ for (const jsonPath of [...audits.keys()].toSorted()) {
 
   let valueList = ''
   if (audit.values.size <= 4) {
-    valueList = `  ${[...audit.values.keys()].join(' | ')}`
+    valueList = `  ${audit.values.keys().toArray().join(' | ')}`
   }
 
   console.log(

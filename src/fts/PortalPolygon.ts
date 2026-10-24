@@ -1,8 +1,8 @@
-import { BinaryIO } from '@common/BinaryIO.js'
-import { concatArrayBuffers, times } from '@common/helpers.js'
-import type { ArxVector3, QuadrupleOf } from '@common/types.js'
-import { ArxPolygonFlags } from '@fts/Polygon.js'
-import { type ArxTextureVertex, TextureVertex } from '@fts/TextureVertex.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { concatArrayBuffers, times } from '../common/helpers.ts'
+import type { ArxVector3, QuadrupleOf } from '../common/types.ts'
+import { ArxPolygonFlags } from './Polygon.ts'
+import { type ArxTextureVertex, TextureVertex } from './TextureVertex.ts'
 
 // found in levels < 10
 // prettier-ignore

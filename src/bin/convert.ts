@@ -2,7 +2,7 @@
 import process from 'node:process'
 import minimist from 'minimist-lite'
 import YAML from 'yaml'
-import { DLF, FTS, LLF, FTL, TEA, AMB } from '@src/index.js'
+import { DLF, FTS, LLF, FTL, TEA, AMB } from '../index.ts'
 import {
   getPackageVersion,
   streamToBuffer,
@@ -14,7 +14,7 @@ import {
   isValidFormat,
   isArxFormat,
   isDataFormat,
-} from '@bin/helpers.js'
+} from './helpers.ts'
 
 type AppArgs = {
   _: string[]
@@ -104,7 +104,7 @@ try {
   }
 
   input = await getInputStream(args._[0])
-  output = await getOutputStream(args.output)
+  output = getOutputStream(args.output)
 } catch (error_: unknown) {
   const error = error_ as Error
   console.error('error:', error.message)
@@ -115,7 +115,7 @@ const rawIn = await streamToBuffer(input)
 let parsedIn
 switch (args.from) {
   case 'json': {
-    const decoder = new TextDecoder('utf8')
+    const decoder = new TextDecoder('utf-8')
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- because JSON.parse returns any
     parsedIn = JSON.parse(decoder.decode(rawIn))
     break
@@ -123,7 +123,7 @@ switch (args.from) {
 
   case 'yml':
   case 'yaml': {
-    const decoder = new TextDecoder('utf8')
+    const decoder = new TextDecoder('utf-8')
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- because JSON.parse returns any
     parsedIn = YAML.parse(decoder.decode(rawIn))
     break

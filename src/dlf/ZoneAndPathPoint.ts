@@ -1,9 +1,9 @@
-import { BinaryIO } from '@common/BinaryIO.js'
-import { repeat } from '@common/helpers.js'
-import type { ArxVector3 } from '@common/types.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { repeat } from '../common/helpers.ts'
+import type { ArxVector3 } from '../common/types.ts'
 
 /**
- * These are not bitwise flags, they cannot be combined
+ * These are not bitwise flags, they cannot be combined.
  */
 export enum ArxZoneAndPathPointType {
   Standard = 0,
@@ -17,7 +17,9 @@ export enum ArxZoneAndPathPointType {
 export type ArxZoneAndPathPoint = {
   position: ArxVector3
   type: ArxZoneAndPathPointType
-  /** milliseconds */
+  /**
+   * Milliseconds.
+   */
   time: number
 }
 

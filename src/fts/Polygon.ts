@@ -1,11 +1,10 @@
-import { BinaryIO } from '@common/BinaryIO.js'
-import { MAP_DEPTH_IN_CELLS, MAP_WIDTH_IN_CELLS } from '@common/constants.js'
-import { concatArrayBuffers, times } from '@common/helpers.js'
-import type { ArxVector3, Float32, QuadrupleOf } from '@common/types.js'
-// eslint-disable-next-line unused-imports/no-unused-imports -- it is used in jsdoc block
-import type { ArxTextureContainer } from '@fts/TextureContainer.js'
-import { type ArxVertex, Vertex } from '@fts/Vertex.js'
-import { isBetween, isQuad } from '@fts/helpers.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { MAP_DEPTH_IN_CELLS, MAP_WIDTH_IN_CELLS } from '../common/constants.ts'
+import { concatArrayBuffers, times } from '../common/helpers.ts'
+import type { ArxVector3, Float32, QuadrupleOf } from '../common/types.ts'
+import type { ArxTextureContainer } from './TextureContainer.ts'
+import { type ArxVertex, Vertex } from './Vertex.ts'
+import { isBetween, isQuad } from './helpers.ts'
 
 /**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/GraphicsTypes.h#L88
@@ -19,7 +18,9 @@ export enum ArxPolygonFlags {
   Glow = 1 << 4,
   Ignore = 1 << 5,
   Quad = 1 << 6,
-  /** unused by arx */
+  /**
+   * Unused by arx.
+   */
   Tiled = 1 << 7,
   Metal = 1 << 8,
   Hide = 1 << 9,
@@ -49,19 +50,20 @@ export enum ArxPolygonFlags {
 export type ArxPolygon = {
   vertices: QuadrupleOf<ArxVertex>
   /**
-   * reference to {@link ArxTextureContainer.id}
+   * Reference to {@link ArxTextureContainer.id}.
    */
   textureContainerId: number
   norm: ArxVector3
   norm2: ArxVector3
   normals?: QuadrupleOf<ArxVector3>
   /**
-   * Opacity type and amount when {@link ArxPolygon.flags} & {@link ArxPolygonFlags.Transparent}:
+   * Opacity type and amount when {@link ArxPolygon.flags} & {@link ArxPolygonFlags.Transparent}.
    *
-   *   -  2 or more = multiplicative
-   *   -  1         = additive
-   *   -  0         = normal
-   *   - -1 or less = subtractive
+   * @remarks
+   * -  2 or more = multiplicative
+   * -  1         = additive
+   * -  0         = normal
+   * - -1 or less = subtractive
    *
    * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/Mesh.cpp#L1102
    */
@@ -121,7 +123,7 @@ export class Polygon {
   }
 
   /**
-   * A polygon is considered out of bounds when any of its vertices are not 0 <= x < 16000 or 0 <= z < 16000
+   * A polygon is considered out of bounds when any of its vertices are not 0 <= x < 16_000 or 0 <= z < 16_000.
    */
   static isOutOfBounds(polygon: ArxPolygon): boolean {
     let numberOfPolygons = 3

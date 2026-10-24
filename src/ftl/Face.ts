@@ -1,8 +1,8 @@
-import { BinaryIO } from '@common/BinaryIO.js'
-import type { ArxVector3, TripleOf } from '@common/types.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import type { ArxVector3, TripleOf } from '../common/types.ts'
 
 /**
- * These are not bitwise flags, they cannot be combined
+ * These are not bitwise flags, they cannot be combined.
  *
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FTLFormat.h#L105
  */
@@ -13,7 +13,7 @@ export enum ArxFaceType {
 }
 
 /**
- * the default value of transval is 0
+ * The default value of the optional `transval` property is 0.
  *
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FTLFormat.h#L103
  */

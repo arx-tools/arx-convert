@@ -1,17 +1,7 @@
 {
-  "plugins": [
-    "@trivago/prettier-plugin-sort-imports"
-  ],
   "arrowParens": "always",
   "bracketSpacing": true,
   "endOfLine": "auto",
-  "importOrder": [
-    "^node:",
-    "<THIRD_PARTY_MODULES>",
-    "^@src/",
-    "^@",
-    "^[./]"
-  ],
   "printWidth": 120,
   "semi": false,
   "singleQuote": true,

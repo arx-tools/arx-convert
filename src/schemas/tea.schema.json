@@ -20,12 +20,7 @@
           "type": "number"
         }
       },
-      "required": [
-        "x",
-        "y",
-        "z",
-        "w"
-      ]
+      "required": ["x", "y", "z", "w"]
     }
   },
   "type": "object",
@@ -41,10 +36,7 @@
           "$ref": "#/$defs/positiveInt32"
         }
       },
-      "required": [
-        "name",
-        "totalNumberOfFrames"
-      ]
+      "required": ["name", "totalNumberOfFrames"]
     },
     "keyframes": {
       "type": "array",
@@ -96,9 +88,7 @@
                   "$ref": "#/$defs/vector3"
                 }
               },
-              "required": [
-                "isKey"
-              ]
+              "required": ["isKey"]
             }
           },
           "translate": {
@@ -110,18 +100,9 @@
             "$ref": "#/$defs/quaternion"
           }
         },
-        "required": [
-          "frame",
-          "isMasterKeyFrame",
-          "isKeyFrame",
-          "timeFrame",
-          "groups"
-        ]
+        "required": ["frame", "isMasterKeyFrame", "isKeyFrame", "timeFrame", "groups"]
       }
     }
   },
-  "required": [
-    "header",
-    "keyframes"
-  ]
+  "required": ["header", "keyframes"]
 }

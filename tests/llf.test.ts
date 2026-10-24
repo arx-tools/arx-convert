@@ -1,15 +1,9 @@
 import assert from 'node:assert/strict'
+import { Buffer } from 'node:buffer'
 import { test } from 'node:test'
+import { assertTopLevelKeys, assertValidJsonValues, levelsForTest, readFixture, toJsonRoundTrip } from './fixtures.ts'
 import { LLF } from 'arx-convert'
 import type { ArxLLF } from 'arx-convert/types'
-import {
-  assertSameBytes,
-  assertTopLevelKeys,
-  assertValidJsonValues,
-  levelsForTest,
-  readFixture,
-  toJsonRoundTrip,
-} from './fixtures.ts'
 
 const DEFAULT_LEVELS = [8, 20]
 
@@ -20,7 +14,10 @@ for (const level of await levelsForTest(DEFAULT_LEVELS)) {
   const bytes = await readFixture(level, 'llf')
 
   void test(`${description}: both conversion paths produce the same file`, () => {
-    assertSameBytes(LLF.save(toJsonRoundTrip(LLF.load(bytes))), LLF.save(LLF.load(bytes)), description)
+    const fromBinary = LLF.save(LLF.load(bytes))
+    const fromJson = LLF.save(toJsonRoundTrip(LLF.load(bytes)))
+
+    assert.ok(Buffer.from(fromJson).equals(Buffer.from(fromBinary)), `${description}: the two paths differ`)
   })
 
   void test(`${description}: every value is representable in JSON`, () => {

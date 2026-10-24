@@ -1,6 +1,6 @@
-import { BinaryIO } from '@common/BinaryIO.js'
-import { repeat } from '@common/helpers.js'
-import type { ArxVector3 } from '@common/types.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { repeat } from '../common/helpers.ts'
+import type { ArxVector3 } from '../common/types.ts'
 
 export type ArxFtlVertex = {
   vector: ArxVector3

@@ -1,7 +1,7 @@
-import { AmbHeader } from '@amb/AmbHeader.js'
-import { Track, type ArxTrack } from '@amb/Track.js'
-import { BinaryIO } from '@common/BinaryIO.js'
-import { concatArrayBuffers, times } from '@common/helpers.js'
+import { BinaryIO } from '../common/BinaryIO.ts'
+import { concatArrayBuffers, times } from '../common/helpers.ts'
+import { AmbHeader } from './AmbHeader.ts'
+import { Track, type ArxTrack } from './Track.ts'
 
 export type ArxAMB = {
   $schema?: string
