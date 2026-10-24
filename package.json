@@ -30,7 +30,7 @@
     "build": "tsc -p tsconfig.src.json && arx-lib-rewrite-declaration-imports && chmod +x dist/bin/convert.js",
     "build:watch": "nodemon --watch src --exec \"npm run build\" --ext ts",
     "lint": "rm -f xo.config.mjs && xo --ignore 'xo.config.mjs'",
-    "lint:watch": "nodemon --watch src --exec \"npm run lint\" --ext ts",
+    "lint:watch": "nodemon --watch src --watch tests --watch scripts --watch xo.config.ts --exec \"npm run lint\" --ext ts",
     "test": "arx-lib-test 'tests/*.test.ts'",
     "schemas:build": "node scripts/schemas.ts build",
     "schemas:check": "node scripts/schemas.ts check",
