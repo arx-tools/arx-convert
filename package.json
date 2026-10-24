@@ -58,7 +58,7 @@
     "yaml": "^2.7.1"
   },
   "devDependencies": {
-    "@arx-tools/config": "file:../arx-tools-config",
+    "@arx-tools/config": "^0.1.0",
     "@types/node": "^22.20.5",
     "@typescript/native": "npm:typescript@^7.0.2",
     "eslint-plugin-unused-imports": "^4.4.1",
