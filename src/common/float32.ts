@@ -73,11 +73,12 @@ export function shortestFloat32(value: Float32): string {
  * Rewrites every float32 value of an already stringified JSON into its shortest decimal representation
  * (see {@link shortestFloat32}), so the output text becomes smaller without changing any of the values.
  *
+ * @remarks
  * - only number tokens containing a `.` or an `e` are rewritten, integers are already printed in their
  * shortest form by `JSON.stringify()`
  * - only values which are exactly representable as a float32 (`Math.fround(value) === value`) are rewritten,
  * so computed doubles (like the `uint8 / 255` color alphas) keep their precision
- * - the text is scanned as JSON, so numbers inside strings (like file names) are never touched.
+ * - the text is scanned as JSON, so numbers inside strings (like file names) are never touched
  */
 export function compactFloat32Values(json: string): string {
   const parts: string[] = []

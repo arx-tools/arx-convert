@@ -5,14 +5,13 @@ import type { TripleOf } from '../common/types.ts'
  */
 export const FTS_VERSION = 0.141_000_002_622_604_37
 
-/* eslint-disable jsdoc/require-description-complete-sentence -- the statistics of the levels are a
-   list, not sentences */
 /**
  * The polygons of Arx are sorted into cells, a 160x160 2D grid on the X and Z axis.
  * Arx ignores the 4th vertex of a quad, it always calculates cell coordinates using the first 3 vertices.
  * `cellX` is calculated by averaging the x coordinates of the vertices, dividing that by 100 and rounding it down.
  * `cellY` is calculated the same way as `cellX`, but using the z coordinates.
  *
+ * @remarks
  * See `helpers.ts` > `getCellCoords()`.
  *
  * Calculating the cell coordinates for polygons incorrectly will cause different issues depending on the size
@@ -77,7 +76,6 @@ export const FTS_VERSION = 0.141_000_002_622_604_37
  * Level 22 is the best example as it has both cases where the same fraction needs to be rounded
  * in both ways within the same level (produced by different coordinates of course).
  */
-/* eslint-enable jsdoc/require-description-complete-sentence */
 // prettier-ignore
 export const COORDS_THAT_ROUND_UP: Array<TripleOf<number>> = [
   [  2550,                   2600,                   2649.999_755_859_375],

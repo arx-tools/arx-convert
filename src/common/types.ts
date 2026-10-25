@@ -8,12 +8,13 @@ import type { BinaryIO } from './BinaryIO.ts'
  * is carried around as a regular `number` as well. This alias is only a documentation marker, it doesn't
  * change the value or its type.
  *
+ * @remarks
  * Encoding and decoding in JavaScript:
  * - decode (float32 bytes -> number): `new DataView(buffer).getFloat32(offset, true)` -
  * see {@link BinaryIO.readFloat32} / {@link BinaryIO.readFloat32Array}
  * - encode (number -> float32 bytes): `new DataView(buffer).setFloat32(offset, value, true)` -
  * see {@link BinaryIO.writeFloat32} / {@link BinaryIO.writeFloat32Array}
- * - rounding to float32 without a buffer: `Math.fround(value)` (the binary encoding rounds the same way).
+ * - rounding to float32 without a buffer: `Math.fround(value)` (the binary encoding rounds the same way)
  *
  * When a float32 ends up in a JSON file, it is serialized using the shortest decimal representation which
  * still parses back to a value rounding to the very same float32 (`Math.fround(jsonValue)` gives
