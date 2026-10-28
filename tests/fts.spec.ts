@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict'
 import { Buffer } from 'node:buffer'
 import { test } from 'node:test'
+import { FTS } from '../src/index.ts'
+import type { ArxFTS } from '../src/types.ts'
+import { MAP_DEPTH_IN_CELLS, MAP_WIDTH_IN_CELLS } from '../src/utils.ts'
 import { assertTopLevelKeys, assertValidJsonValues, levelsForTest, readFixture, toJsonRoundTrip } from './fixtures.ts'
-import { FTS } from 'arx-convert'
-import type { ArxFTS } from 'arx-convert/types'
-import { MAP_DEPTH_IN_CELLS, MAP_WIDTH_IN_CELLS } from 'arx-convert/utils'
 
 /**
  * The smallest levels, they keep `npm test` fast - `ARX_FULL_TEST=1 npm test` runs on every fixture.

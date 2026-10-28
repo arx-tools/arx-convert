@@ -1,5 +1,5 @@
 import { type ArxTestFormat, availableLevels, pathToFixture, readBinaryFile, readFixture } from '../fixtures.ts'
-import { DLF, FTS, LLF } from 'arx-convert'
+import { DLF, FTS, LLF } from '../../src/index.ts'
 
 /**
  * A parsed document together with the name of the fixture or file it came from, so a report can tell which

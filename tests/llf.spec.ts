@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict'
 import { Buffer } from 'node:buffer'
 import { test } from 'node:test'
+import { LLF } from '../src/index.ts'
+import type { ArxLLF } from '../src/types.ts'
 import { assertTopLevelKeys, assertValidJsonValues, levelsForTest, readFixture, toJsonRoundTrip } from './fixtures.ts'
-import { LLF } from 'arx-convert'
-import type { ArxLLF } from 'arx-convert/types'
 
 const DEFAULT_LEVELS = [8, 20]
 

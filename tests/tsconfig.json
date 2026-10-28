@@ -10,23 +10,9 @@
     // of the tests shouldn't leave an artifact behind either
     "incremental": false,
     "rootDir": "..",
-    // node.js only loads the built package (the aliases of `src` are rewritten by tsc-alias), but for
-    // type checking the source is the same code and it doesn't need a build before a lint run
-    "allowImportingTsExtensions": true,
-    "paths": {
-      "@bin/*": ["bin/*"],
-      "@common/*": ["common/*"],
-      "@dlf/*": ["dlf/*"],
-      "@fts/*": ["fts/*"],
-      "@llf/*": ["llf/*"],
-      "@ftl/*": ["ftl/*"],
-      "@tea/*": ["tea/*"],
-      "@amb/*": ["amb/*"],
-      "@src/*": ["*"],
-      "arx-convert": ["index.ts"],
-      "arx-convert/types": ["types.ts"],
-      "arx-convert/utils": ["utils.ts"]
-    }
+    // the tests import the sources directly with their `.ts` extensions, so node.js runs them with type
+    // stripping and no build is needed before a test or lint run
+    "allowImportingTsExtensions": true
   },
   "include": ["**/*.ts"]
 }

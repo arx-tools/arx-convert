@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict'
 import { Buffer } from 'node:buffer'
 import { test } from 'node:test'
+import { DLF } from '../src/index.ts'
+import type { ArxDLF } from '../src/types.ts'
 import { assertTopLevelKeys, assertValidJsonValues, levelsForTest, readFixture, toJsonRoundTrip } from './fixtures.ts'
-import { DLF } from 'arx-convert'
-import type { ArxDLF } from 'arx-convert/types'
 
 /**
  * Level6 is the smallest fixture whose header path is stored in the `\\ARKANESERVER\...` style of the early

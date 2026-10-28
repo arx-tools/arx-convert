@@ -31,12 +31,11 @@
     "build:watch": "nodemon --watch src --exec \"npm run build\" --ext ts",
     "lint": "rm -f xo.config.mjs && xo --ignore 'xo.config.mjs'",
     "lint:watch": "nodemon --watch src --watch tests --watch scripts --watch xo.config.ts --exec \"npm run lint\" --ext ts",
-    "test": "arx-lib-test 'tests/*.test.ts'",
+    "test": "arx-lib-test",
     "schemas:build": "node scripts/schemas.ts build",
     "schemas:check": "node scripts/schemas.ts check",
     "prepublishOnly": "npm run lint && npm run typecheck && npm run schemas:check && rm -rf dist && npm run build && npm run schemas:build",
-    "typecheck": "tsc -p tsconfig.src.json --noEmit && tsc -p tsconfig.scripts.json && tsc -p tsconfig.tests.json && tsc -p tsconfig.json",
-    "pretest": "npm run build && npm run schemas:build"
+    "typecheck": "tsc -p tsconfig.src.json --noEmit && tsc -p tsconfig.scripts.json && tsc -p tsconfig.tests.json && tsc -p tsconfig.json"
   },
   "repository": {
     "type": "git",

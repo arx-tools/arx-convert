@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { compactFloat32Values, shortestFloat32 } from 'arx-convert/utils'
+import { compactFloat32Values, shortestFloat32 } from '../src/utils.ts'
 
 /**
  * Float32 values which are hard to print/parse: the smallest subnormal, the smallest normal, the largest

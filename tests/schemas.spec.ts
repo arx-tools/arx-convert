@@ -197,12 +197,38 @@ async function assertSourcesUntouched(schemasFolder: string): Promise<void> {
   assert.deepEqual(problems, [], problems.join('\n'))
 }
 
+/**
+ * Checks the `$id` and the version stamp of the generated schemas.
+ *
+ * @param outFolder The folder the schemas were written to.
+ */
+async function assertGeneratedMetadata(outFolder: string): Promise<void> {
+  const packageJsonText = await readFile(path.join(pathToRepoRoot(), 'package.json'), 'utf8')
+  const packageJson = JSON.parse(packageJsonText) as { name: string; version: string }
+  const problems: string[] = []
+
+  for (const format of FORMATS) {
+    const schema = await readSchema(outFolder, format)
+
+    if (schema.$id !== `https://arx-tools.github.io/schemas/${format}.schema.json`) {
+      problems.push(`${format}.schema.json: $id is ${String(schema.$id)}`)
+    }
+
+    if (schema['x-generatedBy'] !== `${packageJson.name}@${packageJson.version}`) {
+      problems.push(`${format}.schema.json: x-generatedBy is ${String(schema['x-generatedBy'])}`)
+    }
+  }
+
+  assert.deepEqual(problems, [], problems.join('\n'))
+}
+
 void test('schemas.ts build writes self-contained schemas and leaves the sources alone', async () => {
   await withSchemasCopy(async (schemasFolder, outFolder) => {
     const { status, output } = await runSchemasScript(['build', schemasFolder, outFolder])
     assert.equal(status, 0, `schemas.ts build exited with ${status}:\n${output}`)
 
     await assertSelfContainedSchemas(outFolder)
+    await assertGeneratedMetadata(outFolder)
 
     const fts = await readSchema(outFolder, 'fts')
     const ftsDefs = (fts.$defs ?? {}) as JsonObject
@@ -212,68 +238,4 @@ void test('schemas.ts build writes self-contained schemas and leaves the sources
 
     await assertSourcesUntouched(schemasFolder)
   })
-})
-
-void test('dist/schemas is what the schema sources generate', async () => {
-  const distFolder = path.join(pathToRepoRoot(), 'dist', 'schemas')
-  assert.ok(
-    await pathExists(distFolder),
-    'dist/schemas is missing - run "npm run schemas:build" first ("npm test" does it through its pretest script)',
-  )
-
-  await withSchemasCopy(async (schemasFolder, outFolder) => {
-    const { status, output } = await runSchemasScript(['build', schemasFolder, outFolder])
-    assert.equal(status, 0, `schemas.ts build exited with ${status}:\n${output}`)
-
-    const stale: string[] = []
-
-    for (const format of FORMATS) {
-      const generated = await readSchema(outFolder, format)
-      const dist = await readSchema(distFolder, format)
-
-      if (JSON.stringify(dist) !== JSON.stringify(generated)) {
-        stale.push(`dist/schemas/${format}.schema.json`)
-      }
-    }
-
-    assert.deepEqual(stale, [], `these schemas are stale, run "npm run schemas:build": ${stale.join(', ')}`)
-  })
-})
-
-void test('every generated schema declares the $id the generated JSON points to', async () => {
-  const distFolder = path.join(pathToRepoRoot(), 'dist', 'schemas')
-
-  const wrongIds: string[] = []
-
-  for (const format of FORMATS) {
-    const schema = await readSchema(distFolder, format)
-
-    if (schema.$id !== `https://arx-tools.github.io/schemas/${format}.schema.json`) {
-      wrongIds.push(`${format}.schema.json: $id is ${String(schema.$id)}`)
-    }
-  }
-
-  assert.deepEqual(wrongIds, [], `$id has to match the $schema written into the generated JSON: ${wrongIds.join(', ')}`)
-})
-
-void test('every generated schema is stamped with the version of this arx-convert', async () => {
-  const packageJsonText = await readFile(path.join(pathToRepoRoot(), 'package.json'), 'utf8')
-  const packageJson = JSON.parse(packageJsonText) as { name: string; version: string }
-  const distFolder = path.join(pathToRepoRoot(), 'dist', 'schemas')
-
-  const wrongStamps: string[] = []
-
-  for (const format of FORMATS) {
-    const schema = await readSchema(distFolder, format)
-
-    if (schema['x-generatedBy'] !== `${packageJson.name}@${packageJson.version}`) {
-      wrongStamps.push(`${format}.schema.json: ${String(schema['x-generatedBy'])}`)
-    }
-  }
-
-  assert.deepEqual(
-    wrongStamps,
-    [],
-    `x-generatedBy has to name the release which generated the schema: ${wrongStamps.join(', ')}`,
-  )
 })

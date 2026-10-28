@@ -3,7 +3,7 @@ import { readFile, readdir } from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
-import { compactFloat32Values } from 'arx-convert/utils'
+import { compactFloat32Values } from '../src/utils.ts'
 
 /**
  * The game files the tests run on. They come from
