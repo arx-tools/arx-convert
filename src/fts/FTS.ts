@@ -44,10 +44,22 @@ export type ArxFTS = {
 const IS_AN_UNCOMPRESSED_FTS = 0
 
 export class FTS {
+  /**
+   * Reads an unpacked FTS file.
+   *
+   * @remarks
+   * The file is the one where the header is followed by the **decompressed** scene. The format before 0.141 (the demo is
+   * 0.139) has a 16 byte shorter header and a 12 byte vertex, whose floor position is stored relative to the cell of the
+   * polygon: the reader rebuilds the world coordinates, so the result has the shape of the newer format.
+   *
+   * @param decompressedFile The unpacked file.
+   *
+   * @returns The scene.
+   */
   static load(decompressedFile: ArrayBufferLike): ArxFTS {
     const file = new BinaryIO(decompressedFile)
 
-    const { numberOfUniqueHeaders, ...header } = FtsHeader.readFrom(file)
+    const { numberOfUniqueHeaders, isLegacy, ...header } = FtsHeader.readFrom(file)
 
     const uniqueHeaders = times(() => {
       return UniqueHeader.readFrom(file)
@@ -63,7 +75,7 @@ export class FTS {
     const combinedCells: ArxCell[] = []
     for (let z = 0; z < MAP_DEPTH_IN_CELLS; z++) {
       for (let x = 0; x < MAP_WIDTH_IN_CELLS; x++) {
-        combinedCells.push(Cell.readFrom(file))
+        combinedCells.push(Cell.readFrom(file, { isLegacy, cellX: x, cellZ: z }))
       }
     }
 

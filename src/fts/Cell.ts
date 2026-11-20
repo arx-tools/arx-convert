@@ -1,6 +1,6 @@
 import { BinaryIO } from '../common/BinaryIO.ts'
 import { concatArrayBuffers, times } from '../common/helpers.ts'
-import { type ArxPolygon, Polygon } from './Polygon.ts'
+import { type ArxPolygon, type PolygonReadOptions, Polygon } from './Polygon.ts'
 import { SceneInfo } from './SceneInfo.ts'
 
 export type ArxCell = {
@@ -8,12 +8,17 @@ export type ArxCell = {
   anchors?: number[]
 }
 
+/**
+ * How the polygons of a cell are read.
+ */
+export type CellReadOptions = PolygonReadOptions
+
 export class Cell {
-  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxCell {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>, options?: CellReadOptions): ArxCell {
     const { numberOfPolygons, numberOfAnchors } = SceneInfo.readFrom(binary)
 
     const polygons = times(() => {
-      return Polygon.readFrom(binary)
+      return Polygon.readFrom(binary, options)
     }, numberOfPolygons)
 
     let anchors: number[] | undefined

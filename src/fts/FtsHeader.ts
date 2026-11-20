@@ -11,20 +11,33 @@ export type ArxFtsHeader = {
   numberOfUniqueHeaders: number
 }
 
-export class FtsHeader {
-  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxFtsHeader {
-    const path = binary.readString(256)
+/**
+ * The header of an FTS file, with the layout the file was written in.
+ */
+export type FtsHeaderRead = ArxFtsHeader & {
+  /**
+   * Whether the file is of the format before 0.141 (the demo is 0.139): its header is 16 bytes shorter and its vertices
+   * are 12 bytes wide instead of 20.
+   */
+  readonly isLegacy: boolean
+}
 
-    const data: ArxFtsHeader = {
-      levelIdx: FtsHeader.pathToLevelIdx(path),
-      numberOfUniqueHeaders: binary.readInt32(),
+export class FtsHeader {
+  static readFrom(binary: BinaryIO<ArrayBufferLike>): FtsHeaderRead {
+    const path = binary.readString(256)
+    const levelIdx = FtsHeader.pathToLevelIdx(path)
+    const numberOfUniqueHeaders = binary.readInt32()
+    const version = binary.readFloat32()
+    // 0.141 added the uncompressed size and the padding to the header: the unique headers of an older file start right
+    // after the version, 16 bytes earlier
+    const isLegacy = version < FTS_VERSION
+
+    if (!isLegacy) {
+      binary.readInt32() // uncompressed size in bytes
+      binary.readUint32Array(3) // pad - ?
     }
 
-    binary.readFloat32() // version - always FTS_VERSION
-    binary.readInt32() // uncompressed size in bytes
-    binary.readUint32Array(3) // pad - ?
-
-    return data
+    return { levelIdx, numberOfUniqueHeaders, isLegacy }
   }
 
   static accumulateFrom(json: ArxFTS, uncompressedSize: number): ArrayBuffer {

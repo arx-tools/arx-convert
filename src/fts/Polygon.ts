@@ -50,6 +50,25 @@ export const ArxPolygonFlags = {
 export type ArxPolygonFlags = number
 
 /**
+ * How a polygon is read: the format before 0.141 has a narrower vertex, and its floor coordinates are relative to the
+ * cell the polygon is in.
+ */
+export type PolygonReadOptions = {
+  /**
+   * Whether the file is of the format before 0.141.
+   */
+  readonly isLegacy: boolean
+  /**
+   * The column of the cell the polygon is in.
+   */
+  readonly cellX: number
+  /**
+   * The row of the cell the polygon is in.
+   */
+  readonly cellZ: number
+}
+
+/**
  * @see https://github.com/arx/ArxLibertatis/blob/1.2.1/src/graphics/data/FastSceneFormat.h#L81
  */
 export type ArxPolygon = {
@@ -79,24 +98,36 @@ export type ArxPolygon = {
 }
 
 export class Polygon {
-  static readFrom(binary: BinaryIO<ArrayBufferLike>): ArxPolygon {
-    const data = {
-      vertices: times(() => {
-        return Vertex.readFrom(binary)
-      }, 4) as QuadrupleOf<ArxVertex>,
-      textureContainerId: binary.readInt32(),
-      norm: binary.readVector3(),
-      norm2: binary.readVector3(),
-      normals: binary.readVector3Array(4) as QuadrupleOf<ArxVector3>,
-      transval: binary.readFloat32(),
-      area: binary.readFloat32(),
-      flags: binary.readInt32(),
-      room: binary.readInt16(),
-    }
+  static readFrom(binary: BinaryIO<ArrayBufferLike>, options?: PolygonReadOptions): ArxPolygon {
+    const legacy = options?.isLegacy === true
+    const cellX = options?.cellX ?? 0
+    const cellZ = options?.cellZ ?? 0
+
+    const vertices = times(() => {
+      if (legacy) {
+        return Vertex.readFromLegacy(binary, cellX, cellZ)
+      }
+
+      return Vertex.readFrom(binary)
+    }, 4) as QuadrupleOf<ArxVertex>
+    const textureContainerId = binary.readInt32()
+    const norm = binary.readVector3()
+    const norm2 = binary.readVector3()
+    const normals = binary.readVector3Array(4) as QuadrupleOf<ArxVector3>
+    const transval = binary.readFloat32()
+    const area = binary.readFloat32()
+    const flags = binary.readInt32()
+    const room = binary.readInt16()
 
     binary.readInt16() // paddy - unused by Arx, always 0
 
-    return data
+    // the fourth vertex of a triangle is not part of the shape: the old files leave it uninitialized, the newer ones
+    // carry zeros there
+    if (legacy && !isQuad({ flags })) {
+      vertices[3] = { x: 0, y: 0, z: 0, u: 0, v: 0 }
+    }
+
+    return { vertices, textureContainerId, norm, norm2, normals, transval, area, flags, room }
   }
 
   static accumulateFrom(polygon: ArxPolygon): ArrayBuffer {
